@@ -1,0 +1,86 @@
+version: '3.7'
+
+services:
+
+  db-service:
+    image: ${DOCKER_REGISTRY-}dbservice
+    build: 
+      context: .
+      dockerfile: DB-Service/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DB_CONNECTION_STRING: "host=postgres;port=5432;database=dbservice;username=postgres;password=postgres"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '8001:80'
+      - '443:443'
+    networks:
+      - api_network
+    
+  postgres:
+    image: postgres
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "dbservice"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d dbservice" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    networks:
+      - api_network
+  
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.0
+    command: start-dev
+    environment:
+      KC_DB: "postgres"
+      KC_DB_URL_HOST: "postgres-keycloak"
+      KC_DB_URL_DATABASE: "keycloak"
+      KC_DB_PASSWORD: "postgres"
+      KC_DB_USERNAME: "postgres"
+      KC_DB_SCHEMA: "public"
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "admin"
+    ports:
+      - "8890:8080"
+    depends_on:
+      postgres-keycloak:
+        condition: service_healthy
+    networks:
+      - keycloak_network
+
+  postgres-keycloak:
+    image: postgres
+    volumes:
+      - db_keycloak_volume:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "keycloak"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d keycloak" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    networks:
+      - keycloak_network
+
+volumes:
+  db_volume:
+  db_keycloak_volume:
+
+networks:
+  api_network:
+    driver: bridge
+  keycloak_network:
+    driver: bridge
