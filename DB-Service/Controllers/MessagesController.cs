@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using DB_Service.Models;
 using DB_Service.Services;
 
+
 namespace DB_Service.Controllers
 {
     [Route("api/[controller]/")]
     [ApiController]
+    
     public class MessagesController : ControllerBase
     {
         private readonly IDataService _messageService;

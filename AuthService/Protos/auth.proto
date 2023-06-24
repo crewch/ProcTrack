@@ -1,0 +1,18 @@
+syntax "proto3";
+
+option scharp_namespace = "AuthService";
+
+service GrpcAuth {
+	rpc GetAllUsers (GetAllRequest) returns (AuthResponce);
+}
+
+message GetAllRequest {}
+
+message GrpcAuthModel {
+	string email = 1;
+	string password = 2;
+}
+
+message AuthResponce {
+	repeated GrpcAuthModel res = 1;
+}

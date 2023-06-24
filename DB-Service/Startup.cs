@@ -1,4 +1,5 @@
-﻿using DB_Service.Data;
+﻿using DB_Service.Clients.Http;
+using DB_Service.Data;
 using DB_Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,28 +13,22 @@ namespace DB_Service
         {
             Configuration = configuration;
         }
-        
         public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddHttpClient<IFileDataClient, HttpFileDataClient>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Db-Service", Version = "v1" });
             });
-
             var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? Configuration.GetConnectionString("DatabaseConnection");
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(
                     connectionString
                 )
             );
-
-
             services.AddScoped<IDataService, DataService>();
-
             services.AddDatabaseDeveloperPageExceptionFilter();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,22 +37,16 @@ namespace DB_Service
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "App-Server v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProcTrack DB Service"));
             }
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
             using var serviceScope = app.ApplicationServices.CreateScope();
             var context = serviceScope.ServiceProvider.GetService<DataContext>();
-
-            // Apply migrations
             ApplyMigrations(context);
         }
 
