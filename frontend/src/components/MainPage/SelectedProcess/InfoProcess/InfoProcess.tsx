@@ -17,6 +17,15 @@ const InfoProcess = () => {
 		group: 'группа выпускающего',
 	}
 
+	const ProcessStatusImg =
+		process.status === 'в процессе' ? (
+			<img src='src/assets/inprogress.svg' />
+		) : process.status === 'отклонено' ? (
+			<img src='src/assets/rejected.svg' />
+		) : (
+			<img src='src/assets/completed.svg' />
+		)
+
 	return (
 		<Box
 			sx={{
@@ -47,7 +56,8 @@ const InfoProcess = () => {
 							color: '#1A2D67',
 						}}
 					>
-						{process.name}
+						{`${process.name} `}
+						{ProcessStatusImg}
 					</Typography>
 					<Box
 						sx={{

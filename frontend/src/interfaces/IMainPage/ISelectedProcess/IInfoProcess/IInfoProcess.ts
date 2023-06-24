@@ -1,6 +1,6 @@
 export interface IInfoProcess {
 	name: string
-	status: 'в процессе' | 'заврешено'
+	status: 'в процессе' | 'заврешено' | 'отклонено'
 	type: string
 	importance: string
 	startDate: string

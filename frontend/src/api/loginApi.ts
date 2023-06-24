@@ -8,7 +8,6 @@ export const loginApi = {
 	async login(data: IFormInput) {
 		try {
 			const userData: IUserData = await (await axios.post(URL, data)).data
-			console.log(userData)
 			return userData
 		} catch (error) {
 			if (error instanceof Error) {

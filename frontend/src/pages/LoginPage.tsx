@@ -4,8 +4,11 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { IFormInput } from '../interfaces/ILoginPage/IFormInput'
 import { useMutation } from '@tanstack/react-query'
 import { loginApi } from '../api/loginApi'
+import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
+	const navigation = useNavigate()
+
 	const mutation = useMutation({
 		mutationFn: loginApi.login,
 	})
@@ -24,6 +27,10 @@ const LoginPage = () => {
 
 	if (mutation.isSuccess) {
 		console.log(mutation.data)
+		if (mutation.data?.token) {
+			localStorage.setItem('TOKEN', mutation.data?.token)
+			navigation('/')
+		}
 	}
 
 	return (

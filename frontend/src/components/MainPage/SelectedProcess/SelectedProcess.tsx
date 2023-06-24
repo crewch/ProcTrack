@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import InfoProcess from './InfoProcess/InfoProcess'
+import StagesList from './StagesList/StagesList'
 
 const SelectedProcess = () => {
 	return (
@@ -14,6 +15,7 @@ const SelectedProcess = () => {
 			}}
 		>
 			<InfoProcess />
+			<StagesList />
 		</Box>
 	)
 }

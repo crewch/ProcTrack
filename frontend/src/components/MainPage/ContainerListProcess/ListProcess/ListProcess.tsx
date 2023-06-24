@@ -1,6 +1,7 @@
 import {
 	List,
 	ListItem,
+	ListItemAvatar,
 	ListItemButton,
 	ListItemText,
 	Typography,
@@ -10,23 +11,24 @@ import { changeOpenedProcess } from '../../../../store/processSlice/processSlice
 import styles from '/src/styles/MainPageStyles/ContainerListProcess/ListProcess/ListProcess.module.css'
 import { FC, useMemo } from 'react'
 import { IListProcessProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcessProps'
+import { IProcess } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcess'
 
-const listProcess = [
-	{ name: '1 процесс' },
-	{ name: '2 процесс' },
-	{ name: '3 процесс' },
-	{ name: '4 процесс' },
-	{ name: '5 процесс' },
-	{ name: '6 процесс' },
-	{ name: '7 процесс' },
-	{ name: '8 процесс' },
-	{ name: '9 процесс' },
-	{ name: '10 процесс' },
-	{ name: '11 процесс' },
-	{ name: '12 процесс' },
-	{ name: '13 процесс' },
-	{ name: '14 процесс' },
-	{ name: '15 процесс' },
+const listProcess: IProcess[] = [
+	{ name: '1 процесс', status: 'inprogress' },
+	{ name: '2 процесс', status: 'completed' },
+	{ name: '3 процесс', status: 'rejected' },
+	{ name: '4 процесс', status: 'inprogress' },
+	{ name: '5 процесс', status: 'completed' },
+	{ name: '6 процесс', status: 'completed' },
+	{ name: '7 процесс', status: 'inprogress' },
+	{ name: '8 процесс', status: 'inprogress' },
+	{ name: '9 процесс', status: 'inprogress' },
+	{ name: '10 процесс', status: 'completed' },
+	{ name: '11 процесс', status: 'rejected' },
+	{ name: '12 процесс', status: 'inprogress' },
+	{ name: '13 процесс', status: 'inprogress' },
+	{ name: '14 процесс', status: 'completed' },
+	{ name: '15 процесс', status: 'completed' },
 ]
 
 const ListProcess: FC<IListProcessProps> = ({ textForSearchProcess }) => {
@@ -59,10 +61,14 @@ const ListProcess: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 			)}
 			{searchedListProcess.map((process, index) => (
 				<ListItem
+					sx={{ pl: 0 }}
 					key={index}
 					className={(() =>
 						openedProcess === process.name ? styles.openedProcessWrap : '')()}
 				>
+					<ListItemAvatar sx={{ display: 'flex', justifyContent: 'center' }}>
+						<img src={`src/assets/${process.status}.svg`} />
+					</ListItemAvatar>
 					<ListItemButton
 						className={styles.openedProcess}
 						onClick={() =>
