@@ -22,6 +22,10 @@ const LoginPage = () => {
 		reset()
 	}
 
+	if (mutation.isSuccess) {
+		console.log(mutation.data)
+	}
+
 	return (
 		<Box
 			sx={{

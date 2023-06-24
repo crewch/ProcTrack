@@ -7,9 +7,9 @@ const URL = 'http://localhost:8003/api/Auth'
 export const loginApi = {
 	async login(data: IFormInput) {
 		try {
-			const report: IUserData = await axios.post(URL, data)
-			console.log(report)
-			return report
+			const userData: IUserData = await (await axios.post(URL, data)).data
+			console.log(userData)
+			return userData
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
