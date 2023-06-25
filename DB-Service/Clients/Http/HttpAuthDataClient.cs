@@ -24,5 +24,17 @@ namespace DB_Service.Clients.Http
             var users = JsonConvert.DeserializeObject<List<UserWithRoles>>(usersJson);
             return users;
         }
+
+        public async Task<List<HoldRightsDto>> GetRightsHolds(LoginTypeDto loginType)
+        {
+            var content = new StringContent(
+                System.Text.Json.JsonSerializer.Serialize(loginType),
+                Encoding.UTF8,
+                "application/json");
+            var response = await _client.PostAsync($"{_configuration["AuthService"]}/api/HoldRights", content);
+            var resJson = await response.Content.ReadAsStringAsync();
+            var res = JsonConvert.DeserializeObject<List<HoldRightsDto>>(resJson);
+            return res;
+        }
     }
 }

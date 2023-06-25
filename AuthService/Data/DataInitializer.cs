@@ -28,7 +28,8 @@ namespace AuthService.Data
             {
                 new Right{Id=1, Title="modification"},
                 new Right{Id=2, Title="reading"},
-                new Right{Id=3, Title="deletion"}
+                new Right{Id=3, Title="deletion"},
+                new Right{Id=4, Title="signing"},
             };
             foreach (var right in rights)
             {
@@ -38,8 +39,8 @@ namespace AuthService.Data
             
             var groups = new Group[]
             {
-                new Group{Id=1, Title="Технологический контроль", Description="Технологический контроль"},
-                new Group{Id=2, Title="Отделение клапанов", Description="Отделение клапанов"}
+                new Group{Id=1, Title="Технологический контроль", Description="Технологический контроль", BossId=1},
+                new Group{Id=2, Title="Отделение клапанов", Description="Отделение клапанов", BossId=2}
             };
             foreach (var group in groups)
             {
@@ -65,6 +66,7 @@ namespace AuthService.Data
                     Id = 1,
                     DestId = 1,
                     Type = types[1],
+                    Groups = new List<Group>() { groups[0] },
                     Rights = new List<Right>() { rights[0] }
                 },
                 new Hold
@@ -72,6 +74,7 @@ namespace AuthService.Data
                     Id = 2,
                     DestId = 2,
                     Type = types[1],
+                    Groups = new List<Group>() { groups[1] },
                     Rights = new List<Right>() { rights[0] }
                 },
                 new Hold
@@ -79,6 +82,7 @@ namespace AuthService.Data
                     Id = 3,
                     DestId = 3,
                     Type = types[1],
+                    Groups = new List<Group>() { groups[0] },
                     Rights = new List<Right>() { rights[0] }
                 },
                 new Hold
@@ -86,6 +90,7 @@ namespace AuthService.Data
                     Id = 4,
                     DestId = 4,
                     Type = types[1],
+                    Groups = new List<Group>() { groups[1] },
                     Rights = new List<Right>() { rights[0] }
                 }
             };
