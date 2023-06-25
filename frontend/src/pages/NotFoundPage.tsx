@@ -36,6 +36,7 @@ const NotFoundPage = () => {
 				Страница не найдена
 			</Typography>
 			<Button
+				disableRipple
 				sx={{
 					m: 2,
 					width: '307px',

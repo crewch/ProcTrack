@@ -44,7 +44,6 @@ const Search: FC<ISearchProps> = ({
 				}
 			>
 				<FormControlLabel
-					aria-label='Acknowledge'
 					onClick={event => event.stopPropagation()}
 					onFocus={event => event.stopPropagation()}
 					label=''
