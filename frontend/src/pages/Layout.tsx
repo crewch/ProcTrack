@@ -29,9 +29,9 @@ const Layout = () => {
 					<LogoListItem src={Logo} />
 					<Divider variant='middle' sx={{ borderWidth: 1 }} />
 					<ButtonListItem src={Document} to='/' />
-					<ButtonListItem src={Confirmation} to='test1' />
-					<ButtonListItem src={Analysis} to='test2' />
-					<ButtonListItem src={Key} to='test3' />
+					<ButtonListItem src={Confirmation} to='confirmation' />
+					<ButtonListItem src={Analysis} to='analysis' />
+					<ButtonListItem src={Key} to='key' />
 				</List>
 				<List>
 					<Divider variant='middle' sx={{ borderWidth: 1 }} />
