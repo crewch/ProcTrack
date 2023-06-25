@@ -14,11 +14,20 @@ namespace DB_Service.Controllers
         {
             _fileDataClient = fileDataClient;
         }
+        [Route("upload")]
         [HttpPost]
         public async Task<string> UploadFile(IFormFile file)
         {
             var res = await _fileDataClient.SendFileToS3(file);
             return res;
+        }
+        [Route("download")]
+        [HttpPost]
+        public async Task<IActionResult> Download(string fileName)
+        {
+            var fileBytes = await _fileDataClient.GetFileFromS3(fileName);
+
+            return File(fileBytes, "application/octet-stream", fileName);
         }
     }
 }

@@ -80,28 +80,6 @@ namespace DB_Service.Data
             }
             context.SaveChanges();
 
-            //var edges = new Models.Edge[]
-            //{
-            //    new Edge {Id=1},
-            //    new Edge {Id=2},
-            //    new Edge {Id=3},
-            //};
-            //foreach (var edge in edges)
-            //{
-            //    context.Edges.Add(edge);
-            //}
-            //context.SaveChanges();
-
-            //var dependences = new Dependence[]
-            //{
-            //    new Dependence {Id=1, First=2, Second=3},
-            //};
-            //foreach (var dependence in dependences)
-            //{
-            //    context.Dependences.Add(dependence);
-            //}
-            //context.SaveChanges();
-
             var stages = new Stage[]
             {
                 new Stage {Id=1, Title="Технологическое отделение", Addenable=false, Status=statuses[0]},
@@ -132,6 +110,28 @@ namespace DB_Service.Data
             foreach(var process in processes)
             {
                 context.Processes.Add(process);
+            }
+            context.SaveChanges();
+
+            var edges = new Models.Edge[]
+            {
+                new Edge {StartStage=stages[0], EndStage=stages[1]},
+                new Edge {StartStage=stages[0], EndStage=stages[2]},
+                new Edge {StartStage=stages[1], EndStage=stages[3]},
+            };
+            foreach (var edge in edges)
+            {
+                context.Edges.Add(edge);
+            }
+            context.SaveChanges();
+
+            var dependences = new Dependence[]
+            {
+                new Dependence {FirstStage=stages[1], SecondStage=stages[2]},
+            };
+            foreach (var dependence in dependences)
+            {
+                context.Dependences.Add(dependence);
             }
             context.SaveChanges();
         }

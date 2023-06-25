@@ -4,6 +4,7 @@ using DB_Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace DB_Service
 {
@@ -17,7 +18,9 @@ namespace DB_Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient<IFileDataClient, HttpFileDataClient>();
-            services.AddControllers();
+            services.AddHttpClient<IAuthDataClient, HttpAuthDataClient>();
+            services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Db-Service", Version = "v1" });

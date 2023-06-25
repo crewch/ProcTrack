@@ -6,7 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using DB_Service.Models;
 using DB_Service.Services;
-
+using DB_Service.Clients.Http;
+using DB_Service.Dtos;
 
 namespace DB_Service.Controllers
 {
@@ -16,8 +17,11 @@ namespace DB_Service.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly IDataService _messageService;
-        public MessagesController(IDataService messageService)
+        private readonly IAuthDataClient _client;
+
+        public MessagesController(IDataService messageService, IAuthDataClient client)
         {
+            _client = client;
             _messageService = messageService;
         }
 
@@ -36,6 +40,14 @@ namespace DB_Service.Controllers
             var newMessage = await _messageService.AddMessage(message);
 
             return newMessage;
+        }
+
+        [Route("debug")]
+        [HttpGet]
+        public async Task<ActionResult<UserWithRoles>> GetUsersWithRoles()
+        {
+            var res = await _client.GetUsersWithRoles();
+            return Ok(res);
         }
     }
 }

@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NuGet.Protocol;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace DB_Service.Clients.Http
 {
@@ -26,6 +29,13 @@ namespace DB_Service.Clients.Http
 	            response.EnsureSuccessStatusCode();
 	            return await response.Content.ReadAsStringAsync();
             }
+        }
+
+        public async Task<byte[]> GetFileFromS3(string fileName)
+        {
+            var response = await _httpClient.GetAsync($"{_configuration["S3Service"]}/download?fileName={fileName}");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsByteArrayAsync();
         }
     }
 }
