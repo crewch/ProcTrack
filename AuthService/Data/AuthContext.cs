@@ -47,11 +47,9 @@ namespace AuthService.Data
                     g => g
                         .HasOne(p => p.Group)
                         .WithMany(p => p.GroupHolds)
-                        .HasForeignKey(p => p.GroupId),
-                    h => h
-                        .HasOne(p => p.Hold)
-                        .WithMany(p => p.GroupHolds)
-                        .HasForeignKey(p => p.HoldId)
+                        .HasForeignKey(p => p.GroupId)
+                        .OnDelete(DeleteBehavior.SetNull),
+                    h => h.HasOne(p => p.Hold).WithMany(p => p.GroupHolds).HasForeignKey(p => p.HoldId).OnDelete(DeleteBehavior.SetNull)
                     );
 
             modelBuilder
@@ -62,11 +60,13 @@ namespace AuthService.Data
                     r => r
                         .HasOne(p => p.Right)
                         .WithMany(p => p.RightHolds)
-                        .HasForeignKey(p => p.RightId),
+                        .HasForeignKey(p => p.RightId)
+                        .OnDelete(DeleteBehavior.SetNull),
                     h => h
                         .HasOne(p => p.Hold)
                         .WithMany(p => p.RightHolds)
                         .HasForeignKey(p => p.HoldId)
+                        .OnDelete(DeleteBehavior.SetNull)
                         
                 );
 
@@ -75,14 +75,8 @@ namespace AuthService.Data
                 .HasMany(p => p.Users)
                 .WithMany(p => p.Holds)
                 .UsingEntity<UserHoldMapper>(
-                    u => u
-                        .HasOne(p => p.User)
-                        .WithMany(p => p.UserHolds)
-                        .HasForeignKey(p => p.UserId),
-                    h => h
-                        .HasOne(p => p.Hold)
-                        .WithMany(p => p.UserHolds)
-                        .HasForeignKey(p => p.HoldId)
+                    u => u.HasOne(p => p.User).WithMany(p => p.UserHolds).HasForeignKey(p => p.UserId).OnDelete(DeleteBehavior.SetNull),
+                    h => h.HasOne(p => p.Hold).WithMany(p => p.UserHolds).HasForeignKey(p => p.HoldId).OnDelete(DeleteBehavior.SetNull)
                 );
 
             modelBuilder
@@ -90,14 +84,8 @@ namespace AuthService.Data
                 .HasMany(p => p.Groups)
                 .WithMany(p => p.Users)
                 .UsingEntity<UserGroupMapper>(
-                    g => g
-                        .HasOne(p => p.Group)
-                        .WithMany(p => p.UserGroups)
-                        .HasForeignKey(p => p.GroupId),
-                    u => u
-                        .HasOne(p => p.User)
-                        .WithMany(p => p.UserGroups)
-                        .HasForeignKey(p => p.UserId)
+                    g => g.HasOne(p => p.Group).WithMany(p => p.UserGroups).HasForeignKey(p => p.GroupId).OnDelete(DeleteBehavior.SetNull),
+                    u => u.HasOne(p => p.User).WithMany(p => p.UserGroups).HasForeignKey(p => p.UserId).OnDelete(DeleteBehavior.SetNull)
                 );
             
             modelBuilder
@@ -105,14 +93,8 @@ namespace AuthService.Data
                 .HasMany(p => p.Roles)
                 .WithMany(p => p.Users)
                 .UsingEntity<UserRoleMapper>(
-                    r => r
-                        .HasOne(p => p.Role)
-                        .WithMany(p => p.UserRoles)
-                        .HasForeignKey(p => p.RoleId),
-                    u => u
-                        .HasOne(p => p.User)
-                        .WithMany(p => p.UserRoles)
-                        .HasForeignKey(p => p.UserId)
+                    r => r.HasOne(p => p.Role).WithMany(p => p.UserRoles).HasForeignKey(p => p.RoleId).OnDelete(DeleteBehavior.SetNull),
+                    u => u.HasOne(p => p.User).WithMany(p => p.UserRoles).HasForeignKey(p => p.UserId).OnDelete(DeleteBehavior.SetNull)
                 );
         }
     }

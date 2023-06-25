@@ -5,7 +5,7 @@ namespace DB_Service.Models
     public class Process: BaseEntity
     {
         public string Title { get; set; }
-        public bool IdTemplate { get; set; }
+        public bool IsTemplate { get; set; }
         public int PriorityId { get; set; }
         public Priority Priority { get; set; }
         public int TypeId { get; set; }

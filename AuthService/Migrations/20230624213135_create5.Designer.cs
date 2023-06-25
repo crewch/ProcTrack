@@ -3,15 +3,17 @@ using System;
 using AuthService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AuthService.Migrations
 {
     [DbContext(typeof(AuthContext))]
-    partial class AuthContextModelSnapshot : ModelSnapshot
+    [Migration("20230624213135_create5")]
+    partial class create5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,13 +254,11 @@ namespace AuthService.Migrations
                 {
                     b.HasOne("AuthService.Models.Group", "Group")
                         .WithMany("GroupHolds")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("GroupId");
 
                     b.HasOne("AuthService.Models.Hold", "Hold")
                         .WithMany("GroupHolds")
-                        .HasForeignKey("HoldId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("HoldId");
 
                     b.Navigation("Group");
 
@@ -278,13 +278,11 @@ namespace AuthService.Migrations
                 {
                     b.HasOne("AuthService.Models.Hold", "Hold")
                         .WithMany("RightHolds")
-                        .HasForeignKey("HoldId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("HoldId");
 
                     b.HasOne("AuthService.Models.Right", "Right")
                         .WithMany("RightHolds")
-                        .HasForeignKey("RightId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("RightId");
 
                     b.Navigation("Hold");
 
@@ -295,13 +293,11 @@ namespace AuthService.Migrations
                 {
                     b.HasOne("AuthService.Models.Group", "Group")
                         .WithMany("UserGroups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("GroupId");
 
                     b.HasOne("AuthService.Models.User", "User")
                         .WithMany("UserGroups")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Group");
 
@@ -312,13 +308,11 @@ namespace AuthService.Migrations
                 {
                     b.HasOne("AuthService.Models.Hold", "Hold")
                         .WithMany("UserHolds")
-                        .HasForeignKey("HoldId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("HoldId");
 
                     b.HasOne("AuthService.Models.User", "User")
                         .WithMany("UserHolds")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Hold");
 
@@ -330,13 +324,13 @@ namespace AuthService.Migrations
                     b.HasOne("AuthService.Models.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AuthService.Models.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");

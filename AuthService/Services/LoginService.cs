@@ -1,4 +1,5 @@
 ﻿using AuthService.Data;
+using AuthService.Dtos;
 using AuthService.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -37,6 +38,12 @@ namespace AuthService.Services
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            
+            var userRoleTitles = _context.Users
+                .Where(u => u.Id == user.Id)
+                .SelectMany(u => u.UserRoles)
+                    .Select(ur => ur.Role.Title)
+                .ToArray();
 
             var claims = new List<Claim>() 
             {
@@ -44,9 +51,9 @@ namespace AuthService.Services
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.GivenName, user.ShortName),
             };
-            for (int i = 0; i < user.Roles.Count(); i++)
+            for (int i = 0; i < userRoleTitles.Count(); i++)
             {
-                claims.Add(new Claim(ClaimTypes.Role, user.Roles.ToList()[i].Title));
+                claims.Add(new Claim(ClaimTypes.Role, userRoleTitles[i]));
             }
             var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
               _configuration["Jwt:Audience"],

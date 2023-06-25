@@ -3,15 +3,17 @@ using System;
 using DB_Service.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DB_Service.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230624233138_create8")]
+    partial class create8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,16 +245,17 @@ namespace DB_Service.Migrations
                     b.Property<string>("CustomField")
                         .HasColumnType("text");
 
-                    b.Property<int?>("ProcessId")
+                    b.Property<int>("ProcessId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Signed")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("SignedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("StatusId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -299,9 +302,6 @@ namespace DB_Service.Migrations
 
                     b.Property<TimeSpan>("ExpectedTime")
                         .HasColumnType("interval");
-
-                    b.Property<string>("Signed")
-                        .HasColumnType("text");
 
                     b.Property<int?>("StageId")
                         .HasColumnType("integer");
@@ -431,12 +431,14 @@ namespace DB_Service.Migrations
                     b.HasOne("DB_Service.Models.Process", "Process")
                         .WithMany("Stages")
                         .HasForeignKey("ProcessId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.HasOne("DB_Service.Models.Status", "Status")
                         .WithMany("Stages")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("Process");
 

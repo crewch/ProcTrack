@@ -3,15 +3,17 @@ using System;
 using DB_Service.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DB_Service.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230624220708_create4")]
+    partial class create4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,7 +155,7 @@ namespace DB_Service.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("ProcessId")
+                    b.Property<int?>("ProcessId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -196,7 +198,7 @@ namespace DB_Service.Migrations
                     b.Property<int>("Head")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsTemplate")
+                    b.Property<bool>("IdTemplate")
                         .HasColumnType("boolean");
 
                     b.Property<int>("PriorityId")
@@ -224,7 +226,7 @@ namespace DB_Service.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Processes");
+                    b.ToTable("Process");
                 });
 
             modelBuilder.Entity("DB_Service.Models.Stage", b =>
@@ -237,22 +239,20 @@ namespace DB_Service.Migrations
                     b.Property<bool>("Addenable")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("CustomField")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("ProcessId")
+                    b.Property<int>("ProcessId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Signed")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("SignedAt")
+                    b.Property<DateTime>("SignedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("StatusId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -281,7 +281,7 @@ namespace DB_Service.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Status");
                 });
 
             modelBuilder.Entity("DB_Service.Models.Task", b =>
@@ -291,27 +291,24 @@ namespace DB_Service.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTime?>("ApprovedAt")
+                    b.Property<DateTime>("ApprovedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime?>("EndVerificationDate")
+                    b.Property<DateTime>("EndVerificationDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<TimeSpan>("ExpectedTime")
                         .HasColumnType("interval");
 
                     b.Property<string>("Signed")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("StageId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("StartedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("StageId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -385,8 +382,7 @@ namespace DB_Service.Migrations
                     b.HasOne("DB_Service.Models.Process", "Process")
                         .WithMany("Passports")
                         .HasForeignKey("ProcessId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Process");
                 });
@@ -431,12 +427,14 @@ namespace DB_Service.Migrations
                     b.HasOne("DB_Service.Models.Process", "Process")
                         .WithMany("Stages")
                         .HasForeignKey("ProcessId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.HasOne("DB_Service.Models.Status", "Status")
                         .WithMany("Stages")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("Process");
 
@@ -448,7 +446,8 @@ namespace DB_Service.Migrations
                     b.HasOne("DB_Service.Models.Stage", "Stage")
                         .WithMany("Tasks")
                         .HasForeignKey("StageId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("Stage");
                 });

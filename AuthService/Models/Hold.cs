@@ -2,9 +2,9 @@
 {
     public class Hold: BaseEntity
     {
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
         public int DestId { get; set; }
-        public Type Type { get; set; }
+        public Type? Type { get; set; }
         public ICollection<Group> Groups { get; set; } = new List<Group>();
         public ICollection<Right> Rights { get; set; } = new List<Right>();
         public ICollection<User> Users { get; set; } = new List<User>();
