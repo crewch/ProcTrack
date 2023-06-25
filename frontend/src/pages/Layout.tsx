@@ -15,6 +15,7 @@ const Layout = () => {
 	return (
 		<Box sx={{ height: '100%', display: 'flex' }}>
 			<Box
+				component='nav'
 				sx={{
 					height: '100%',
 					width: '86px',

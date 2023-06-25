@@ -13,7 +13,7 @@ import { ISearchProps } from '../../../../interfaces/IMainPage/IContainerListPro
 import { FC } from 'react'
 import search from '../../../../assets/search.svg'
 import SettingsList from './SettingsList'
-import styles from '/src/styles/MainPageStyles/ContainerListProcess/Search/Search.module.css'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/Search.module.css'
 
 const Search: FC<ISearchProps> = ({
 	textForSearchProcess,

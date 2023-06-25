@@ -7,13 +7,12 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material'
-import styles from '/src/styles/MainPageStyles/SelectedProcess/StagesList/StagesListStyle.module.css'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.css'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedStage } from '../../../../store/processSlice/processSlice'
 
 const StagesList = () => {
 	const openedStage = useAppSelector(state => state.processes.openedStage)
-
 	const dispatch = useAppDispatch()
 
 	const stagesList = [

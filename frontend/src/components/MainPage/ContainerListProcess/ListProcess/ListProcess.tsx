@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedProcess } from '../../../../store/processSlice/processSlice'
-import styles from '/src/styles/MainPageStyles/ContainerListProcess/ListProcess/ListProcess.module.css'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.css'
 import { FC, useMemo } from 'react'
 import { IListProcessProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcessProps'
 import { IProcess } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcess'

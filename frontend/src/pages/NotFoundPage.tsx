@@ -5,7 +5,6 @@ import { useEffect } from 'react'
 
 const NotFoundPage = () => {
 	const navigation = useNavigate()
-
 	useEffect(() => {
 		if (!localStorage.getItem('TOKEN')) {
 			navigation('/login')
@@ -14,6 +13,7 @@ const NotFoundPage = () => {
 
 	return (
 		<Box
+			component='main'
 			sx={{
 				height: '100%',
 				display: 'flex',
@@ -24,11 +24,14 @@ const NotFoundPage = () => {
 		>
 			<img src={NotFound} height='421.19px' width='833px' />
 			<Typography
-				color={'#333333'}
-				fontFamily={'Montserrat'}
-				fontWeight={600}
-				m={1}
-				fontSize='64px'
+				component='h1'
+				sx={{
+					color: '#333333',
+					fontFamily: 'Montserrat',
+					fontWeight: 600,
+					m: 1,
+					fontSize: '64px',
+				}}
 			>
 				Страница не найдена
 			</Typography>

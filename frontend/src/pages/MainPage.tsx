@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 
 const MainPage = () => {
 	const navigation = useNavigate()
-
 	useEffect(() => {
 		if (!localStorage.getItem('TOKEN')) {
 			navigation('login')
@@ -14,7 +13,10 @@ const MainPage = () => {
 	}, [navigation])
 
 	return (
-		<Box sx={{ height: '100%', width: '100%', p: 2, display: 'flex', gap: 2 }}>
+		<Box
+			component='main'
+			sx={{ height: '100%', width: '100%', p: 2, display: 'flex', gap: 2 }}
+		>
 			<ContainerListProcess />
 			<SelectedProcess />
 		</Box>

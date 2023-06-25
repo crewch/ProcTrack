@@ -7,12 +7,6 @@ import { loginApi } from '../api/loginApi'
 import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
-	const navigation = useNavigate()
-
-	const mutation = useMutation({
-		mutationFn: loginApi.login,
-	})
-
 	const { control, handleSubmit, reset } = useForm({
 		defaultValues: {
 			email: '',
@@ -20,11 +14,16 @@ const LoginPage = () => {
 		},
 	})
 
+	const mutation = useMutation({
+		mutationFn: loginApi.login,
+	})
+
 	const onSubmit: SubmitHandler<IFormInput> = userData => {
 		mutation.mutate(userData)
 		reset()
 	}
 
+	const navigation = useNavigate()
 	if (mutation.isSuccess) {
 		console.log(mutation.data)
 		if (mutation.data?.token) {
@@ -35,6 +34,7 @@ const LoginPage = () => {
 
 	return (
 		<Box
+			component='main'
 			sx={{
 				backgroundColor: '#FFFFFF',
 				height: '100%',
@@ -64,6 +64,7 @@ const LoginPage = () => {
 					}}
 				>
 					<Typography
+						component='h1'
 						sx={{
 							fontFamily: 'Montserrat',
 							fontWeight: '600',
