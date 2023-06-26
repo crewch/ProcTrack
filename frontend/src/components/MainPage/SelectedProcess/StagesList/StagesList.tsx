@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	List,
 	ListItem,
 	ListItemAvatar,
@@ -40,7 +41,9 @@ const StagesList = () => {
 				width: '100%',
 				backgroundColor: 'white',
 				borderRadius: '8px',
-				p: 2,
+				p: 1,
+				display: 'flex',
+				flexDirection: 'column',
 			}}
 		>
 			<List
@@ -79,6 +82,24 @@ const StagesList = () => {
 					</ListItem>
 				))}
 			</List>
+			<Button
+				sx={{
+					borderRadius: '5px',
+					backgroundColor: '#ECECEC',
+					color: '#333333',
+					boxShadow: 'none',
+					fontSize: '14px',
+					textTransform: 'none',
+					'&:hover': {
+						backgroundColor: 'transparent',
+					},
+					alignSelf: 'start',
+				}}
+				variant='contained'
+				endIcon={<img src='/src/assets/table.svg' />}
+			>
+				табличное представление
+			</Button>
 		</Box>
 	)
 }

@@ -1,16 +1,13 @@
 import { Box } from '@mui/material'
 import ContainerListProcess from '../components/MainPage/ContainerListProcess/ContainerListProcess'
 import SelectedProcess from '../components/MainPage/SelectedProcess/SelectedProcess'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { Navigate } from 'react-router-dom'
+import SelectedStage from '../components/MainPage/SelectedStage/SelectedStage'
 
 const MainPage = () => {
-	const navigation = useNavigate()
-	useEffect(() => {
-		if (!localStorage.getItem('TOKEN')) {
-			navigation('login')
-		}
-	}, [navigation])
+	if (!localStorage.getItem('TOKEN')) {
+		return <Navigate to='login' />
+	}
 
 	return (
 		<Box
@@ -19,6 +16,7 @@ const MainPage = () => {
 		>
 			<ContainerListProcess />
 			<SelectedProcess />
+			<SelectedStage />
 		</Box>
 	)
 }

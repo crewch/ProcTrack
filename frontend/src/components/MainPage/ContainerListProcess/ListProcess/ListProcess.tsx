@@ -40,7 +40,7 @@ const ListProcess: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 			listProcess.filter(process =>
 				process.name.toLowerCase().includes(textForSearchProcess.toLowerCase())
 			),
-		[textForSearchProcess, listProcess]
+		[textForSearchProcess]
 	)
 
 	return (

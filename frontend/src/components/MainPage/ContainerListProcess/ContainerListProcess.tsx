@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { useState } from 'react'
 import Search from './Search/Search'
 import ListProccess from './ListProcess/ListProcess'
@@ -23,6 +23,24 @@ const ContainerListProcess = () => {
 				setTextForSearchProcess={setTextForSearchProcess}
 			/>
 			<ListProccess textForSearchProcess={textForSearchProcess} />
+			<Button
+				sx={{
+					borderRadius: '5px',
+					backgroundColor: '#ECECEC',
+					color: '#333333',
+					boxShadow: 'none',
+					fontSize: '14px',
+					textTransform: 'none',
+					'&:hover': {
+						backgroundColor: 'transparent',
+					},
+					alignSelf: 'start',
+				}}
+				variant='contained'
+				endIcon={<img src='/src/assets/graph.svg' />}
+			>
+				графовое представление
+			</Button>
 		</Box>
 	)
 }

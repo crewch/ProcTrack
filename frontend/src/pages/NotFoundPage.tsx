@@ -1,15 +1,12 @@
 import { Box, Button, Typography } from '@mui/material'
 import NotFound from '../assets/notFound.svg'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const NotFoundPage = () => {
 	const navigation = useNavigate()
-	useEffect(() => {
-		if (!localStorage.getItem('TOKEN')) {
-			navigation('/login')
-		}
-	}, [navigation])
+	if (!localStorage.getItem('TOKEN')) {
+		return <Navigate to='login' />
+	}
 
 	return (
 		<Box
