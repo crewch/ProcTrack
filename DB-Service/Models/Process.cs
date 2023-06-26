@@ -15,6 +15,8 @@ namespace DB_Service.Models
         public int? Tail { get; set; }
         public Stage? TailStage { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime? ApprovedAt { get; set; }
+        public TimeSpan ExpectedTime { get; set; }
         public ICollection<Stage>? Stages { get; set; } = new List<Stage>();
         public ICollection<Passport>? Passports { get; set; } = new List<Passport>();
     }

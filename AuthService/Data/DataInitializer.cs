@@ -29,7 +29,8 @@ namespace AuthService.Data
                 new Right{Id=1, Title="modification"},
                 new Right{Id=2, Title="reading"},
                 new Right{Id=3, Title="deletion"},
-                new Right{Id=4, Title="signing"},
+                new Right{Id=4, Title="matching"},
+                new Right{Id=5, Title="commenting"}
             };
             foreach (var right in rights)
             {

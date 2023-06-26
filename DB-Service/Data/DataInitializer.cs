@@ -80,18 +80,7 @@ namespace DB_Service.Data
             }
             context.SaveChanges();
 
-            var stages = new Stage[]
-            {
-                new Stage {Id=1, Title="Технологическое отделение", Addenable=false, Status=statuses[0]},
-                new Stage {Id=2, Title="Финансовое отделение", Addenable=false, Status=statuses[0]},
-                new Stage {Id=3, Title="Соответствие нормам", Addenable=false, Status=statuses[0]},
-                new Stage {Id=4, Title="Опытные работы", Addenable=false, Status=statuses[0]},
-            };
-            foreach (var stage in stages)
-            {
-                context.Stages.Add(stage);
-            }
-            context.SaveChanges();
+            
 
             var processes = new Process[]
             {
@@ -101,16 +90,36 @@ namespace DB_Service.Data
                     Title = "Шаблон КД",
                     Priority = priorities[0],
                     Type = types[0],
-                    Head = 1,
-                    Tail = 4,
+                    //Head = 1,
+                    //Tail = 4,
                     CreatedAt = DateTime.Now,
                     IsTemplate = true,
+                    ExpectedTime = TimeSpan.FromDays(1)
                 }
             };
             foreach(var process in processes)
             {
                 context.Processes.Add(process);
             }
+            context.SaveChanges();
+
+            var stages = new Stage[]
+            {
+                new Stage {Id=1, Title="Технологическое отделение", Addenable=false, Status=statuses[0], Process=processes[0]},
+                new Stage {Id=2, Title="Финансовое отделение", Addenable=false, Status=statuses[0], Process=processes[0]},
+                new Stage {Id=3, Title="Соответствие нормам", Addenable=false, Status=statuses[0], Process=processes[0]},
+                new Stage {Id=4, Title="Опытные работы", Addenable=false, Status=statuses[0], Process=processes[0]},
+            };
+            foreach (var stage in stages)
+            {
+                context.Stages.Add(stage);
+            }
+            context.SaveChanges();
+
+            var upPocess = context.Processes.Find(1);
+
+            upPocess.Head = 1;
+            upPocess.Tail = 4;
             context.SaveChanges();
 
             var edges = new Models.Edge[]

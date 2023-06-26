@@ -6,5 +6,8 @@ namespace DB_Service.Clients.Http
     {
         Task<List<UserWithRoles>> GetUsersWithRoles();
         Task<List<HoldRightsDto>> GetRightsHolds(LoginTypeDto loginType);
+        Task<UserWithRoles> GetUser(UserLoginDto data);
+        Task<HoldRightsDto> CreateHold(CreateHoldDto data);
+        Task<UsersGroupsDto> GetUsersGroups(GetUserByHoldDto data);
     }
 }

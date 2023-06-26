@@ -58,6 +58,7 @@ namespace AuthService
             services.AddMvc();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IHoldService, HoldService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

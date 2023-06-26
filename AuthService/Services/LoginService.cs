@@ -20,7 +20,7 @@ namespace AuthService.Services
             _configuration = configuration;
         }
 
-        public async Task<UserToken> Login(UserLogin userLogin)
+        public async Task<UserToken> Login(UserLoginPasswordDto userLogin)
         {
             var user = Authenticate(userLogin);
 
@@ -64,7 +64,7 @@ namespace AuthService.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private User Authenticate(UserLogin userLogin)
+        private User Authenticate(UserLoginPasswordDto userLogin)
         {
             var currentUser = _context.Users.FirstOrDefault(o => o.Email.ToLower() == userLogin.Email.ToLower() && o.Password == userLogin.Password);
 

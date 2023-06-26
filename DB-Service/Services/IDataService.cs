@@ -13,5 +13,7 @@ namespace DB_Service.Services
         Task<List<StagesDataDto>> GetStageData(LoginTypeDto loginType);
 
         Task<List<ProcessesDataDto>> GetProcessData(LoginTypeDto loginType);
+
+        Task<ProcessesDataDto> CreateProcessFromTemplate(FromTemplateCreateDto data);
     }
 }

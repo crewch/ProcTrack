@@ -73,5 +73,13 @@ namespace DB_Service.Controllers
             var res = await _service.GetProcessData(loginType);
             return Ok(res);
         }
+
+        [Route("CreateProcess")]
+        [HttpPost]
+        public async Task<ActionResult<ProcessesDataDto>> CreateProcess(FromTemplateCreateDto data)
+        {
+            var res = await _service.CreateProcessFromTemplate(data);
+            return Ok(res);
+        }
     }
 }

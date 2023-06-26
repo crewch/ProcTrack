@@ -14,5 +14,7 @@ namespace DB_Service.Dtos
         public string? Type { get; set; }
         public DateTime CreatedAt { get; set; }
         public string Status { get; set; }
+        public DateTime? ApprovedAt { get; set; }
+        public TimeSpan ExpectedTime { get; set; }
     }
 }

@@ -28,5 +28,21 @@ namespace AuthService.Controllers
             }
             return Ok(res.Result);
         }
+
+        [Route("CreateHold")]
+        [HttpPost]
+        public async Task<ActionResult<HoldRightsDto>> CreateHold(CreateHoldDto data)
+        {
+            var res = _service.CreateHold(data);
+            return Ok(res.Result);
+        }
+
+        [Route("UsersGroups")]
+        [HttpPost]
+        public async Task<ActionResult<UsersGroupsDto>> GetUsersGroups(GetUserByHoldDto data)
+        {
+            var res = _service.GetUsersGroupsByHold(data);
+            return Ok(res.Result);
+        }
     }
 }

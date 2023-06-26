@@ -14,6 +14,67 @@ namespace AuthService.Services
             _context = context;
         }
 
+        public async Task<HoldRightsDto> CreateHold(CreateHoldDto data)
+        {
+            var type = _context.Types
+                .Where(t => t.Title == data.Type)
+                .FirstOrDefault();
+
+            User? user = new User();
+            Group? group = new Group();
+
+            bool dataHolderType = data.HolderType.ToLower() == "user";
+            if (dataHolderType)
+            {
+                user = _context.Users
+                    .Where(u => u.Id == data.HolderTypeId)
+                    .FirstOrDefault();
+            } else
+            {
+                group = _context.Groups
+                    .Where(g => g.Id == data.HolderTypeId)
+                    .FirstOrDefault();
+            }
+            
+            var rights = new List<Right>();
+            bool dataType = data.Type.ToLower() == "process";
+
+            if (dataType && dataHolderType)
+            {
+                rights = _context.Rights
+                    .Where(r => r.Title == "modification" || r.Title == "deletion")
+                    .ToList();
+            } else if (dataType && !dataHolderType)
+            {
+                rights = _context.Rights
+                    .Where(r => r.Title == "reading")
+                    .ToList();
+            } else
+            {
+                rights = _context.Rights
+                    .Where(r => r.Title == "matching" || r.Title == "commenting")
+                    .ToList();
+            }
+
+            var hold = new Hold
+            {
+                DestId = data.DestId,
+                Type = type,
+                Users = dataHolderType ? new List<User>() { user } : new List<User>(),
+                Groups = dataHolderType ? new List<Group>() : new List<Group>() { group },
+                Rights = rights,
+            };
+            _context.Holds.Add(hold);
+            _context.SaveChanges();
+            return new HoldRightsDto
+            {
+                HoldId = data.DestId,
+                Rights = rights.Select(r => r.Title).ToList(),
+                User = user.LongName,
+                Group = group.Title,
+            };
+        }
+
         public Task<List<HoldRightsDto>> GetHoldIdsAndRights(LoginTypeDto loginType)
         {
             var dict = new HashSet<int?>();
@@ -40,7 +101,7 @@ namespace AuthService.Services
                         var dto = new HoldRightsDto
                         {
                             HoldId = (int)id,
-                            Rights = rights,
+                            Rights = rights.Distinct().ToList(),
                             User = user.LongName,
                         };
                         res.Add(dto);
@@ -74,7 +135,7 @@ namespace AuthService.Services
                             var dto = new HoldRightsDto
                             {
                                 HoldId = (int)id,
-                                Rights = rights,
+                                Rights = rights.Distinct().ToList(),
                                 Group = group.Title,
                             };
                             if (loginType.Type == "Stage" && user.Id == group.BossId)
@@ -89,6 +150,60 @@ namespace AuthService.Services
                 return Task.FromResult(res.ToList());
             }
             return Task.FromResult<List<HoldRightsDto>>(null);
+        }
+
+        public Task<UsersGroupsDto> GetUsersGroupsByHold(GetUserByHoldDto data)
+        {
+            var holds = _context.Holds
+                .Where(h => h.DestId == data.DestId && h.Type.Title.ToLower() == data.Type.ToLower())
+                .ToList();
+
+            var users = new List<UserDto>();
+            var groups = new List<GroupDto>();
+            Console.WriteLine($"Count : {holds.Count}");
+            foreach (var h in holds)
+            {
+                var iUsers = _context.UserHoldMappers
+                    .Where(uh => uh.Hold == h)
+                    .Select(uh => uh.User)
+                    .ToList();
+                Console.WriteLine($"Count users: {iUsers.Count}");
+                foreach (var user in iUsers)
+                {
+                    var iDto = new UserDto
+                    {
+                        Id = user.Id,
+                        Email = user.Email,
+                    };
+                    if (users.Find(i => i.Id == user.Id) == null)
+                    {
+                        users.Add(iDto);
+                    }
+                }
+                var iGroups = _context.GroupHoldMappers
+                    .Where(uh => uh.Hold == h)
+                    .Select(uh => uh.Group)
+                    .ToList();
+                Console.WriteLine($"Count group: {iGroups.Count}");
+                foreach (var group in iGroups)
+                {
+                    var iDto = new GroupDto
+                    {
+                        Id = group.Id,
+                        Title = group.Title
+                    };
+                    if (groups.Find(i => i.Id == group.Id) == null)
+                    {
+                        groups.Add(iDto);
+                    }
+                }
+            }
+            var dto = new UsersGroupsDto
+            {
+                Users = users,
+                Groups = groups,
+            };
+            return Task.FromResult(dto);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace AuthService.Controllers
         }
 
         [HttpPost]
-        public async Task<UserToken> Login(UserLogin userLogin)
+        public async Task<UserToken> Login(UserLoginPasswordDto userLogin)
         {
             var res = await _service.Login(userLogin);
             return res;
