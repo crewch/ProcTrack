@@ -1,19 +1,11 @@
 import { Box } from '@mui/material'
 import InfoProcess from './InfoProcess/InfoProcess'
 import StagesList from './StagesList/StagesList'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/SelectedProcess.module.scss'
 
 const SelectedProcess = () => {
 	return (
-		<Box
-			sx={{
-				height: '100%',
-				width: '34%',
-				borderRadius: '8px',
-				display: 'flex',
-				flexDirection: 'column',
-				gap: 2,
-			}}
-		>
+		<Box className={styles.selectedProcess}>
 			<InfoProcess />
 			<StagesList />
 		</Box>

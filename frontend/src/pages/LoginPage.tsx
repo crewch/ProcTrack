@@ -5,6 +5,7 @@ import { IFormInput } from '../interfaces/ILoginPage/IFormInput'
 import { useMutation } from '@tanstack/react-query'
 import { loginApi } from '../api/loginApi'
 import { useNavigate } from 'react-router-dom'
+import styles from '../styles/LoginPageStyles/LoginPage.module.scss'
 
 const LoginPage = () => {
 	const { control, handleSubmit, reset } = useForm({
@@ -25,7 +26,6 @@ const LoginPage = () => {
 
 	const navigation = useNavigate()
 	if (mutation.isSuccess) {
-		console.log(mutation.data)
 		if (mutation.data?.token) {
 			localStorage.setItem('TOKEN', mutation.data?.token)
 			navigation('/')
@@ -33,54 +33,14 @@ const LoginPage = () => {
 	}
 
 	return (
-		<Box
-			component='main'
-			sx={{
-				backgroundColor: '#FFFFFF',
-				height: '100%',
-				p: 4,
-			}}
-		>
-			<img style={{ position: 'absolute' }} src={FullLogo} />
-			<Box
-				sx={{
-					height: '100%',
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}
-			>
-				<Box
-					sx={{
-						width: '690px',
-						height: '608px',
-						borderRadius: '31px',
-						boxShadow: '0px 0px 13px -2px rgba(0, 0, 0, 0.10)',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center',
-						alignItems: 'center',
-						gap: '55px',
-					}}
-				>
-					<Typography
-						component='h1'
-						sx={{
-							fontFamily: 'Montserrat',
-							fontWeight: '600',
-							fontSize: '64px',
-						}}
-					>
+		<Box component='main' className={styles.loginPage}>
+			<img className={styles.logoImg} src={FullLogo} />
+			<Box className={styles.loginBox}>
+				<Box className={styles.loginContainer}>
+					<Typography component='h1' className={styles.title}>
 						Войти
 					</Typography>
-					<form
-						onSubmit={handleSubmit(onSubmit)}
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '28px',
-						}}
-					>
+					<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 						<Controller
 							name='email'
 							control={control}
@@ -94,7 +54,7 @@ const LoginPage = () => {
 										sx: {
 											fontFamily: 'Montserrat',
 											fontWeight: '500px',
-											fontSize: '24px',
+											fontSize: { xl: '24px' },
 											color: '#949494',
 										},
 									}}
@@ -102,7 +62,7 @@ const LoginPage = () => {
 										sx: {
 											fontFamily: 'Montserrat',
 											fontWeight: '500px',
-											fontSize: '24px',
+											fontSize: { xl: '24px' },
 											borderRadius: '13px',
 										},
 									}}
@@ -122,7 +82,7 @@ const LoginPage = () => {
 									InputLabelProps={{
 										sx: {
 											fontFamily: 'Montserrat',
-											fontSize: '24px',
+											fontSize: { xl: '24px' },
 											color: '#949494',
 										},
 									}}
@@ -130,23 +90,14 @@ const LoginPage = () => {
 										sx: {
 											fontFamily: 'Montserrat',
 											fontWeight: '500px',
-											fontSize: '24px',
+											fontSize: { xl: '24px' },
 											borderRadius: '13px',
 										},
 									}}
 								/>
 							)}
 						/>
-						<Button
-							variant='contained'
-							type='submit'
-							sx={{
-								backgroundColor: '#5C98D0',
-								width: '562px',
-								height: '104px',
-								borderRadius: '13px',
-							}}
-						>
+						<Button variant='contained' type='submit' className={styles.btn}>
 							продолжить
 						</Button>
 					</form>

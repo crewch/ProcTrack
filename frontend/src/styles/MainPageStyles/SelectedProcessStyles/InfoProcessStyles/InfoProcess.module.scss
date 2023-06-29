@@ -1,0 +1,7 @@
+.container {
+	@apply h-1/2 w-full bg-white rounded-[8px] p-3 flex flex-col;
+
+	.divider {
+		@apply my-2 border;
+	}
+}

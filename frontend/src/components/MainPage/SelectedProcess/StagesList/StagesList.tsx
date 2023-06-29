@@ -3,14 +3,13 @@ import {
 	Button,
 	List,
 	ListItem,
-	ListItemAvatar,
 	ListItemButton,
 	ListItemText,
 	Typography,
 } from '@mui/material'
-import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.css'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedStage } from '../../../../store/processSlice/processSlice'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.scss'
 
 const StagesList = () => {
 	const openedStage = useAppSelector(state => state.processes.openedStage)
@@ -35,28 +34,12 @@ const StagesList = () => {
 	]
 
 	return (
-		<Box
-			sx={{
-				height: '50%',
-				width: '100%',
-				backgroundColor: 'white',
-				borderRadius: '8px',
-				p: 1,
-				display: 'flex',
-				flexDirection: 'column',
-			}}
-		>
-			<List
-				sx={{
-					mt: 1,
-					height: '100%',
-					overflow: 'auto',
-				}}
-			>
+		<Box className={styles.container}>
+			<List className={styles.list}>
 				{stagesList.map((stage, index) => (
 					<ListItem
-						sx={{ pl: 0 }}
 						key={index}
+						sx={{ pl: 0 }}
 						className={(() =>
 							openedStage === stage.name ? styles.openedProcessWrap : '')()}
 					>
@@ -84,18 +67,7 @@ const StagesList = () => {
 				))}
 			</List>
 			<Button
-				sx={{
-					borderRadius: '5px',
-					backgroundColor: '#ECECEC',
-					color: '#333333',
-					boxShadow: 'none',
-					fontSize: '14px',
-					textTransform: 'none',
-					'&:hover': {
-						backgroundColor: 'transparent',
-					},
-					alignSelf: 'start',
-				}}
+				className={styles.btn}
 				variant='contained'
 				endIcon={<img src='/src/assets/table.svg' />}
 			>

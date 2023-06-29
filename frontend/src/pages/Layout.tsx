@@ -10,31 +10,22 @@ import Settings from '../assets/settings.svg'
 import User1 from '../assets/user1.svg'
 import ButtonListItem from '../components/Layout/ButtonListItem'
 import LogoListItem from '../components/Layout/LogoListItem'
+import styles from '../styles/LayoutStyles/Layout.module.scss'
 
 const Layout = () => {
 	return (
-		<Box sx={{ height: '100%', display: 'flex' }}>
-			<Box
-				component='nav'
-				sx={{
-					height: '100%',
-					width: '86px',
-					backgroundColor: 'white',
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'space-between',
-				}}
-			>
+		<Box className={styles.wrap}>
+			<Box component='nav' className={styles.nav}>
 				<List>
 					<LogoListItem src={Logo} />
-					<Divider variant='middle' sx={{ borderWidth: 1 }} />
+					<Divider variant='middle' className={styles.divider} />
 					<ButtonListItem src={Document} to='/' />
 					<ButtonListItem src={Confirmation} to='confirmation' />
 					<ButtonListItem src={Analysis} to='analysis' />
 					<ButtonListItem src={Key} to='key' />
 				</List>
 				<List>
-					<Divider variant='middle' sx={{ borderWidth: 1 }} />
+					<Divider variant='middle' className={styles.divider} />
 					<ButtonListItem src={Notifications} to='test4' />
 					<ButtonListItem src={Settings} to='test5' />
 					<ButtonListItem src={User1} to='test6' />

@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import { ISelectedStage } from '../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
+import styles from '/src/styles/MainPageStyles/SelectedStageStyles/SelectedStage.module.scss'
 
 const SelectedStage = () => {
 	const selectedStage: ISelectedStage = {
@@ -13,17 +14,7 @@ const SelectedStage = () => {
 		group: 'группа выпускающего',
 	}
 
-	return (
-		<Box
-			sx={{
-				height: '100%',
-				width: '39%',
-				backgroundColor: 'white',
-				borderRadius: '8px',
-				p: 2,
-			}}
-		></Box>
-	)
+	return <Box className={styles.selectedStage}></Box>
 }
 
 export default SelectedStage

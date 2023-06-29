@@ -1,0 +1,11 @@
+.containerListProcess {
+	@apply h-full w-1/4 bg-white rounded-[8px] p-1 flex flex-col;
+
+	.divider {
+		@apply mb-1 border;
+	}
+
+	.btn {
+		@apply rounded-[5px] bg-[#ECECEC] text-[#333333] shadow-none text-[14px] normal-case hover:bg-[transparent] self-start;
+	}
+}

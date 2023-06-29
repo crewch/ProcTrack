@@ -1,3 +1,15 @@
+.list {
+	@apply mt-1 h-full overflow-auto;
+
+	.typography {
+		@apply text-center font-[Montserrat];
+	}
+
+	.img {
+		@apply mr-[14px] ml-[6px];
+	}
+}
+
 .openedProcessWrap {
 	background-color: transparent;
 }

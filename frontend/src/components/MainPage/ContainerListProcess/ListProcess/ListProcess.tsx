@@ -7,10 +7,10 @@ import {
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedProcess } from '../../../../store/processSlice/processSlice'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.css'
 import { FC, useMemo } from 'react'
 import { IListProcessProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcessProps'
 import { IProcess } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcess'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
 
 const listProcess: IProcess[] = [
 	{ name: '1 процесс', status: 'inprogress' },
@@ -43,31 +43,22 @@ const ListProcess: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 	)
 
 	return (
-		<List
-			sx={{
-				mt: 1,
-				height: '100%',
-				overflow: 'auto',
-			}}
-		>
+		<List className={styles.list}>
 			{!searchedListProcess.length && (
-				<Typography
-					variant='h4'
-					sx={{ textAlign: 'center', fontFamily: 'Montserrat' }}
-				>
+				<Typography variant='h4' className={styles.typography}>
 					Процессов нет
 				</Typography>
 			)}
 			{searchedListProcess.map((process, index) => (
 				<ListItem
-					sx={{ pl: 0 }}
 					key={index}
+					sx={{ pl: 1 }}
 					className={(() =>
 						openedProcess === process.name ? styles.openedProcessWrap : '')()}
 				>
 					<img
 						src={`src/assets/${process.status}.svg`}
-						style={{ marginRight: '14px', marginLeft: '6px' }}
+						className={styles.img}
 					/>
 					<ListItemButton
 						className={styles.openedProcess}

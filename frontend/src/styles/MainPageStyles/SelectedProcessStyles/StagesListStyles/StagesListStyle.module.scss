@@ -1,0 +1,24 @@
+.container {
+	@apply h-[50%] w-full bg-white rounded-[8px] p-1 xl:p-2 flex flex-col;
+
+	.list {
+		@apply h-full overflow-auto;
+	}
+
+	.btn {
+		@apply rounded-[5px] bg-[#ECECEC] text-[#333333] shadow-none text-[14px] normal-case hover:bg-[transparent] self-start;
+	}
+}
+
+.openedProcessWrap {
+	background-color: transparent;
+}
+
+.openedProcessWrap .openedProcess {
+	background-color: #d8ecff;
+	border-radius: 7px;
+}
+
+.openedProcessWrap .openedProcessText {
+	color: #1a2d67;
+}

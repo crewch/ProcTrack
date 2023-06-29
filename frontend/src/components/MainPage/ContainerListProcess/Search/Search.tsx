@@ -13,7 +13,7 @@ import { ISearchProps } from '../../../../interfaces/IMainPage/IContainerListPro
 import { FC } from 'react'
 import search from '../../../../assets/search.svg'
 import SettingsList from './SettingsList'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/Search.module.css'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/Search.module.scss'
 
 const Search: FC<ISearchProps> = ({
 	textForSearchProcess,
@@ -33,15 +33,7 @@ const Search: FC<ISearchProps> = ({
 				}
 				expandIcon={
 					<Box
-						className='clickedButtonSettingFlag'
-						sx={{
-							height: '42px',
-							width: '42px',
-							borderRadius: '8px',
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}
+						className={`clickedButtonSettingFlag ${styles.clickedButtonSettingIcon}`}
 					>
 						<TuneIcon />
 					</Box>
@@ -62,7 +54,7 @@ const Search: FC<ISearchProps> = ({
 							autoComplete='off'
 							variant='outlined'
 							InputProps={{
-								style: {
+								sx: {
 									borderRadius: '8px',
 									backgroundColor: '#E4E4E4',
 								},
@@ -80,7 +72,7 @@ const Search: FC<ISearchProps> = ({
 				/>
 			</AccordionSummary>
 			<AccordionDetails>
-				<Divider sx={{ mb: 1, borderWidth: 1 }} />
+				<Divider className={styles.divider} />
 				<SettingsList />
 			</AccordionDetails>
 		</Accordion>

@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import TextTegs from './TextTags/TextTags'
 import Pen from '/src/assets/pen.svg'
 import { FC } from 'react'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/HeaderProcessField.module.scss'
 
 const HeaderProcessField: FC<{
 	nameOfProcess: string
@@ -16,46 +17,22 @@ const HeaderProcessField: FC<{
 }) => {
 	const ProcessStatusImg =
 		statusOfProcess === 'в процессе' ? (
-			<img src='src/assets/inprogress.svg' style={{ height: '25px' }} />
+			<img src='src/assets/inprogress.svg' className={styles.img} />
 		) : statusOfProcess === 'отклонено' ? (
-			<img src='src/assets/rejected.svg' style={{ height: '25px' }} />
+			<img src='src/assets/rejected.svg' className={styles.img} />
 		) : (
-			<img src='src/assets/completed.svg' style={{ height: '25px' }} />
+			<img src='src/assets/completed.svg' className={styles.img} />
 		)
 
 	return (
 		<>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-				}}
-			>
-				<Box
-					sx={{ display: 'flex', justifyContent: 'space-between', mb: '2px' }}
-				>
-					<Typography
-						variant='h4'
-						sx={{
-							fontFamily: 'Montserrat',
-							fontWeight: 600,
-							fontSize: '32px',
-							color: '#1A2D67',
-							display: 'flex',
-							alignItems: 'center',
-							gap: 1,
-						}}
-					>
+			<Box className={styles.header}>
+				<Box className={styles.wrap}>
+					<Typography variant='h4' className={styles.typography}>
 						{`${nameOfProcess} `}
 						{ProcessStatusImg}
 					</Typography>
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'end',
-							alignItems: 'center',
-						}}
-					>
+					<Box className={styles.icon}>
 						<img src={Pen} />
 					</Box>
 				</Box>

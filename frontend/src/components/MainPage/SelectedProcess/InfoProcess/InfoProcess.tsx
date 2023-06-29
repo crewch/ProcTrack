@@ -6,6 +6,7 @@ import UploadButton from './UploadButton/UploadButton'
 import UserField from './UserField/UserField'
 import HeaderProcessField from './HeaderProcessField/HeaderProcessField'
 import FilesField from './FilesField/FilesField'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/InfoProcess.module.scss'
 
 const InfoProcess = () => {
 	const process: IInfoProcess = {
@@ -26,37 +27,25 @@ const InfoProcess = () => {
 		}
 	}
 
-	console.log(file)
-
 	return (
-		<Box
-			sx={{
-				height: '50%',
-				width: '100%',
-				backgroundColor: 'white',
-				borderRadius: '8px',
-				p: 2,
-				display: 'flex',
-				flexDirection: 'column',
-			}}
-		>
+		<Box className={styles.container}>
 			<HeaderProcessField
 				nameOfProcess={process.nameOfProcess}
 				statusOfProcess={process.statusOfProcess}
 				importanceOfProcess={process.importanceOfProcess}
 				typeOfProcess={process.typeOfProcess}
 			/>
-			<Divider sx={{ my: 1, borderWidth: 1 }} />
+			<Divider className={styles.divider} />
 			<DateInfo
 				startDate={process.startDateOfProcess}
 				endData={'ср, 27 декабря 2023 12:00'}
 				interval={process.intervalOfProcess}
 			/>
-			<Divider sx={{ mb: 1, borderWidth: 1 }} />
+			<Divider className={styles.divider} />
 			<UserField responsible={process.responsible} group={process.group} />
-			<Divider sx={{ my: 1, borderWidth: 1 }} />
+			<Divider className={styles.divider} />
 			<FilesField />
-			<Divider sx={{ my: 1, borderWidth: 1 }} />
+			<Divider className={styles.divider} />
 			<UploadButton handleFileChange={handleFileChange} />
 		</Box>
 	)

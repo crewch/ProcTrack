@@ -2,25 +2,25 @@ import { ListItem, ListItemButton, ListItemIcon, Tooltip } from '@mui/material'
 import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 import { IButtonListItem } from '../../interfaces/ILayout/IButtonListItem'
-import styles from '../../styles/LayoutStyles/ButtonListItem.module.css'
+import styles from '../../styles/LayoutStyles/ButtonListItemStyles/ButtonListItem.module.scss'
 
 const ButtonListItem: FC<IButtonListItem> = ({ src, to }) => {
 	return (
-		<ListItem disablePadding sx={{ mt: 1 }}>
+		<ListItem disablePadding className={styles.listItem}>
 			<NavLink
 				to={to}
-				style={{ width: '100%' }}
-				className={({ isActive }) => (isActive ? styles.activeStyle : '')}
+				className={({ isActive }) =>
+					isActive
+						? `${styles.activeStyle} ${styles.navLink}`
+						: `${styles.navLink}`
+				}
 			>
 				<Tooltip title={to} placement='right' arrow>
-					<ListItemButton sx={{ display: 'flex', justifyContent: 'center' }}>
+					<ListItemButton className={styles.listItemButton}>
 						<ListItemIcon
-							sx={{
-								p: '5px',
-							}}
-							className={styles.activeStyleButton}
+							className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
 						>
-							<img src={src} height='50px' width='49px' />
+							<img src={src} className={styles.img} />
 						</ListItemIcon>
 					</ListItemButton>
 				</Tooltip>

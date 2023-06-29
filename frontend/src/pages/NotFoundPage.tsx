@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
-import NotFound from '../assets/notFound.svg'
 import { Navigate, useNavigate } from 'react-router-dom'
+import styles from '../styles/NotFoundPageStyles/NotFoundPage.module.scss'
 
 const NotFoundPage = () => {
 	const navigation = useNavigate()
@@ -9,38 +9,14 @@ const NotFoundPage = () => {
 	}
 
 	return (
-		<Box
-			component='main'
-			sx={{
-				height: '100%',
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}
-		>
-			<img src={NotFound} height='421.19px' width='833px' />
-			<Typography
-				component='h1'
-				sx={{
-					color: '#333333',
-					fontFamily: 'Montserrat',
-					fontWeight: 600,
-					m: 1,
-					fontSize: '64px',
-				}}
-			>
+		<Box component='main' className={styles.main}>
+			<img src='/src/assets/notFound.svg' className={styles.imgNotFound} />
+			<Typography component='h1' className={styles.typography}>
 				Страница не найдена
 			</Typography>
 			<Button
 				disableRipple
-				sx={{
-					m: 2,
-					width: '307px',
-					height: '104px',
-					borderRadius: '13px',
-					backgroundColor: '#5C98D0',
-				}}
+				className={styles.btn}
 				variant='contained'
 				onClick={() => navigation('/')}
 			>

@@ -1,59 +1,26 @@
 import { Box, Typography } from '@mui/material'
 import { FC } from 'react'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/UserFieldStyles/UserField.module.scss'
 
 const UserField: FC<{ group: string; responsible: string }> = ({
 	group,
 	responsible,
 }) => {
 	return (
-		<Box sx={{ display: 'flex', gap: 1 }}>
-			<Box
-				sx={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}
-			>
-				<img height='38px' src='/src/assets/user1.svg' />
+		<Box className={styles.userField}>
+			<Box className={styles.wrapIcon}>
+				<img className={styles.icon} src='/src/assets/user2.svg' />
 			</Box>
-			<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-				<Typography
-					variant='h6'
-					sx={{
-						fontFamily: 'Montserrat',
-						fontWeight: '600',
-						fontSize: '20px',
-						color: '#333333',
-					}}
-				>
+			<Box className={styles.wrapUserInfo}>
+				<Typography variant='h6' className={styles.title}>
 					Ответственный
 				</Typography>
-				<Box sx={{ display: 'flex', gap: 1 }}>
-					<Typography
-						variant='body1'
-						sx={{
-							fontSize: '14px',
-							color: '#333333',
-						}}
-					>
+				<Box className={styles.descriptions}>
+					<Typography variant='body1' className={styles.responsible}>
 						{responsible}
 					</Typography>
-					<Box
-						sx={{
-							display: 'flex',
-							alignItems: 'center',
-							backgroundColor: '#ECECEC',
-							px: '2px',
-							borderRadius: '3px',
-						}}
-					>
-						<Typography
-							variant='body2'
-							sx={{
-								fontSize: '12px',
-								color: '#333333',
-							}}
-						>
+					<Box className={styles.wrapGroup}>
+						<Typography variant='body2' className={styles.group}>
 							{group}
 						</Typography>
 					</Box>
