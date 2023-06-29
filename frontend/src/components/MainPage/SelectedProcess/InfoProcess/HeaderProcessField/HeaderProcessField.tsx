@@ -16,11 +16,11 @@ const HeaderProcessField: FC<{
 }) => {
 	const ProcessStatusImg =
 		statusOfProcess === 'в процессе' ? (
-			<img src='src/assets/inprogress.svg' />
+			<img src='src/assets/inprogress.svg' style={{ height: '25px' }} />
 		) : statusOfProcess === 'отклонено' ? (
-			<img src='src/assets/rejected.svg' />
+			<img src='src/assets/rejected.svg' style={{ height: '25px' }} />
 		) : (
-			<img src='src/assets/completed.svg' />
+			<img src='src/assets/completed.svg' style={{ height: '25px' }} />
 		)
 
 	return (
@@ -41,6 +41,9 @@ const HeaderProcessField: FC<{
 							fontWeight: 600,
 							fontSize: '32px',
 							color: '#1A2D67',
+							display: 'flex',
+							alignItems: 'center',
+							gap: 1,
 						}}
 					>
 						{`${nameOfProcess} `}

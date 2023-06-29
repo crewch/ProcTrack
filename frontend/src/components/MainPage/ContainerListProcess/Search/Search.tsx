@@ -20,7 +20,11 @@ const Search: FC<ISearchProps> = ({
 	setTextForSearchProcess,
 }) => {
 	return (
-		<Accordion>
+		<Accordion
+			sx={{
+				boxShadow: 'none',
+			}}
+		>
 			<AccordionSummary
 				onClick={() =>
 					document

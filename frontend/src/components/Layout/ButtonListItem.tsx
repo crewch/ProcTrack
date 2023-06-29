@@ -7,12 +7,12 @@ import styles from '../../styles/LayoutStyles/ButtonListItem.module.css'
 const ButtonListItem: FC<IButtonListItem> = ({ src, to }) => {
 	return (
 		<ListItem disablePadding sx={{ mt: 1 }}>
-			<Tooltip title={to} placement='right' arrow>
-				<NavLink
-					to={to}
-					style={{ width: '100%' }}
-					className={({ isActive }) => (isActive ? styles.activeStyle : '')}
-				>
+			<NavLink
+				to={to}
+				style={{ width: '100%' }}
+				className={({ isActive }) => (isActive ? styles.activeStyle : '')}
+			>
+				<Tooltip title={to} placement='right' arrow>
 					<ListItemButton sx={{ display: 'flex', justifyContent: 'center' }}>
 						<ListItemIcon
 							sx={{
@@ -23,8 +23,8 @@ const ButtonListItem: FC<IButtonListItem> = ({ src, to }) => {
 							<img src={src} height='50px' width='49px' />
 						</ListItemIcon>
 					</ListItemButton>
-				</NavLink>
-			</Tooltip>
+				</Tooltip>
+			</NavLink>
 		</ListItem>
 	)
 }

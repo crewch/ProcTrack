@@ -1,7 +1,6 @@
 import {
 	List,
 	ListItem,
-	ListItemAvatar,
 	ListItemButton,
 	ListItemText,
 	Typography,
@@ -66,9 +65,10 @@ const ListProcess: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 					className={(() =>
 						openedProcess === process.name ? styles.openedProcessWrap : '')()}
 				>
-					<ListItemAvatar sx={{ display: 'flex', justifyContent: 'center' }}>
-						<img src={`src/assets/${process.status}.svg`} />
-					</ListItemAvatar>
+					<img
+						src={`src/assets/${process.status}.svg`}
+						style={{ marginRight: '14px', marginLeft: '6px' }}
+					/>
 					<ListItemButton
 						className={styles.openedProcess}
 						onClick={() =>

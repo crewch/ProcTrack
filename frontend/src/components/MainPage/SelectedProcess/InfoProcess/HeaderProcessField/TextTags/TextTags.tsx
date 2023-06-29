@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import TextTeg from './TextTag'
 import { FC } from 'react'
-import { ITextTagsProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/ITextTags/ITextTagsProps'
+import { ITextTagsProps } from '../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/ITextTags/ITextTagsProps'
 
 const TextTags: FC<ITextTagsProps> = ({ importance, status, type }) => {
 	return (

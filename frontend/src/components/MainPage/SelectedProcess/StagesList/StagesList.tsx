@@ -60,9 +60,10 @@ const StagesList = () => {
 						className={(() =>
 							openedStage === stage.name ? styles.openedProcessWrap : '')()}
 					>
-						<ListItemAvatar sx={{ display: 'flex', justifyContent: 'center' }}>
-							<img src={`src/assets/${stage.status}.svg`} />
-						</ListItemAvatar>
+						<img
+							src={`src/assets/${stage.status}.svg`}
+							style={{ marginRight: '14px', marginLeft: '6px' }}
+						/>
 						<ListItemButton
 							className={styles.openedProcess}
 							onClick={() => dispatch(changeOpenedStage({ name: stage.name }))}

@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material'
+import { Box, Button, Divider } from '@mui/material'
 import { useState } from 'react'
 import Search from './Search/Search'
 import ListProccess from './ListProcess/ListProcess'
@@ -22,6 +22,7 @@ const ContainerListProcess = () => {
 				textForSearchProcess={textForSearchProcess}
 				setTextForSearchProcess={setTextForSearchProcess}
 			/>
+			<Divider variant='middle' sx={{ mb: 1, borderWidth: 1 }} />
 			<ListProccess textForSearchProcess={textForSearchProcess} />
 			<Button
 				sx={{
