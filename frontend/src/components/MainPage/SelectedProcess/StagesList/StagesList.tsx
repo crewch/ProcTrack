@@ -67,7 +67,7 @@ const StagesList = () => {
 					</ListItem>
 				))}
 			</List>
-			<TableDialog />
+			<TableDialog>{/* TODO: доделать таблицу */}</TableDialog>
 		</Box>
 	)
 }

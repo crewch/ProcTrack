@@ -6,10 +6,11 @@ import Typography from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/Close'
 import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
-import { forwardRef, useState } from 'react'
+import { FC, forwardRef, useState } from 'react'
 import Button from '@mui/material/Button'
 import { Box, Divider } from '@mui/material'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/TableDialog/TableDialog.module.scss'
+import { ITableDialogProps } from '../../../../interfaces/IMainPage/ISelectedProcess/ITableDialog/ITableDialog'
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -20,7 +21,7 @@ const Transition = forwardRef(function Transition(
 	return <Slide direction='up' ref={ref} {...props} />
 })
 
-function TableDialog() {
+const TableDialog: FC<ITableDialogProps> = ({ children }) => {
 	const [open, setOpen] = useState(false)
 
 	const handleClickOpen = () => {
@@ -32,7 +33,7 @@ function TableDialog() {
 	}
 
 	return (
-		<Box>
+		<Box className={styles.wrap}>
 			<Button
 				className={styles.btn}
 				variant='contained'
@@ -64,6 +65,7 @@ function TableDialog() {
 				</AppBar>
 				<Box className={styles.main} component='main'>
 					<Divider className={styles.divider} />
+					{children}
 				</Box>
 			</Dialog>
 		</Box>

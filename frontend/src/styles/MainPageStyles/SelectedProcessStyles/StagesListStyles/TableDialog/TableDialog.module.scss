@@ -1,3 +1,16 @@
+.wrap {
+	.btn {
+		@apply rounded-[5px] bg-[#ECECEC] text-[#333333] shadow-none text-[14px] normal-case hover:bg-[transparent] self-start;
+	}
+}
+.main {
+	@apply h-full;
+
+	.divider {
+		@apply border-[1px] border-[#e0e0e0];
+	}
+}
+
 .toolbar {
 	@apply bg-white;
 
@@ -7,17 +20,5 @@
 
 	.title {
 		@apply ml-3 flex-1 text-[#1A2D67] font-[Montserrat] font-semibold text-[28px];
-	}
-}
-
-.btn {
-	@apply rounded-[5px] bg-[#ECECEC] text-[#333333] shadow-none text-[14px] normal-case hover:bg-[transparent] self-start;
-}
-
-.main {
-	@apply h-full;
-
-	.divider {
-		@apply border-[1px] border-[#e0e0e0];
 	}
 }

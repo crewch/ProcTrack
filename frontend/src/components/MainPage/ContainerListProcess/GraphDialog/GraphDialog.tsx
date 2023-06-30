@@ -6,11 +6,12 @@ import Typography from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/Close'
 import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
-import { forwardRef, useState } from 'react'
+import { FC, forwardRef, useState } from 'react'
 import Button from '@mui/material/Button'
 import stylesContainer from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/GraphDialog/GraphDialog.module.scss'
 import { Box, Divider } from '@mui/material'
+import { IGraphDialogProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IGraphDialogProps/IGraphDialogProps'
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -21,7 +22,7 @@ const Transition = forwardRef(function Transition(
 	return <Slide direction='up' ref={ref} {...props} />
 })
 
-function GraphDialog() {
+const GraphDialog: FC<IGraphDialogProps> = ({ children }) => {
 	const [open, setOpen] = useState(false)
 
 	const handleClickOpen = () => {
@@ -65,6 +66,7 @@ function GraphDialog() {
 				</AppBar>
 				<Box className={styles.main} component='main'>
 					<Divider className={styles.divider} />
+					{children}
 				</Box>
 			</Dialog>
 		</Box>

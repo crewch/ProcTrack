@@ -1,0 +1,9 @@
+.container {
+	@apply rounded-[5px] w-[180px] h-[38px];
+
+	.btn {
+		@apply bg-[#ECECEC] text-[#333] w-[180px] text-[14px] h-[38px] normal-case hover:bg-transparent;
+
+		box-shadow: none;
+	}
+}
