@@ -51,8 +51,9 @@ const ListProcess: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 			)}
 			{searchedListProcess.map((process, index) => (
 				<ListItem
+					disablePadding
 					key={index}
-					sx={{ pl: 1 }}
+					sx={{ pl: 1, pr: 1.5, py: 0.3 }}
 					className={(() =>
 						openedProcess === process.name ? styles.openedProcessWrap : '')()}
 				>

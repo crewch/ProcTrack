@@ -38,8 +38,9 @@ const StagesList = () => {
 			<List className={styles.list}>
 				{stagesList.map((stage, index) => (
 					<ListItem
+						disablePadding
 						key={index}
-						sx={{ pl: 0 }}
+						sx={{ pl: 0, pr: 1.5, py: 0.3 }}
 						className={(() =>
 							openedStage === stage.name ? styles.openedProcessWrap : '')()}
 					>

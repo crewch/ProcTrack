@@ -1,13 +1,9 @@
 import { Box } from '@mui/material'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/FilesFieldStyles/FilesField.module.scss'
 
 const FilesField = () => {
 	return (
-		<Box
-			sx={{
-				height: '60px',
-				backgroundColor: '#ECECEC',
-			}}
-		>
+		<Box className={styles.container}>
 			{/**
 			 * TODO: доделать
 			 */}
