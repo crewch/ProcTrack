@@ -10,15 +10,19 @@ import {
 } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune'
 import { ISearchProps } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import search from '../../../../assets/search.svg'
 import SettingsList from './SettingsList'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/Search.module.scss'
+import searchSetting from '/src/assets/searchSetting.svg'
+import searchSettingBlue from '/src/assets/searchSettingBlue.svg'
 
 const Search: FC<ISearchProps> = ({
 	textForSearchProcess,
 	setTextForSearchProcess,
 }) => {
+	const [isOpen, setIsOpen] = useState(false)
+
 	return (
 		<Accordion
 			sx={{
@@ -26,16 +30,21 @@ const Search: FC<ISearchProps> = ({
 			}}
 		>
 			<AccordionSummary
-				onClick={() =>
+				onClick={() => {
+					setIsOpen(!isOpen)
 					document
 						.querySelector('.clickedButtonSettingFlag')
 						?.classList.toggle(styles.clickedButtonSetting)
-				}
+				}}
 				expandIcon={
 					<Box
-						className={`clickedButtonSettingFlag ${styles.clickedButtonSettingIcon}`}
+						className={`clickedButtonSettingFlag  ${styles.clickedButtonSettingIcon}`}
 					>
-						<TuneIcon />
+						{isOpen ? (
+							<img src={searchSettingBlue} />
+						) : (
+							<img src={searchSetting} />
+						)}
 					</Box>
 				}
 			>

@@ -1,12 +1,12 @@
-import { Box, Button, Divider } from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import { useState } from 'react'
 import Search from './Search/Search'
 import ListProccess from './ListProcess/ListProcess'
+import GraphDialog from './GraphDialog/GraphDialog'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
 
 const ContainerListProcess = () => {
 	const [textForSearchProcess, setTextForSearchProcess] = useState('')
-
 	return (
 		<Box className={styles.containerListProcess}>
 			<Search
@@ -15,13 +15,7 @@ const ContainerListProcess = () => {
 			/>
 			<Divider variant='middle' className={styles.divider} />
 			<ListProccess textForSearchProcess={textForSearchProcess} />
-			<Button
-				className={styles.btn}
-				variant='contained'
-				endIcon={<img src='/src/assets/graph.svg' />}
-			>
-				графовое представление
-			</Button>
+			<GraphDialog />
 		</Box>
 	)
 }

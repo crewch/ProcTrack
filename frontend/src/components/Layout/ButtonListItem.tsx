@@ -9,21 +9,30 @@ const ButtonListItem: FC<IButtonListItem> = ({ src, to }) => {
 		<ListItem disablePadding className={styles.listItem}>
 			<NavLink
 				to={to}
-				className={({ isActive }) =>
-					isActive
+				className={({ isActive }) => {
+					return isActive
 						? `${styles.activeStyle} ${styles.navLink}`
 						: `${styles.navLink}`
-				}
+				}}
 			>
-				<Tooltip title={to} placement='right' arrow>
-					<ListItemButton className={styles.listItemButton}>
-						<ListItemIcon
-							className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
-						>
-							<img src={src} className={styles.img} />
-						</ListItemIcon>
-					</ListItemButton>
-				</Tooltip>
+				{({ isActive }) => (
+					<Tooltip title={to} placement='right' arrow>
+						<ListItemButton className={styles.listItemButton}>
+							<ListItemIcon
+								className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
+							>
+								{isActive ? (
+									<img
+										src={`${src.slice(0, -4)}Blue.svg`}
+										className={styles.img}
+									/>
+								) : (
+									<img src={src} className={styles.img} />
+								)}
+							</ListItemIcon>
+						</ListItemButton>
+					</Tooltip>
+				)}
 			</NavLink>
 		</ListItem>
 	)

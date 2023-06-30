@@ -1,0 +1,19 @@
+.toolbar {
+	@apply bg-white;
+
+	.icon {
+		@apply text-[#7c7c7c] h-[25px] w-[25px];
+	}
+
+	.title {
+		@apply ml-3 flex-1 text-[#1A2D67] font-[Montserrat] font-semibold text-[28px];
+	}
+}
+
+.main {
+	@apply h-full;
+
+	.divider {
+		@apply border-[1px] border-[#e0e0e0];
+	}
+}

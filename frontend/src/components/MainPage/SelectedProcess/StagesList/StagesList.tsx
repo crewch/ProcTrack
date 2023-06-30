@@ -1,6 +1,5 @@
 import {
 	Box,
-	Button,
 	List,
 	ListItem,
 	ListItemButton,
@@ -10,6 +9,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedStage } from '../../../../store/processSlice/processSlice'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.scss'
+import TableDialog from '../TableDialog/TableDialog'
 
 const StagesList = () => {
 	const openedStage = useAppSelector(state => state.processes.openedStage)
@@ -67,13 +67,7 @@ const StagesList = () => {
 					</ListItem>
 				))}
 			</List>
-			<Button
-				className={styles.btn}
-				variant='contained'
-				endIcon={<img src='/src/assets/table.svg' />}
-			>
-				табличное представление
-			</Button>
+			<TableDialog />
 		</Box>
 	)
 }
