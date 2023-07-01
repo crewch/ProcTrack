@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedStage } from '../../../../store/processSlice/processSlice'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.scss'
 import DataDialog from '../../ContainerListProcess/DataDialog/DataDialog'
+import DataTable from '../../Dialogs/DataTable/DataTable'
 
 const StagesList = () => {
 	const openedStage = useAppSelector(state => state.processes.openedStage)
@@ -67,7 +68,9 @@ const StagesList = () => {
 					</ListItem>
 				))}
 			</List>
-			<DataDialog title='Tабличное представление' icon='table' />
+			<DataDialog title='Tабличное представление' icon='table'>
+				<DataTable />
+			</DataDialog>
 		</Box>
 	)
 }
