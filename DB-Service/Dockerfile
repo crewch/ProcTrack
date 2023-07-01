@@ -19,4 +19,4 @@ RUN dotnet publish "DB-Service.csproj" -c Release -o /app/publish /p:UseAppHost=
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "DB-Service.dll"]
+ENTRYPOINT ["dotnet", "DB-Service.dll", "--console"]

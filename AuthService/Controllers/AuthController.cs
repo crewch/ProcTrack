@@ -9,7 +9,7 @@ using AuthService.Dtos;
 
 namespace AuthService.Controllers
 {
-    [Route("api/[controller]/")]
+    [Route("[controller]/")]
     [ApiController]
     [EnableCors("cors")]
     public class AuthController : ControllerBase
@@ -25,38 +25,38 @@ namespace AuthService.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        public async Task<UserToken> Login(UserLoginPasswordDto userLogin)
-        {
-            var res = await _service.Login(userLogin);
-            return res;
-        }
+        //[HttpPost]
+        //public async Task<UserToken> Login(UserLoginPasswordDto userLogin)
+        //{
+        //    var res = await _service.Login(userLogin);
+        //    return res;
+        //}
 
-        [Route("debug")]
-        [HttpGet]
-        public IActionResult GetUsersWithRoles()
-        {
-            var usersWithRoles = _context.Users
-                .Include(u => u.UserRoles)
-                    .ThenInclude(ur => ur.Role)
-                .ToList();
+        //[Route("debug")]
+        //[HttpGet]
+        //public IActionResult GetUsersWithRoles()
+        //{
+        //    var usersWithRoles = _context.Users
+        //        .Include(u => u.UserRoles)
+        //            .ThenInclude(ur => ur.Role)
+        //        .ToList();
 
-            var result = new List<UserWithRoles>();
+        //    var result = new List<UserWithRoles>();
 
-            foreach (var user in usersWithRoles)
-            {
-                var dto = new UserWithRoles()
-                {
-                    Id = user.Id,
-                    UserName = user.LongName,
-                    Email = user.Email,
-                    Roles = user.UserRoles.Select(ur => ur.Role.Title).ToList()
-                };
+        //    foreach (var user in usersWithRoles)
+        //    {
+        //        var dto = new UserWithRoles()
+        //        {
+        //            Id = user.Id,
+        //            UserName = user.LongName,
+        //            Email = user.Email,
+        //            Roles = user.UserRoles.Select(ur => ur.Role.Title).ToList()
+        //        };
 
-                result.Add(dto);
-            }
+        //        result.Add(dto);
+        //    }
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
     }
 }

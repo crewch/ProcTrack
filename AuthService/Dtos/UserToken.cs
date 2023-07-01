@@ -6,3 +6,5 @@
         public string Token { get; set; }
     }
 }
+
+// Delete (LDAP + Active Directory)

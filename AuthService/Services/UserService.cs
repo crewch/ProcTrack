@@ -13,21 +13,39 @@ namespace AuthService.Services
             _context = context;
         }
 
-        public Task<UserWithRoles> GetUserByLogin(UserLoginDto data)
+        public Task<UserDto> GetUserById(int id)
         {
-            var userWithRoles = _context.Users
-                .Where(u => u.Email == data.Email)
-                .Include(u => u.UserRoles)
-                    .ThenInclude(ur => ur.Role)
+            var user = _context.Users
+                .Include(u => u.Roles)
+                .Where(u => u.Id == id)
                 .FirstOrDefault();
-            var result = new UserWithRoles()
+
+            var userDto = new UserDto
             {
-                Id = userWithRoles.Id,
-                Email = userWithRoles.Email,
-                UserName = userWithRoles.LongName,
-                Roles = userWithRoles.Roles.Select(ur => ur.Title).ToList()
+                Id = user.Id,
+                Email = user.Email,
+                LongName = user.LongName,
+                ShortName = user.ShortName,
+                Roles = user.Roles.Select(r => r.Title).ToList(),
             };
-            return Task.FromResult(result);
+            return Task.FromResult(userDto);
         }
+
+        //public Task<UserWithRoles> GetUserByLogin(UserEmailDto data)
+        //{
+        //    var userWithRoles = _context.Users
+        //        .Where(u => u.Email == data.Email)
+        //        .Include(u => u.UserRoles)
+        //            .ThenInclude(ur => ur.Role)
+        //        .FirstOrDefault();
+        //    var result = new UserWithRoles()
+        //    {
+        //        Id = userWithRoles.Id,
+        //        Email = userWithRoles.Email,
+        //        UserName = userWithRoles.LongName,
+        //        Roles = userWithRoles.Roles.Select(ur => ur.Title).ToList()
+        //    };
+        //    return Task.FromResult(result);
+        //}
     }
 }

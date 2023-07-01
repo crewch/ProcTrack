@@ -10,8 +10,6 @@ namespace DB_Service.Data
         { 
         }
         
-        public DbSet<Message> Messages { get; set; }
-        
         public DbSet<Comment> Comments { get; set; }
         
         public DbSet<Dependence> Dependences { get; set; }
@@ -127,32 +125,3 @@ namespace DB_Service.Data
         }
     }
 }
-
-// у одного status может быть много stage
-// у одного task мб много comments
-// у одного stage мб много edge (x2)
-// у одного stage мб много task
-// у одного stage мб много dependence (x2) +
-// у одного proc мб много Stage
-// у одного proc мб много Passport
-// у одного priority мб много proc
-// у одного type мб много proc
-
-// у process head 1 к 1 stage 
-//         - tail
-
-
-//protected override void OnModelCreating(ModelBuilder modelBuilder)
-//        {
-//            modelBuilder
-//                .Entity<Platform>()
-//                .HasMany(p => p.Commands)             HasMany указывает, что у одной платформы может быть много команд, 
-//                .WithOne(p=> p.Platform!)             а метод WithOne - что каждая команда должна иметь только одну платформу.
-//                .HasForeignKey(p => p.PlatformId);    Метод HasForeignKey задает внешний ключ для связи между таблицами.
-
-//            modelBuilder
-//                .Entity<Command>()                    
-//                .HasOne(p => p.Platform)              метод HasOne указывает, что каждая команда имеет только одну платформу
-//                .WithMany(p => p.Commands)            метод WithMany - что у каждой платформы может быть много команд
-//                .HasForeignKey(p =>p.PlatformId);     метод HasForeignKey, чтобы задать внешний ключ для связи между таблицами
-//        }

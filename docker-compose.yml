@@ -2,6 +2,19 @@ version: '3.7'
 
 services:
 
+  proxy:
+    build: 
+      context: .
+      dockerfile: nginx.dockerfile
+    expose:
+      - "80"
+    ports:
+      - "8000:80"
+    networks:
+      - api_network
+    depends_on:
+      - db-service
+
   db-service:
     image: ${DOCKER_REGISTRY-}dbservice
     build: 

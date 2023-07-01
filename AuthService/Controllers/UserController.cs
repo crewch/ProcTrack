@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.Controllers
 {
-    [Route("api/[controller]/")]
+    [Route("[controller]/")]
     [ApiController]
     [EnableCors("cors")]
     public class UserController : Controller
@@ -17,12 +17,19 @@ namespace AuthService.Controllers
             _service = service;
         }
 
-        [Route("userWithRoles")]
-        [HttpPost]
-        public async Task<ActionResult<UserWithRoles>> GetUser(UserLoginDto data)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
-            var res = await _service.GetUserByLogin(data);
-            return res;
+            var res = await _service.GetUserById(id);
+            return Ok(res);
         }
+
+        //[Route("userWithRoles")]
+        //[HttpPost]
+        //public async Task<ActionResult<UserWithRoles>> GetUser(UserEmailDto data)
+        //{
+        //    var res = await _service.GetUserByLogin(data);
+        //    return res;
+        //}
     }
 }

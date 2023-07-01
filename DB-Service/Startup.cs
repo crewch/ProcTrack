@@ -31,7 +31,19 @@ namespace DB_Service
                     connectionString
                 )
             );
-            services.AddScoped<IDataService, DataService>();
+            services.AddCors(c => c.AddPolicy("cors", opt =>
+            {
+                opt.AllowAnyHeader();
+                opt.AllowCredentials();
+                opt.AllowAnyMethod();
+                opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
+            }));
+            
+            services.AddScoped<IProcessService, ProcessService>();
+            services.AddScoped<IPropertyService, PropertyService>();
+            services.AddScoped<IStageService, StageService>();
+            services.AddScoped<ITaskService, TaskService>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,6 +56,7 @@ namespace DB_Service
             }
             app.UseRouting();
             app.UseAuthorization();
+            app.UseCors();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
