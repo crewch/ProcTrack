@@ -8,9 +8,10 @@ import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
 import { FC, forwardRef, useState } from 'react'
 import Button from '@mui/material/Button'
+// import stylesContainer from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialog/DataDialog.module.scss'
 import { Box, Divider } from '@mui/material'
-import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/TableDialog/TableDialog.module.scss'
-import { ITableDialogProps } from '../../../../interfaces/IMainPage/ISelectedProcess/ITableDialog/ITableDialog'
+import { IDialogProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IDialogProps/IDialogProps'
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -21,7 +22,7 @@ const Transition = forwardRef(function Transition(
 	return <Slide direction='up' ref={ref} {...props} />
 })
 
-const TableDialog: FC<ITableDialogProps> = ({ children }) => {
+const DataDialog: FC<IDialogProps> = ({ children, title, icon }) => {
 	const [open, setOpen] = useState(false)
 
 	const handleClickOpen = () => {
@@ -33,14 +34,24 @@ const TableDialog: FC<ITableDialogProps> = ({ children }) => {
 	}
 
 	return (
-		<Box className={styles.wrap}>
+		<Box>
 			<Button
-				className={styles.btn}
 				variant='contained'
-				endIcon={<img src='/src/assets/graph.svg' />}
+				endIcon={<img src={`/src/assets/${icon}.svg`} />}
 				onClick={handleClickOpen}
+				sx={{
+					borderRadius: '5px',
+					backgroundColor: '#ECECEC',
+					color: '#333333',
+					boxShadow: 'none',
+					fontSize: '14px',
+					textTransform: 'none',
+					'&:hover': {
+						backgroundColor: 'transparent',
+					},
+				}}
 			>
-				табличное представление
+				{title}
 			</Button>
 			<Dialog
 				fullScreen
@@ -59,7 +70,7 @@ const TableDialog: FC<ITableDialogProps> = ({ children }) => {
 							<CloseIcon className={styles.icon} />
 						</IconButton>
 						<Typography className={styles.title} variant='h6' component='div'>
-							Графовое представление
+							{title}
 						</Typography>
 					</Toolbar>
 				</AppBar>
@@ -72,4 +83,4 @@ const TableDialog: FC<ITableDialogProps> = ({ children }) => {
 	)
 }
 
-export default TableDialog
+export default DataDialog

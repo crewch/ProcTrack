@@ -2,7 +2,7 @@ import { Box, Divider } from '@mui/material'
 import { useState } from 'react'
 import Search from './Search/Search'
 import ListProccess from './ListProcess/ListProcess'
-import GraphDialog from './GraphDialog/GraphDialog'
+import DataDialog from './DataDialog/DataDialog'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
 
 const ContainerListProcess = () => {
@@ -15,7 +15,7 @@ const ContainerListProcess = () => {
 			/>
 			<Divider variant='middle' className={styles.divider} />
 			<ListProccess textForSearchProcess={textForSearchProcess} />
-			<GraphDialog />
+			<DataDialog title='Графовое представление' icon='graph' />
 		</Box>
 	)
 }
