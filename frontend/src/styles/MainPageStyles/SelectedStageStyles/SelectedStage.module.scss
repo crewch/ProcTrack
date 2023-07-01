@@ -1,3 +1,7 @@
 .selectedStage {
-	@apply h-full w-[39%] bg-white rounded-[8px] p-2;
+	@apply h-full w-[39%] bg-white rounded-[8px] p-[12px] flex flex-col;
+
+	.divider {
+		@apply border my-2;
+	}
 }

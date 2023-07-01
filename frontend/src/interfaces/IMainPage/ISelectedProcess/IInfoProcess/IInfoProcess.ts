@@ -1,10 +1,11 @@
 export interface IInfoProcess {
-	nameOfProcess: string
-	statusOfProcess: 'в процессе' | 'заврешено' | 'отклонено'
-	typeOfProcess: string
-	importanceOfProcess: string
-	startDateOfProcess: string
-	intervalOfProcess: string
+	name: string
+	status: 'в процессе' | 'заврешено' | 'отклонено'
+	type: string
+	importance: string
+	startDate: string
+	interval: string
 	responsible: string
 	group: string
+	role: string
 }

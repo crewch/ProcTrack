@@ -14,10 +14,12 @@ const DateInfo: FC<IDataInfoProps> = ({ startDate, endData, interval }) => {
 				<Typography className={styles.typography1}>Дата окончания</Typography>
 				<Typography className={styles.typography2}>{endData}</Typography>
 			</Box>
-			<Box className={styles.container}>
-				<Typography className={styles.typography1}>Осталось</Typography>
-				<Typography className={styles.typography2}>{interval}</Typography>
-			</Box>
+			{interval && (
+				<Box className={styles.container}>
+					<Typography className={styles.typography1}>Осталось</Typography>
+					<Typography className={styles.typography2}>{interval}</Typography>
+				</Box>
+			)}
 		</>
 	)
 }

@@ -1,27 +1,23 @@
 import { Box, Typography } from '@mui/material'
-import TextTegs from './TextTags/TextTags'
 import Pen from '/src/assets/pen.svg'
 import { FC } from 'react'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/HeaderProcessField.module.scss'
+import TextTags from './TextTags/TextTags'
 
-const HeaderProcessField: FC<{
-	nameOfProcess: string
-	statusOfProcess: string
-	importanceOfProcess: string
-	typeOfProcess: string
-}> = ({
-	nameOfProcess,
-	statusOfProcess,
-	importanceOfProcess,
-	typeOfProcess,
-}) => {
+const HeaderField: FC<{
+	name: string
+	status: string
+	nameOfGroup: string
+}> = ({ name, status, nameOfGroup }) => {
 	const ProcessStatusImg =
-		statusOfProcess === 'в процессе' ? (
+		status === 'в процессе' ? (
 			<img src='src/assets/inprogress.svg' className={styles.img} />
-		) : statusOfProcess === 'отклонено' ? (
+		) : status === 'отклонено' ? (
 			<img src='src/assets/rejected.svg' className={styles.img} />
 		) : (
-			<img src='src/assets/completed.svg' className={styles.img} />
+			status === 'согласован с замечаниями' && (
+				<img src='src/assets/completed.svg' className={styles.img} />
+			)
 		)
 
 	return (
@@ -29,7 +25,7 @@ const HeaderProcessField: FC<{
 			<Box className={styles.header}>
 				<Box className={styles.wrap}>
 					<Typography variant='h4' className={styles.typography}>
-						{`${nameOfProcess} `}
+						{`${name} `}
 						{ProcessStatusImg}
 					</Typography>
 					<Box className={styles.icon}>
@@ -37,13 +33,9 @@ const HeaderProcessField: FC<{
 					</Box>
 				</Box>
 			</Box>
-			<TextTegs
-				importance={importanceOfProcess}
-				status={statusOfProcess}
-				type={typeOfProcess}
-			/>
+			<TextTags status={status} nameOfGroup={nameOfGroup} />
 		</>
 	)
 }
 
-export default HeaderProcessField
+export default HeaderField

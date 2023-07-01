@@ -4,20 +4,21 @@ import DateInfo from './DateInfoField/DateInfo'
 import { ChangeEvent, useState } from 'react'
 import UploadButton from './UploadButton/UploadButton'
 import UserField from './UserField/UserField'
-import HeaderProcessField from './HeaderProcessField/HeaderProcessField'
+import HeaderField from './HeaderProcessField/HeaderField'
 import FilesField from './FilesField/FilesField'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/InfoProcess.module.scss'
 
 const InfoProcess = () => {
 	const process: IInfoProcess = {
-		nameOfProcess: 'Первый процесс',
-		statusOfProcess: 'в процессе',
-		typeOfProcess: 'первый тип',
-		importanceOfProcess: 'средняя важность',
-		startDateOfProcess: 'пт, 22 декабря 2023 16:30',
-		intervalOfProcess: '3 дня 2 часа 11 минут',
+		name: 'Первый процесс',
+		status: 'в процессе',
+		type: 'первый тип',
+		importance: 'средняя важность',
+		startDate: 'пт, 22 декабря 2023 16:30',
+		interval: '3 дня 2 часа 11 минут',
 		responsible: 'Соколов Арсений',
 		group: 'группа выпускающего',
+		role: 'Ответственный',
 	}
 
 	const [file, setFile] = useState<File>()
@@ -29,20 +30,24 @@ const InfoProcess = () => {
 
 	return (
 		<Box className={styles.container}>
-			<HeaderProcessField
-				nameOfProcess={process.nameOfProcess}
-				statusOfProcess={process.statusOfProcess}
-				importanceOfProcess={process.importanceOfProcess}
-				typeOfProcess={process.typeOfProcess}
+			<HeaderField
+				name={process.name}
+				status={process.status}
+				importance={process.importance}
+				type={process.type}
 			/>
 			<Divider className={styles.divider} />
 			<DateInfo
-				startDate={process.startDateOfProcess}
+				startDate={process.startDate}
 				endData={'ср, 27 декабря 2023 12:00'}
-				interval={process.intervalOfProcess}
+				interval={process.interval}
 			/>
 			<Divider className={styles.divider} />
-			<UserField responsible={process.responsible} group={process.group} />
+			<UserField
+				responsible={process.responsible}
+				group={process.group}
+				role={process.role}
+			/>
 			<Divider className={styles.divider} />
 			<FilesField />
 			<Divider className={styles.divider} />

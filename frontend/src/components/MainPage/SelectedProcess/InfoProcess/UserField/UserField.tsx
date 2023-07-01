@@ -2,9 +2,10 @@ import { Box, Typography } from '@mui/material'
 import { FC } from 'react'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/UserFieldStyles/UserField.module.scss'
 
-const UserField: FC<{ group: string; responsible: string }> = ({
+const UserField: FC<{ group: string; responsible: string; role: string }> = ({
 	group,
 	responsible,
+	role,
 }) => {
 	return (
 		<Box className={styles.userField}>
@@ -13,7 +14,7 @@ const UserField: FC<{ group: string; responsible: string }> = ({
 			</Box>
 			<Box className={styles.wrapUserInfo}>
 				<Typography variant='h6' className={styles.title}>
-					Ответственный
+					{role}
 				</Typography>
 				<Box className={styles.descriptions}>
 					<Typography variant='body1' className={styles.responsible}>

@@ -1,10 +1,10 @@
 export interface ISelectedStage {
 	name: string
 	status: string
-	type: string
-	importance: string
+	nameOfGroup: string
+	role: string
 	startDate: string
-	interval: string
+	endDate: string
 	responsible: string
 	group: string
 }
