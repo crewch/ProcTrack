@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedProcess } from '../../../../store/processSlice/processSlice'
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import { IListProcessProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcessProps'
 import { IProcess } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcess'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
@@ -34,22 +34,14 @@ const ListProcess: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 	const dispatch = useAppDispatch()
 	const openedProcess = useAppSelector(state => state.processes.openedProcess)
 
-	const searchedListProcess = useMemo(
-		() =>
-			listProcess.filter(process =>
-				process.name.toLowerCase().includes(textForSearchProcess.toLowerCase())
-			),
-		[textForSearchProcess]
-	)
-
 	return (
 		<List className={styles.list}>
-			{!searchedListProcess.length && (
+			{!listProcess.length && (
 				<Typography variant='h4' className={styles.typography}>
 					Процессов нет
 				</Typography>
 			)}
-			{searchedListProcess.map((process, index) => (
+			{listProcess.map((process, index) => (
 				<ListItem
 					disablePadding
 					key={index}

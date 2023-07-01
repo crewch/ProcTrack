@@ -48,6 +48,8 @@ const StagesList = () => {
 						<img
 							src={`src/assets/${stage.status}.svg`}
 							style={{ marginRight: '14px', marginLeft: '6px' }}
+							height='20px'
+							width='20px'
 						/>
 						<ListItemButton
 							className={styles.openedProcess}

@@ -29,7 +29,7 @@ const HeaderField: FC<{
 						{ProcessStatusImg}
 					</Typography>
 					<Box className={styles.icon}>
-						<img src={Pen} />
+						<img src={Pen} height='25px' width='25px' />
 					</Box>
 				</Box>
 			</Box>

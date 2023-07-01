@@ -8,7 +8,6 @@ import {
 	InputAdornment,
 	TextField,
 } from '@mui/material'
-import TuneIcon from '@mui/icons-material/Tune'
 import { ISearchProps } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch'
 import { FC, useState } from 'react'
 import search from '../../../../assets/search.svg'
@@ -41,9 +40,9 @@ const Search: FC<ISearchProps> = ({
 						className={`clickedButtonSettingFlag  ${styles.clickedButtonSettingIcon}`}
 					>
 						{isOpen ? (
-							<img src={searchSettingBlue} />
+							<img src={searchSettingBlue} height='25px' width='25px' />
 						) : (
-							<img src={searchSetting} />
+							<img src={searchSetting} height='25px' width='25px' />
 						)}
 					</Box>
 				}
@@ -69,7 +68,7 @@ const Search: FC<ISearchProps> = ({
 								},
 								startAdornment: (
 									<InputAdornment position='start'>
-										<img src={search} />
+										<img src={search} height='25px' width='25px' />
 									</InputAdornment>
 								),
 							}}

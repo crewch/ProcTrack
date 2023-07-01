@@ -37,7 +37,9 @@ const DataDialog: FC<IDialogProps> = ({ children, title, icon }) => {
 		<Box>
 			<Button
 				variant='contained'
-				endIcon={<img src={`/src/assets/${icon}.svg`} />}
+				endIcon={
+					<img src={`/src/assets/${icon}.svg`} height='20px' width='20px' />
+				}
 				onClick={handleClickOpen}
 				sx={{
 					borderRadius: '5px',

@@ -8,15 +8,18 @@ const FilesField = () => {
 				className={styles.btn}
 				variant='contained'
 				component='button'
-				startIcon={<img src='/src/assets/pdf-file.svg' />}
+				disableRipple
+				startIcon={
+					<img src='/src/assets/pdf-file.svg' height='20px' width='20px' />
+				}
 			>
 				название файла 4.pdf
 			</Button>
 			<IconButton>
-				<img src='/src/assets/comment.svg' />
+				<img src='/src/assets/comment.svg' height='20px' width='20px' />
 			</IconButton>
 			<IconButton>
-				<img src='/src/assets/filesHistory.svg' />
+				<img src='/src/assets/filesHistory.svg' height='20px' width='20px' />
 			</IconButton>
 			<Typography className={styles.typography}>
 				пн, 25 декабря 2023, 16:32

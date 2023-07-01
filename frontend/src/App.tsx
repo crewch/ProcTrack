@@ -7,13 +7,13 @@ import LoginPage from './pages/LoginPage'
 const App = () => {
 	return (
 		<Routes>
+			<Route path='*' element={<NotFoundPage />} />
 			<Route path='login' element={<LoginPage />} />
 			<Route path='/' element={<Layout />}>
 				{routes.map(({ path, Element }, index) => (
 					<Route path={path} element={<Element />} key={index} />
 				))}
 			</Route>
-			<Route path='*' element={<NotFoundPage />} />
 		</Routes>
 	)
 }

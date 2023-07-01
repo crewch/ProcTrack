@@ -11,7 +11,10 @@ const UploadButton: FC<{
 				className={styles.btn}
 				variant='contained'
 				component='span'
-				endIcon={<img src='/src/assets/folderUpload.svg' />}
+				disableTouchRipple
+				endIcon={
+					<img src='/src/assets/folderUpload.svg' height='20px' width='20px' />
+				}
 			>
 				загрузить файл
 			</Button>
