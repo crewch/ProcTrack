@@ -1,4 +1,4 @@
-import { Box, IconButton, InputAdornment, TextField } from '@mui/material'
+import { Box, IconButton, TextField } from '@mui/material'
 import { ISearchProps } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch'
 import { FC } from 'react'
 import search from '../../../../assets/search.svg'
