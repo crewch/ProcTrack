@@ -51,7 +51,8 @@ namespace DB_Service.Data
                     Id=1,
                     Title="СтИ",
                     ApprovedAt = DateTime.Now.AddDays(1),
-                    ExpectedTime = TimeSpan.FromHours(2)
+                    ExpectedTime = TimeSpan.FromHours(2),
+                    SignId = 1,
                 },
                 new Models.Task
                 {

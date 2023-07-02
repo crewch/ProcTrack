@@ -48,7 +48,15 @@ namespace DB_Service.Controllers
             return Ok(res);
         }
 
-        [Route("{Id}/Comment/Get")]
+        [Route("{Id}/EndVerification")]
+        [HttpGet]
+        public async Task<ActionResult<TaskDto>> UpdateEndVerification(int UserId, int Id)
+        {
+            var res = await _service.UpdateEndVerification(UserId, Id);
+            return Ok(res);
+        }
+
+        [Route("{Id}/Comments/Get")]
         [HttpGet]
         public async Task<ActionResult<List<CommentDto>>> GetComments(int Id)
         {

@@ -132,6 +132,29 @@ namespace AuthService.Services
             return await Task.FromResult(dto);
         }
 
+        public async Task<List<HoldDto>> FindHold(int destId, string type)
+        {
+            var TypeId = _context.Types
+                .Where(t => t.Title == type)
+                .Select(t => t.Id)
+                .ToList();
+            if (TypeId == null)
+            {
+                return null;
+            }
+            var holdIds = _context.Holds
+                .Where(h => h.DestId == destId && h.TypeId == TypeId[0])
+                .Select(h => h.Id)
+                .ToList();
+
+            var res = new List<HoldDto>();
+            foreach ( var holdId in holdIds )
+            {
+                res.Add(await GetHoldById(holdId));
+            }
+            return res;
+        }
+
         public Task<HoldDto> GetHoldById(int id)
         {
             var hold = _context.Holds

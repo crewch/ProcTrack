@@ -42,6 +42,13 @@ namespace AuthService.Controllers
             return Ok(res);
         }
 
+        [Route("find")]
+        [HttpGet]
+        public async Task<ActionResult<List<HoldDto>>> FindHold(int destId, string type)
+        {
+            var res = await _service.FindHold(destId, type);
+            return Ok(res);
+        }
         //[HttpPost]
         //public async Task<ActionResult<List<HoldRightsDto>>> GetRightsHolds(LoginTypeDto loginType)
         //{

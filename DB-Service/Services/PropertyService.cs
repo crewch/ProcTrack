@@ -1,6 +1,7 @@
 ﻿using DB_Service.Clients.Http;
 using DB_Service.Data;
 using DB_Service.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace DB_Service.Services
 {
@@ -19,12 +20,35 @@ namespace DB_Service.Services
 
         public Task<List<string>> GetPriorities()
         {
-            throw new NotImplementedException();
+            var priorities = _context.Priorities
+                .Select(p => p.Title)
+                .ToList();
+            return Task.FromResult(priorities);
         }
 
         public Task<List<ProcessDto>> GetTemplates()
         {
-            throw new NotImplementedException();
+            var templates = _context.Processes
+                .Include(t => t.Type)
+                .Include(t => t.Priority)
+                .Where(p => p.IsTemplate)
+                .ToList();
+
+            var templateDtos = new List<ProcessDto>();
+
+            foreach (var iTemplate in templates)
+            {
+                templateDtos.Add(new ProcessDto
+                {
+                    Id = iTemplate.Id,
+                    Type = iTemplate.Type.Title,
+                    Priority = iTemplate.Priority.Title, 
+                    CreatedAt = iTemplate.CreatedAt,
+                    ApprovedAt = iTemplate.ApprovedAt,
+                    ExpectedTime = iTemplate.ExpectedTime,
+                });
+            }
+            return Task.FromResult(templateDtos);
         }
     }
 }

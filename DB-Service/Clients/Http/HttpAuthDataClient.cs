@@ -49,6 +49,22 @@ namespace DB_Service.Clients.Http
             return res;
         }
 
+        public async Task<UserDto> GetUserById(int id)
+        {
+            var response = await _client.GetAsync($"{_configuration["AuthService"]}/User/{id}");
+            var data = await response.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject<UserDto>(data);
+            return user;
+        }
+
+        public async Task<List<HoldDto>> FindHold(int destId, string type)
+        {
+            var response = await _client.GetAsync($"{_configuration["AuthService"]}/Hold/find?destId={destId}&type={type}");
+            var data = await response.Content.ReadAsStringAsync();
+            var holds = JsonConvert.DeserializeObject<List<HoldDto>>(data);
+            return holds;
+        }
+
         //public async Task<List<UserWithRoles>> GetUsersWithRoles()
         //{
         //    var response = await _client.GetAsync($"{_configuration["AuthService"]}/api/Auth/debug");

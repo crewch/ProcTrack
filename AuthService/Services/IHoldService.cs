@@ -11,5 +11,6 @@ namespace AuthService.Services
         public Task<List<HoldDto>> GetHolds(UserHoldTypeDto data);
         public Task<CreateHoldResponceDto> CreateHold(CreateHoldRequestDto data);
         public Task<HoldDto> GetHoldById(int id);
+        public Task<List<HoldDto>> FindHold(int destId, string type);
     }
 }

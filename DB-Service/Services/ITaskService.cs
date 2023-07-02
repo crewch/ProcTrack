@@ -12,6 +12,8 @@ namespace DB_Service.Services
 
         Task<TaskDto> StopTask(int UserId, int Id);
 
+        Task<TaskDto> UpdateEndVerification(int UserId, int Id);
+
         Task<List<CommentDto>> GetComentsByTaskId(int Id);
 
         Task<CommentDto> CreateCommment(int Id, CommentDto data);

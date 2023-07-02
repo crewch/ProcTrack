@@ -11,6 +11,7 @@
         public int? StatusId { get; set; }
         public Status? Status { get; set; }
         public string? Signed { get; set; }
+        public int? SignId { get; set; }
         public string? CustomField { get; set; }
         public ICollection<Edge> StartEdges { get; set; } = new List<Edge>();
         public ICollection<Edge> EndEdges { get; set; } = new List<Edge>();

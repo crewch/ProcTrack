@@ -7,6 +7,7 @@ namespace DB_Service.Models
         public string Title { get; set; }
         public bool IsTemplate { get; set; }
         public int? PriorityId { get; set; }
+        public string? TeamcenterRef { get; set; }
         public Priority? Priority { get; set; }
         public int? TypeId { get; set; }
         public Type? Type { get; set; }

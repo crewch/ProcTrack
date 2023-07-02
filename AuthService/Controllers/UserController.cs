@@ -21,6 +21,10 @@ namespace AuthService.Controllers
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
             var res = await _service.GetUserById(id);
+            if (res == null)
+            {
+                return NotFound();
+            }
             return Ok(res);
         }
 

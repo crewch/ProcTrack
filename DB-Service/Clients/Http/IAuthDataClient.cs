@@ -12,5 +12,7 @@ namespace DB_Service.Clients.Http
         Task<List<HoldDto>> GetHolds(UserHoldTypeDto data);
         Task<CreateHoldResponceDto> CreateHold(CreateHoldRequestDto data);
         Task<HoldDto> GetHoldById(int id);
+        Task<UserDto> GetUserById(int id);
+        Task<List<HoldDto>> FindHold(int destId, string type);
     }
 }

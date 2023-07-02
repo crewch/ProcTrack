@@ -1,6 +1,8 @@
 ﻿using DB_Service.Clients.Http;
 using DB_Service.Data;
 using DB_Service.Dtos;
+using DB_Service.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DB_Service.Services
 {
@@ -17,9 +19,190 @@ namespace DB_Service.Services
             _fileClient = fileClient;
         }
 
-        public Task<ProcessDto> CreateProcess(CreateProcessDto data, int UserId)
+        public async Task<ProcessDto> CreateProcess(CreateProcessDto data, int UserId)
         {
-            throw new NotImplementedException();
+            // TODO: добавить проверку юзера и группы, на то существуют ли они
+            if (data.Process == null)
+            {
+                return null;
+            }
+
+            var template = _context.Processes
+                .Include(t => t.Type)
+                .Where(t => t.Id == data.TemplateId)
+                .FirstOrDefault();
+
+            if (template == null)
+            {
+                return null;
+            }
+
+            var priority = _context.Priorities
+                .Where(p => data.Process.Priority == p.Title)
+                .FirstOrDefault();
+
+            if (priority == null)
+            {
+                return null;
+            }
+
+            var stages = _context.Stages
+                .Where(s => s.ProcessId == template.Id)
+                .ToList();
+
+            var stageMatrix = new List<Tuple<int, Stage>>();
+            foreach (var stage in stages)
+            {
+                var tasks = _context.Tasks
+                    .Where(t => t.StageId == stage.Id)
+                    .ToList();
+                var newTasks = new List<Models.Task>();
+                foreach (var task in tasks)
+                {
+                    var newTask = new Models.Task()
+                    {
+                        Title = task.Title,
+                        ExpectedTime = task.ExpectedTime,
+                    };
+                    newTasks.Add(newTask);
+                    _context.Tasks.Add(newTask);
+                }
+                var newStage = new Stage()
+                {
+                    Title = stage.Title,
+                    Tasks = newTasks,
+                    Addenable = stage.Addenable,
+                    Status = stage.Status,
+                    CustomField = stage.CustomField,
+                    CreatedAt = DateTime.Now,
+                };
+                stageMatrix.Add(new Tuple<int, Stage>(stage.Id, newStage));
+                _context.Stages.Add(newStage);
+            }
+            _context.SaveChanges();
+
+            var edgeGraph = new Dictionary<int, List<int?>>();
+
+            for (int i = 0; i < stageMatrix.Count; i++)
+            {
+                var inEdges = _context.Edges
+                    .Where(e => e.Start == stageMatrix[i].Item1)
+                    .Select(e => e.End)
+                    .ToList();
+
+                edgeGraph[stageMatrix[i].Item1] = inEdges;
+            }
+
+            foreach (var i in edgeGraph)
+            {
+                foreach(var j in i.Value)
+                {
+                    var newEdge = new Edge
+                    {
+                        StartStage = stageMatrix.Find(e => e.Item1 == i.Key).Item2,
+                        EndStage = stageMatrix.Find(e => e.Item1 == j).Item2,
+                    };
+                    _context.Edges.Add(newEdge);
+                }
+            }
+
+            var dependenceGraph = new Dictionary<int, List<int?>>();
+
+            for (int i = 0; i < stageMatrix.Count; i++)
+            {
+                var inDependences = _context.Dependences
+                    .Where(e => e.First == stageMatrix[i].Item1)
+                    .Select(e => e.Second)
+                    .ToList();
+
+                dependenceGraph[stageMatrix[i].Item1] = inDependences;
+            }
+
+            foreach (var i in dependenceGraph)
+            {
+                foreach(var j in i.Value)
+                {
+                    var newDependence = new Dependence
+                    {
+                        FirstStage = stageMatrix.Find(e => e.Item1 == i.Key).Item2,
+                        SecondStage = stageMatrix.Find(e => e.Item1 == j).Item2,
+                    };
+                    _context.Dependences.Add(newDependence);
+                }
+            }
+
+            _context.SaveChanges();
+
+            Console.WriteLine("\n\n\n");
+            for (int i = 0; i < stageMatrix.Count; i++)
+            {
+                Console.WriteLine($"{stageMatrix[i].Item2.Id} : {stageMatrix[i].Item1}");
+            }
+
+            var newProcess = new Models.Process
+            {
+                Title = data.Process.Title,
+                PriorityId = priority.Id,
+                TypeId = template.TypeId,
+                CreatedAt = DateTime.Now,
+                ExpectedTime = template.ExpectedTime,
+                IsTemplate = false,
+                Head = stageMatrix.Find(d => d.Item1 == template.Head).Item2.Id,
+                Tail = stageMatrix.Find(d => d.Item1 == template.Tail).Item2.Id,
+                Stages = stageMatrix.Select(s => s.Item2).ToList(),
+            };
+
+            _context.Processes.Add(newProcess);
+            _context.SaveChanges();
+
+            var CreateHoldUser = await _authClient.CreateHold(new CreateHoldRequestDto
+            {
+                DestId = newProcess.Id,
+                DestType = "Process",
+                HolderId = UserId,
+                HolderType = "User"
+            });
+
+            var CreateHoldGroup = await _authClient.CreateHold(new CreateHoldRequestDto
+            {
+                DestId = newProcess.Id,
+                DestType = "Process",
+                HolderId = (int) data.GroupId,
+                HolderType = "Group",
+            });
+
+            foreach (var stageTuple in stageMatrix)
+            {
+                var templateHold = await _authClient.FindHold(stageTuple.Item1, "Stage");
+
+                foreach (var hold in templateHold)
+                {
+                    foreach (var group in hold.Groups)
+                    {
+                        var newHold = await _authClient.CreateHold(new CreateHoldRequestDto
+                        {
+                            DestId = stageTuple.Item2.Id,
+                            DestType = "Stage",
+                            HolderId = group.Id,
+                            HolderType = "Group"
+                        });
+                    }
+
+                    foreach (var user in hold.Users)
+                    {
+                        var newHold = await _authClient.CreateHold(new CreateHoldRequestDto
+                        {
+                            DestId = stageTuple.Item2.Id,
+                            DestType = "Stage",
+                            HolderId = user.Id,
+                            HolderType = "User"
+                        });
+                    }
+
+                }
+            }
+
+            return await GetProcessById(newProcess.Id);
         }
 
         public Task<LinkDto> GetLinksByProcessId(int Id)
@@ -32,9 +215,30 @@ namespace DB_Service.Services
             throw new NotImplementedException();
         }
 
-        public Task<ProcessDto> GetProcessById(int Id)
+        public async Task<ProcessDto> GetProcessById(int Id)
         {
-            throw new NotImplementedException();
+            var process = _context.Processes
+                .Include(p => p.Priority).Include(p => p.Type)
+                .Where(p => p.Id == Id)
+                .FirstOrDefault();
+
+            if (process == null) {
+                return null;
+            }
+            
+            var hold = await _authClient.FindHold(process.Id, "Process");
+            
+            var processDto = new ProcessDto
+            {
+                Id = process.Id,
+                Priority = process.Priority == null ? null : process.Priority.Title,
+                Type = process.Type == null ? null : process.Type.Title,
+                CreatedAt = process.CreatedAt,
+                ApprovedAt = process.ApprovedAt,
+                ExpectedTime = process.ExpectedTime,
+                Hold = hold,
+            };
+            return processDto;
         }
 
         public Task<List<StageDto>> GetStagesByProcessId(int id)

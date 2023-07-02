@@ -19,7 +19,10 @@ namespace AuthService.Services
                 .Include(u => u.Roles)
                 .Where(u => u.Id == id)
                 .FirstOrDefault();
-
+            if (user == null)
+            {
+                return Task.FromResult<UserDto>(null);
+            }
             var userDto = new UserDto
             {
                 Id = user.Id,

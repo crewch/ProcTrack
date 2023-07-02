@@ -7,6 +7,6 @@
         public DateTime? CreatedAt { get; set; }
         public string Status { get; set; }
         public UserDto? User { get; set; }
-        public HoldDto? Hold { get; set; }
+        public List<HoldDto>? Holds { get; set; }
     }
 }

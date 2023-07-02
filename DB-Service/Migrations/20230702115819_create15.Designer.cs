@@ -3,15 +3,17 @@ using System;
 using DB_Service.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DB_Service.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230702115819_create15")]
+    partial class create15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,9 +196,6 @@ namespace DB_Service.Migrations
                     b.Property<int?>("Tail")
                         .HasColumnType("integer");
 
-                    b.Property<string>("TeamcenterRef")
-                        .HasColumnType("text");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -236,9 +235,6 @@ namespace DB_Service.Migrations
                         .HasColumnType("text");
 
                     b.Property<int?>("ProcessId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("SignId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Signed")
