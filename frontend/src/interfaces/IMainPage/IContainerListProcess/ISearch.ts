@@ -1,6 +1,8 @@
-import { Dispatch } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
 export interface ISearchProps {
 	textForSearchProcess: string
-	setTextForSearchProcess: Dispatch<React.SetStateAction<string>>
+	setTextForSearchProcess: Dispatch<SetStateAction<string>>
+	isOpen: boolean
+	setIsOpen: Dispatch<SetStateAction<boolean>>
 }

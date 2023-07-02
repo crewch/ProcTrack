@@ -7,8 +7,6 @@ import {
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedProcess } from '../../../../store/processSlice/processSlice'
-import { FC } from 'react'
-import { IListProcessProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcessProps'
 import { IProcess } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcess'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
 
@@ -30,7 +28,7 @@ const listProcess: IProcess[] = [
 	{ name: '15 процесс', status: 'completed' },
 ]
 
-const ListProcess: FC<IListProcessProps> = ({ textForSearchProcess }) => {
+const ListProcess = () => {
 	const dispatch = useAppDispatch()
 	const openedProcess = useAppSelector(state => state.processes.openedProcess)
 
@@ -45,7 +43,6 @@ const ListProcess: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 				<ListItem
 					disablePadding
 					key={index}
-					sx={{ pl: 1, pr: 1.5, py: 0.3 }}
 					className={(() =>
 						openedProcess === process.name ? styles.openedProcessWrap : '')()}
 				>

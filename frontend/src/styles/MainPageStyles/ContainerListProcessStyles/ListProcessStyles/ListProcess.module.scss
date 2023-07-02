@@ -11,14 +11,13 @@
 }
 
 .openedProcessWrap {
-	background-color: transparent;
-}
+	@apply bg-transparent;
 
-.openedProcessWrap .openedProcess {
-	background-color: #d8ecff;
-	border-radius: 7px;
-}
+	.openedProcess {
+		@apply bg-[#d8ecff] rounded-[7px];
+	}
 
-.openedProcessWrap .openedProcessText {
-	color: #1a2d67;
+	.openedProcessText {
+		@apply text-[#1a2d67];
+	}
 }
