@@ -24,22 +24,24 @@ const Search: FC<ISearchProps> = ({
 						borderRadius: '8px',
 						backgroundColor: '#E4E4E4',
 					},
-					startAdornment: (
-						<InputAdornment position='start'>
-							<img src={search} height='25px' width='25px' />
-						</InputAdornment>
-					),
 				}}
 				sx={{
 					width: '100%',
 				}}
 			/>
 			<IconButton
+				sx={{ borderRadius: '8px', ml: '8px' }}
+				onClick={() => setTextForSearchProcess('')}
+			>
+				<img src={search} height='25px' width='25px' />
+			</IconButton>
+			<IconButton
 				onClick={() => setIsOpen(!isOpen)}
 				sx={{
 					backgroundColor: isOpen ? '#d8ecff' : 'transparent',
 					color: isOpen ? '#1a2d67' : 'transparent',
 					ml: '8px',
+					borderRadius: '8px',
 				}}
 			>
 				{isOpen ? (
@@ -47,9 +49,6 @@ const Search: FC<ISearchProps> = ({
 				) : (
 					<img src={searchSetting} height='25px' width='25px' />
 				)}
-			</IconButton>
-			<IconButton onClick={() => setTextForSearchProcess('')}>
-				<img src={search} height='25px' width='25px' />
 			</IconButton>
 		</Box>
 	)
