@@ -248,16 +248,16 @@ namespace AuthService.Services
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == data.Id);
             var type = _context.Types.FirstOrDefault(t => t.Title == data.HoldType);
-
+    
             if (user == null || type == null)
             {
-                return Task.FromResult<List<HoldDto>>(null);
+                return null;
             }
 
             var UserHoldIds = _context.UserHoldMappers
                 .Include(u => u.Hold)
                 .Where(u => u.UserId == user.Id && u.Hold.TypeId == type.Id)
-                .Select(u => u.Id)
+                .Select(u => u.Hold.Id)
                 .ToList();
 
             var groupsIds = _context.UserGroupMappers
@@ -268,7 +268,7 @@ namespace AuthService.Services
             var GroupHoldIds = _context.GroupHoldMappers
                 .Include(u => u.Hold)
                 .Where(u => groupsIds.Contains(u.GroupId) && u.Hold.TypeId == type.Id)
-                .Select(u => u.Id)
+                .Select(u => u.Hold.Id)
                 .ToList();
 
             HashSet<int> HoldIds = new HashSet<int>()
@@ -279,87 +279,11 @@ namespace AuthService.Services
             var res = new List<HoldDto>();
             foreach (int holdId in HoldIds)
             {
-                var hold = _context.Holds
-                    .Include(u => u.Type)
-                    .Where(u => u.Id == holdId)
-                    .FirstOrDefault();
-
-                var users = _context.Users
-                    .Include(u => u.Holds).Include(u => u.Roles)
-                    .Where(u => u.Holds.Select(u => u.Id).Contains(holdId))
-                    .ToList();
-
-                var userDtos = new List<UserDto>();
-                foreach (var iUser in users)
-                {
-                    if (!userDtos.Any(ud => ud.Id == iUser.Id))
-                    {
-                        var userDto = new UserDto
-                        {
-                            Id = iUser.Id,
-                            Email = iUser.Email,
-                            LongName = iUser.LongName,
-                            ShortName = iUser.ShortName,
-                            Roles = iUser.Roles.Select(u => u.Title).ToList(),
-                        };
-                        userDtos.Add(userDto);
-                    }
-                }
-
-                var groups = _context.Groups
-                    .Include(u => u.Holds)
-                    .Where(u => u.Holds.Select(u => u.Id).Contains(holdId))
-                    .ToList();
-
-                var groupDtos = new List<GroupDto>();
-                foreach (var iGroup in groups)
-                {
-                    if (!groupDtos.Any(gd => gd.Id == iGroup.Id))
-                    {
-                        var bossModel = _context.Users
-                            .Include(u => u.Roles)
-                            .Where(u => u.Id == iGroup.BossId)
-                            .FirstOrDefault();
-
-                        var bossDto = new UserDto
-                        {
-                            Id = bossModel.Id,
-                            Email = bossModel.Email,
-                            LongName = bossModel.LongName,
-                            ShortName = bossModel.ShortName,
-                            Roles = bossModel.Roles.Select(r => r.Title).ToList()
-                        };
-
-                        var gDto = new GroupDto
-                        {
-                            Id = iGroup.Id,
-                            Title = iGroup.Title,
-                            Description = iGroup.Description,
-                            Boss = bossDto,
-                        };
-                        groupDtos.Add(gDto);
-                    }
-                }
-
-                var rights = _context.RightHoldMappers
-                    .Include(u => u.Right)
-                    .Where(u => u.HoldId == holdId)
-                    .Select(u => u.Right.Title)
-                    .ToList();
-
-                var holdDto = new HoldDto
-                {
-                    Id = holdId,
-                    DestId = hold.DestId,
-                    Type = hold.Type.Title,
-                    Rights = rights,
-                    Users = userDtos,
-                    Groups = groupDtos,
-                };
-                res.Add(holdDto);
+                var hold = await GetHoldById(holdId);
+                res.Add(hold);
             }
 
-            return Task.FromResult(res);
+            return res;
         }
 
         public Task<GetRightResponseDto> GetRights(GetRightRequestDto data)
