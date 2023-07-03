@@ -6,7 +6,7 @@ import SelectedStage from '../components/MainPage/SelectedStage/SelectedStage'
 import styles from '../styles/MainPageStyles/MainPage.module.scss'
 
 const MainPage = () => {
-	if (!localStorage.getItem('TOKEN')) {
+	if (!localStorage.getItem('UserData')) {
 		return <Navigate to='login' />
 	}
 

@@ -4,7 +4,7 @@ import styles from '../styles/NotFoundPageStyles/NotFoundPage.module.scss'
 
 const NotFoundPage = () => {
 	const navigation = useNavigate()
-	if (!localStorage.getItem('TOKEN')) {
+	if (!localStorage.getItem('UserData')) {
 		return <Navigate to='login' />
 	}
 
