@@ -50,6 +50,10 @@ namespace DB_Service.Services
                 .Where(s => s.ProcessId == template.Id)
                 .ToList();
 
+            var defualt_status = _context.Statuses
+                .Where(s => s.Title.ToLower() == "не начат")
+                .FirstOrDefault();
+
             var stageMatrix = new List<Tuple<int, Stage>>();
             foreach (var stage in stages)
             {
@@ -67,12 +71,21 @@ namespace DB_Service.Services
                     newTasks.Add(newTask);
                     _context.Tasks.Add(newTask);
                 }
+
+                var new_status = defualt_status;
+                if (stage.Id == template.Head)
+                {
+                    new_status = _context.Statuses
+                        .Where(s => s.Title.ToLower() == "отменен")
+                        .FirstOrDefault();
+                }
+
                 var newStage = new Stage()
                 {
                     Title = stage.Title,
                     Tasks = newTasks,
                     Addenable = stage.Addenable,
-                    Status = stage.Status,
+                    Status = new_status,
                     CustomField = stage.CustomField,
                     CreatedAt = DateTime.Now,
                 };
@@ -210,9 +223,31 @@ namespace DB_Service.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<ProcessDto>> GetProcesesByUserId(int UserId)
+        public async Task<List<ProcessDto>> GetProcesesByUserId(int UserId)
         {
-            throw new NotImplementedException();
+            var holds = await _authClient.GetHolds(new UserHoldTypeDto{
+                Id = UserId,
+                HoldType = "Process"
+            });
+
+            var res = new List<ProcessDto>();
+
+            foreach (var hold in holds) 
+            {
+                var processId = _context.Processes
+                    .Where(p => p.Id == hold.DestId)
+                    .Select(p => p.Id)
+                    .FirstOrDefault();
+                
+                var processDto = await GetProcessById(processId);
+
+                if (processDto != null)
+                {
+                    res.Add(processDto);
+                }
+            }
+            
+            return res;
         }
 
         public async Task<ProcessDto> GetProcessById(int Id)
@@ -230,6 +265,7 @@ namespace DB_Service.Services
             
             var processDto = new ProcessDto
             {
+                Title = process.Title,
                 Id = process.Id,
                 Priority = process.Priority == null ? null : process.Priority.Title,
                 Type = process.Type == null ? null : process.Type.Title,
@@ -246,14 +282,49 @@ namespace DB_Service.Services
             throw new NotImplementedException();
         }
 
-        public Task<ProcessDto> StartProcess(int UserId, int Id)
+        public async Task<ProcessDto> StartProcess(int UserId, int Id)
         {
-            throw new NotImplementedException();
+            var stages = _context.Stages
+                .Include(s => s.Status)
+                .Where(s => 
+                    s.Status.Title.ToLower() == "отменен" &&
+                    s.ProcessId == Id
+                )
+                .ToList();
+            
+            var new_status = _context.Statuses
+                    .Where(s => s.Title.ToLower() == "отправлен на проверку")
+                    .FirstOrDefault();
+            foreach (var stage in stages)
+            {
+                stage.Status = new_status;
+            }
+            _context.SaveChanges();
+
+            return await GetProcessById(Id);
         }
 
-        public Task<ProcessDto> StopProcess(int UserId, int Id)
+        public async Task<ProcessDto> StopProcess(int UserId, int Id)
         {
-            throw new NotImplementedException();
+            var stages = _context.Stages
+                .Include(s => s.Status)
+                .Where(s => 
+                    (s.Status.Title.ToLower() == "отправлен на проверку" ||
+                    s.Status.Title.ToLower() == "принят на проверку") &&
+                    s.ProcessId == Id
+                )
+                .ToList();
+
+            var new_status = _context.Statuses
+                    .Where(s => s.Title.ToLower() == "отменен")
+                    .FirstOrDefault();
+            foreach (var stage in stages)
+            {
+                stage.Status = new_status;
+            }
+            _context.SaveChanges();
+
+            return await GetProcessById(Id);
         }
 
         public Task<ProcessDto> UpdateProcess(ProcessDto data, int UserId, int Id)

@@ -79,7 +79,10 @@ namespace DB_Service.Services
             foreach (var hold in holds)
             {
                 var stageModel = _context.Stages
-                    .Where(s => s.Id == hold.DestId)
+                    .Where(s => s.Id == hold.DestId && 
+                                s.Status.Title.ToLower() != "не начат" &&
+                                s.Status.Title.ToLower() != "отменен"
+                    )
                     .FirstOrDefault();
                 
                 var stageDto = await GetStageById(stageModel.Id);

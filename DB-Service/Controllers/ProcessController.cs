@@ -76,7 +76,7 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<ProcessDto>> StopProcess(int UserId, int Id)
         {
-            var res = await _service.StartProcess(UserId, Id);
+            var res = await _service.StopProcess(UserId, Id);
             return Ok(res);
         }
     }
