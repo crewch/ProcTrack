@@ -7,6 +7,7 @@ import UserField from './UserField/UserField'
 import HeaderField from './HeaderProcessField/HeaderField'
 import FilesField from './FilesField/FilesField'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/InfoProcess.module.scss'
+import StopProcessButton from './StopProcessButton/StopProcessButton'
 
 const InfoProcess = () => {
 	const process: IInfoProcess = {
@@ -51,7 +52,10 @@ const InfoProcess = () => {
 			<Divider className={styles.divider} />
 			<FilesField />
 			<Divider className={styles.divider} />
-			<UploadButton handleFileChange={handleFileChange} />
+			<Box className={styles.btns}>
+				<StopProcessButton />
+				<UploadButton handleFileChange={handleFileChange} />
+			</Box>
 		</Box>
 	)
 }

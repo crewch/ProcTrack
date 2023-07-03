@@ -15,7 +15,7 @@ const UploadButton: FC<{
 					<img src='/src/assets/folderUpload.svg' height='20px' width='20px' />
 				}
 			>
-				загрузить файл
+				Загрузить файл
 			</Button>
 			<input hidden type='file' onChange={handleFileChange} />
 		</Box>
