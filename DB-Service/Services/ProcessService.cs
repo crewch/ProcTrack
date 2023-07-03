@@ -11,12 +11,14 @@ namespace DB_Service.Services
         private readonly DataContext _context;
         private readonly IAuthDataClient _authClient;
         private readonly IFileDataClient _fileClient;
+        private readonly IStageService _stageService;
 
-        public ProcessService(DataContext context, IAuthDataClient authClient, IFileDataClient fileClient)
+        public ProcessService(DataContext context, IAuthDataClient authClient, IFileDataClient fileClient, IStageService stageService)
         {
             _context = context;
             _authClient = authClient;
             _fileClient = fileClient;
+            _stageService = stageService;
         }
 
         public async Task<ProcessDto> CreateProcess(CreateProcessDto data, int UserId)
@@ -218,9 +220,45 @@ namespace DB_Service.Services
             return await GetProcessById(newProcess.Id);
         }
 
-        public Task<LinkDto> GetLinksByProcessId(int Id)
+        public async Task<LinkDto> GetLinksByProcessId(int Id)
         {
-            throw new NotImplementedException();
+            var stages = _context.Stages
+                .Where(s => s.ProcessId == Id)
+                .ToList();
+
+            var edges = new List<Tuple<int, int>>();
+            var dependences = new List<Tuple<int, int>>();
+
+            foreach (var stage in stages)
+            {
+                var inEdges = _context.Edges
+                    .Where(e => e.Start == stage.Id)
+                    .Select(e => e.End)
+                    .ToList();
+
+                foreach (var inEdge in inEdges)
+                {
+                    edges.Add(new Tuple<int, int>(stage.Id, (int) inEdge));
+                }
+
+                var inDependences = _context.Dependences
+                    .Where(d => d.First == stage.Id)
+                    .Select(d => d.Second)
+                    .ToList();
+
+                foreach (var inDependence in inDependences)
+                {
+                    dependences.Add(new Tuple<int, int>(stage.Id, (int) inDependence));
+                }
+            }
+
+            var res = new LinkDto
+            {
+                Edges = edges,
+                Dependences = dependences,
+            };
+
+            return res;
         }
 
         public async Task<List<ProcessDto>> GetProcesesByUserId(int UserId)
@@ -277,9 +315,22 @@ namespace DB_Service.Services
             return processDto;
         }
 
-        public Task<List<StageDto>> GetStagesByProcessId(int id)
+        public async Task<List<StageDto>> GetStagesByProcessId(int id)
         {
-            throw new NotImplementedException();
+            var process = GetProcessById(id).Result;
+
+            var stageModels = _context.Stages
+                .Where(s => s.ProcessId == process.Id)
+                .ToList();
+
+            var stages = new List<StageDto>();
+
+            foreach (var stage in stageModels)
+            {
+                var dto = await _stageService.GetStageById(stage.Id);
+                stages.Add(dto);
+            }
+            return stages;
         }
 
         public async Task<ProcessDto> StartProcess(int UserId, int Id)

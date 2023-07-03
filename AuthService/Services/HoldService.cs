@@ -362,6 +362,58 @@ namespace AuthService.Services
             return Task.FromResult(res);
         }
 
+        public Task<GetRightResponseDto> GetRights(GetRightRequestDto data)
+        {
+            var holds = _context.Holds
+                .Include(h => h.GroupHolds)
+                .ThenInclude(gh => gh.Group)
+                .Include(h => h.UserHolds)
+                .ThenInclude(uh => uh.User)
+                .Include(h => h.Type)
+                .Include(h => h.Rights)
+                .Where(h => h.DestId == data.DestId && h.Type.Title == data.Type)
+                .ToList();
+
+            var rightsRes = new List<string>();
+
+            var user = _context.Users
+                .Where(u => u.Id == data.UserId)
+                .FirstOrDefault();
+
+            var groups = _context.UserGroupMappers
+                .Where(gh => gh.User == user)
+                .Select(gh => gh.Group)
+                .ToList();
+
+            foreach (var hold in holds)
+            {
+                bool flag = hold.Users.Contains(user);
+                
+                foreach (var g in groups)
+                {
+                    flag = flag || hold.Groups.Contains(g);
+                }
+                
+                if (flag)
+                {
+                    var holdRights = _context.RightHoldMappers
+                        .Where(rh => rh.HoldId == hold.Id)
+                        .Select(rh => rh.Right.Title)
+                        .ToList();
+                    
+                    rightsRes.AddRange(holdRights);
+                }
+            }
+                
+            var dto = new GetRightResponseDto
+            {
+                Rights = rightsRes.Distinct().ToList(),
+                UserId = data.UserId,
+                DestId = data.DestId,
+            };
+            return Task.FromResult(dto);
+        }
+
         //public async Task<HoldRightsDto> CreateHold(HoldDto data)
         //{
         //    var type = _context.Types

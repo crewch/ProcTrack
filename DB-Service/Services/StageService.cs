@@ -13,7 +13,10 @@ namespace DB_Service.Services
         private readonly IFileDataClient _fileClient;
         private readonly ITaskService _taskService;
 
-        public StageService(DataContext context, IAuthDataClient authClient, IFileDataClient fileClient, ITaskService taskService)
+        public StageService(DataContext context, 
+                            IAuthDataClient authClient, 
+                            IFileDataClient fileClient, 
+                            ITaskService taskService)
         {
             _context = context;
             _authClient = authClient;
@@ -114,9 +117,30 @@ namespace DB_Service.Services
             return res;
         }
 
-        public Task<StageDto> UpdateStage(int UserId, int Id, StageDto data)
+        public async Task<StageDto> UpdateStage(int UserId, int Id, StageDto data)
         {
-            throw new NotImplementedException();
+            var stage = _context.Stages
+                .Where(s => s.Id == Id)
+                .FirstOrDefault();
+
+            if (stage == null)
+            {
+                return null;
+            }
+
+            stage.Title = data.Title;
+            
+            var status = _context.Statuses
+                .Where(s => s.Title == data.Status)
+                .FirstOrDefault();
+
+            stage.Status = status;
+
+            _context.SaveChanges();
+
+            var res = await GetStageById(Id);
+
+            return res;
         }
     }
 }

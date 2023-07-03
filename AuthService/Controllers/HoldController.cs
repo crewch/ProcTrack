@@ -49,6 +49,14 @@ namespace AuthService.Controllers
             var res = await _service.FindHold(destId, type);
             return Ok(res);
         }
+
+        [Route("Rights/Get")]
+        [HttpPost]
+        public async Task<GetRightResponseDto> GetRights(GetRightRequestDto data)
+        {
+            var res = await _service.GetRights(data);
+            return res;
+        }
         //[HttpPost]
         //public async Task<ActionResult<List<HoldRightsDto>>> GetRightsHolds(LoginTypeDto loginType)
         //{
