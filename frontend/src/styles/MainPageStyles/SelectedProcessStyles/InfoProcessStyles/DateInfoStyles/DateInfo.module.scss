@@ -2,10 +2,10 @@
 	@apply flex;
 
 	.typography1 {
-		@apply w-[40%] text-[13px] xl:text-[16px] 2xl:text-[20px] font-[Montserrat] font-semibold text-[#333333];
+		@apply w-[40%] text-[13px] xl:text-[16px] 2xl:text-[20px] font-[Montserrat] font-semibold text-ap-black;
 	}
 
 	.typography2 {
-		@apply text-[13px] xl:text-[16px] 2xl:text-[14px] text-[#333333] flex items-center;
+		@apply text-[13px] xl:text-[16px] 2xl:text-[14px] text-ap-black flex items-center;
 	}
 }

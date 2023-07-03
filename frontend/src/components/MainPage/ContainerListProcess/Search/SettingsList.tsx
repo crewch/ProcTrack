@@ -11,43 +11,24 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SettingsCheckbox from './SettingsCheckbox'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { toggleState } from '../../../../store/settingsSlice/settingsSlice'
-import { SyntheticEvent, useState } from 'react'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/SettingsListStyles/SettingsList.module.scss'
 
 const SettingsList = () => {
-	const [expanded, setExpanded] = useState<number | false>(false)
-	const handleChange =
-		(panel: number) => (_event: SyntheticEvent, isExpanded: boolean) => {
-			setExpanded(isExpanded ? panel : false)
-		}
-
 	const settings = useAppSelector(state => state.settings.settingsList)
 	const dispatch = useAppDispatch()
 
 	return (
-		<List
-			component='nav'
-			sx={{
-				width: '100%',
-				height: '100%',
-				overflow: 'auto',
-			}}
-		>
+		<List component='nav' className={styles.list}>
 			{settings.map((setting, index) => (
-				<Accordion
-					key={index}
-					sx={{ boxShadow: 0 }}
-					expanded={expanded === index}
-					onChange={handleChange(index)}
-				>
+				<Accordion disableGutters key={index} className={styles.accordion}>
 					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 						<FormControlLabel
 							key={index}
 							label={
-								<Typography sx={{ color: '#333333', fontSize: '14px' }}>
+								<Typography className={styles.typography}>
 									{setting.mainSetting.type}
 								</Typography>
 							}
-							aria-label='Acknowledge'
 							onClick={event => event.stopPropagation()}
 							onFocus={event => event.stopPropagation()}
 							control={

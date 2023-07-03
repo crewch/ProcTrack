@@ -11,7 +11,6 @@ const UploadButton: FC<{
 				className={styles.btn}
 				variant='contained'
 				component='span'
-				disableTouchRipple
 				endIcon={
 					<img src='/src/assets/folderUpload.svg' height='20px' width='20px' />
 				}

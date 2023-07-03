@@ -8,16 +8,20 @@
 	.img {
 		@apply h-[20px] w-[20px] mr-[14px] ml-[6px];
 	}
-}
 
-.openedProcessWrap {
-	@apply bg-transparent;
+	.openedProcessWrap {
+		@apply bg-transparent;
 
-	.openedProcess {
-		@apply bg-[#d8ecff] rounded-[7px];
+		.openedProcess {
+			@apply bg-[#d8ecff] rounded-[7px];
+
+			.openedProcessText {
+				@apply text-irkut-dark;
+			}
+		}
 	}
 
-	.openedProcessText {
-		@apply text-[#1a2d67];
+	.closedProcessText {
+		@apply text-ap-black;
 	}
 }

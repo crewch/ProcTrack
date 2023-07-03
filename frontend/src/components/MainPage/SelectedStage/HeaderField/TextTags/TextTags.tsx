@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import { FC } from 'react'
-import TextTag from '../../../SelectedProcess/InfoProcess/HeaderProcessField/TextTags/TextTag'
+import TextTag from '../../../SelectedProcess/InfoProcess/HeaderProcessField/TextTags/TextTag/TextTag'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/TextTagsStyles/TextTags.module.scss'
 
 const TextTags: FC<{ status: string; nameOfGroup: string }> = ({

@@ -13,7 +13,7 @@
 		@apply flex flex-col;
 
 		.title {
-			@apply font-[Montserrat] font-semibold text-[16px] xl:text-[20px] text-[#333333];
+			@apply font-[Montserrat] font-semibold text-[16px] xl:text-[20px] text-ap-black;
 		}
 
 		.descriptions {
@@ -24,10 +24,10 @@
 			}
 
 			.wrapGroup {
-				@apply flex items-center bg-[#ECECEC] px-[2px] rounded-[3px];
+				@apply flex items-center bg-ap-light-gray px-[2px] rounded-[3px];
 
 				.group {
-					@apply text-[12px] text-[#333333];
+					@apply text-[12px] text-ap-black;
 				}
 			}
 		}

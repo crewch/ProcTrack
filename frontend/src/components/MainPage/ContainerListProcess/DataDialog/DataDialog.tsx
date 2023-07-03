@@ -8,10 +8,9 @@ import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
 import { FC, forwardRef, useState } from 'react'
 import Button from '@mui/material/Button'
-// import stylesContainer from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialog/DataDialog.module.scss'
 import { Box, Divider } from '@mui/material'
 import { IDialogProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IDialogProps/IDialogProps'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialogStyles/DataDialog.module.scss'
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -34,24 +33,14 @@ const DataDialog: FC<IDialogProps> = ({ children, title, icon }) => {
 	}
 
 	return (
-		<Box>
+		<Box className={styles.dataDialog}>
 			<Button
 				variant='contained'
 				endIcon={
 					<img src={`/src/assets/${icon}.svg`} height='20px' width='20px' />
 				}
 				onClick={handleClickOpen}
-				sx={{
-					borderRadius: '5px',
-					backgroundColor: '#ECECEC',
-					color: '#333333',
-					boxShadow: 'none',
-					fontSize: '14px',
-					textTransform: 'none',
-					'&:hover': {
-						backgroundColor: 'transparent',
-					},
-				}}
+				className={styles.btn}
 			>
 				{title}
 			</Button>
@@ -60,8 +49,9 @@ const DataDialog: FC<IDialogProps> = ({ children, title, icon }) => {
 				open={open}
 				onClose={handleClose}
 				TransitionComponent={Transition}
+				className={styles.dialog}
 			>
-				<AppBar sx={{ position: 'relative', boxShadow: 'none' }}>
+				<AppBar className={styles.appBar}>
 					<Toolbar className={styles.toolbar}>
 						<IconButton
 							edge='start'

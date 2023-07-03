@@ -4,6 +4,7 @@ import { FC } from 'react'
 import search from '../../../../assets/search.svg'
 import searchSetting from '/src/assets/searchSetting.svg'
 import searchSettingBlue from '/src/assets/searchSettingBlue.svg'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/Search.module.scss'
 
 const Search: FC<ISearchProps> = ({
 	isOpen,
@@ -12,37 +13,28 @@ const Search: FC<ISearchProps> = ({
 	setTextForSearchProcess,
 }) => {
 	return (
-		<Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+		<Box className={styles.container}>
 			<TextField
 				value={textForSearchProcess}
 				onChange={event => setTextForSearchProcess(event.target.value)}
 				placeholder='Поиск...'
 				autoComplete='off'
-				variant='outlined'
+				variant='standard'
 				InputProps={{
-					sx: {
-						borderRadius: '8px',
-						backgroundColor: '#E4E4E4',
-					},
+					className: styles.InputProps,
+					disableUnderline: true,
 				}}
-				sx={{
-					width: '100%',
-				}}
+				className={styles.TextField}
 			/>
 			<IconButton
-				sx={{ borderRadius: '8px', ml: '8px' }}
+				className={styles.IconButton}
 				onClick={() => setTextForSearchProcess('')}
 			>
 				<img src={search} height='25px' width='25px' />
 			</IconButton>
 			<IconButton
 				onClick={() => setIsOpen(!isOpen)}
-				sx={{
-					backgroundColor: isOpen ? '#d8ecff' : 'transparent',
-					color: isOpen ? '#1a2d67' : 'transparent',
-					ml: '8px',
-					borderRadius: '8px',
-				}}
+				className={isOpen ? styles.openSettings : styles.closeSettings}
 			>
 				{isOpen ? (
 					<img src={searchSettingBlue} height='25px' width='25px' />

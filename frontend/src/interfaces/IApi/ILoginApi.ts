@@ -1,4 +1,7 @@
 export interface IUserData {
-	email: 'string'
-	token: 'string'
+	id: number
+	email: string
+	longName: string
+	shortName: string
+	roles: string[]
 }

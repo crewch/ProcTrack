@@ -8,7 +8,6 @@ const FilesField = () => {
 				className={styles.btn}
 				variant='contained'
 				component='button'
-				disableRipple
 				startIcon={
 					<img src='/src/assets/pdf-file.svg' height='20px' width='20px' />
 				}

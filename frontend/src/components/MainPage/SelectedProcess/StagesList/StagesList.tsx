@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedStage } from '../../../../store/processSlice/processSlice'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.scss'
 import DataDialog from '../../ContainerListProcess/DataDialog/DataDialog'
-import DataTable from '../../Dialogs/DataTable/DataTable'
+import DataGraph from '../../Dialogs/DataGraph/DataGraph'
 
 const StagesList = () => {
 	const openedStage = useAppSelector(state => state.processes.openedStage)
@@ -41,13 +41,15 @@ const StagesList = () => {
 					<ListItem
 						disablePadding
 						key={index}
-						sx={{ pl: 0, pr: 1.5, py: 0.3 }}
-						className={(() =>
-							openedStage === stage.name ? styles.openedProcessWrap : '')()}
+						className={
+							openedStage === stage.name
+								? styles.openedProcessWrap
+								: styles.closedProcessWrap
+						}
 					>
 						<img
 							src={`src/assets/${stage.status}.svg`}
-							style={{ marginRight: '14px', marginLeft: '6px' }}
+							className={styles.img}
 							height='20px'
 							width='20px'
 						/>
@@ -57,11 +59,11 @@ const StagesList = () => {
 						>
 							<ListItemText>
 								<Typography
-									sx={{ color: '#333333' }}
-									className={(() =>
+									className={
 										openedStage === stage.name
 											? styles.openedProcessText
-											: 'color: "#333333"')()}
+											: styles.closedProcessText
+									}
 								>
 									{stage.name}
 								</Typography>
@@ -70,8 +72,8 @@ const StagesList = () => {
 					</ListItem>
 				))}
 			</List>
-			<DataDialog title='Tабличное представление' icon='table'>
-				<DataTable />
+			<DataDialog title='Графовое представление' icon='graph'>
+				<DataGraph />
 			</DataDialog>
 		</Box>
 	)

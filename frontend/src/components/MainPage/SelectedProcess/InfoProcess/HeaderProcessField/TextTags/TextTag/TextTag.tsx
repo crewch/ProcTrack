@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 import { FC } from 'react'
-import { ITextTagProps } from '../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/ITextTags/ITextTag/ITextTagProps'
+import { ITextTagProps } from '../../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/ITextTags/ITextTag/ITextTagProps'
 
 const TextTag: FC<ITextTagProps> = ({ text, color, backgroundColor }) => {
 	return (
@@ -8,9 +8,9 @@ const TextTag: FC<ITextTagProps> = ({ text, color, backgroundColor }) => {
 			sx={{
 				backgroundColor: backgroundColor,
 				py: '1px',
-				px: 0.5,
+				px: 1,
 				borderRadius: '3px',
-				fontSize: { xs: '10px', lg: '12px' },
+				fontSize: { xs: '10px', lg: '16px' },
 				color: color,
 			}}
 			variant='body2'

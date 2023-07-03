@@ -1,5 +1,7 @@
+import { Box } from '@mui/material'
+
 const DataTable = () => {
-	return <div></div>
+	return <Box></Box>
 }
 
 export default DataTable

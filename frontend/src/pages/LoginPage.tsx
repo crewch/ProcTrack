@@ -26,8 +26,8 @@ const LoginPage = () => {
 
 	const navigation = useNavigate()
 	if (mutation.isSuccess) {
-		if (mutation.data?.token) {
-			localStorage.setItem('TOKEN', mutation.data?.token)
+		if (mutation.data?.id) {
+			localStorage.setItem('UserData', JSON.stringify(mutation.data))
 			navigation('/')
 		}
 	}

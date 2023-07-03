@@ -4,8 +4,8 @@ import Search from './Search/Search'
 import ListProccess from './ListProcess/ListProcess'
 import DataDialog from './DataDialog/DataDialog'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
-import DataGraph from '../Dialogs/DataGraph/DataGraph'
 import SettingsList from './Search/SettingsList'
+import DataTable from '../Dialogs/DataTable/DataTable'
 
 const ContainerListProcess = () => {
 	const [textForSearchProcess, setTextForSearchProcess] = useState('')
@@ -25,8 +25,8 @@ const ContainerListProcess = () => {
 			) : (
 				<>
 					<ListProccess />
-					<DataDialog title='Графовое представление' icon='graph'>
-						<DataGraph />
+					<DataDialog title='Tабличное представление' icon='table'>
+						<DataTable />
 					</DataDialog>
 				</>
 			)}

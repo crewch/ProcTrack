@@ -19,6 +19,5 @@
 }
 
 .activeStyle .activeStyleButton {
-	background-color: #d8ecff;
-	border-radius: 8px;
+	@apply rounded-[8px] bg-[#d8ecff];
 }

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import TextTag from './TextTag'
+import TextTag from './TextTag/TextTag'
 import { FC } from 'react'
 import { ITextTagsProps } from '../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/ITextTags/ITextTagsProps'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/TextTagsStyles/TextTags.module.scss'

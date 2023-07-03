@@ -43,8 +43,9 @@ const ListProcess = () => {
 				<ListItem
 					disablePadding
 					key={index}
-					className={(() =>
-						openedProcess === process.name ? styles.openedProcessWrap : '')()}
+					className={
+						openedProcess === process.name ? styles.openedProcessWrap : ''
+					}
 				>
 					<img
 						src={`src/assets/${process.status}.svg`}
@@ -58,11 +59,11 @@ const ListProcess = () => {
 					>
 						<ListItemText>
 							<Typography
-								sx={{ color: '#333333' }}
-								className={(() =>
+								className={
 									openedProcess === process.name
 										? styles.openedProcessText
-										: 'color: "#333333"')()}
+										: styles.closedProcessText
+								}
 							>
 								{process.name}
 							</Typography>

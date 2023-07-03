@@ -1,23 +1,27 @@
 .container {
-	@apply h-[50%] w-full bg-white rounded-[8px] p-1 xl:p-3 flex flex-col;
+	@apply h-[56%] xl:h-[51%] 2xl:h-[56%] w-full bg-ap-white rounded-[8px] p-1 xl:p-3 flex flex-col;
 
 	.list {
 		@apply h-full overflow-auto;
-	}
 
-	.btn {
-		@apply rounded-[5px] bg-[#ECECEC] text-[#333333] shadow-none text-[14px] normal-case hover:bg-[transparent] self-start;
-	}
-}
+		.img {
+			@apply mr-[14px] ml-[6px];
+		}
 
-.openedProcessWrap {
-	@apply bg-transparent;
+		.openedProcessWrap {
+			@apply bg-transparent;
 
-	.openedProcess {
-		@apply bg-[#d8ecff] rounded-[7px];
-	}
+			.openedProcess {
+				@apply bg-[#d8ecff] rounded-[7px];
+			}
 
-	.openedProcessText {
-		@apply text-[#1a2d67];
+			.openedProcessText {
+				@apply text-irkut-dark;
+			}
+		}
+
+		.closedProcessText {
+			@apply text-ap-black;
+		}
 	}
 }

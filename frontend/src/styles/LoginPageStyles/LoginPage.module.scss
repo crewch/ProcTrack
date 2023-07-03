@@ -1,5 +1,5 @@
 .loginPage {
-	@apply bg-[#FFFFFF] h-full p-4;
+	@apply bg-ap-white h-full p-4;
 
 	.logoImg {
 		@apply absolute;
@@ -20,7 +20,7 @@
 				@apply flex flex-col gap-4 2xl:gap-[28px];
 
 				.btn {
-					@apply bg-[#5C98D0] w-[300px] 2xl:w-[562px] h-[50px] 2xl:h-[104px];
+					@apply bg-ap-blue w-[300px] 2xl:w-[562px] h-[50px] 2xl:h-[104px];
 				}
 			}
 		}
