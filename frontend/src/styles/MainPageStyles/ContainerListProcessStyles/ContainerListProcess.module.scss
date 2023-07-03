@@ -1,7 +1,11 @@
 .containerListProcess {
-	@apply h-full w-1/4 bg-ap-white rounded-[8px] p-3 flex flex-col;
+	@apply h-full w-[27%] bg-ap-white rounded-[8px] p-3 flex flex-col;
 
 	.divider {
 		@apply mb-1 border;
+	}
+
+	.btns {
+		@apply flex justify-around;
 	}
 }
