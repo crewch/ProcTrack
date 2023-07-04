@@ -1,0 +1,23 @@
+.container {
+	@apply flex items-center mb-2;
+
+	.InputProps {
+		@apply pl-[15px] rounded-[8px] bg-ap-light-gray h-[42px];
+	}
+
+	.TextField {
+		@apply w-[100%];
+	}
+
+	.IconButton {
+		@apply rounded-[8px] ml-[8px] bg-ap-light-gray;
+	}
+
+	.openSettings {
+		@apply bg-[#d8ecff] text-[#1a2d67] ml-[8px] rounded-[8px];
+	}
+
+	.closeSettings {
+		@apply bg-transparent text-transparent ml-[8px] rounded-[8px] bg-ap-light-gray;
+	}
+}
