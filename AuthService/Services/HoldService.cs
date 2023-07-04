@@ -244,7 +244,7 @@ namespace AuthService.Services
             return Task.FromResult(dto);
         }
 
-        public Task<List<HoldDto>> GetHolds(UserHoldTypeDto data)
+        public async Task<List<HoldDto>> GetHolds(UserHoldTypeDto data)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == data.Id);
             var type = _context.Types.FirstOrDefault(t => t.Title == data.HoldType);

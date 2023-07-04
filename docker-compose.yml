@@ -2,14 +2,34 @@ version: '3.7'
 
 services:
 
-  frontend:
-    build:
-       context: web
-    image: my-awesome-web
+  proxy:
+    build: 
+      context: .
+      dockerfile: nginx.dockerfile
+    expose:
+      - "80"
     ports:
       - "8000:80"
     networks:
       - api_network
+    depends_on:
+      - db-service
+      - frontend
+      - auth-service
+      - s3-service
+
+
+  frontend:
+    build:
+      context: web
+    ports:
+      - "5173:5173"
+    networks:
+      - api_network
+    depends_on:
+      - db-service
+      - auth-service
+      - s3-service
 
   db-service:
     image: ${DOCKER_REGISTRY-}dbservice
