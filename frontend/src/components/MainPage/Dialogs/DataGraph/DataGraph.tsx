@@ -21,7 +21,7 @@ const acceptanceWithCommentsColor = '#aac954'
 const notStartedColor = '#ececec'
 const sentVerificationColor = '#5dc7de'
 const takenVerificationColor = '#5c98d0'
-const blockColor = '#1bd2b1'
+const blockColor = '#25c8aa'
 
 const edgeType = 'smoothstep'
 const position = { x: 0, y: 0 }
