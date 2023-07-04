@@ -1,9 +1,9 @@
 import { Box, IconButton, TextField } from '@mui/material'
 import { ISearchProps } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch'
 import { FC } from 'react'
-import search from '../../../../assets/search.svg'
-import searchSetting from '/src/assets/searchSetting.svg'
-import searchSettingBlue from '/src/assets/searchSettingBlue.svg'
+import search from '/search.svg'
+import searchSetting from '/searchSetting.svg'
+import searchSettingBlue from '/searchSettingBlue.svg'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/Search.module.scss'
 
 const Search: FC<ISearchProps> = ({

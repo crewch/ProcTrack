@@ -1,13 +1,5 @@
 import { Box, Divider, List } from '@mui/material'
 import { Outlet } from 'react-router-dom'
-import Logo from '/logo.svg'
-import Document from '../assets/document.svg'
-import Confirmation from '../assets/confirmation.svg'
-import Analysis from '../assets/analysis.svg'
-import Key from '../assets/key.svg'
-import Notifications from '../assets/notification.svg'
-import Settings from '../assets/settings.svg'
-import User1 from '../assets/user1.svg'
 import ButtonListItem from '../components/Layout/ButtonListItem'
 import LogoListItem from '../components/Layout/LogoListItem'
 import styles from '../styles/LayoutStyles/Layout.module.scss'
@@ -17,18 +9,18 @@ const Layout = () => {
 		<Box className={styles.wrap}>
 			<Box component='nav' className={styles.nav}>
 				<List>
-					<LogoListItem src={Logo} />
+					<LogoListItem src='/logo.svg' />
 					<Divider variant='middle' className={styles.divider} />
-					<ButtonListItem src={Document} to='/' />
-					<ButtonListItem src={Confirmation} to='confirmation' />
-					<ButtonListItem src={Analysis} to='analysis' />
-					<ButtonListItem src={Key} to='key' />
+					<ButtonListItem src='/document.svg' to='/' />
+					<ButtonListItem src='/confirmation.svg' to='confirmation' />
+					<ButtonListItem src='/analysis.svg' to='analysis' />
+					<ButtonListItem src='/key.svg' to='key' />
 				</List>
 				<List>
 					<Divider variant='middle' className={styles.divider} />
-					<ButtonListItem src={Notifications} to='test4' />
-					<ButtonListItem src={Settings} to='test5' />
-					<ButtonListItem src={User1} to='test6' />
+					<ButtonListItem src='/notification.svg' to='test4' />
+					<ButtonListItem src='/settings.svg' to='test5' />
+					<ButtonListItem src='/user1.svg' to='test6' />
 				</List>
 			</Box>
 			<Outlet />

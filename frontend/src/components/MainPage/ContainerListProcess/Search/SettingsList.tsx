@@ -38,7 +38,6 @@ const SettingsList = () => {
 										dispatch(toggleState({ type: setting.mainSetting.type }))
 									}
 									name={setting.mainSetting.type}
-									inputProps={{ 'aria-label': 'controlled' }}
 								/>
 							}
 						/>

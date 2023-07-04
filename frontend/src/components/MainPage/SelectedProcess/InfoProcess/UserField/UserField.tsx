@@ -10,7 +10,7 @@ const UserField: FC<{ group: string; responsible: string; role: string }> = ({
 	return (
 		<Box className={styles.userField}>
 			<Box className={styles.wrapIcon}>
-				<img className={styles.icon} src='/src/assets/user2.svg' />
+				<img className={styles.icon} src='/user2.svg' />
 			</Box>
 			<Box className={styles.wrapUserInfo}>
 				<Typography variant='h6' className={styles.title}>

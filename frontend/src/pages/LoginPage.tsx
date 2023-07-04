@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
-import FullLogo from '../assets/fulllogo.svg'
+import FullLogo from '/fulllogo.svg'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { IFormInput } from '../interfaces/ILoginPage/IFormInput'
 import { useMutation } from '@tanstack/react-query'
@@ -51,20 +51,10 @@ const LoginPage = () => {
 									label='Логин'
 									autoComplete='off'
 									InputLabelProps={{
-										sx: {
-											fontFamily: 'Montserrat',
-											fontWeight: '500px',
-											fontSize: { xl: '24px' },
-											color: '#949494',
-										},
+										className: styles.inputLableProps,
 									}}
 									InputProps={{
-										sx: {
-											fontFamily: 'Montserrat',
-											fontWeight: '500px',
-											fontSize: { xl: '24px' },
-											borderRadius: '13px',
-										},
+										className: styles.inputProps,
 									}}
 								/>
 							)}
@@ -80,19 +70,10 @@ const LoginPage = () => {
 									label='Пароль'
 									autoComplete='off'
 									InputLabelProps={{
-										sx: {
-											fontFamily: 'Montserrat',
-											fontSize: { xl: '24px' },
-											color: '#949494',
-										},
+										className: styles.inputLableProps,
 									}}
 									InputProps={{
-										sx: {
-											fontFamily: 'Montserrat',
-											fontWeight: '500px',
-											fontSize: { xl: '24px' },
-											borderRadius: '13px',
-										},
+										className: styles.inputProps,
 									}}
 								/>
 							)}

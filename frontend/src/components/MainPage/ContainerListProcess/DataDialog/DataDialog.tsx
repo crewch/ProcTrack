@@ -7,9 +7,9 @@ import CloseIcon from '@mui/icons-material/Close'
 import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
 import { FC, forwardRef, useState } from 'react'
-import Button from '@mui/material/Button'
 import { Box, Divider } from '@mui/material'
 import { IDialogProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IDialogProps/IDialogProps'
+import { CustomButton } from '../../../CustomButton/CustomButton'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialogStyles/DataDialog.module.scss'
 
 const Transition = forwardRef(function Transition(
@@ -33,23 +33,26 @@ const DataDialog: FC<IDialogProps> = ({ children, title, icon }) => {
 	}
 
 	return (
-		<Box className={styles.dataDialog}>
-			<Button
+		<>
+			<CustomButton
+				sx={{
+					fontSize: {
+						lg: '14px',
+					},
+					maxWidth: '53%',
+				}}
 				variant='contained'
-				endIcon={
-					<img src={`/src/assets/${icon}.svg`} height='20px' width='20px' />
-				}
+				endIcon={<img src={`/${icon}.svg`} height='20px' width='20px' />}
 				onClick={handleClickOpen}
-				className={styles.btn}
 			>
 				{title}
-			</Button>
+			</CustomButton>
 			<Dialog
+				className={styles.dialog}
 				fullScreen
 				open={open}
 				onClose={handleClose}
 				TransitionComponent={Transition}
-				className={styles.dialog}
 			>
 				<AppBar className={styles.appBar}>
 					<Toolbar className={styles.toolbar}>
@@ -71,7 +74,7 @@ const DataDialog: FC<IDialogProps> = ({ children, title, icon }) => {
 					{children}
 				</Box>
 			</Dialog>
-		</Box>
+		</>
 	)
 }
 

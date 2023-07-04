@@ -1,22 +1,19 @@
 import { Box, Typography } from '@mui/material'
-import Pen from '/src/assets/pen.svg'
+import Pen from '/pen.svg'
 import { FC } from 'react'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/HeaderProcessField.module.scss'
 import TextTags from './TextTags/TextTags'
+import { IHeaderFieldProps } from '../../../../interfaces/IMainPage/ISelectedStage/IHeaderField/IHeaderField'
 
-const HeaderField: FC<{
-	name: string
-	status: string
-	nameOfGroup: string
-}> = ({ name, status, nameOfGroup }) => {
+const HeaderField: FC<IHeaderFieldProps> = ({ name, status, nameOfGroup }) => {
 	const ProcessStatusImg =
 		status === 'в процессе' ? (
-			<img src='src/assets/inprogress.svg' className={styles.img} />
+			<img src='/inprogress.svg' className={styles.img} />
 		) : status === 'отклонено' ? (
-			<img src='src/assets/rejected.svg' className={styles.img} />
+			<img src='/rejected.svg' className={styles.img} />
 		) : (
 			status === 'согласован с замечаниями' && (
-				<img src='src/assets/completed.svg' className={styles.img} />
+				<img src='/completed.svg' className={styles.img} />
 			)
 		)
 

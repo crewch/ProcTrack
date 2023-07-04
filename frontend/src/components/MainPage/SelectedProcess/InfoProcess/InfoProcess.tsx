@@ -22,7 +22,7 @@ const InfoProcess = () => {
 		role: 'Ответственный',
 	}
 
-	const [file, setFile] = useState<File>()
+	const [_file, setFile] = useState<File>()
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			setFile(e.target.files[0])

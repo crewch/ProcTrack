@@ -11,8 +11,9 @@ import ReactFlow, {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import dagre from 'dagre'
-import { Button } from '@mui/material'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialogStyles/DataDialog.module.scss'
+import { CustomButton } from '../../../CustomButton/CustomButton'
+import { Box } from '@mui/material'
 
 const acceptanceColor = '#54C16C'
 const rejectionColor = '#E25E63'
@@ -28,12 +29,12 @@ const position = { x: 0, y: 0 }
 
 const initialEdges = [
 	{ id: 'e1-2', source: '1', target: '2', type: edgeType },
-	{ id: 'e1-3', source: '1', target: '3', animated: true, type: edgeType },
-	{ id: 'e2-4', source: '2', target: '4', animated: true, type: edgeType },
-	{ id: 'e2-5', source: '2', target: '5', animated: true, type: edgeType },
+	{ id: 'e1-3', source: '1', target: '3', animated: false, type: edgeType },
+	{ id: 'e2-4', source: '2', target: '4', animated: false, type: edgeType },
+	{ id: 'e2-5', source: '2', target: '5', animated: false, type: edgeType },
 	{ id: 'e3-6', source: '3', target: '6', type: edgeType },
 	{ id: 'e3-7', source: '3', target: '7', type: edgeType },
-	{ id: 'e3-8', source: '3', target: '8', type: edgeType },
+	{ id: 'e4-8', source: '4', target: '8', type: edgeType },
 ]
 
 const initialNodes = [
@@ -183,12 +184,7 @@ const DataGraph = () => {
 	)
 
 	return (
-		<div
-			style={{
-				height: '100%',
-				display: 'flex',
-			}}
-		>
+		<Box className={styles.dataGraph}>
 			<ReactFlow
 				nodes={nodes}
 				edges={edges}
@@ -196,18 +192,34 @@ const DataGraph = () => {
 				onEdgesChange={onEdgesChange}
 				onConnect={onConnect}
 			>
-				<Panel position='top-right' className={styles.dataDialog}>
-					<Button className={styles.btn} onClick={() => onLayout('TB')}>
+				<Panel position='top-right' className={styles.panel}>
+					<CustomButton
+						sx={{
+							fontSize: {
+								lg: '14px',
+							},
+						}}
+						variant='contained'
+						onClick={() => onLayout('TB')}
+					>
 						Вертикальный вид
-					</Button>
-					<Button className={styles.btn} onClick={() => onLayout('LR')}>
+					</CustomButton>
+					<CustomButton
+						sx={{
+							fontSize: {
+								lg: '14px',
+							},
+						}}
+						variant='contained'
+						onClick={() => onLayout('LR')}
+					>
 						Горизонтальный вид
-					</Button>
+					</CustomButton>
 				</Panel>
 				<Controls />
 				<Background gap={12} size={1} />
 			</ReactFlow>
-		</div>
+		</Box>
 	)
 }
 

@@ -47,10 +47,7 @@ const ListProcess = () => {
 						openedProcess === process.name ? styles.openedProcessWrap : ''
 					}
 				>
-					<img
-						src={`src/assets/${process.status}.svg`}
-						className={styles.img}
-					/>
+					<img src={`/${process.status}.svg`} className={styles.img} />
 					<ListItemButton
 						className={styles.openedProcess}
 						onClick={() =>

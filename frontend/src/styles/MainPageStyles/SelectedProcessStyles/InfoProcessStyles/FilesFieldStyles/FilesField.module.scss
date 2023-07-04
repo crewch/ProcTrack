@@ -1,11 +1,6 @@
 .container {
 	@apply flex gap-1 items-center flex-wrap;
 
-	.btn {
-		@apply bg-ap-light-gray text-ap-black text-[12px] 2xl:text-[14px] h-[38px] normal-case hover:bg-transparent;
-		box-shadow: none;
-	}
-
 	.typography {
 		@apply text-[13px] xl:text-[16px] 2xl:text-[14px] text-ap-black font-normal;
 	}

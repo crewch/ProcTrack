@@ -10,7 +10,7 @@ const NotFoundPage = () => {
 
 	return (
 		<Box component='main' className={styles.main}>
-			<img src='/src/assets/notFound.svg' className={styles.imgNotFound} />
+			<img src='/notFound.svg' className={styles.imgNotFound} />
 			<Typography component='h1' className={styles.typography}>
 				Страница не найдена
 			</Typography>

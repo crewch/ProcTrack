@@ -1,22 +1,25 @@
-import { Box, Button } from '@mui/material'
+import { Box } from '@mui/material'
 import { ChangeEventHandler, FC } from 'react'
-import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/UploadButtonStyles/UploadButton.module.scss'
+import { CustomButton } from '../../../../CustomButton/CustomButton'
 
 const UploadButton: FC<{
 	handleFileChange: ChangeEventHandler<HTMLInputElement>
 }> = ({ handleFileChange }) => {
 	return (
-		<Box component='label' className={styles.container}>
-			<Button
-				className={styles.btn}
-				variant='contained'
+		<Box component='label'>
+			<CustomButton
+				sx={{
+					fontSize: {
+						xs: '12px',
+						lg: '14px',
+					},
+				}}
 				component='span'
-				endIcon={
-					<img src='/src/assets/folderUpload.svg' height='20px' width='20px' />
-				}
+				variant='contained'
+				endIcon={<img src='/folderUpload.svg' height='20px' width='20px' />}
 			>
 				Загрузить файл
-			</Button>
+			</CustomButton>
 			<input hidden type='file' onChange={handleFileChange} />
 		</Box>
 	)

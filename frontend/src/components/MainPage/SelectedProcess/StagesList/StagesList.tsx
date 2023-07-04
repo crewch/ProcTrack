@@ -48,7 +48,7 @@ const StagesList = () => {
 						}
 					>
 						<img
-							src={`src/assets/${stage.status}.svg`}
+							src={`/${stage.status}.svg`}
 							className={styles.img}
 							height='20px'
 							width='20px'

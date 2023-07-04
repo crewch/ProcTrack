@@ -9,11 +9,11 @@ const ButtonListItem: FC<IButtonListItem> = ({ src, to }) => {
 		<ListItem disablePadding className={styles.listItem}>
 			<NavLink
 				to={to}
-				className={({ isActive }) => {
-					return isActive
+				className={({ isActive }) =>
+					isActive
 						? `${styles.activeStyle} ${styles.navLink}`
 						: `${styles.navLink}`
-				}}
+				}
 			>
 				{({ isActive }) => (
 					<Tooltip title={to} placement='right' arrow>
