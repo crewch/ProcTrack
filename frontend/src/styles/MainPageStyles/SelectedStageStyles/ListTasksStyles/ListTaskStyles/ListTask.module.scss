@@ -1,0 +1,7 @@
+.container {
+	@apply flex flex-col gap-1;
+
+	.divider {
+		@apply my-1 border;
+	}
+}

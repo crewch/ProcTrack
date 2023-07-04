@@ -6,24 +6,21 @@ import TextTags from './TextTags/TextTags'
 import { IHeaderFieldProps } from '../../../../interfaces/IMainPage/ISelectedStage/IHeaderField/IHeaderField'
 
 const HeaderField: FC<IHeaderFieldProps> = ({ name, status, nameOfGroup }) => {
-	const ProcessStatusImg =
-		status === 'в процессе' ? (
-			<img src='/inprogress.svg' className={styles.img} />
-		) : status === 'отклонено' ? (
-			<img src='/rejected.svg' className={styles.img} />
-		) : (
-			status === 'согласован с замечаниями' && (
-				<img src='/completed.svg' className={styles.img} />
-			)
-		)
-
 	return (
 		<>
 			<Box className={styles.header}>
 				<Box className={styles.wrap}>
 					<Typography variant='h4' className={styles.typography}>
 						{`${name} `}
-						{ProcessStatusImg}
+						{status === 'в процессе' && (
+							<img src='/inprogress.svg' className={styles.img} />
+						)}
+						{status === 'отклонено' && (
+							<img src='/rejected.svg' className={styles.img} />
+						)}
+						{status === 'согласован с замечаниями' && (
+							<img src='/completed.svg' className={styles.img} />
+						)}
 					</Typography>
 					<Box className={styles.icon}>
 						<img src={Pen} height='25px' width='25px' />

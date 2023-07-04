@@ -1,5 +1,6 @@
 export interface IDataInfoProps {
-	startDate: string
-	endData: string
+	startDate?: string
+	endData?: string
 	interval?: string
+	success?: string
 }

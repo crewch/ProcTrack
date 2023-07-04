@@ -4,6 +4,7 @@ import styles from '/src/styles/MainPageStyles/SelectedStageStyles/SelectedStage
 import UserField from '../SelectedProcess/InfoProcess/UserField/UserField'
 import DateInfo from '../SelectedProcess/InfoProcess/DateInfoField/DateInfo'
 import HeaderField from './HeaderField/HeaderField'
+import ListTasks from './ListTasks/ListTasks'
 
 const SelectedStage = () => {
 	const selectedStage: ISelectedStage = {
@@ -27,7 +28,7 @@ const SelectedStage = () => {
 			<Divider className={styles.divider} />
 			<DateInfo
 				startDate={selectedStage.startDate}
-				endData={selectedStage.endDate}
+				success={selectedStage.endDate}
 			/>
 			<Divider className={styles.divider} />
 			<UserField
@@ -36,6 +37,7 @@ const SelectedStage = () => {
 				role={selectedStage.role}
 			/>
 			<Divider className={styles.divider} />
+			<ListTasks />
 		</Box>
 	)
 }

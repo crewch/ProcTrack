@@ -1,12 +1,9 @@
 import { Box, Typography } from '@mui/material'
 import { FC } from 'react'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/UserFieldStyles/UserField.module.scss'
+import { IUserFieldProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IUserFieldProps/IUserFieldProps'
 
-const UserField: FC<{ group: string; responsible: string; role: string }> = ({
-	group,
-	responsible,
-	role,
-}) => {
+const UserField: FC<IUserFieldProps> = ({ group, responsible, role }) => {
 	return (
 		<Box className={styles.userField}>
 			<Box className={styles.wrapIcon}>
