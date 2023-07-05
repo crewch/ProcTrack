@@ -21,6 +21,16 @@ namespace DB_Service.Services
             _stageService = stageService;
         }
 
+        public Task<PassportDto> CreatePassport(CreatePassportDto data, int UserId, int Id)
+        {
+            // var passport = new Passport 
+            // {
+            //     Title = data.Title,
+            //     CreatedAt = DateTime.Now,
+            // };
+            throw new NotImplementedException();
+        }
+
         public async Task<ProcessDto> CreateProcess(CreateProcessDto data, int UserId)
         {
             // TODO: добавить проверку юзера и группы, на то существуют ли они
