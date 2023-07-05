@@ -164,27 +164,33 @@ namespace DB_Service.Services
                 Id = UserId,
                 HoldType = "Stage"
             };
-            
-            var holds = await _authClient.GetHolds(req);
 
+            var holds = await _authClient.GetHolds(req);
+            
             var res = new List<StageDto>();
 
             foreach (var hold in holds)
             {
                 var stageModel = _context.Stages
-                    .Where(s => s.Id == hold.DestId && 
+                    .Include(s => s.Status)
+                    .Where(s => s.Id == hold.DestId &&
+                                s.Status != null && 
                                 s.Status.Title.ToLower() != "не начат" &&
-                                s.Status.Title.ToLower() != "отменен"
+                                s.Status.Title.ToLower() != "остановлен"
                     )
                     .FirstOrDefault();
-                
-                var stageDto = await GetStageById(stageModel.Id);
 
-                if (stageDto != null)
+                if (stageModel != null)
                 {
-                    res.Add(stageDto);
+                    var stageDto = await GetStageById(stageModel.Id);
+
+                    if (stageDto != null)
+                    {
+                        res.Add(stageDto);
+                    }
                 }
             }
+
             return res;
         }
 
