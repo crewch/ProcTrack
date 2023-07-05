@@ -1,11 +1,13 @@
 ﻿using System.Threading.Tasks;
 using DB_Service.Clients.Http;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DB_Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("cors")]
     public class FileController : ControllerBase
     {
         private readonly IFileDataClient _fileDataClient;

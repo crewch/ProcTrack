@@ -2,7 +2,7 @@ import axios from 'axios'
 import { IUserData } from '../interfaces/IApi/ILoginApi'
 import { IFormInput } from '../interfaces/ILoginPage/IFormInput'
 
-const URL = 'http://localhost:8003/api/Auth'
+const URL = 'http://localhost:8000/api/auth/login'
 
 export const loginApi = {
 	async login(data: IFormInput) {
