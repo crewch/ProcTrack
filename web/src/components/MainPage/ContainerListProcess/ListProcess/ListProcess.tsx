@@ -28,7 +28,9 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 	const filteredProcesses: Process[] = useMemo(() => {
 		if (isSuccess && data) {
 			return data.filter(process =>
-				process.title.includes(textForSearchProcess)
+				process.title
+					.toLocaleLowerCase()
+					.includes(textForSearchProcess.toLocaleLowerCase())
 			)
 		}
 
