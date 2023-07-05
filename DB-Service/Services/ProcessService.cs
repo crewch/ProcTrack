@@ -346,6 +346,47 @@ namespace DB_Service.Services
             if (process == null) {
                 return null;
             }
+            // status: в процессе, завершен, остановлен, отменен
+
+            string status = "";
+            if (_context.Stages
+                    .Include(s => s.Status)
+                    .Where(s => s.ProcessId == process.Id && s.Status.Title.ToLower() == "остановлен")
+                    .Select(s => s.Id)
+                    .ToList()
+                    .Count() != 0)
+            {
+                status = "остановлен";
+            }
+            if (status.Count() == 0 &&
+                _context.Stages
+                    .Include(s => s.Status)
+                    .Where(s => s.ProcessId == process.Id && s.Status.Title.ToLower() == "отменен")
+                    .Select(s => s.Id)
+                    .ToList()
+                    .Count() != 0)
+            {
+                status = "отменен";
+            }
+            if (status.Count() == 0 &&
+                _context.Processes
+                    .Include(s => s.TailStage.Status)
+                    .Select(s => s.TailStage.Status.Title.ToLower() == "согласован")
+                    .FirstOrDefault() &&
+                _context.Stages
+                    .Include(s => s.Status)
+                    .Where(s => s.ProcessId == process.Id && (
+                        s.Status.Title.ToLower() == "отменен" || s.Status.Title.ToLower() == "остановлен"))
+                    .Select(s => s.Id)
+                    .ToList()
+                    .Count() != 0)
+            {
+                status = "завершен";
+            }
+            if (status.Count() == 0)
+            {
+                status = "в процессе";
+            }
             
             var hold = await _authClient.FindHold(process.Id, "Process");
             
@@ -359,6 +400,7 @@ namespace DB_Service.Services
                 ApprovedAt = process.ApprovedAt,
                 ExpectedTime = process.ExpectedTime,
                 Hold = hold,
+                Status = status
             };
             return processDto;
         }
