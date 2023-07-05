@@ -326,6 +326,7 @@ namespace DB_Service.Services
                 {
                     continue;
                 }
+                used.Add(hold.DestId);
                 var processId = _context.Processes
                     .Where(p => p.Id == hold.DestId)
                     .Select(p => p.Id)
