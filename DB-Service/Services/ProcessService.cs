@@ -21,14 +21,29 @@ namespace DB_Service.Services
             _stageService = stageService;
         }
 
-        public Task<PassportDto> CreatePassport(CreatePassportDto data, int UserId, int Id)
+        public async Task<PassportDto> CreatePassport(CreatePassportDto data, int UserId, int Id)
         {
-            // var passport = new Passport 
-            // {
-            //     Title = data.Title,
-            //     CreatedAt = DateTime.Now,
-            // };
-            throw new NotImplementedException();
+            var passport = new Passport 
+            {
+                Title = data.Title,
+                CreatedAt = DateTime.Now,
+                ProcessId = Id,
+                Message = data.Message,
+            };
+            
+            _context.Passports.Add(passport);
+            _context.SaveChanges();
+
+            var dto = new PassportDto
+            {
+                Id = passport.Id,
+                Title = passport.Title,
+                CreatedAt = passport.CreatedAt,
+                Message = passport.Message,
+                ProcessId = passport.ProcessId,
+            };
+            
+            return dto;
         }
 
         public async Task<ProcessDto> CreateProcess(CreateProcessDto data, int UserId)
@@ -267,6 +282,29 @@ namespace DB_Service.Services
                 Edges = edges,
                 Dependences = dependences,
             };
+
+            return res;
+        }
+
+        public async Task<List<PassportDto>> GetPassports(int Id)
+        {
+            var passports = _context.Passports
+                .Where(p => p.ProcessId == Id)
+                .ToList();
+
+            var res = new List<PassportDto>();
+
+            foreach (var passport in passports)
+            {
+                res.Add(new PassportDto
+                {
+                    Id = passport.Id,
+                    Title = passport.Title,
+                    CreatedAt = passport.CreatedAt,
+                    Message = passport.Message,
+                    ProcessId = Id,
+                });
+            }
 
             return res;
         }
