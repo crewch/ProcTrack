@@ -12,7 +12,7 @@ const ListTask: FC<IListTaskProps> = ({
 	roleAuthor,
 	author,
 	group,
-	remarks,
+	_remarks,
 }) => {
 	return (
 		<Box className={styles.container}>
