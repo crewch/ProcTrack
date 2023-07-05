@@ -12,26 +12,31 @@ import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListS
 import DataDialog from '../../ContainerListProcess/DataDialog/DataDialog'
 import DataGraph from '../../Dialogs/DataGraph/DataGraph'
 
+interface IStagesList {
+	name: string
+	status: string
+}
+
 const StagesList = () => {
 	const openedStage = useAppSelector(state => state.processes.openedStage)
 	const dispatch = useAppDispatch()
 
-	const stagesList = [
-		{ name: '1 этап', status: 'inprogress' },
-		{ name: '2 этап', status: 'completed' },
-		{ name: '3 этап', status: 'rejected' },
-		{ name: '4 этап', status: 'inprogress' },
-		{ name: '5 этап', status: 'completed' },
-		{ name: '6 этап', status: 'completed' },
-		{ name: '7 этап', status: 'inprogress' },
-		{ name: '8 этап', status: 'inprogress' },
-		{ name: '9 этап', status: 'inprogress' },
-		{ name: '10 этап', status: 'completed' },
-		{ name: '11 этап', status: 'rejected' },
-		{ name: '12 этап', status: 'inprogress' },
-		{ name: '13 этап', status: 'inprogress' },
-		{ name: '14 этап', status: 'completed' },
-		{ name: '15 этап', status: 'completed' },
+	const stagesList: IStagesList[] = [
+		// { name: '1 этап', status: 'inprogress' },
+		// { name: '2 этап', status: 'completed' },
+		// { name: '3 этап', status: 'rejected' },
+		// { name: '4 этап', status: 'inprogress' },
+		// { name: '5 этап', status: 'completed' },
+		// { name: '6 этап', status: 'completed' },
+		// { name: '7 этап', status: 'inprogress' },
+		// { name: '8 этап', status: 'inprogress' },
+		// { name: '9 этап', status: 'inprogress' },
+		// { name: '10 этап', status: 'completed' },
+		// { name: '11 этап', status: 'rejected' },
+		// { name: '12 этап', status: 'inprogress' },
+		// { name: '13 этап', status: 'inprogress' },
+		// { name: '14 этап', status: 'completed' },
+		// { name: '15 этап', status: 'completed' },
 	]
 
 	return (
