@@ -81,5 +81,21 @@ namespace DB_Service.Controllers
             var res = await _service.StopProcess(UserId, Id);
             return Ok(res);
         }
+
+        [Route("{Id}/Passport")]
+        [HttpPost]
+        public async Task<ActionResult<PassportDto>> CreatePassport(CreatePassportDto data, int UserId, int Id)
+        {
+            var res = await _service.CreatePassport(data, UserId, Id);
+            return Ok(res);
+        }
+
+        [Route("{Id}/Passport")]
+        [HttpGet]
+        public async Task<ActionResult<List<PassportDto>>> GetPassports(int Id)
+        {
+            var res = await _service.GetPassports(Id);
+            return Ok(res);
+        }
     }
 }

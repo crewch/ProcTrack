@@ -28,12 +28,13 @@ namespace AuthService.Controllers
             return Ok(res);
         }
 
-        //[Route("userWithRoles")]
-        //[HttpPost]
-        //public async Task<ActionResult<UserWithRoles>> GetUser(UserEmailDto data)
-        //{
-        //    var res = await _service.GetUserByLogin(data);
-        //    return res;
-        //}
+        [Route("Groups")]
+        [HttpGet]
+        public async Task<ActionResult<List<GroupDto>>> GetGroups()
+        {
+            var res = await _service.GetGroups();
+            return Ok(res);
+        }
+        
     }
 }

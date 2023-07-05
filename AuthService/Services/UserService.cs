@@ -34,21 +34,23 @@ namespace AuthService.Services
             return Task.FromResult(userDto);
         }
 
-        //public Task<UserWithRoles> GetUserByLogin(UserEmailDto data)
-        //{
-        //    var userWithRoles = _context.Users
-        //        .Where(u => u.Email == data.Email)
-        //        .Include(u => u.UserRoles)
-        //            .ThenInclude(ur => ur.Role)
-        //        .FirstOrDefault();
-        //    var result = new UserWithRoles()
-        //    {
-        //        Id = userWithRoles.Id,
-        //        Email = userWithRoles.Email,
-        //        UserName = userWithRoles.LongName,
-        //        Roles = userWithRoles.Roles.Select(ur => ur.Title).ToList()
-        //    };
-        //    return Task.FromResult(result);
-        //}
+        public async Task<List<GroupDto>> GetGroups()
+        {
+            var groups = _context.Groups
+                .ToList();
+            
+            var res = new List<GroupDto>();
+
+            foreach (var group in groups)
+            {
+                res.Add(new GroupDto {
+                    Id = group.Id,
+                    Title = group.Title,
+                    Description = group.Description,
+                    Boss = await GetUserById(group.BossId),
+                });
+            }
+            return res;
+        }
     }
 }
