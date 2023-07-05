@@ -11,7 +11,7 @@ interface ITemplate {
 	hold: null
 }
 
-interface IGroupe {
+interface IGroup {
 	id: number
 	title: string
 	description: string
@@ -43,7 +43,7 @@ export const templatesApi = {
 	},
 	async getGroupes() {
 		try {
-			const data: IGroupe[] = await (await axios.get(URL_Group)).data
+			const data: IGroup[] = await (await axios.get(URL_Group)).data
 			return data
 		} catch (error) {
 			if (error instanceof Error) {
