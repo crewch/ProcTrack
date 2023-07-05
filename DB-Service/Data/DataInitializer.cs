@@ -26,7 +26,10 @@ namespace DB_Service.Data
                 new Status{Id=1, Title="Не начат"},
                 new Status{Id=2, Title="Отменен"},
                 new Status{Id=3, Title="Отправлен на проверку"},
-                new Status{Id=4, Title="Принят на проверку"}
+                new Status{Id=4, Title="Принят на проверку"},
+                new Status{Id=5, Title="Согласовано-Блокировано"},
+                new Status{Id=6, Title="Согласовано"},
+                new Status{Id=7, Title="Остановлен"},
             };
             foreach (var stat in statuses)
             {

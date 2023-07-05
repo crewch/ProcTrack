@@ -78,7 +78,7 @@ namespace DB_Service.Services
                 if (stage.Id == template.Head)
                 {
                     new_status = _context.Statuses
-                        .Where(s => s.Title.ToLower() == "отменен")
+                        .Where(s => s.Title.ToLower() == "остановлен")
                         .FirstOrDefault();
                 }
 
@@ -338,7 +338,7 @@ namespace DB_Service.Services
             var stages = _context.Stages
                 .Include(s => s.Status)
                 .Where(s => 
-                    s.Status.Title.ToLower() == "отменен" &&
+                    s.Status.Title.ToLower() == "остановлен" &&
                     s.ProcessId == Id
                 )
                 .ToList();
@@ -367,7 +367,7 @@ namespace DB_Service.Services
                 .ToList();
 
             var new_status = _context.Statuses
-                    .Where(s => s.Title.ToLower() == "отменен")
+                    .Where(s => s.Title.ToLower() == "остановлен")
                     .FirstOrDefault();
             foreach (var stage in stages)
             {
