@@ -197,7 +197,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 				<Box className={styles.mainContainer}>
 					<Box className={styles.form}>
 						<TextField
-							value={title}
+							value={title || ''}
 							onChange={e => setTitle(e.target.value)}
 							label='Название процесса'
 						/>
