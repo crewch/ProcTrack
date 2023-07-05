@@ -37,6 +37,8 @@ namespace DB_Service.Services
             }
 
             bool blockStage = stage.Status.Title.ToLower() == "отменено";
+
+            stage.Signed = UserId.ToString();
             
             if (_context.Stages
                     .Include(s => s.Status)
@@ -46,7 +48,8 @@ namespace DB_Service.Services
                             s.Status.Title.ToLower() == "остановлен"
                         ))
                     .Select(s => s.Status.Title)
-                    .ToList() != null)
+                    .ToList()
+                    .Count() != 0)
             {
                 stage.Status = _context.Statuses
                     .Where(s => s.Title.ToLower() == "согласовано-блокировано")
@@ -168,6 +171,11 @@ namespace DB_Service.Services
             var holds = await _authClient.GetHolds(req);
 
             var res = new List<StageDto>();
+
+            if (holds == null) 
+            {
+                return null;
+            }
 
             foreach (var hold in holds)
             {
