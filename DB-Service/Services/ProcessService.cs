@@ -316,10 +316,17 @@ namespace DB_Service.Services
                 HoldType = "Process"
             });
 
+            var used = new HashSet<int>();
+
             var res = new List<ProcessDto>();
 
             foreach (var hold in holds) 
             {
+                if (used.Any(u => hold.DestId == u))
+                {
+                    continue;
+                }
+                used.Add(hold.DestId);
                 var processId = _context.Processes
                     .Where(p => p.Id == hold.DestId)
                     .Select(p => p.Id)
@@ -327,7 +334,7 @@ namespace DB_Service.Services
                 
                 var processDto = await GetProcessById(processId);
 
-                if (processDto != null)
+                if (processDto != null && !res.Any(r => r.Id == processDto.Id))
                 {
                     res.Add(processDto);
                 }
