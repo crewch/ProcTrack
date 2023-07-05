@@ -6,7 +6,7 @@ import {
 	TextField,
 } from '@mui/material'
 import { CustomButton } from '../../../CustomButton/CustomButton'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/AddProcessDialog/AddProcessDialog.module.scss'
 import { Box } from '@mui/system'
 import { useQuery } from '@tanstack/react-query'
@@ -69,6 +69,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	const [templates, setTemplates] = useState<IAutocomplete[]>()
 	const [groups, setGroups] = useState<IAutocomplete[]>()
 	const [priorities, setPriorities] = useState<IAutocomplete[]>()
+	// console.log(templates, groups, priorities)
 
 	const [selectedTemplate, setSelectedTemplate] = useState<
 		IAutocomplete | undefined | null
@@ -79,6 +80,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	const [selectedPriority, setSelectedPriority] = useState<
 		IAutocomplete | undefined | null
 	>()
+	// console.log(selectedTemplate, selectedGroup, selectedPriority)
 
 	const [title, setTitle] = useState<string | undefined>()
 
@@ -88,7 +90,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	// 	process: {
 	// 		id: 0,
 	// 		title: title,
-	// 		priority: selectedPriority?.label, //TODO:
+	// 		priority: selectedPriority?.label,
 	// 		type: 'string',
 	// 		createdAt: '2023-07-05T12:38:34.439Z',
 	// 		approvedAt: '2023-07-05T12:38:34.439Z',
@@ -128,46 +130,49 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	// }
 
 	const { data: dataTemplates, isSuccess: isSuccessTemplates } = useQuery({
+		queryKey: ['templates'],
 		queryFn: templatesApi.getTemplates,
 	})
 
-	if (isSuccessTemplates) {
-		if (dataTemplates) {
+	useEffect(() => {
+		if (isSuccessTemplates && dataTemplates) {
 			setTemplates(
 				dataTemplates.map(template => {
 					return { label: template.title, id: template.id }
 				})
 			)
 		}
-	}
+	}, [dataTemplates, isSuccessTemplates])
 
 	const { data: dataGroups, isSuccess: isSuccessGroups } = useQuery({
+		queryKey: ['groups'],
 		queryFn: templatesApi.getGroupes,
 	})
 
-	if (isSuccessGroups) {
-		if (dataGroups) {
+	useEffect(() => {
+		if (isSuccessGroups && dataGroups) {
 			setGroups(
 				dataGroups.map(group => {
 					return { label: group.title, id: group.id }
 				})
 			)
 		}
-	}
+	}, [dataGroups, isSuccessGroups])
 
 	const { data: dataPriorities, isSuccess: isSuccessPriorities } = useQuery({
+		queryKey: ['priorities'],
 		queryFn: templatesApi.getPriorities,
 	})
 
-	if (isSuccessPriorities) {
-		if (dataPriorities) {
+	useEffect(() => {
+		if (isSuccessPriorities && dataPriorities) {
 			setPriorities(
 				dataPriorities.map(priority => {
 					return { label: priority, id: 0 }
 				})
 			)
 		}
-	}
+	}, [dataPriorities, isSuccessPriorities])
 
 	return (
 		<Dialog
@@ -199,7 +204,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 						<Box className={styles.autocompletes}>
 							{isSuccessTemplates && templates && (
 								<Autocomplete
-									value={selectedTemplate}
+									value={selectedTemplate || null}
 									onChange={(
 										_event: unknown,
 										newValue: IAutocomplete | null | undefined
@@ -214,7 +219,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 							)}
 							{isSuccessGroups && groups && (
 								<Autocomplete
-									value={selectedGroup}
+									value={selectedGroup || null}
 									onChange={(
 										_event: unknown,
 										newValue: IAutocomplete | null | undefined
@@ -229,7 +234,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 							)}
 							{isSuccessPriorities && priorities && (
 								<Autocomplete
-									value={selectedPriority}
+									value={selectedPriority || null}
 									onChange={(
 										_event: unknown,
 										newValue: IAutocomplete | null | undefined
