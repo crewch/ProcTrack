@@ -23,7 +23,7 @@ const ContainerListProcess = () => {
 				<SettingsList />
 			) : (
 				<>
-					<ListProccess />
+					<ListProccess textForSearchProcess={textForSearchProcess} />
 					<Buttons />
 				</>
 			)}

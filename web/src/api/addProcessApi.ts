@@ -48,12 +48,11 @@ export const addProcessApi = {
 	},
 	async addProcess(data: IDataForSend) {
 		try {
-			const report = await axios.post(URL_AddProcess, data, {
+			await axios.post(URL_AddProcess, data, {
 				params: {
 					UserId: UserData.id,
 				},
 			})
-			console.log(report)
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error)

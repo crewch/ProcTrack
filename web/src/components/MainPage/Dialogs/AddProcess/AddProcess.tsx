@@ -9,7 +9,7 @@ import { CustomButton } from '../../../CustomButton/CustomButton'
 import { FC, useEffect, useState } from 'react'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/AddProcessDialog/AddProcessDialog.module.scss'
 import { Box } from '@mui/system'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IDataForSend } from '../../../../interfaces/IApi/IAddProcessApi'
 import { addProcessApi } from '../../../../api/addProcessApi'
 
@@ -131,11 +131,18 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 		}
 	}, [dataPriorities, isSuccessPriorities])
 
+	const queryClient = useQueryClient()
+
 	const mutation = useMutation({
 		mutationFn: addProcessApi.addProcess,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+			setTitle('')
+			setSelectedTemplate(undefined)
+			setSelectedGroup(undefined)
+			setSelectedPriority(undefined)
+		},
 	})
-
-	// console.log(dataForSend)
 
 	return (
 		<Dialog

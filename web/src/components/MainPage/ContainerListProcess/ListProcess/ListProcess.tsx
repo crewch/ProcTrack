@@ -10,9 +10,13 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedProcess } from '../../../../store/processSlice/processSlice'
 import { useQuery } from '@tanstack/react-query'
 import { getProcessApi } from '../../../../api/getProcessApi'
+import { FC, useMemo } from 'react'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
+import { Process } from '../../../../interfaces/IApi/IGetProcessApi'
 
-const ListProcess = () => {
+const ListProcess: FC<{ textForSearchProcess: string }> = ({
+	textForSearchProcess,
+}) => {
 	const dispatch = useAppDispatch()
 	const openedProcess = useAppSelector(state => state.processes.openedProcess)
 
@@ -21,17 +25,27 @@ const ListProcess = () => {
 		queryFn: getProcessApi.getProcessAll,
 	})
 
+	const filteredProcesses: Process[] = useMemo(() => {
+		if (isSuccess && data) {
+			return data.filter(process =>
+				process.title.includes(textForSearchProcess)
+			)
+		}
+
+		return []
+	}, [data, isSuccess, textForSearchProcess])
+
 	return (
 		<List className={styles.list}>
 			{isLoading && <LinearProgress />}
-			{isSuccess && data && !data.length && (
+			{isSuccess && filteredProcesses && !filteredProcesses.length && (
 				<Typography variant='h4' className={styles.typography}>
 					Процессов нет
 				</Typography>
 			)}
 			{isSuccess &&
-				data &&
-				data.map((process, index) => (
+				filteredProcesses &&
+				filteredProcesses.map((process, index) => (
 					<ListItem
 						disablePadding
 						key={index}
