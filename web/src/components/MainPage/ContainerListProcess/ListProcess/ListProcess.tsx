@@ -1,4 +1,5 @@
 import {
+	LinearProgress,
 	List,
 	ListItem,
 	ListItemButton,
@@ -7,67 +8,67 @@ import {
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedProcess } from '../../../../store/processSlice/processSlice'
-import { IProcess } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcess'
+import { useQuery } from '@tanstack/react-query'
+import { getProcessApi } from '../../../../api/getProcessApi'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
-
-const listProcess: IProcess[] = [
-	// { name: '1 процесс', status: 'inprogress' },
-	// { name: '2 процесс', status: 'completed' },
-	// { name: '3 процесс', status: 'rejected' },
-	// { name: '4 процесс', status: 'inprogress' },
-	// { name: '5 процесс', status: 'completed' },
-	// { name: '6 процесс', status: 'completed' },
-	// { name: '7 процесс', status: 'inprogress' },
-	// { name: '8 процесс', status: 'inprogress' },
-	// { name: '9 процесс', status: 'inprogress' },
-	// { name: '10 процесс', status: 'completed' },
-	// { name: '11 процесс', status: 'rejected' },
-	// { name: '12 процесс', status: 'inprogress' },
-	// { name: '13 процесс', status: 'inprogress' },
-	// { name: '14 процесс', status: 'completed' },
-	// { name: '15 процесс', status: 'completed' },
-]
 
 const ListProcess = () => {
 	const dispatch = useAppDispatch()
 	const openedProcess = useAppSelector(state => state.processes.openedProcess)
 
+	const { data, isLoading, isSuccess } = useQuery({
+		queryKey: ['allProcess'],
+		queryFn: getProcessApi.getProcessAll,
+	})
+
 	return (
 		<List className={styles.list}>
-			{!listProcess.length && (
+			{isLoading && <LinearProgress />}
+			{isSuccess && data && !data.length && (
 				<Typography variant='h4' className={styles.typography}>
 					Процессов нет
 				</Typography>
 			)}
-			{listProcess.map((process, index) => (
-				<ListItem
-					disablePadding
-					key={index}
-					className={
-						openedProcess === process.name ? styles.openedProcessWrap : ''
-					}
-				>
-					<img src={`/${process.status}.svg`} className={styles.img} />
-					<ListItemButton
-						className={styles.openedProcess}
-						onClick={() =>
-							dispatch(changeOpenedProcess({ name: process.name }))
+			{isSuccess &&
+				data &&
+				data.map((process, index) => (
+					<ListItem
+						disablePadding
+						key={index}
+						className={
+							openedProcess === process.id ? styles.openedProcessWrap : ''
 						}
 					>
-						<ListItemText>
-							<Typography
-								className={
-									openedProcess === process.name
-										? styles.openedProcessText
-										: styles.closedProcessText
-								}
-							>
-								{process.name}
-							</Typography>
-						</ListItemText>
-					</ListItemButton>
-				</ListItem>
-			))}
+						{process.status === 'в процессе' && (
+							<img src='/inprogress.svg' className={styles.img} />
+						)}
+						{process.status === 'завершен' && (
+							<img src='/completed.svg' className={styles.img} />
+						)}
+						{process.status === 'остановлен' && (
+							<img src='/pause.svg' className={styles.img} />
+						)}
+						{process.status === 'отменен' && (
+							<img src='/rejected.svg' className={styles.img} />
+						)}
+						<ListItemButton
+							className={styles.openedProcess}
+							onClick={() => dispatch(changeOpenedProcess({ id: process.id }))}
+						>
+							<ListItemText>
+								<Typography
+									className={
+										openedProcess === process.id
+											? styles.openedProcessText
+											: styles.closedProcessText
+									}
+								>
+									{process.title}
+								</Typography>
+							</ListItemText>
+						</ListItemButton>
+					</ListItem>
+				))}
 		</List>
 	)
 }
