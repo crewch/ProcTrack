@@ -82,50 +82,50 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 
 	const [title, setTitle] = useState<string | undefined>()
 
-	const dataForSend: IDataForSend = {
-		templateId: selectedTemplate?.id,
-		groupId: selectedGroup?.id,
-		process: {
-			id: 0,
-			title: title,
-			priority: selectedPriority?.label, //TODO:
-			type: 'string',
-			createdAt: '2023-07-05T12:38:34.439Z',
-			approvedAt: '2023-07-05T12:38:34.439Z',
-			expectedTime: null,
-			hold: [
-				{
-					id: 0,
-					destId: 0,
-					type: 'string',
-					rights: ['string'],
-					users: [
-						{
-							id: 0,
-							email: 'string',
-							longName: 'string',
-							shortName: 'string',
-							roles: ['string'],
-						},
-					],
-					groups: [
-						{
-							id: 0,
-							title: 'string',
-							description: 'string',
-							boss: {
-								id: 0,
-								email: 'string',
-								longName: 'string',
-								shortName: 'string',
-								roles: ['string'],
-							},
-						},
-					],
-				},
-			],
-		},
-	}
+	// const dataForSend: IDataForSend = {
+	// 	templateId: selectedTemplate?.id,
+	// 	groupId: selectedGroup?.id,
+	// 	process: {
+	// 		id: 0,
+	// 		title: title,
+	// 		priority: selectedPriority?.label, //TODO:
+	// 		type: 'string',
+	// 		createdAt: '2023-07-05T12:38:34.439Z',
+	// 		approvedAt: '2023-07-05T12:38:34.439Z',
+	// 		expectedTime: null,
+	// 		hold: [
+	// 			{
+	// 				id: 0,
+	// 				destId: 0,
+	// 				type: 'string',
+	// 				rights: ['string'],
+	// 				users: [
+	// 					{
+	// 						id: 0,
+	// 						email: 'string',
+	// 						longName: 'string',
+	// 						shortName: 'string',
+	// 						roles: ['string'],
+	// 					},
+	// 				],
+	// 				groups: [
+	// 					{
+	// 						id: 0,
+	// 						title: 'string',
+	// 						description: 'string',
+	// 						boss: {
+	// 							id: 0,
+	// 							email: 'string',
+	// 							longName: 'string',
+	// 							shortName: 'string',
+	// 							roles: ['string'],
+	// 						},
+	// 					},
+	// 				],
+	// 			},
+	// 		],
+	// 	},
+	// }
 
 	const { data: dataTemplates, isSuccess: isSuccessTemplates } = useQuery({
 		queryFn: templatesApi.getTemplates,
@@ -197,41 +197,51 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 							label='Название процесса'
 						/>
 						<Box className={styles.autocompletes}>
-							<Autocomplete
-								value={selectedTemplate}
-								onChange={(
-									_event: unknown,
-									newValue: IAutocomplete | null | undefined
-								) => setSelectedTemplate(newValue)}
-								disablePortal
-								options={templates ? templates : []}
-								sx={{ width: 300 }}
-								renderInput={params => <TextField {...params} label='Шаблон' />}
-							/>
-							<Autocomplete
-								value={selectedGroup}
-								onChange={(
-									_event: unknown,
-									newValue: IAutocomplete | null | undefined
-								) => setSelectedGroup(newValue)}
-								disablePortal
-								options={groups ? groups : []}
-								sx={{ width: 300 }}
-								renderInput={params => <TextField {...params} label='Группа' />}
-							/>
-							<Autocomplete
-								value={selectedPriority}
-								onChange={(
-									_event: unknown,
-									newValue: IAutocomplete | null | undefined
-								) => setSelectedPriority(newValue)}
-								disablePortal
-								options={priorities ? priorities : []}
-								sx={{ width: 300 }}
-								renderInput={params => (
-									<TextField {...params} label='Важность' />
-								)}
-							/>
+							{isSuccessTemplates && templates && (
+								<Autocomplete
+									value={selectedTemplate}
+									onChange={(
+										_event: unknown,
+										newValue: IAutocomplete | null | undefined
+									) => setSelectedTemplate(newValue)}
+									disablePortal
+									options={templates}
+									sx={{ width: 300 }}
+									renderInput={params => (
+										<TextField {...params} label='Шаблон' />
+									)}
+								/>
+							)}
+							{isSuccessGroups && groups && (
+								<Autocomplete
+									value={selectedGroup}
+									onChange={(
+										_event: unknown,
+										newValue: IAutocomplete | null | undefined
+									) => setSelectedGroup(newValue)}
+									disablePortal
+									options={groups}
+									sx={{ width: 300 }}
+									renderInput={params => (
+										<TextField {...params} label='Группа' />
+									)}
+								/>
+							)}
+							{isSuccessPriorities && priorities && (
+								<Autocomplete
+									value={selectedPriority}
+									onChange={(
+										_event: unknown,
+										newValue: IAutocomplete | null | undefined
+									) => setSelectedPriority(newValue)}
+									disablePortal
+									options={priorities}
+									sx={{ width: 300 }}
+									renderInput={params => (
+										<TextField {...params} label='Важность' />
+									)}
+								/>
+							)}
 						</Box>
 					</Box>
 					<CustomButton
