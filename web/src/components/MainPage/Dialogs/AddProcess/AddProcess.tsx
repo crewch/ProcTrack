@@ -86,7 +86,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	}
 
 	const { data: dataTemplates, isSuccess: isSuccessTemplates } = useQuery({
-		queryKey: ['templates'],
+		queryKey: ['templatesAddProcess'],
 		queryFn: addProcessApi.getTemplates,
 	})
 
@@ -101,7 +101,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	}, [dataTemplates, isSuccessTemplates])
 
 	const { data: dataGroups, isSuccess: isSuccessGroups } = useQuery({
-		queryKey: ['groups'],
+		queryKey: ['groupsAddProcess'],
 		queryFn: addProcessApi.getGroupes,
 	})
 
@@ -116,7 +116,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	}, [dataGroups, isSuccessGroups])
 
 	const { data: dataPriorities, isSuccess: isSuccessPriorities } = useQuery({
-		queryKey: ['priorities'],
+		queryKey: ['prioritiesAddProcess'],
 		queryFn: addProcessApi.getPriorities,
 	})
 
