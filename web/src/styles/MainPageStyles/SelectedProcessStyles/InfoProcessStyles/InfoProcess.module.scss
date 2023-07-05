@@ -1,0 +1,11 @@
+.container {
+	@apply h-[50%] w-full bg-ap-white rounded-[8px] p-2 xl:p-3 flex flex-col xl:justify-around;
+
+	.divider {
+		@apply my-2 border;
+	}
+
+	.btns {
+		@apply flex gap-2;
+	}
+}

@@ -1,0 +1,19 @@
+.list {
+	@apply mt-1 w-full h-full overflow-auto;
+
+	.typography {
+		@apply text-center font-[Montserrat];
+	}
+
+	.accordion {
+		@apply shadow-none;
+
+		.img {
+			@apply h-[20px] w-[20px] mr-[14px] ml-[6px];
+		}
+
+		.title {
+			@apply text-ap-black text-[14px];
+		}
+	}
+}
