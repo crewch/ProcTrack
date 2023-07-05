@@ -10,7 +10,8 @@ import { FC, useEffect, useState } from 'react'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/AddProcessDialog/AddProcessDialog.module.scss'
 import { Box } from '@mui/system'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { IDataForSend, addProcessApi } from '../../../../api/addProcessApi'
+import { IDataForSend } from '../../../../interfaces/IApi/IAddProcessApi'
+import { addProcessApi } from '../../../../api/addProcessApi'
 
 export interface IAutocomplete {
 	label: string
