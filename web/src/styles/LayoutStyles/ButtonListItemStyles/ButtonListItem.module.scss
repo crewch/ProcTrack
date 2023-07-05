@@ -1,0 +1,23 @@
+.listItem {
+	@apply mt-1;
+
+	.navLink {
+		@apply w-full;
+	}
+
+	.listItemButton {
+		@apply flex justify-center;
+
+		.listItemIcon {
+			@apply min-w-[45px] p-1 flex justify-center;
+
+			.img {
+				@apply h-[40px] xl:h-[50px] w-[40px] xl:w-[49px];
+			}
+		}
+	}
+}
+
+.activeStyle .activeStyleButton {
+	@apply rounded-[8px] bg-[#d8ecff];
+}

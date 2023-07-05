@@ -1,0 +1,15 @@
+.main {
+	@apply h-full flex flex-col justify-center items-center;
+
+	.imgNotFound {
+		@apply h-[250px] 2xl:h-[421px];
+	}
+
+	.typography {
+		@apply text-ap-black font-[Montserrat] font-semibold m-1 text-[40px] 2xl:text-[64px];
+	}
+
+	.btn {
+		@apply m-2 bg-ap-blue rounded-[13px] w-[250px] 2xl:w-[307px] h-[70px] 2xl:h-[104px] 2xl:text-lg;
+	}
+}

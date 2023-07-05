@@ -1,5 +1,6 @@
 ﻿using DB_Service.Dtos;
 using DB_Service.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace DB_Service.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [EnableCors("cors")]
     public class StageController : ControllerBase
     {
         private readonly IStageService _service;

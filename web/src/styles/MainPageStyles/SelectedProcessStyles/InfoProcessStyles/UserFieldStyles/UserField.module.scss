@@ -1,0 +1,35 @@
+.userField {
+	@apply flex gap-2;
+
+	.wrapIcon {
+		@apply flex justify-center items-center;
+
+		.icon {
+			@apply h-[38px] w-[38px];
+		}
+	}
+
+	.wrapUserInfo {
+		@apply flex flex-col;
+
+		.title {
+			@apply font-[Montserrat] font-semibold text-[16px] xl:text-[20px] text-ap-black;
+		}
+
+		.descriptions {
+			@apply flex gap-2;
+
+			.responsible {
+				@apply text-[12px] xl:text-[14px];
+			}
+
+			.wrapGroup {
+				@apply flex items-center bg-ap-light-gray px-[2px] rounded-[3px];
+
+				.group {
+					@apply text-[12px] text-ap-black;
+				}
+			}
+		}
+	}
+}

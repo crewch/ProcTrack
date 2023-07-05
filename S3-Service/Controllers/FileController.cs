@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
@@ -13,6 +14,7 @@ namespace S3_Service.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors("cors")]
     public class FilesController : ControllerBase
     {
         private const string BucketName = "test";
