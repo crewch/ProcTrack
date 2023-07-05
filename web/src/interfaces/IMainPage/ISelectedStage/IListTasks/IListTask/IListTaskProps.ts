@@ -7,5 +7,5 @@ export interface IListTaskProps {
 	roleAuthor: string
 	author: string
 	group: string
-	remarks: IReamark[]
+	remarks?: IReamark[]
 }

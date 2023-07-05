@@ -1,0 +1,152 @@
+version: '3.7'
+
+services:
+
+  proxy:
+    build: 
+      context: .
+      dockerfile: nginx.dockerfile
+    expose:
+      - "80"
+    ports:
+      - "8000:80"
+    networks:
+      - api_network
+    depends_on:
+      - db-service
+      - frontend
+      - auth-service
+      - s3-service
+
+  frontend:
+    build:
+      context: web
+    ports:
+      - "5173:5173"
+    networks:
+      - api_network
+    depends_on:
+      - db-service
+      - auth-service
+      - s3-service
+
+  db-service:
+    image: ${DOCKER_REGISTRY-}dbservice
+    build: 
+      context: .
+      dockerfile: DB-Service/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DB_CONNECTION_STRING: "host=postgres;port=5432;database=dbservice;username=postgres;password=postgres"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '8001:80'
+      - '443:443'
+    networks:
+      - api_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: apidemon@proctrack.irkut
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - api_network
+
+  postgres:
+    image: postgres
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "dbservice"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d dbservice" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    networks:
+      - api_network
+  
+  s3-service:
+    restart: on-failure
+    depends_on:
+      - minio
+    build:
+      context: .
+      dockerfile: S3-Service/Dockerfile
+    image: local/s3service:latest
+    environment:
+      ASPNETCORE_URLS: "http://0.0.0.0:8002"
+      ASPNETCORE_ENVIRONMENT: Docker
+    ports:
+      - "8002:8002"
+    networks:
+      - api_network
+
+  minio:
+    container_name: minio
+    restart: on-failure
+    image: minio/minio
+    volumes:
+      - minio_volume:/data
+    ports:
+      - "9000:9000"
+    command: server /data
+    networks:
+      - api_network
+
+  auth-service:
+    image: ${DOCKER_REGISTRY-}authservice
+    build: 
+      context: .
+      dockerfile: AuthService/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DB_CONNECTION_STRING: "host=postgres-auth;port=5432;database=authservice;username=postgres;password=postgres"
+    depends_on:
+      postgres-auth:
+        condition: service_healthy
+    ports:
+      - '8003:80'
+      - '444:443'
+    networks:
+      - api_network
+
+  postgres-auth:
+    image: postgres
+    volumes:
+      - db_auth_volume:/var/lib/postgresql/data
+    ports:
+      - "5434:5433"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "authservice"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d authservice" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    networks:
+      - api_network
+
+volumes:
+  db_volume:
+  db_auth_volume: 
+  minio_volume:
+  pgadmin-data: 
+
+networks:
+  api_network:
+    driver: bridge
