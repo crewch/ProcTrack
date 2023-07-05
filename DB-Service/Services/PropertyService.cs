@@ -41,6 +41,7 @@ namespace DB_Service.Services
                 templateDtos.Add(new ProcessDto
                 {
                     Id = iTemplate.Id,
+                    Title = iTemplate.Title,
                     Type = iTemplate.Type.Title,
                     Priority = iTemplate.Priority.Title, 
                     CreatedAt = iTemplate.CreatedAt,

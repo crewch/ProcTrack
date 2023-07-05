@@ -19,5 +19,9 @@ namespace DB_Service.Services
         Task<ProcessDto> StartProcess(int UserId, int Id);
         
         Task<ProcessDto> StopProcess(int UserId, int Id);
+
+        Task<PassportDto> CreatePassport(CreatePassportDto data, int UserId, int Id);
+        
+        Task<List<PassportDto>> GetPassports(int Id);
     }
 }

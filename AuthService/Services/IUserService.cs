@@ -4,7 +4,7 @@ namespace AuthService.Services
 {
     public interface IUserService
     {
-        //Task<UserWithRoles> GetUserByLogin(UserEmailDto data);
         Task<UserDto> GetUserById(int id);
+        Task<List<GroupDto>> GetGroups();
     }
 }
