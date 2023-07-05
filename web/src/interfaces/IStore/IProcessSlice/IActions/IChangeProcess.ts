@@ -1,3 +1,3 @@
 export interface IChangeProcess {
-	name: string
+	id: number
 }
