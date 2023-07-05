@@ -8,7 +8,7 @@ import ListTasks from './ListTasks/ListTasks'
 
 const SelectedStage = () => {
 	const selectedStage: ISelectedStage = {
-		name: 'Первый процесс',
+		name: 'Первый этап',
 		status: 'согласован с замечаниями',
 		nameOfGroup: 'назначенная группа',
 		role: 'Утверждающий',

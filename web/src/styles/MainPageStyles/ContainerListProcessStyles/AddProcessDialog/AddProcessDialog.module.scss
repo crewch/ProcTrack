@@ -1,0 +1,29 @@
+.dialog {
+	.dialogTitle {
+		@apply font-[Montserrat] font-semibold text-[20px] 2xl:text-[32px] text-irkut-dark;
+	}
+
+	.dialogContent {
+		@apply flex gap-2;
+
+		.mainContainer {
+			@apply w-[60%] flex flex-col justify-between;
+
+			.form {
+				@apply p-2 flex flex-col gap-2;
+
+				.autocompletes {
+					@apply flex gap-3;
+				}
+			}
+
+			.btn {
+				@apply flex self-center w-[30%];
+			}
+		}
+
+		.graph {
+			@apply bg-ap-light-gray w-full;
+		}
+	}
+}
