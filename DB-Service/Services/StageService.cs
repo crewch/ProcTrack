@@ -24,11 +24,101 @@ namespace DB_Service.Services
             _taskService = taskService;
         }
 
-        public Task<StageDto> AssignStage(int UserId, int Id)
+        public async Task<StageDto> AssignStage(int UserId, int Id)
         {
-            throw new NotImplementedException();
-        }
+            var stage = _context.Stages
+                .Include(s => s.Status)
+                .Where(s => s.Id == Id)
+                .FirstOrDefault();
 
+            if (stage == null)
+            {
+                return null;
+            }
+
+            bool blockStage = stage.Status.Title.ToLower() == "отменено";
+            
+            if (_context.Stages
+                    .Include(s => s.Status)
+                    .Where(s => s.ProcessId == stage.ProcessId && 
+                            s.Id != stage.Id && (
+                            s.Status.Title.ToLower() == "отменено" ||
+                            s.Status.Title.ToLower() == "остановлен"
+                        ))
+                    .Select(s => s.Status.Title)
+                    .ToList() != null)
+            {
+                stage.Status = _context.Statuses
+                    .Where(s => s.Title.ToLower() == "согласовано-блокировано")
+                    .FirstOrDefault();
+                _context.SaveChanges();
+                return await GetStageById(Id);
+            }
+
+            var dependences = _context.Dependences
+                .Include(d => d.SecondStage.Status)
+                .Where(d => d.First == stage.Id)
+                .Select(d => d.SecondStage)
+                .ToList();
+            
+            if (dependences.All(d => 
+                    d.Status.Title.ToLower() == "согласовано-блокировано" ||
+                    d.Status.Title.ToLower() == "согласовано") || 
+                dependences == null)
+            {
+                stage.Status = _context.Statuses
+                    .Where(s => s.Title.ToLower() == "согласовано")
+                    .FirstOrDefault();
+                _context.SaveChanges();
+            } else {
+                stage.Status = _context.Statuses
+                    .Where(s => s.Title.ToLower() == "согласовано-блокировано")
+                    .FirstOrDefault();
+                _context.SaveChanges();
+                return await GetStageById(Id);
+            }
+            
+            var dependent = _context.Dependences
+                .Include(d => d.FirstStage.Status)
+                .Where(d => d.Second == stage.Id && d.FirstStage.Status.Title.ToLower() == "согласовано-блокировано")
+                .Select(d => d.FirstStage)
+                .ToList();
+            
+            foreach (var depStage in dependent)
+            {
+                await AssignStage(UserId, depStage.Id);
+            }
+
+            var nextStages = _context.Edges
+                .Include(e => e.EndStage.Status)
+                .Where(e => e.Start == stage.Id && e.EndStage.Status.Title.ToLower() == "не начат")
+                .Select(e => e.EndStage)
+                .ToList();
+
+            var newStatus = _context.Statuses
+                .Where(s => s.Title.ToLower() == "отправлен на проверку")
+                .FirstOrDefault();
+            foreach (var next in nextStages)
+            {
+                next.Status = newStatus;
+            }
+            _context.SaveChanges();
+
+            if (blockStage) {
+                var blockingStagesIds = _context.Stages
+                    .Include(s => s.Status)
+                    .Where(s => s.ProcessId == stage.ProcessId &&
+                                s.Status.Title.ToLower() == "согласовано-блокировано")
+                    .Select(s => s.Id)
+                    .ToList();
+                foreach (var blockingStageId in blockingStagesIds)
+                {
+                    await AssignStage(UserId, blockingStageId);
+                }
+            }
+
+            return await GetStageById(Id);
+        }
         public async Task<StageDto> GetStageById(int Id)
         {
             var stageModel = _context.Stages
