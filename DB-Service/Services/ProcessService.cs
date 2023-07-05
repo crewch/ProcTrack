@@ -327,7 +327,7 @@ namespace DB_Service.Services
                 
                 var processDto = await GetProcessById(processId);
 
-                if (processDto != null)
+                if (processDto != null && !res.Any(r => r.Id == processDto.Id))
                 {
                     res.Add(processDto);
                 }
