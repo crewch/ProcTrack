@@ -9,57 +9,13 @@ import { CustomButton } from '../../../CustomButton/CustomButton'
 import { FC, useEffect, useState } from 'react'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/AddProcessDialog/AddProcessDialog.module.scss'
 import { Box } from '@mui/system'
-import { useQuery } from '@tanstack/react-query'
-import { templatesApi } from '../../../../api/addProcessApi'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { IDataForSend } from '../../../../interfaces/IApi/IAddProcessApi'
+import { addProcessApi } from '../../../../api/addProcessApi'
 
 export interface IAutocomplete {
 	label: string
 	id: number
-}
-
-export interface IDataForSend {
-	templateId: number | undefined
-	groupId: number | undefined
-	process: {
-		id: number
-		title: string | undefined
-		priority: string | undefined | null
-		type: string
-		createdAt: string
-		approvedAt: string
-		expectedTime: null
-		hold: [
-			{
-				id: number
-				destId: number
-				type: string
-				rights: string[]
-				users: [
-					{
-						id: number
-						email: string
-						longName: string
-						shortName: string
-						roles: string[]
-					}
-				]
-				groups: [
-					{
-						id: number
-						title: string
-						description: string
-						boss: {
-							id: number
-							email: string
-							longName: string
-							shortName: string
-							roles: string[]
-						}
-					}
-				]
-			}
-		]
-	}
 }
 
 const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
@@ -83,55 +39,56 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	// console.log(selectedTemplate, selectedGroup, selectedPriority)
 
 	const [title, setTitle] = useState<string | undefined>()
+	// console.log(title)
 
-	// const dataForSend: IDataForSend = {
-	// 	templateId: selectedTemplate?.id,
-	// 	groupId: selectedGroup?.id,
-	// 	process: {
-	// 		id: 0,
-	// 		title: title,
-	// 		priority: selectedPriority?.label,
-	// 		type: 'string',
-	// 		createdAt: '2023-07-05T12:38:34.439Z',
-	// 		approvedAt: '2023-07-05T12:38:34.439Z',
-	// 		expectedTime: null,
-	// 		hold: [
-	// 			{
-	// 				id: 0,
-	// 				destId: 0,
-	// 				type: 'string',
-	// 				rights: ['string'],
-	// 				users: [
-	// 					{
-	// 						id: 0,
-	// 						email: 'string',
-	// 						longName: 'string',
-	// 						shortName: 'string',
-	// 						roles: ['string'],
-	// 					},
-	// 				],
-	// 				groups: [
-	// 					{
-	// 						id: 0,
-	// 						title: 'string',
-	// 						description: 'string',
-	// 						boss: {
-	// 							id: 0,
-	// 							email: 'string',
-	// 							longName: 'string',
-	// 							shortName: 'string',
-	// 							roles: ['string'],
-	// 						},
-	// 					},
-	// 				],
-	// 			},
-	// 		],
-	// 	},
-	// }
+	const dataForSend: IDataForSend = {
+		templateId: selectedTemplate?.id,
+		groupId: selectedGroup?.id,
+		process: {
+			id: 0,
+			title: title,
+			priority: selectedPriority?.label,
+			type: 'string',
+			createdAt: '2023-07-05T12:38:34.439Z',
+			approvedAt: '2023-07-05T12:38:34.439Z',
+			expectedTime: null,
+			hold: [
+				{
+					id: 0,
+					destId: 0,
+					type: 'string',
+					rights: ['string'],
+					users: [
+						{
+							id: 0,
+							email: 'string',
+							longName: 'string',
+							shortName: 'string',
+							roles: ['string'],
+						},
+					],
+					groups: [
+						{
+							id: 0,
+							title: 'string',
+							description: 'string',
+							boss: {
+								id: 0,
+								email: 'string',
+								longName: 'string',
+								shortName: 'string',
+								roles: ['string'],
+							},
+						},
+					],
+				},
+			],
+		},
+	}
 
 	const { data: dataTemplates, isSuccess: isSuccessTemplates } = useQuery({
-		queryKey: ['templates'],
-		queryFn: templatesApi.getTemplates,
+		queryKey: ['templatesAddProcess'],
+		queryFn: addProcessApi.getTemplates,
 	})
 
 	useEffect(() => {
@@ -145,8 +102,8 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	}, [dataTemplates, isSuccessTemplates])
 
 	const { data: dataGroups, isSuccess: isSuccessGroups } = useQuery({
-		queryKey: ['groups'],
-		queryFn: templatesApi.getGroupes,
+		queryKey: ['groupsAddProcess'],
+		queryFn: addProcessApi.getGroupes,
 	})
 
 	useEffect(() => {
@@ -160,8 +117,8 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	}, [dataGroups, isSuccessGroups])
 
 	const { data: dataPriorities, isSuccess: isSuccessPriorities } = useQuery({
-		queryKey: ['priorities'],
-		queryFn: templatesApi.getPriorities,
+		queryKey: ['prioritiesAddProcess'],
+		queryFn: addProcessApi.getPriorities,
 	})
 
 	useEffect(() => {
@@ -173,6 +130,12 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 			)
 		}
 	}, [dataPriorities, isSuccessPriorities])
+
+	const mutation = useMutation({
+		mutationFn: addProcessApi.addProcess,
+	})
+
+	// console.log(dataForSend)
 
 	return (
 		<Dialog
@@ -197,7 +160,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 				<Box className={styles.mainContainer}>
 					<Box className={styles.form}>
 						<TextField
-							value={title}
+							value={title || ''}
 							onChange={e => setTitle(e.target.value)}
 							label='Название процесса'
 						/>
@@ -250,6 +213,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 						</Box>
 					</Box>
 					<CustomButton
+						onClick={() => mutation.mutate(dataForSend)}
 						className={styles.btn}
 						sx={{
 							fontSize: {
