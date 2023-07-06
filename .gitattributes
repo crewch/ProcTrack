@@ -1,4 +1,5 @@
-*.cs linguist-detectable=C#
-*.ts linguist-detectable=TypeScript
-*.tsx linguist-detectable=TypeScript
-*.scss linguist-detectable=SCSS
+* linguist-vendored
+*.ts linguist-vendored=false
+*.cs linguist-vendored=false
+*.tsx linguist-vendored=false
+*.scss linguist-vendored=false
