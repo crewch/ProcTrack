@@ -1,5 +1,0 @@
-* linguist-vendored
-*.ts linguist-vendored=false
-*.cs linguist-vendored=false
-*.tsx linguist-vendored=false
-*.scss linguist-vendored=false
