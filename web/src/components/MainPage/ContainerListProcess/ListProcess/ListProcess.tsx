@@ -67,7 +67,7 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 						)}
 						{process.status === 'остановлен' && (
 							<img
-								src='/pause-circle-2.svg'
+								src='/stoppedProcess.svg'
 								className={styles.img}
 								loading='lazy'
 							/>
