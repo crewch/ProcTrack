@@ -27,36 +27,12 @@ namespace AuthService.Controllers
             }
             return Ok(res);
         }
-        
-        [Route("email/{email}")]
-        [HttpGet]
-        public async Task<ActionResult<UserDto>> GetUserByEmail(string Email)
-        {
-            var res = await _service.GetUserByEmail(Email);
-            if (res == null)
-            {
-                return NotFound();
-            }
-            return Ok(res);
-        }
 
         [Route("Groups")]
         [HttpGet]
         public async Task<ActionResult<List<GroupDto>>> GetGroups()
         {
             var res = await _service.GetGroups();
-            return Ok(res);
-        }
-
-        [Route("Groups/title/{title}")]
-        [HttpGet]
-        public async Task<ActionResult<GroupDto>> GetGroupByTitle(string Title)
-        {
-            var res = await _service.GetGroupByTitle(Title);
-            if (res == null)
-            {
-                return NotFound();
-            }
             return Ok(res);
         }
         
