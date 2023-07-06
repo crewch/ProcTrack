@@ -40,50 +40,59 @@ namespace AuthService.Services
             return dto;
         }
 
-//         public class LdapAuthenticationService : IAuthenticationService  
-// {  
-//     private const string DisplayNameAttribute = "DisplayName";  
-//     private const string SAMAccountNameAttribute = "SAMAccountName";  
-      
-//     private readonly LdapConfig config;  
-          
-//     public LdapAuthenticationService(IOptions<LdapConfig> config)  
-//     {  
-//         this.config = config.Value;  
-//     }  
-//     public User Login(string userName, string password)  
-//     {  
-//         try  
-//         {  
-//             using (DirectoryEntry entry = new DirectoryEntry(config.Path, config.UserDomainName + "\\" + userName, password))  
-//             {  
-//                 using (DirectorySearcher searcher = new DirectorySearcher(entry))  
-//                 {  
-//                     searcher.Filter = String.Format("({0}={1})", SAMAccountNameAttribute, userName);  
-//                     searcher.PropertiesToLoad.Add(DisplayNameAttribute);  
-//                     searcher.PropertiesToLoad.Add(SAMAccountNameAttribute);  
-//                     var result = searcher.FindOne();  
-//                     if (result != null)  
-//                     {  
-//                         var displayName = result.Properties[DisplayNameAttribute];  
-//                         var samAccountName = result.Properties[SAMAccountNameAttribute];  
-                          
-//                         return new User  
-//                         {  
-//                             DisplayName = displayName == null || displayName.Count <= 0 ? null : displayName[0].ToString(),  
-//                             UserName = samAccountName == null || samAccountName.Count <= 0 ? null : samAccountName[0].ToString()  
-//                         };  
-//                     }  
-//                 }  
-//             }  
-//         }  
-//         catch (Exception ex)  
-//         {  
-//             // if we get an error, it means we have a login failure.  
-//             // Log specific exception  
-//         }  
-//         return null;  
-//     }  
-// }  
+        //public async Task<UserToken> Login(UserLoginPasswordDto userLogin)
+        //{
+        //    var user = Authenticate(userLogin);
+
+        //    if (user != null)
+        //    {
+        //        var token = Generate(user);
+        //        var res = new UserToken { Email = userLogin.Email, Token = token };
+        //        return  res;
+        //    }
+
+        //    return new UserToken();
+        //}
+
+        //private string Generate(User user)
+        //{
+        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        //    var userRoleTitles = _context.Users
+        //        .Where(u => u.Id == user.Id)
+        //        .SelectMany(u => u.UserRoles)
+        //            .Select(ur => ur.Role.Title)
+        //        .ToArray();
+
+        //    var claims = new List<Claim>() 
+        //    {
+        //        new Claim(ClaimTypes.NameIdentifier, user.LongName),
+        //        new Claim(ClaimTypes.Email, user.Email),
+        //        new Claim(ClaimTypes.GivenName, user.ShortName),
+        //    };
+        //    for (int i = 0; i < userRoleTitles.Count(); i++)
+        //    {
+        //        claims.Add(new Claim(ClaimTypes.Role, userRoleTitles[i]));
+        //    }
+        //    var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+        //      _configuration["Jwt:Audience"],
+        //      claims.ToArray(),
+        //      expires: DateTime.Now.AddMinutes(15),
+        //      signingCredentials: credentials);
+
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
+
+        //private User Authenticate(UserLoginPasswordDto userLogin)
+        //{
+        //    var currentUser = _context.Users.FirstOrDefault(o => o.Email.ToLower() == userLogin.Email.ToLower() && o.Password == userLogin.Password);
+
+        //    if (currentUser != null)
+        //    {
+        //        return currentUser;
+        //    }
+        //    return null;
+        //}
     }
 }

@@ -57,14 +57,6 @@ namespace DB_Service.Clients.Http
             return user;
         }
 
-        public async Task<UserDto> GetUserByEmail(string Email)
-        {
-            var response = await _client.GetAsync($"{_configuration["AuthService"]}/User/email/{Email}");
-            var data = await response.Content.ReadAsStringAsync();
-            var user = JsonConvert.DeserializeObject<UserDto>(data);
-            return user;
-        }
-
         public async Task<List<HoldDto>> FindHold(int destId, string type)
         {
             var response = await _client.GetAsync($"{_configuration["AuthService"]}/Hold/find?destId={destId}&type={type}");
@@ -73,13 +65,6 @@ namespace DB_Service.Clients.Http
             return holds;
         }
 
-        public async Task<GroupDto> GetGroupByTitle(string Title)
-        {
-            var response = await _client.GetAsync($"{_configuration["AuthService"]}/Groups/title/{Title}");
-            var data = await response.Content.ReadAsStringAsync();
-            var group = JsonConvert.DeserializeObject<GroupDto>(data);
-            return group;
-        }
         //public async Task<List<UserWithRoles>> GetUsersWithRoles()
         //{
         //    var response = await _client.GetAsync($"{_configuration["AuthService"]}/api/Auth/debug");
