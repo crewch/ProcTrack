@@ -11,8 +11,8 @@ import { changeOpenedProcess } from '../../../../store/processSlice/processSlice
 import { useQuery } from '@tanstack/react-query'
 import { getProcessApi } from '../../../../api/getProcessApi'
 import { FC, useMemo } from 'react'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
 import { Process } from '../../../../interfaces/IApi/IGetProcessApi'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
 
 const ListProcess: FC<{ textForSearchProcess: string }> = ({
 	textForSearchProcess,
@@ -20,7 +20,7 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 	const dispatch = useAppDispatch()
 	const openedProcess = useAppSelector(state => state.processes.openedProcess)
 
-	const { data, isLoading, isSuccess } = useQuery({
+	const { data, isLoading, isSuccess, isError, error } = useQuery({
 		queryKey: ['allProcess'],
 		queryFn: getProcessApi.getProcessAll,
 	})
@@ -39,6 +39,11 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 
 	return (
 		<List className={styles.list}>
+			{isError && error instanceof Error && (
+				<Typography variant='h4' className={styles.typography}>
+					{error.message}
+				</Typography>
+			)}
 			{isLoading && <LinearProgress />}
 			{isSuccess && filteredProcesses && !filteredProcesses.length && (
 				<Typography variant='h4' className={styles.typography}>

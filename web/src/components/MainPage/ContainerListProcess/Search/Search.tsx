@@ -1,7 +1,6 @@
 import { Box, IconButton, TextField } from '@mui/material'
 import { ISearchProps } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch'
 import { FC } from 'react'
-import search from '/search.svg'
 import searchSetting from '/searchSetting.svg'
 import searchSettingBlue from '/searchSettingBlue.svg'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/Search.module.scss'
@@ -26,12 +25,6 @@ const Search: FC<ISearchProps> = ({
 				}}
 				className={styles.TextField}
 			/>
-			<IconButton
-				className={styles.IconButton}
-				onClick={() => setTextForSearchProcess('')}
-			>
-				<img src={search} height='25px' width='25px' />
-			</IconButton>
 			<IconButton
 				onClick={() => setIsOpen(!isOpen)}
 				className={isOpen ? styles.openSettings : styles.closeSettings}
