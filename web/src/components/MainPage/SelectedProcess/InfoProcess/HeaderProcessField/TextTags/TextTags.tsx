@@ -10,14 +10,17 @@ const TextTags: FC<ITextTagsProps> = ({ importance, status, type }) => {
 			{status === 'в процессе' && (
 				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
 			)}
-			{status === 'отменён' && (
+			{status === 'отменен' && (
 				<TextTag text={status} color='#540E10' backgroundColor='#E25E63' />
 			)}
-			{status === 'заврешено' && (
-				<TextTag text={status} color='#3E5107' backgroundColor={'#AAC954'} />
+			{status === 'завершен' && (
+				<TextTag text={status} color='#3E5107' backgroundColor='#AAC954' />
 			)}
-			<TextTag text={type} color='#black' backgroundColor={'#ECECEC'} />
-			<TextTag text={importance} color='#black' backgroundColor={'#ECECEC'} />
+			{status === 'остановлен' && (
+				<TextTag text={status} color='#3E5107' backgroundColor='#ECECEC' />
+			)}
+			<TextTag text={type} color='#3E5107' backgroundColor='#ECECEC' />
+			<TextTag text={importance} color='#3E5107' backgroundColor='#ECECEC' />
 		</Box>
 	)
 }

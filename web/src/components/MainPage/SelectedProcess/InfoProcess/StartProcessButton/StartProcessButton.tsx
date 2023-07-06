@@ -2,15 +2,15 @@ import { FC } from 'react'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
 import { useAppSelector } from '../../../../../hooks/reduxHooks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { stopProcessApi } from '../../../../../api/stopProcessApi'
+import { startProcessApi } from '../../../../../api/startProcessApi'
 
-const StopProcessButton: FC = () => {
+const StartProcessButton: FC = () => {
 	const openedProcessID = useAppSelector(state => state.processes.openedProcess)
 
 	const queryClient = useQueryClient()
 	const mutation = useMutation({
 		mutationKey: [openedProcessID],
-		mutationFn: stopProcessApi.stopProcessId,
+		mutationFn: startProcessApi.stopProcessId,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['processId'] })
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
@@ -27,11 +27,11 @@ const StopProcessButton: FC = () => {
 				},
 			}}
 			variant='contained'
-			endIcon={<img src='/pause.svg' height='20px' width='20px' />}
+			endIcon={<img src='/completed.svg' height='20px' width='20px' />}
 		>
-			Остановить процесс
+			Запустить процесс
 		</CustomButton>
 	)
 }
 
-export default StopProcessButton
+export default StartProcessButton
