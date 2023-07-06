@@ -5,6 +5,7 @@ export interface IStage {
 	title: string
 	createdAt: string
 	status: string
+	statusValue: number
 	user: IUser
 	holds: IHold[]
 }
