@@ -1,4 +1,4 @@
 *.cs linguist-detectable=C#
-*.ts linguist-language=TypeScript
-*.tsx linguist-language=TypeScript
-*.scss linguist-language=SCSS
+*.ts linguist-detectable=TypeScript
+*.tsx linguist-detectable=TypeScript
+*.scss linguist-detectable=SCSS
