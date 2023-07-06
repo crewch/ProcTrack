@@ -4,6 +4,7 @@
     {
         public int? Id { get; set; }
         public string Title { get; set; }
+        public int StageId { get; set; }
         public int? SignId { get; set; }
         public DateTime? StartedAt { get; set; }
         public DateTime? ApprovedAt { get; set; }

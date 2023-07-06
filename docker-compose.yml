@@ -2,33 +2,33 @@ version: '3.7'
 
 services:
 
-  proxy:
-    build:
-      context: .
-      dockerfile: nginx.dockerfile
-    expose:
-      - "80"
-    ports:
-      - "8000:80"
-    networks:
-      - api_network
-    depends_on:
-      - db-service
-      - frontend
-      - auth-service
-      - s3-service
+  # proxy:
+  #   build:
+  #     context: .
+  #     dockerfile: nginx.dockerfile
+  #   expose:
+  #     - "80"
+  #   ports:
+  #     - "8000:80"
+  #   networks:
+  #     - api_network
+  #   depends_on:
+  #     - db-service
+  #     - frontend
+  #     - auth-service
+  #     - s3-service
 
-  frontend:
-    build:
-      context: web
-    ports:
-      - "5173:5173"
-    networks:
-      - api_network
-    depends_on:
-      - db-service
-      - auth-service
-      - s3-service
+  # frontend:
+  #   build:
+  #     context: web
+  #   ports:
+  #     - "5173:5173"
+  #   networks:
+  #     - api_network
+  #   depends_on:
+  #     - db-service
+  #     - auth-service
+  #     - s3-service
 
   db-service:
     image: ${DOCKER_REGISTRY-}dbservice
@@ -141,25 +141,25 @@ services:
     networks:
       - api_network
   
-  # metabase:
-  #   image: metabase/metabase:latest
-  #   volumes:
-  #     - metabase-data:/metabase-data
-  #   ports:
-  #     - 3000:3000
-  #   environment:
-  #     MB_DB_TYPE: postgres
-  #     MB_DB_DBNAME: dbservice
-  #     MB_DB_PORT: 5432
-  #     MB_DB_USER: postgres
-  #     MB_DB_PASS: postgres
-  #     MB_DB_HOST: postgres
-  #   depends_on:
-  #     - postgres
-  #   links:
-  #     - postgres
-  #   networks:
-  #     - api_network
+  metabase:
+    image: metabase/metabase:latest
+    volumes:
+      - metabase-data:/metabase-data
+    ports:
+      - 3000:3000
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: dbservice
+      MB_DB_PORT: 5432
+      MB_DB_USER: postgres
+      MB_DB_PASS: postgres
+      MB_DB_HOST: postgres
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    networks:
+      - api_network
 
 volumes:
   db_volume:
