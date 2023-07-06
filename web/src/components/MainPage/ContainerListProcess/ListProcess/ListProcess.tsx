@@ -11,7 +11,7 @@ import { changeOpenedProcess } from '../../../../store/processSlice/processSlice
 import { useQuery } from '@tanstack/react-query'
 import { getProcessApi } from '../../../../api/getProcessApi'
 import { FC, useMemo } from 'react'
-import { Process } from '../../../../interfaces/IApi/IGetProcessApi'
+import { IProcess } from '../../../../interfaces/IApi/IApi'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
 
 const ListProcess: FC<{ textForSearchProcess: string }> = ({
@@ -20,12 +20,12 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 	const dispatch = useAppDispatch()
 	const openedProcess = useAppSelector(state => state.processes.openedProcess)
 
-	const { data, isLoading, isSuccess, isError, error } = useQuery({
+	const { data, isLoading, isSuccess } = useQuery({
 		queryKey: ['allProcess'],
 		queryFn: getProcessApi.getProcessAll,
 	})
 
-	const filteredProcesses: Process[] = useMemo(() => {
+	const filteredProcesses: IProcess[] = useMemo(() => {
 		if (isSuccess && data) {
 			return data.filter(process =>
 				process.title
@@ -39,11 +39,6 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 
 	return (
 		<List className={styles.list}>
-			{isError && error instanceof Error && (
-				<Typography variant='h4' className={styles.typography}>
-					{error.message}
-				</Typography>
-			)}
 			{isLoading && <LinearProgress />}
 			{isSuccess && filteredProcesses && !filteredProcesses.length && (
 				<Typography variant='h4' className={styles.typography}>
@@ -61,16 +56,24 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 						}
 					>
 						{process.status === 'в процессе' && (
-							<img src='/inprogress.svg' className={styles.img} />
+							<img
+								src='/inprogress.svg'
+								className={styles.img}
+								loading='lazy'
+							/>
 						)}
 						{process.status === 'завершен' && (
-							<img src='/completed.svg' className={styles.img} />
+							<img src='/completed.svg' className={styles.img} loading='lazy' />
 						)}
 						{process.status === 'остановлен' && (
-							<img src='/pause.svg' className={styles.img} />
+							<img
+								src='/stoppedProcess.svg'
+								className={styles.img}
+								loading='lazy'
+							/>
 						)}
 						{process.status === 'отменен' && (
-							<img src='/rejected.svg' className={styles.img} />
+							<img src='/rejected.svg' className={styles.img} loading='lazy' />
 						)}
 						<ListItemButton
 							className={styles.openedProcess}

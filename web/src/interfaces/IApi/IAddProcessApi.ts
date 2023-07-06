@@ -9,19 +9,6 @@ export interface ITemplate {
 	hold: null
 }
 
-export interface IGroup {
-	id: number
-	title: string
-	description: string
-	boss: {
-		id: number
-		email: string
-		longName: string
-		shortName: string
-		roles: string[]
-	}
-}
-
 export type IPriority = string
 
 export interface IDataForSend {
