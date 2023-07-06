@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { loginApi } from '../api/loginApi'
 import { useNavigate } from 'react-router-dom'
 import styles from '../styles/LoginPageStyles/LoginPage.module.scss'
+import { useEffect } from 'react'
 
 const LoginPage = () => {
 	const { control, handleSubmit, reset } = useForm({
@@ -16,6 +17,7 @@ const LoginPage = () => {
 	})
 
 	const mutation = useMutation({
+		mutationKey: ['login'],
 		mutationFn: loginApi.login,
 	})
 
@@ -25,12 +27,13 @@ const LoginPage = () => {
 	}
 
 	const navigation = useNavigate()
-	if (mutation.isSuccess) {
-		if (mutation.data?.id) {
+
+	useEffect(() => {
+		if (mutation.isSuccess && mutation.data?.id) {
 			localStorage.setItem('UserData', JSON.stringify(mutation.data))
 			navigation('/')
 		}
-	}
+	}, [mutation.data, mutation.isSuccess, navigation])
 
 	return (
 		<Box component='main' className={styles.loginPage}>

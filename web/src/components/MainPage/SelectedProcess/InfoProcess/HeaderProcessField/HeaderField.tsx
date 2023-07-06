@@ -19,8 +19,14 @@ const HeaderField: FC<{
 						{status === 'в процессе' && (
 							<img src='/inprogress.svg' className={styles.img} />
 						)}
-						{status === 'отклонено' && (
+						{status === 'отменен' && (
 							<img src='/rejected.svg' className={styles.img} />
+						)}
+						{status === 'завершен' && (
+							<img src='/completed.svg' className={styles.img} />
+						)}
+						{status === 'остановлен' && (
+							<img src='/pause.svg' className={styles.img} />
 						)}
 						{status === 'согласован с замечаниями' && (
 							<img src='/completed.svg' className={styles.img} />
