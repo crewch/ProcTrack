@@ -2,6 +2,7 @@ using DB_Service.Data;
 using Grpc.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using DB_Service.Clients.Http;
 
 namespace DB_Service
 {
@@ -22,6 +23,7 @@ namespace DB_Service
                 try
                 {
                     var context = services.GetRequiredService<DataContext>();
+                    
                     DataInitializer.Initialize(context);
                 }
                 catch (Exception ex)
