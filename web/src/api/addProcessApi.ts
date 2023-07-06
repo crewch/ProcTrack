@@ -1,11 +1,10 @@
 import axios from 'axios'
 import {
 	IDataForSend,
-	IGroup,
 	IPriority,
 	ITemplate,
 } from '../interfaces/IApi/IAddProcessApi'
-import { IUserData } from '../interfaces/IApi/ILoginApi'
+import { IGroup, IUser } from '../interfaces/IApi/IApi'
 
 const URL_Template = 'http://localhost:8000/api/track/property/templates'
 const URL_Group = 'http://localhost:8000/api/auth/user/groups'
@@ -51,7 +50,7 @@ export const addProcessApi = {
 			const userDataString = localStorage.getItem('UserData')
 
 			if (userDataString) {
-				const userData: IUserData = JSON.parse(userDataString)
+				const userData: IUser = JSON.parse(userDataString)
 
 				await axios.post(URL_AddProcess, data, {
 					params: {

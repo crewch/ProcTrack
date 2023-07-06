@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { Process } from '../interfaces/IApi/IGetProcessApi'
-import { IUserData } from '../interfaces/IApi/ILoginApi'
+import { IProcess, IUser } from '../interfaces/IApi/IApi'
 
 const URL_AllProcess = 'http://localhost:8000/api/track/process/get'
 const URL_IDProcess = 'http://localhost:8000/api/track/process/'
@@ -11,9 +10,9 @@ export const getProcessApi = {
 			const userDataString = localStorage.getItem('UserData')
 
 			if (userDataString) {
-				const userData: IUserData = JSON.parse(userDataString)
+				const userData: IUser = JSON.parse(userDataString)
 
-				const data: Process[] = await (
+				const data: IProcess[] = await (
 					await axios.get(URL_AllProcess, {
 						params: {
 							UserId: userData.id,
@@ -35,7 +34,7 @@ export const getProcessApi = {
 		try {
 			if (typeof openedProcessID === 'undefined') return null
 
-			const data: Process = await (
+			const data: IProcess = await (
 				await axios.get(`${URL_IDProcess}${openedProcessID}`)
 			).data
 

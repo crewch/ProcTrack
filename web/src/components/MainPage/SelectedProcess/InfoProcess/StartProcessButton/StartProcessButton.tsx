@@ -27,9 +27,9 @@ const StartProcessButton: FC = () => {
 				},
 			}}
 			variant='contained'
-			endIcon={<img src='/completed.svg' height='20px' width='20px' />}
+			endIcon={<img src='/playProcess.svg' height='20px' width='20px' />}
 		>
-			Запустить процесс
+			Начать процесс
 		</CustomButton>
 	)
 }
