@@ -152,6 +152,7 @@ namespace DB_Service.Services
                 Id = stageModel.Id,
                 Title = stageModel.Title,
                 Status = status == null ? null : status.Title,
+                StatusValue = status == null ? null : status.Value,
                 Holds = holds,
                 User = user,
                 CreatedAt = stageModel.CreatedAt,

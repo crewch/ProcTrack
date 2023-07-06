@@ -35,6 +35,21 @@ namespace AuthService.Controllers
             var res = await _service.GetGroups();
             return Ok(res);
         }
-        
+
+        [Route("Groups/Create")]
+        [HttpPost]
+        public async Task<ActionResult<GroupDto>> CreateGroup(CreateGroupDto data)
+        {
+            var res = await _service.AddGroup(data);
+            return Ok(res);
+        }
+
+        [Route("Create")]
+        [HttpPost]
+        public async Task<ActionResult<UserDto>> CreateUser(UserDto data)
+        {
+            var res = await _service.AddUser(data);
+            return Ok(res);
+        }
     }
 }
