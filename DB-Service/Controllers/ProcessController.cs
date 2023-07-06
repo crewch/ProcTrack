@@ -97,5 +97,12 @@ namespace DB_Service.Controllers
             var res = await _service.GetPassports(Id);
             return Ok(res);
         }
+        [Route("template/create")]
+        [HttpPost]
+        public async Task<ActionResult<ProcessDto>> CreateTemplate(TemplateDto data)
+        {
+            var res = await _service.CreateTemplate(data);
+            return Ok(res);
+        }
     }
 }
