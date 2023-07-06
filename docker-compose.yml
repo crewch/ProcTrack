@@ -114,11 +114,6 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DB_CONNECTION_STRING: "host=postgres-auth;port=5432;database=authservice;username=postgres;password=postgres"
-      LDAP_PATH: ${LDAP_PATH}
-      USER_DOMAIN_NAME: ${USER_DOMAIN_NAME}
-      LDAP_URL: ${LDAP_URL}
-      LDAP_LOGIN: ${LDAP_LOGIN}
-      LDAP_PASSWORD: ${LDAP_PASSWORD}
     depends_on:
       postgres-auth:
         condition: service_healthy
