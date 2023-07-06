@@ -2,7 +2,6 @@
 
 namespace DB_Service.Models
 {
-    [Table("ProcessType")]
     public class Type: BaseEntity
     {
         public string Title { get; set; }

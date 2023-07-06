@@ -23,5 +23,7 @@ namespace DB_Service.Services
         Task<PassportDto> CreatePassport(CreatePassportDto data, int UserId, int Id);
         
         Task<List<PassportDto>> GetPassports(int Id);
+
+        Task<ProcessDto?> CreateTemplate(TemplateDto data);
     }
 }

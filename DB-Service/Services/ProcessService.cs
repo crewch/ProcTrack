@@ -490,5 +490,100 @@ namespace DB_Service.Services
 
             return res;
         }
+        public async Task<ProcessDto?> CreateTemplate(TemplateDto data)
+        {
+            var process = new Models.Process
+            {
+                Title = data.Process.Title,
+                IsTemplate = true,
+                Priority = _context.Priorities.Where(p => p.Title == data.Process.Priority).FirstOrDefault(),
+                Type = _context.Types.Where(t => t.Title == data.Process.Type).FirstOrDefault(),
+                ExpectedTime = (System.TimeSpan) data.Process.ExpectedTime,
+                CreatedAt = DateTime.Now
+            };
+            _context.Processes.Add(process);
+
+            var stageDict = new Dictionary<int, Models.Stage>();
+            foreach (var stage in data.Stages)
+            {
+                var newStage = new Models.Stage
+                {
+                    Title = stage.Title,
+                    Process = process,
+                    Addenable = false,
+                    CreatedAt = DateTime.Now,
+                    Status = _context.Statuses.Where(t => t.Title.ToLower() == "не начат").FirstOrDefault()
+                };
+                stageDict[stage.Id] = newStage;
+                _context.Stages.Add(newStage);
+            }
+
+            var tasks = new List<Models.Task>();
+            foreach (var task in data.Tasks)
+            {
+                var newTask = new Models.Task
+                {
+                    Title = task.Title,
+                    ExpectedTime = (System.TimeSpan) task.ExpectedTime,
+                    Stage = stageDict[task.StageId],
+                };
+                tasks.Add(newTask);
+                _context.Tasks.Add(newTask);
+            }
+
+            var edges = new List<Models.Edge>();
+            foreach (var edge in data.Links.Edges)
+            {
+                var newEdge = new Models.Edge
+                {
+                    StartStage = stageDict[edge.Item1],
+                    EndStage = stageDict[edge.Item2]
+                };
+                edges.Add(newEdge);
+                _context.Edges.Add(newEdge);
+            }
+
+            var dependences = new List<Models.Dependence>();
+            foreach (var dep in data.Links.Edges)
+            {
+                var newDependence = new Models.Dependence
+                {
+                    FirstStage = stageDict[dep.Item1],
+                    SecondStage = stageDict[dep.Item2]
+                };
+                dependences.Add(newDependence);
+                _context.Dependences.Add(newDependence);
+            }
+            _context.SaveChanges();
+
+            foreach (var stage in data.Stages)
+            {
+                foreach (var hold in stage.Holds)
+                {
+                    foreach (var group in hold.Groups)
+                    {
+                        await _authClient.CreateHold(new CreateHoldRequestDto
+                        {
+                            DestId = stageDict[stage.Id].Id,
+                            DestType = "Stage",
+                            HolderId = group.Id,
+                            HolderType = "Group"
+                        });
+                    }
+                    foreach (var user in hold.Users)
+                    {
+                        await _authClient.CreateHold(new CreateHoldRequestDto
+                        {
+                            DestId = stageDict[stage.Id].Id,
+                            DestType = "Stage",
+                            HolderId = user.Id,
+                            HolderType = "User"
+                        });
+                    }
+                }
+            }
+
+            return await GetProcessById(process.Id);
+        }
     }
 }
