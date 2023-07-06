@@ -59,6 +59,9 @@ namespace AuthService
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IHoldService, HoldService>();
             services.AddScoped<IUserService, UserService>();
+
+            // services.Configure<LdapConfig>(builder.configuration.GetSection("Ldap"));
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
