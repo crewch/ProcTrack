@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { UserData } from './UserData/UserData'
 import {
 	IDataForSend,
 	IGroup,
 	IPriority,
 	ITemplate,
 } from '../interfaces/IApi/IAddProcessApi'
+import { IUserData } from '../interfaces/IApi/ILoginApi'
 
 const URL_Template = 'http://localhost:8000/api/track/property/templates'
 const URL_Group = 'http://localhost:8000/api/auth/user/groups'
@@ -48,11 +48,17 @@ export const addProcessApi = {
 	},
 	async addProcess(data: IDataForSend) {
 		try {
-			await axios.post(URL_AddProcess, data, {
-				params: {
-					UserId: UserData.id,
-				},
-			})
+			const userDataString = localStorage.getItem('UserData')
+
+			if (userDataString) {
+				const userData: IUserData = JSON.parse(userDataString)
+
+				await axios.post(URL_AddProcess, data, {
+					params: {
+						UserId: userData.id,
+					},
+				})
+			}
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error)
