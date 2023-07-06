@@ -14,7 +14,11 @@ const Layout = () => {
 					<ButtonListItem src='/document.svg' to='/' />
 					<ButtonListItem src='/confirmation.svg' to='confirmation' />
 					<ButtonListItem src='/analysis.svg' to='analysis' />
-					<ButtonListItem src='/key.svg' to='key' />
+					<ButtonListItem
+						otherPage
+						src='/key.svg'
+						to='/http://localhost:3000'
+					/>
 				</List>
 				<List>
 					<Divider variant='middle' className={styles.divider} />
