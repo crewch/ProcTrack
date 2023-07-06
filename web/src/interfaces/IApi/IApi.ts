@@ -1,4 +1,4 @@
-interface IUser {
+export interface IUser {
 	id: number
 	email: string
 	longName: string
@@ -6,14 +6,14 @@ interface IUser {
 	roles: string[]
 }
 
-interface IGroup {
+export interface IGroup {
 	id: number
 	title: string
 	description: string
 	boss: IUser
 }
 
-interface IHold {
+export interface IHold {
 	id: number
 	destId: number
 	type: string
@@ -22,11 +22,11 @@ interface IHold {
 	groups: IGroup[]
 }
 
-export interface Process {
+export interface IProcess {
 	id: number
 	title: string
 	priority: string
-	status: 'в процессе' | 'завершен' | 'остановлен' | 'отменен' | undefined
+	status: 'в процессе' | 'завершен' | 'остановлен' | 'отменен'
 	type: string
 	createdAt: string
 	approvedAt: string

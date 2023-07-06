@@ -1,8 +1,12 @@
 ﻿using AuthService.Data;
 using AuthService.Dtos;
 using AuthService.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.DirectoryServices.AccountManagement;
+using System.DirectoryServices;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
@@ -23,6 +27,24 @@ namespace AuthService.Services
 
         public async Task<UserDto> Authorize(AuthDto data)
         {
+            //const string LDAP_PATH = "EX://exldap.example.com:5555";
+            //const string LDAP_DOMAIN = "exldap.example.com:5555";
+            
+            //using (var context = new PrincipalContext(ContextType.Domain, LDAP_DOMAIN, "service_acct_user", "service_acct_pswd"))
+            //{
+            //    if (context.ValidateCredentials(data.Email, data.Password)) {
+            //        using (var de = new DirectoryEntry(LDAP_PATH))
+            //        using (var ds = new DirectorySearcher(de)) {
+            //            // other logic to verify user has correct permissions
+
+            //            // User authenticated and authorized
+            //            var identities = new List<ClaimsIdentity> { new ClaimsIdentity("custom auth type") };
+            //            var ticket = new AuthenticationTicket(new ClaimsPrincipal(identities), Options.Scheme);
+            //            return Task.FromResult(AuthenticateResult.Success(ticket));
+            //        }
+            //    }
+            //}
+
             var user = _context.Users
                 .Include(u => u.UserRoles)
                     .ThenInclude(ur => ur.Role)

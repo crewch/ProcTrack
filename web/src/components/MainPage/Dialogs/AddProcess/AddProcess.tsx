@@ -220,7 +220,13 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 						</Box>
 					</Box>
 					<CustomButton
-						onClick={() => mutation.mutate(dataForSend)}
+						onClick={() => {
+							mutation.mutate(dataForSend)
+							handleClose()
+						}}
+						disabled={
+							!(title && selectedGroup && selectedPriority && selectedTemplate)
+						}
 						className={styles.btn}
 						sx={{
 							fontSize: {

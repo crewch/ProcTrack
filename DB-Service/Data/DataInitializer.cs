@@ -23,13 +23,13 @@ namespace DB_Service.Data
 
             var statuses = new Status[]
             {
-                new Status{Id=1, Title="Не начат"},
-                new Status{Id=2, Title="Отменен"},
-                new Status{Id=3, Title="Отправлен на проверку"},
-                new Status{Id=4, Title="Принят на проверку"},
-                new Status{Id=5, Title="Согласовано-Блокировано"},
-                new Status{Id=6, Title="Согласовано"},
-                new Status{Id=7, Title="Остановлен"},
+                new Status{Id=1, Title="Не начат", Value=2},
+                new Status{Id=2, Title="Отменен", Value=0},
+                new Status{Id=3, Title="Отправлен на проверку", Value=3},
+                new Status{Id=4, Title="Принят на проверку", Value=3},
+                new Status{Id=5, Title="Согласовано-Блокировано", Value=3},
+                new Status{Id=6, Title="Согласовано", Value=3},
+                new Status{Id=7, Title="Остановлен", Value=1},
             };
             foreach (var stat in statuses)
             {
