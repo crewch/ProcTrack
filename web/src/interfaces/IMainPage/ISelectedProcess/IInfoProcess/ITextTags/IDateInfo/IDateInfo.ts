@@ -3,4 +3,5 @@ export interface IDataInfoProps {
 	endData?: string
 	interval?: string
 	success?: string
+	confirm?: string
 }

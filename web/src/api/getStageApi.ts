@@ -2,6 +2,7 @@ import axios from 'axios'
 import { IStage } from '../interfaces/IApi/IGetStageApi'
 
 const URL_StageGetAll = 'http://localhost:8000/api/track/process/'
+const URL_IDStage = 'http://localhost:8000/api/track/stage/'
 
 export const getStageApi = {
 	async getStageALL(id: number | undefined) {
@@ -18,6 +19,21 @@ export const getStageApi = {
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error)
+			}
+		}
+	},
+	async getStageId(openedStageID: number | undefined) {
+		try {
+			if (typeof openedStageID === 'undefined') return null
+
+			const data: IStage = await (
+				await axios.get(`${URL_IDStage}${openedStageID}`)
+			).data
+
+			return data
+		} catch (error) {
+			if (error instanceof Error) {
+				console.log(error.message)
 			}
 		}
 	},

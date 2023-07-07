@@ -1,43 +1,57 @@
-import { Box, Divider } from '@mui/material'
-import { ISelectedStage } from '../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
-import styles from '/src/styles/MainPageStyles/SelectedStageStyles/SelectedStage.module.scss'
+import { Box, Divider, LinearProgress } from '@mui/material'
 import UserField from '../SelectedProcess/InfoProcess/UserField/UserField'
 import DateInfo from '../SelectedProcess/InfoProcess/DateInfoField/DateInfo'
 import HeaderField from './HeaderField/HeaderField'
 import ListTasks from './ListTasks/ListTasks'
+import { useQuery } from '@tanstack/react-query'
+import { useAppSelector } from '../../../hooks/reduxHooks'
+import { getStageApi } from '../../../api/getStageApi'
+import styles from '/src/styles/MainPageStyles/SelectedStageStyles/SelectedStage.module.scss'
 
 const SelectedStage = () => {
-	const selectedStage: ISelectedStage = {
-		name: 'Первый этап',
-		status: 'согласован с замечаниями',
-		nameOfGroup: 'назначенная группа',
-		role: 'Утверждающий',
-		startDate: 'пт, 22 декабря 2023 16:30',
-		endDate: 'пн, 25 декабря 2023 12:23',
-		responsible: 'Сергей Сергеев',
-		group: 'группа утверждающего',
-	}
+	const openedStageID = useAppSelector(state => state.processes.openedStage)
+
+	const {
+		data: selectedStage,
+		isLoading,
+		isSuccess,
+	} = useQuery({
+		queryKey: ['stageId', openedStageID],
+		queryFn: () => getStageApi.getStageId(openedStageID),
+	})
 
 	return (
 		<Box className={styles.selectedStage}>
-			<HeaderField
-				name={selectedStage.name}
-				status={selectedStage.status}
-				nameOfGroup={selectedStage.nameOfGroup}
-			/>
-			<Divider className={styles.divider} />
-			<DateInfo
-				startDate={selectedStage.startDate}
-				success={selectedStage.endDate}
-			/>
-			<Divider className={styles.divider} />
-			<UserField
-				group={selectedStage.group}
-				responsible={selectedStage.responsible}
-				role={selectedStage.role}
-			/>
-			<Divider className={styles.divider} />
-			<ListTasks />
+			{isLoading && <LinearProgress />}
+			{isSuccess && selectedStage && (
+				<>
+					<HeaderField
+						name={selectedStage.title}
+						status={selectedStage.status}
+						nameOfGroup={selectedStage.holds[0].groups[0].title}
+					/>
+					<Divider className={styles.divider} />
+					<DateInfo
+						startDate={selectedStage.createdAt}
+						success={'111'}
+						confirm={'222'}
+					/>
+					<Divider className={styles.divider} />
+					<UserField
+						responsible={
+							selectedStage.holds[0].users.length
+								? selectedStage.holds[0].users[0].longName
+								: selectedStage.holds.length > 1
+								? selectedStage.holds[1].users[0].longName
+								: 'Вся группа' // TODO: исправить
+						}
+						group={selectedStage.holds[0].groups[0].title}
+						role='Ответственный'
+					/>
+					<Divider className={styles.divider} />
+					<ListTasks />
+				</>
+			)}
 		</Box>
 	)
 }

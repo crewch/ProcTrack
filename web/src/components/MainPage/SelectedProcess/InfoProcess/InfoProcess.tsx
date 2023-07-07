@@ -15,7 +15,11 @@ import StartProcessButton from './StartProcessButton/StartProcessButton'
 const InfoProcess = () => {
 	const openedProcessID = useAppSelector(state => state.processes.openedProcess)
 
-	const { data, isSuccess, isLoading } = useQuery({
+	const {
+		data: process,
+		isSuccess,
+		isLoading,
+	} = useQuery({
 		queryKey: ['processId', openedProcessID],
 		queryFn: () => getProcessApi.getProcessId(openedProcessID),
 	})
@@ -30,32 +34,32 @@ const InfoProcess = () => {
 	return (
 		<Box className={styles.container}>
 			{isLoading && <LinearProgress />}
-			{isSuccess && data && (
+			{isSuccess && process && (
 				<>
 					<HeaderField
-						name={data.title}
-						status={data.status}
-						importance={data.priority}
-						type={data.type}
+						name={process.title}
+						status={process.status}
+						importance={process.priority}
+						type={process.type}
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
-						startDate={data.createdAt} //TODO:
+						startDate={process.createdAt} //TODO:
 						endData={'ср, 27 декабря 2023 12:00'} //TODO:
-						interval={data.expectedTime} //TODO:
+						interval={process.expectedTime} //TODO:
 					/>
 					<Divider className={styles.divider} />
 					<UserField
-						responsible={data.hold[0].users[0].longName} //TODO:
-						group={data.hold[1].groups[0].title} //TODO:
+						responsible={process.hold[0].users[0].longName} //TODO:
+						group={process.hold[1].groups[0].title} //TODO:
 						role='Ответственный'
 					/>
 					<Divider className={styles.divider} />
 					<FilesField />
 					<Divider className={styles.divider} />
 					<Box className={styles.btns}>
-						{data.status === 'в процессе' && <StopProcessButton />}
-						{data.status === 'остановлен' && <StartProcessButton />}
+						{process.status === 'в процессе' && <StopProcessButton />}
+						{process.status === 'остановлен' && <StartProcessButton />}
 						<UploadButton
 							handleFileChange={handleFileChange} //TODO:
 						/>

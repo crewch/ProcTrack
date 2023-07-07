@@ -8,6 +8,7 @@ const DateInfo: FC<IDataInfoProps> = ({
 	endData,
 	interval,
 	success,
+	confirm,
 }) => {
 	return (
 		<>
@@ -27,6 +28,14 @@ const DateInfo: FC<IDataInfoProps> = ({
 				<Box className={styles.container}>
 					<Typography className={styles.typography1}>
 						Время подписания
+					</Typography>
+					<Typography className={styles.typography2}>{success}</Typography>
+				</Box>
+			)}
+			{confirm && (
+				<Box className={styles.container}>
+					<Typography className={styles.typography1}>
+						Время утверждения
 					</Typography>
 					<Typography className={styles.typography2}>{success}</Typography>
 				</Box>

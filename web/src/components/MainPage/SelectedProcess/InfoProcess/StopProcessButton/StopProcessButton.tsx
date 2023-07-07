@@ -15,6 +15,7 @@ const StopProcessButton: FC = () => {
 			queryClient.invalidateQueries({ queryKey: ['processId'] })
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 			queryClient.invalidateQueries({ queryKey: ['stages'] })
+			queryClient.invalidateQueries({ queryKey: ['stageId'] })
 		},
 	})
 
