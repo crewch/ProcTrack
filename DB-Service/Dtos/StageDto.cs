@@ -9,5 +9,8 @@
         public int? StatusValue { get; set; }
         public UserDto? User { get; set; }
         public List<HoldDto>? Holds { get; set; }
+        public List<int>? CanCreate { get; set; }
+        public bool? Mark { get; set; }
+        public bool? Pass { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace DB_Service.Services
             _taskService = taskService;
         }
 
-        public async Task<StageDto> AssignStage(int UserId, int Id)
+        public async Task<StageDto> CancelStageById(int Id, int UserId)
         {
             var stage = _context.Stages
                 .Include(s => s.Status)
@@ -36,9 +36,52 @@ namespace DB_Service.Services
                 return null;
             }
 
+            stage.Signed = null;
+            stage.SignedAt = null;
+            stage.SignId = null;
+            stage.Status = _context.Statuses
+                .Where(s => s.Title.ToLower() == "отменен")
+                .FirstOrDefault();
+            _context.SaveChanges();
+
+            return await GetStageById(Id);
+        }
+
+        public async Task<StageDto> AssignStage(int UserId, int Id)
+        {
+            var stage = _context.Stages
+                .Include(s => s.Status)
+                .Where(s => s.Id == Id)
+                .FirstOrDefault();
+
+            if (stage == null)
+            {
+                return null;
+            }
+            if (stage.Pass == null ? false : (bool) stage.Pass)
+            {
+                var nextStagesPass = _context.Edges
+                    .Include(e => e.EndStage.Status)
+                    .Where(e => e.Start == stage.Id && e.EndStage.Status.Title.ToLower() == "не начат")
+                    .Select(e => e.EndStage)
+                    .ToList();
+
+                var newStatusPass = _context.Statuses
+                    .Where(s => s.Title.ToLower() == "отправлен на проверку")
+                    .FirstOrDefault();
+                foreach (var next in nextStagesPass)
+                {
+                    next.Status = newStatusPass;
+                }
+                _context.SaveChanges();
+
+                return await GetStageById(Id);
+            }
+
             bool blockStage = stage.Status.Title.ToLower() == "отменено";
 
             stage.Signed = UserId.ToString();
+            stage.SignedAt = DateTime.Now;
             
             if (_context.Stages
                     .Include(s => s.Status)
@@ -103,6 +146,11 @@ namespace DB_Service.Services
                 .FirstOrDefault();
             foreach (var next in nextStages)
             {
+                if (stage.Pass == null ? false : (bool) stage.Pass)
+                {
+                    await AssignStage(UserId, stage.Id);
+                    continue;
+                }
                 next.Status = newStatus;
             }
             _context.SaveChanges();
@@ -156,6 +204,9 @@ namespace DB_Service.Services
                 Holds = holds,
                 User = user,
                 CreatedAt = stageModel.CreatedAt,
+                Mark = stageModel.Mark,
+                Pass = stageModel.Pass,
+                CanCreate = stageModel.CanCreate
             };
 
             return res;
@@ -232,15 +283,21 @@ namespace DB_Service.Services
             {
                 return null;
             }
-
-            stage.Title = data.Title;
+            if (data.Title != null) {
+                stage.Title = data.Title;
+            }
+            if (data.Pass != null) {
+                stage.Pass = data.Pass;
+            }
             
-            var status = _context.Statuses
-                .Where(s => s.Title == data.Status)
-                .FirstOrDefault();
+            if (data.Status != null) {
+                var status = _context.Statuses
+                    .Where(s => s.Title == data.Status)
+                    .FirstOrDefault();
 
-            stage.Status = status;
-
+                stage.Status = status;
+            }
+            
             _context.SaveChanges();
 
             var res = await GetStageById(Id);

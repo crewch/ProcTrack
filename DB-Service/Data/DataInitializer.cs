@@ -109,10 +109,43 @@ namespace DB_Service.Data
 
             var stages = new Stage[]
             {
-                new Stage {Id=1, Title="Технологическое отделение", Addenable=false, Status=statuses[0], Process=processes[0]},
-                new Stage {Id=2, Title="Финансовое отделение", Addenable=false, Status=statuses[0], Process=processes[0]},
-                new Stage {Id=3, Title="Соответствие нормам", Addenable=false, Status=statuses[0], Process=processes[0]},
-                new Stage {Id=4, Title="Опытные работы", Addenable=false, Status=statuses[0], Process=processes[0]},
+                new Stage {Id=1, 
+                    Title="Технологическое отделение", 
+                    Addenable=false, 
+                    Status=statuses[0], 
+                    Process=processes[0], 
+                    Tasks = tasks,
+                    Mark = false,
+                    CanCreate = new List<int>(),
+                    Pass = false
+                },
+                new Stage {Id=2, 
+                    Title="Финансовое отделение", 
+                    Addenable=false, 
+                    Status=statuses[0], 
+                    Process=processes[0],
+                    Mark = false,
+                    CanCreate = new List<int>(),
+                    Pass = false
+                },
+                new Stage {Id=3, 
+                    Title="Соответствие нормам", 
+                    Addenable=false, 
+                    Status=statuses[0], 
+                    Process=processes[0],
+                    Mark = false,
+                    CanCreate = new List<int>(),
+                    Pass = false
+                },
+                new Stage {Id=4, 
+                    Title="Опытные работы", 
+                    Addenable=false, 
+                    Status=statuses[0], 
+                    Process=processes[0],
+                    Mark = false,
+                    CanCreate = new List<int>(),
+                    Pass = false
+                },
             };
             foreach (var stage in stages)
             {

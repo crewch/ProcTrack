@@ -115,9 +115,22 @@ namespace DB_Service.Services
                     Status = new_status,
                     CustomField = stage.CustomField,
                     CreatedAt = DateTime.Now,
+                    Pass = stage.Pass,
+                    Mark = stage.Mark
                 };
                 stageMatrix.Add(new Tuple<int, Stage>(stage.Id, newStage));
                 _context.Stages.Add(newStage);
+            }
+            _context.SaveChanges();
+
+            foreach (var stage in stages)
+            {
+                var newCanCreate = new List<int>();
+                foreach (var id in stage.CanCreate)
+                {
+                    newCanCreate.Add(stageMatrix.Find(s => s.Item1 == id).Item2.Id);
+                }
+                stageMatrix.Find(s => s.Item1 == stage.Id).Item2.CanCreate = newCanCreate;
             }
             _context.SaveChanges();
 
@@ -213,6 +226,18 @@ namespace DB_Service.Services
 
             foreach (var stageTuple in stageMatrix)
             {
+                if (stageTuple.Item2.Id == newProcess.HeadStage.Id)
+                {
+                    var newHold = await _authClient.CreateHold(new CreateHoldRequestDto
+                        {
+                        DestId = stageTuple.Item2.Id,
+                        DestType = "Stage",
+                        HolderId = (int) data.GroupId,
+                        HolderType = "Group"
+                    });
+                    continue;
+                }
+
                 var templateHold = await _authClient.FindHold(stageTuple.Item1, "Stage");
 
                 foreach (var hold in templateHold)
@@ -355,42 +380,26 @@ namespace DB_Service.Services
             }
             // status: в процессе, завершен, остановлен, отменен
 
+            var stages = _context.Stages
+                .Include(s => s.Status)
+                .Where(s => s.ProcessId == process.Id)
+                .Select(s => s.Status.Title)
+                .ToList();
+
             string status = "";
-            if (_context.Stages
-                    .Include(s => s.Status)
-                    .Where(s => s.ProcessId == process.Id && s.Status.Title.ToLower() == "остановлен")
-                    .Select(s => s.Id)
-                    .ToList()
-                    .Count() != 0)
+            if (stages.Any(s => s.ToLower() == "остановлен"))
             {
                 status = "остановлен";
-            }
-            if (status.Count() == 0 &&
-                _context.Stages
-                    .Include(s => s.Status)
-                    .Where(s => s.ProcessId == process.Id && s.Status.Title.ToLower() == "отменен")
-                    .Select(s => s.Id)
-                    .ToList()
-                    .Count() != 0)
+            } 
+            else if (stages.Any(s => s.ToLower() == "отменен"))
             {
                 status = "отменен";
             }
-            if (status.Count() == 0 &&
-                _context.Processes
-                    .Include(s => s.TailStage.Status)
-                    .Select(s => s.TailStage.Status.Title.ToLower() == "согласован")
-                    .FirstOrDefault() &&
-                _context.Stages
-                    .Include(s => s.Status)
-                    .Where(s => s.ProcessId == process.Id && (
-                        s.Status.Title.ToLower() == "отменен" || s.Status.Title.ToLower() == "остановлен"))
-                    .Select(s => s.Id)
-                    .ToList()
-                    .Count() != 0)
+            else if (stages.All(s => s.ToLower() == "согласовано"))
             {
                 status = "завершен";
             }
-            if (status.Count() == 0)
+            else
             {
                 status = "в процессе";
             }
@@ -414,7 +423,7 @@ namespace DB_Service.Services
 
         public async Task<List<StageDto>> GetStagesByProcessId(int id)
         {
-            var process = GetProcessById(id).Result;
+            var process = await GetProcessById(id);
 
             var stageModels = _context.Stages
                 .Where(s => s.ProcessId == process.Id)
@@ -517,6 +526,17 @@ namespace DB_Service.Services
                 stageDict[stage.Id] = newStage;
                 _context.Stages.Add(newStage);
             }
+            _context.SaveChanges();
+            foreach (var stage in data.Stages)
+            {
+                var newCanCreate = new List<int>();
+                foreach (var id in stage.CanCreate)
+                {
+                    newCanCreate.Add(stageDict[id].Id);
+                }
+                stageDict[stage.Id].CanCreate = newCanCreate;
+            }
+            _context.SaveChanges();
 
             var tasks = new List<Models.Task>();
             foreach (var task in data.Tasks)
