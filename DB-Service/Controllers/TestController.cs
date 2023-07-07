@@ -19,33 +19,44 @@ namespace DB_Service.Controllers
     {
         private readonly IAuthDataClient _client;
 
-        public TestController(IAuthDataClient client)
+        private readonly ITestDataService _testDataService;
+
+        public TestController(IAuthDataClient client, ITestDataService testDataService)
         {
             _client = client;
+            _testDataService = testDataService;
         }
 
-        [Route("GetHolds")]
-        [HttpPost]
-
-        public async Task<ActionResult<List<HoldDto>>> GetHolds(UserHoldTypeDto data)
-        {
-            var res = await _client.GetHolds(data);
-            return Ok(res);
-        }
-        [Route("CreateHold")]
-        [HttpPost]
-        public async Task<ActionResult<CreateHoldResponceDto>> CreateHold(CreateHoldRequestDto data)
-        {
-            var res = await _client.CreateHold(data);
-            return Ok(res);
-        }
-        [Route("Hold/{id}")]
+        [Route("AddTestData")]
         [HttpGet]
-        public async Task<ActionResult<HoldDto>> GetHoldById(int id)
+        public async Task<ActionResult> CreateTestData()
         {
-            var res = await _client.GetHoldById(id);
-            return Ok(res);
+            await _testDataService.CreateTestData();
+            return Ok();
         }
+
+        //[Route("GetHolds")]
+        //[HttpPost]
+
+        //public async Task<ActionResult<List<HoldDto>>> GetHolds(UserHoldTypeDto data)
+        //{
+        //    var res = await _client.GetHolds(data);
+        //    return Ok(res);
+        //}
+        //[Route("CreateHold")]
+        //[HttpPost]
+        //public async Task<ActionResult<CreateHoldResponceDto>> CreateHold(CreateHoldRequestDto data)
+        //{
+        //    var res = await _client.CreateHold(data);
+        //    return Ok(res);
+        //}
+        //[Route("Hold/{id}")]
+        //[HttpGet]
+        //public async Task<ActionResult<HoldDto>> GetHoldById(int id)
+        //{
+        //    var res = await _client.GetHoldById(id);
+        //    return Ok(res);
+        //}
 
     }
 }

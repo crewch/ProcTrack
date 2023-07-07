@@ -43,6 +43,7 @@ namespace DB_Service
             services.AddScoped<IPropertyService, PropertyService>();
             services.AddScoped<IStageService, StageService>();
             services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<ITestDataService, TestDataService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
         }
