@@ -33,7 +33,7 @@
                 "12412"
             };
 
-            var dayWeek = days[(int)input.DayOfWeek];
+            var dayWeek = days[(int)input.DayOfWeek - 1];
             var year = input.Year;
             var month = months[input.Month - 1];
             var day = input.Day;

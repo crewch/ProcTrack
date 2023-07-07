@@ -5,6 +5,7 @@ using DB_Service.Models;
 using Microsoft.EntityFrameworkCore;
 using DB_Service.Tools;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Globalization;
 
 namespace DB_Service.Services
 {
@@ -415,6 +416,8 @@ namespace DB_Service.Services
                 Priority = process.Priority == null ? null : process.Priority.Title,
                 Type = process.Type == null ? null : process.Type.Title,
                 CreatedAt = process.CreatedAt == null ? null : DateParser.Parse((DateTime)process.CreatedAt),
+                CompletedAt = process.CreatedAt == null ? null : DateParser.Parse((DateTime)process.CreatedAt.Add(process.ExpectedTime)),
+                CompletedAtUnparsed = process.CreatedAt.Add(process.ExpectedTime).ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 ApprovedAt = process.ApprovedAt == null ? null : DateParser.Parse((DateTime)process.ApprovedAt),
                 ExpectedTime = process.ExpectedTime,
                 Hold = hold,
@@ -501,6 +504,7 @@ namespace DB_Service.Services
 
             return res;
         }
+
         public async Task<ProcessDto?> CreateTemplate(TemplateDto data)
         {
             var process = new Models.Process
@@ -539,6 +543,9 @@ namespace DB_Service.Services
                 stageDict[stage.Id].CanCreate = newCanCreate;
             }
             _context.SaveChanges();
+
+            process.Head = stageDict[(int)data.StartStage].Id;
+            process.Tail = stageDict[(int)data.EndStage].Id;
 
             var tasks = new List<Models.Task>();
             foreach (var task in data.Tasks)
