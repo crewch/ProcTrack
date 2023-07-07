@@ -41,10 +41,7 @@ const ListTask: FC<IListTaskProps> = ({
 							</ListItemIcon>
 							<ListItemText className={styles.reportText}>
 								<Box className={styles.title}>
-									<Typography>
-										{/* {remark.user.longName} */}
-										Иван Иванов
-									</Typography>
+									<Typography>{remark.user.longName}</Typography>
 									<Typography>{remark.createdAt}</Typography>
 								</Box>
 								<Typography>{remark.text}</Typography>

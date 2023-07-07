@@ -44,8 +44,8 @@ const InfoProcess = () => {
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
-						startDate={process.createdAt} //TODO:
-						endData={'ср, 27 декабря 2023 12:00'} //TODO:
+						startDate={process.createdAt}
+						endData={'TODO'} //TODO:
 						interval={process.expectedTime} //TODO:
 					/>
 					<Divider className={styles.divider} />

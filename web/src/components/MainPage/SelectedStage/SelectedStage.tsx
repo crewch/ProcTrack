@@ -46,7 +46,7 @@ const SelectedStage = () => {
 								: 'Вся группа' // TODO: исправить
 						}
 						group={selectedStage.holds[0].groups[0].title}
-						role='Ответственный'
+						role='Главный согласующий'
 					/>
 					<Divider className={styles.divider} />
 					<ListTasks />
