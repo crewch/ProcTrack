@@ -40,7 +40,7 @@
             var hour = input.Hour;
             var minute = input.Minute;
 
-            var res = $"{dayWeek}, {day} {month} {year}, {hour}:{minute}";
+            var res = $"{dayWeek}, {day.ToString("D2")} {month} {year}, {hour.ToString("D2")}:{minute.ToString("D2")}";
             return res;
         }
     }
