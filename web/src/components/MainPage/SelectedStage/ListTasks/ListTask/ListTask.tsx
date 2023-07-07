@@ -30,7 +30,9 @@ const ListTask: FC<IListTaskProps> = ({
 			<Divider className={styles.divider} />
 			<Typography className={styles.typography}>Замечания:</Typography>
 			{!remarks.length && (
-				<Typography className={styles.typography}>Нет замечаний</Typography>
+				<Typography className={styles.typographySmall}>
+					Нет замечаний
+				</Typography>
 			)}
 			{remarks.length > 0 && (
 				<List className={styles.list}>

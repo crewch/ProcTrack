@@ -5,6 +5,10 @@
 		@apply my-1 border;
 	}
 
+	.typographySmall {
+		@apply font-[Montserrat] text-ap-black;
+	}
+
 	.typography {
 		@apply font-[Montserrat] text-ap-black text-[20px] font-semibold;
 	}
