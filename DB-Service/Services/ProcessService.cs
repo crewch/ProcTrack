@@ -415,8 +415,9 @@ namespace DB_Service.Services
                 Id = process.Id,
                 Priority = process.Priority == null ? null : process.Priority.Title,
                 Type = process.Type == null ? null : process.Type.Title,
-                CreatedAt = process.CreatedAt.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
-                CompletedAt = process.CreatedAt.Add(process.ExpectedTime).ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                CreatedAt = process.CreatedAt == null ? null : DateParser.Parse((DateTime)process.CreatedAt),
+                CompletedAt = process.CreatedAt == null ? null : DateParser.Parse((DateTime)process.CreatedAt.Add(process.ExpectedTime)),
+                CompletedAtUnparsed = process.CreatedAt.Add(process.ExpectedTime).ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 ApprovedAt = process.ApprovedAt == null ? null : DateParser.Parse((DateTime)process.ApprovedAt),
                 ExpectedTime = process.ExpectedTime,
                 Hold = hold,
@@ -590,11 +591,6 @@ namespace DB_Service.Services
                 {
                     foreach (var group in hold.Groups)
                     {
-                        Console.WriteLine("===============1=============");
-                        Console.WriteLine(stageDict[stage.Id].Id);
-                        Console.WriteLine(group.Id);
-                        Console.WriteLine("=============================");
-
                         await _authClient.CreateHold(new CreateHoldRequestDto
                         {
                             DestId = stageDict[stage.Id].Id,
@@ -605,10 +601,6 @@ namespace DB_Service.Services
                     }
                     foreach (var user in hold.Users)
                     {
-                        Console.WriteLine("===============2=============");
-                        Console.WriteLine(stageDict[stage.Id].Id);
-                        Console.WriteLine(user.Id);
-                        Console.WriteLine("=============================");
                         await _authClient.CreateHold(new CreateHoldRequestDto
                         {
                             DestId = stageDict[stage.Id].Id,

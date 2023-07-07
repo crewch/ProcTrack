@@ -9,6 +9,7 @@
         public string? Type { get; set; }
         public string? CreatedAt { get; set; }
         public string? CompletedAt { get; set; }
+        public string? CompletedAtUnparsed { get; set; }
         public string? ApprovedAt { get; set;}
         public TimeSpan? ExpectedTime { get; set; }
         public List<HoldDto>? Hold { get; set; }
