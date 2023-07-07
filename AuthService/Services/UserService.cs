@@ -91,11 +91,15 @@ namespace AuthService.Services
                     .FirstOrDefault());
             }
 
+            var boss = _context.Users
+                .Where(u => u.Email == data.Boss.Email)
+                .FirstOrDefault();
+
             var group = new Group
             {
                 Title = data.Title,
                 Description = data.Description,
-                BossId = data.Boss.Id,
+                BossId = boss.Id,
                 Users = users,
             };
 

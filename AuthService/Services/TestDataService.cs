@@ -25,6 +25,8 @@ namespace AuthService.Services
                 new Role{ Title="releaser" },
                 new Role{ Title="admin" },
                 new Role{ Title="observer" },
+                new Role{ Title="inner-observer" },
+                new Role{ Title="checker"}
             };
             foreach (var role in roles)
             {
