@@ -3,6 +3,8 @@ using DB_Service.Data;
 using DB_Service.Dtos;
 using DB_Service.Models;
 using Microsoft.EntityFrameworkCore;
+using DB_Service.Tools;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DB_Service.Services
 {
@@ -38,7 +40,7 @@ namespace DB_Service.Services
             {
                 Id = passport.Id,
                 Title = passport.Title,
-                CreatedAt = passport.CreatedAt,
+                CreatedAt = passport.CreatedAt == null ? null : DateParser.Parse((DateTime)passport.CreatedAt),
                 Message = passport.Message,
                 ProcessId = passport.ProcessId,
             };
@@ -325,7 +327,7 @@ namespace DB_Service.Services
                 {
                     Id = passport.Id,
                     Title = passport.Title,
-                    CreatedAt = passport.CreatedAt,
+                    CreatedAt = passport.CreatedAt == null ? null : DateParser.Parse((DateTime)passport.CreatedAt),
                     Message = passport.Message,
                     ProcessId = Id,
                 });
@@ -412,8 +414,8 @@ namespace DB_Service.Services
                 Id = process.Id,
                 Priority = process.Priority == null ? null : process.Priority.Title,
                 Type = process.Type == null ? null : process.Type.Title,
-                CreatedAt = process.CreatedAt,
-                ApprovedAt = process.ApprovedAt,
+                CreatedAt = process.CreatedAt == null ? null : DateParser.Parse((DateTime)process.CreatedAt),
+                ApprovedAt = process.ApprovedAt == null ? null : DateParser.Parse((DateTime)process.ApprovedAt),
                 ExpectedTime = process.ExpectedTime,
                 Hold = hold,
                 Status = status
