@@ -28,9 +28,10 @@ export interface IProcess {
 	priority: string
 	status: 'в процессе' | 'завершен' | 'остановлен' | 'отменен'
 	type: string
-	createdAt: string
 	approvedAt: string
-	expectedTime: string
+	createdAt: string
 	CompletedAt: string
+	CompletedAtUnparsed: string
+	expectedTime: string
 	hold: IHold[]
 }
