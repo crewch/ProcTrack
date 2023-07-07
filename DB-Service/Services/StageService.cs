@@ -73,7 +73,7 @@ namespace DB_Service.Services
                 {
                     if (next.Pass == null ? false : (bool) next.Pass)
                     {
-                        await AssignStage(UserId, stage.Id);
+                        await AssignStage(UserId, next.Id);
                         continue;
                     }
                     next.Status = newStatusPass;
