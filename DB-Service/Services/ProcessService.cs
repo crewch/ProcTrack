@@ -501,6 +501,7 @@ namespace DB_Service.Services
 
             return res;
         }
+
         public async Task<ProcessDto?> CreateTemplate(TemplateDto data)
         {
             var process = new Models.Process
@@ -539,6 +540,9 @@ namespace DB_Service.Services
                 stageDict[stage.Id].CanCreate = newCanCreate;
             }
             _context.SaveChanges();
+
+            process.Head = stageDict[(int)data.StartStage].Id;
+            process.Tail = stageDict[(int)data.EndStage].Id;
 
             var tasks = new List<Models.Task>();
             foreach (var task in data.Tasks)
@@ -584,6 +588,11 @@ namespace DB_Service.Services
                 {
                     foreach (var group in hold.Groups)
                     {
+                        Console.WriteLine("===============1=============");
+                        Console.WriteLine(stageDict[stage.Id].Id);
+                        Console.WriteLine(group.Id);
+                        Console.WriteLine("=============================");
+
                         await _authClient.CreateHold(new CreateHoldRequestDto
                         {
                             DestId = stageDict[stage.Id].Id,
@@ -594,6 +603,10 @@ namespace DB_Service.Services
                     }
                     foreach (var user in hold.Users)
                     {
+                        Console.WriteLine("===============2=============");
+                        Console.WriteLine(stageDict[stage.Id].Id);
+                        Console.WriteLine(user.Id);
+                        Console.WriteLine("=============================");
                         await _authClient.CreateHold(new CreateHoldRequestDto
                         {
                             DestId = stageDict[stage.Id].Id,

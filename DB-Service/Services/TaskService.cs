@@ -96,7 +96,7 @@ namespace DB_Service.Services
             {
                 Id = commentModel.Id,
                 Text = commentModel.Text,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateParser.Parse(DateTime.Now),
                 User = data.User,
             };
             return System.Threading.Tasks.Task.FromResult(commentDto);
@@ -127,7 +127,7 @@ namespace DB_Service.Services
                 dtos.Add(new CommentDto
                 {
                     Id = comment.Id,
-                    CreatedAt = comment.CreatedAt,
+                    CreatedAt = comment.CreatedAt == null ? null : DateParser.Parse((DateTime)comment.CreatedAt),
                     Text = comment.Text,
                     User = userDto,
                 });
@@ -162,7 +162,7 @@ namespace DB_Service.Services
                 {
                     Id = iComment.Id,
                     Text = iComment.Text,
-                    CreatedAt = iComment.CreatedAt,
+                    CreatedAt = iComment.CreatedAt == null ? null : DateParser.Parse((DateTime)iComment.CreatedAt),
                     User = iComment.UserId == null ? null : await _authClient.GetUserById((int)iComment.UserId),
                 });
             }
