@@ -71,6 +71,11 @@ namespace DB_Service.Services
                     .FirstOrDefault();
                 foreach (var next in nextStagesPass)
                 {
+                    if (next.Pass == null ? false : (bool) next.Pass)
+                    {
+                        await AssignStage(UserId, stage.Id);
+                        continue;
+                    }
                     next.Status = newStatusPass;
                 }
                 _context.SaveChanges();
