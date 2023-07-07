@@ -33,6 +33,13 @@ namespace DB_Service.Controllers
             var res = await _service.AssignStage(UserId, Id);
             return Ok(res);
         }
+        [Route("{Id}/Cancel")]
+        [HttpGet]
+        public async Task<ActionResult<StageDto>> CancleStage(int UserId, int Id)
+        {
+            var res = await _service.CancelStageById(Id, UserId);
+            return Ok(res);
+        }
 
         [Route("{Id}/Update")]
         [HttpPut]

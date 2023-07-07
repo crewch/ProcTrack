@@ -13,6 +13,9 @@
         public string? Signed { get; set; }
         public int? SignId { get; set; }
         public string? CustomField { get; set; }
+        public List<int>? CanCreate { get; set; }
+        public bool? Mark { get; set; }
+        public bool? Pass { get; set; }
         public ICollection<Edge> StartEdges { get; set; } = new List<Edge>();
         public ICollection<Edge> EndEdges { get; set; } = new List<Edge>();
         public ICollection<Task> Tasks { get; set; } = new List<Task>();
