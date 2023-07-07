@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
 using Minio;
+using System.Diagnostics;
 using Minio.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace S3_Service.Controllers
 {
@@ -36,9 +39,13 @@ namespace S3_Service.Controllers
             if (file is null)
                 return BadRequest("Must upload a valid file!");
 
-            var fileId = Guid.NewGuid().ToString();
+            //Stopwatch stopwatch = Stopwatch.StartNew();
+            //var fileId = Guid.NewGuid().ToString();
+            var name = Path.GetFileNameWithoutExtension(file.FileName);
             var extension = Path.GetExtension(file.FileName);
-            var fileName = $"{fileId}{extension}";
+            var str1 = DateTime.Now.ToString();
+            var str2 = Regex.Replace(str1, "[ :/.,]", "_");
+            var fileName = $"{name}_{str2}{extension}";
 
             var filePath = Path.GetTempFileName();
 
@@ -75,8 +82,8 @@ namespace S3_Service.Controllers
             if (string.IsNullOrEmpty(fileName))
                 return BadRequest($"'{nameof(fileName)} cannot be null or empty!'");
 
-            if (!Guid.TryParse(fileName.Split('.').FirstOrDefault(), out _))
-                return BadRequest($"Invalid '{fileName}'!");
+            //if (!Guid.TryParse(fileName.Split('.').FirstOrDefault(), out _))
+            //    return BadRequest($"Invalid '{fileName}'!");
 
             var filePath = Path.GetTempFileName();
             _logger.LogInformation($"Temp file name: '{filePath}'.");

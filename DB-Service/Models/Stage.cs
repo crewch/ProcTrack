@@ -8,6 +8,7 @@
         public bool Addenable { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? SignedAt { get; set; }
+        public DateTime? ApprovedAt { get; set; }
         public int? StatusId { get; set; }
         public Status? Status { get; set; }
         public string? Signed { get; set; }

@@ -7,8 +7,8 @@
         public string? Priority { get; set; }
         public string? Status { get; set; }
         public string? Type { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? ApprovedAt { get; set;}
+        public string? CreatedAt { get; set; }
+        public string? ApprovedAt { get; set;}
         public TimeSpan? ExpectedTime { get; set; }
         public List<HoldDto>? Hold { get; set; }
     }

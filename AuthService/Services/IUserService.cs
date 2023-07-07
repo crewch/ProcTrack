@@ -11,5 +11,7 @@ namespace AuthService.Services
         Task<UserDto> AddUser(UserDto data);
 
         Task<GroupDto> AddGroup(CreateGroupDto data);
+
+        Task<string> AddRole(string data);
     }
 }

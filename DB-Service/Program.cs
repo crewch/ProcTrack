@@ -10,7 +10,7 @@ namespace DB_Service
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            CreateDbIfNotExists(host);
+            //CreateDbIfNotExists(host);
             host.Run();
         }
 

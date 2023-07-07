@@ -3,6 +3,7 @@ using DB_Service.Data;
 using DB_Service.Dtos;
 using Microsoft.EntityFrameworkCore;
 using DB_Service.Services;
+using DB_Service.Tools;
 
 namespace DB_Service.Services
 {
@@ -208,7 +209,9 @@ namespace DB_Service.Services
                 StatusValue = status == null ? null : status.Value,
                 Holds = holds,
                 User = user,
-                CreatedAt = stageModel.CreatedAt,
+                CreatedAt = stageModel.CreatedAt == null ? null : DateParser.Parse((DateTime)stageModel.CreatedAt),
+                SignedAt = stageModel.SignedAt == null ? null : DateParser.Parse((DateTime)stageModel.SignedAt),
+                ApprovedAt = stageModel.ApprovedAt == null ? null : DateParser.Parse((DateTime)stageModel.ApprovedAt),
                 Mark = stageModel.Mark,
                 Pass = stageModel.Pass,
                 CanCreate = stageModel.CanCreate

@@ -2,7 +2,9 @@
 using DB_Service.Data;
 using DB_Service.Dtos;
 using DB_Service.Models;
+using DB_Service.Tools;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace DB_Service.Services
 {
@@ -169,14 +171,14 @@ namespace DB_Service.Services
             {
                 Id = task.Id,
                 Title = task.Title,
-                ApprovedAt = task.ApprovedAt,
+                ApprovedAt = task.ApprovedAt == null ? null : DateParser.Parse((DateTime)task.ApprovedAt),
                 ExpectedTime = task.ExpectedTime,
                 User = userDto,
                 Comments = comments,
                 SignId = task.SignId,
-                StartedAt = task.StartedAt,
+                StartedAt = task.StartedAt == null ? null : DateParser.Parse((DateTime)task.StartedAt),
                 Signed = task.Signed,
-                EndVerificationDate = task.EndVerificationDate,
+                EndVerificationDate = task.EndVerificationDate == null ? null : DateParser.Parse((DateTime)task.EndVerificationDate),
             };
             return res;
         }

@@ -1,6 +1,7 @@
 ﻿using DB_Service.Clients.Http;
 using DB_Service.Data;
 using DB_Service.Dtos;
+using DB_Service.Tools;
 using Microsoft.EntityFrameworkCore;
 
 namespace DB_Service.Services
@@ -43,9 +44,9 @@ namespace DB_Service.Services
                     Id = iTemplate.Id,
                     Title = iTemplate.Title,
                     Type = iTemplate.Type.Title,
-                    Priority = iTemplate.Priority.Title, 
-                    CreatedAt = iTemplate.CreatedAt,
-                    ApprovedAt = iTemplate.ApprovedAt,
+                    Priority = iTemplate.Priority.Title,
+                    CreatedAt = iTemplate.CreatedAt == null ? null : DateParser.Parse((DateTime)iTemplate.CreatedAt),
+                    ApprovedAt = iTemplate.ApprovedAt == null ? null : DateParser.Parse((DateTime)iTemplate.ApprovedAt),
                     ExpectedTime = iTemplate.ExpectedTime,
                 });
             }
