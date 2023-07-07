@@ -40,13 +40,9 @@ const ListTasks = () => {
 						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 							{/* {task.status === 'согласовано' && (
 								<img src='/completed.svg' className={styles.img} />
-							)}
-							{task.status === 'в процессе' && (
-								<img src='/inprogress.svg' className={styles.img} />
-							)}
-							{task.status === 'отклонено' && (
-								<img src='/rejected.svg' className={styles.img} />
-							)} */}
+							)} 
+							//TODO:
+							*/}
 							<Typography className={styles.title}>{task.title}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
@@ -54,8 +50,10 @@ const ListTasks = () => {
 								startDate={task.startedAt}
 								endDate={task.endVerificationDate}
 								successDate={task.approvedAt}
-								roleAuthor={task.user.roles ? task.user.roles[0] : 'Рабочий'}
-								author={task.user.longName}
+								roleAuthor={
+									task.user.roles ? task.user.roles[0] : 'Согласующий'
+								}
+								author={'Петр Петров'} //TODO:
 								group={'группа согласующего'} //TODO:
 								remarks={task.comments}
 							/>

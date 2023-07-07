@@ -31,11 +31,13 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 
 	const filteredProcesses: IProcess[] = useMemo(() => {
 		if (isSuccess && allProcess) {
-			return allProcess.filter(process =>
-				process.title
-					.toLocaleLowerCase()
-					.includes(textForSearchProcess.toLocaleLowerCase())
-			)
+			return allProcess
+				.sort((a, b) => b.id - a.id)
+				.filter(process =>
+					process.title
+						.toLocaleLowerCase()
+						.includes(textForSearchProcess.toLocaleLowerCase())
+				)
 		}
 
 		return []

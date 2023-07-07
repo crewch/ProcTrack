@@ -20,7 +20,7 @@ const TextTags: FC<ITextTagsProps> = ({ status, nameOfGroup }) => {
 				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
 			)}
 			{status === 'Отправлен на проверку' && (
-				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
+				<TextTag text={status} color='#5A3F0B' backgroundColor='#D8ECFF' />
 			)}
 			{status === 'Отменен' && (
 				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />

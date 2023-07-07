@@ -27,7 +27,7 @@ const DateInfo: FC<IDataInfoProps> = ({
 			{success && (
 				<Box className={styles.container}>
 					<Typography className={styles.typography1}>
-						Время подписания
+						Время электронного согласования
 					</Typography>
 					<Typography className={styles.typography2}>{success}</Typography>
 				</Box>
@@ -37,7 +37,7 @@ const DateInfo: FC<IDataInfoProps> = ({
 					<Typography className={styles.typography1}>
 						Время утверждения
 					</Typography>
-					<Typography className={styles.typography2}>{success}</Typography>
+					<Typography className={styles.typography2}>{confirm}</Typography>
 				</Box>
 			)}
 			{interval && (

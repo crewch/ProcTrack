@@ -5,6 +5,8 @@ export interface IStage {
 	title: string
 	createdAt: string
 	canCreate: number[]
+	signedAt: string
+	approvedAt: string
 	mark: boolean
 	pass: boolean
 	status: string

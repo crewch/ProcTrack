@@ -33,8 +33,11 @@ const SelectedStage = () => {
 					<Divider className={styles.divider} />
 					<DateInfo
 						startDate={selectedStage.createdAt}
-						success={'111'}
-						confirm={'222'}
+						// Раскоментить, когда починят TODO:
+						// success={selectedStage.approvedAt}
+						// confirm={selectedStage.signedAt}
+						success={'Раскоментить, когда починят'}
+						confirm={'Раскоментить, когда починят'}
 					/>
 					<Divider className={styles.divider} />
 					<UserField
@@ -46,7 +49,7 @@ const SelectedStage = () => {
 								: 'Вся группа' // TODO: исправить
 						}
 						group={selectedStage.holds[0].groups[0].title}
-						role='Ответственный'
+						role='Главный согласующий'
 					/>
 					<Divider className={styles.divider} />
 					<ListTasks />

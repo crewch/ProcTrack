@@ -16,11 +16,7 @@ const HeaderField: FC<IHeaderFieldProps> = ({ name, status, nameOfGroup }) => {
 							<img src='/completed.svg' loading='lazy' className={styles.img} />
 						)}
 						{status === 'Не начат' && (
-							<img
-								src='/stoppedProcess.svg'
-								loading='lazy'
-								className={styles.img}
-							/>
+							<img src='/circle.svg' loading='lazy' className={styles.img} />
 						)}
 						{status === 'Согласовано-Блокировано' && (
 							<img src='/lock.svg' loading='lazy' className={styles.img} />
