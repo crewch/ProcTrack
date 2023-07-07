@@ -1,4 +1,4 @@
-import { IReamark } from '../IListTasks'
+import { IComment } from '../../../../IApi/IGetTask'
 
 export interface IListTaskProps {
 	startDate: string
@@ -7,5 +7,5 @@ export interface IListTaskProps {
 	roleAuthor: string
 	author: string
 	group: string
-	remarks?: IReamark[]
+	remarks: IComment[]
 }

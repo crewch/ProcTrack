@@ -26,7 +26,7 @@ const HeaderField: FC<{
 							<img src='/completed.svg' className={styles.img} />
 						)}
 						{status === 'остановлен' && (
-							<img src='/stoppedProcess.svg' className={styles.img} />
+							<img src='/pause-circle.svg' className={styles.img} />
 						)}
 						{status === 'согласован с замечаниями' && (
 							<img src='/completed.svg' className={styles.img} />

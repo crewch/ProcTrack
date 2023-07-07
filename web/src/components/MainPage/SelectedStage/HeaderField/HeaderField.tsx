@@ -12,14 +12,42 @@ const HeaderField: FC<IHeaderFieldProps> = ({ name, status, nameOfGroup }) => {
 				<Box className={styles.wrap}>
 					<Typography variant='h4' className={styles.typography}>
 						{`${name} `}
-						{status === 'в процессе' && (
-							<img src='/inprogress.svg' className={styles.img} />
+						{status === 'Согласовано' && (
+							<img src='/completed.svg' loading='lazy' className={styles.img} />
 						)}
-						{status === 'отклонено' && (
-							<img src='/rejected.svg' className={styles.img} />
+						{status === 'Не начат' && (
+							<img
+								src='/stoppedProcess.svg'
+								loading='lazy'
+								className={styles.img}
+							/>
 						)}
-						{status === 'согласован с замечаниями' && (
-							<img src='/completed.svg' className={styles.img} />
+						{status === 'Согласовано-Блокировано' && (
+							<img src='/lock.svg' loading='lazy' className={styles.img} />
+						)}
+						{status === 'Принят на проверку' && (
+							<img
+								src='/arrow-circle-down.svg'
+								loading='lazy'
+								className={styles.img}
+							/>
+						)}
+						{status === 'Отправлен на проверку' && (
+							<img
+								src='/arrow-circle-right.svg'
+								loading='lazy'
+								className={styles.img}
+							/>
+						)}
+						{status === 'Отменен' && (
+							<img src='/rejected.svg' loading='lazy' className={styles.img} />
+						)}
+						{status === 'Остановлен' && (
+							<img
+								src='/pause-circle.svg'
+								loading='lazy'
+								className={styles.img}
+							/>
 						)}
 					</Typography>
 					<Box className={styles.icon}>

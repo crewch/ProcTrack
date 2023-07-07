@@ -7,14 +7,26 @@ import { ITextTagsProps } from '../../../../../interfaces/IMainPage/ISelectedSta
 const TextTags: FC<ITextTagsProps> = ({ status, nameOfGroup }) => {
 	return (
 		<Box className={styles.textTags}>
-			{status === 'в процессе' && (
+			{status === 'Согласовано' && (
 				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
 			)}
-			{status === 'согласован с замечаниями' && (
-				<TextTag text={status} color='#3E5107' backgroundColor='#AAC954' />
+			{status === 'Не начат' && (
+				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
 			)}
-			{status === 'отменён' && (
-				<TextTag text={status} color='#540E10' backgroundColor='#E25E63' />
+			{status === 'Согласовано-Блокировано' && (
+				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
+			)}
+			{status === 'Принят на проверку' && (
+				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
+			)}
+			{status === 'Отправлен на проверку' && (
+				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
+			)}
+			{status === 'Отменен' && (
+				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
+			)}
+			{status === 'Остановлен' && (
+				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
 			)}
 			<TextTag text={nameOfGroup} color='#black' backgroundColor={'#ECECEC'} />
 		</Box>

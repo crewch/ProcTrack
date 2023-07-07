@@ -20,14 +20,18 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 	const dispatch = useAppDispatch()
 	const openedProcess = useAppSelector(state => state.processes.openedProcess)
 
-	const { data, isLoading, isSuccess } = useQuery({
+	const {
+		data: allProcess,
+		isLoading,
+		isSuccess,
+	} = useQuery({
 		queryKey: ['allProcess'],
 		queryFn: getProcessApi.getProcessAll,
 	})
 
 	const filteredProcesses: IProcess[] = useMemo(() => {
-		if (isSuccess && data) {
-			return data.filter(process =>
+		if (isSuccess && allProcess) {
+			return allProcess.filter(process =>
 				process.title
 					.toLocaleLowerCase()
 					.includes(textForSearchProcess.toLocaleLowerCase())
@@ -35,7 +39,7 @@ const ListProcess: FC<{ textForSearchProcess: string }> = ({
 		}
 
 		return []
-	}, [data, isSuccess, textForSearchProcess])
+	}, [allProcess, isSuccess, textForSearchProcess])
 
 	return (
 		<List className={styles.list}>

@@ -13,12 +13,8 @@ const Layout = () => {
 					<Divider variant='middle' className={styles.divider} />
 					<ButtonListItem src='/document.svg' to='/' />
 					<ButtonListItem src='/confirmation.svg' to='confirmation' />
-					<ButtonListItem src='/analysis.svg' to='analysis' />
-					<ButtonListItem
-						otherPage
-						src='/key.svg'
-						to='/http://localhost:3000'
-					/>
+					<ButtonListItem src='/analysis.svg' to='analysis' otherPage />
+					<ButtonListItem src='/key.svg' to='/http://localhost:3000' />
 				</List>
 				<List>
 					<Divider variant='middle' className={styles.divider} />

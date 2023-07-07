@@ -2,135 +2,66 @@ import {
 	Accordion,
 	AccordionDetails,
 	AccordionSummary,
+	LinearProgress,
 	List,
 	Typography,
 } from '@mui/material'
-import { IListTasks } from '../../../../interfaces/IMainPage/ISelectedStage/IListTasks/IListTasks'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import styles from '/src/styles/MainPageStyles/SelectedStageStyles/ListTasksStyles/ListTasksStyles.module.scss'
 import ListTask from './ListTask/ListTask'
+import { useAppSelector } from '../../../../hooks/reduxHooks'
+import { useQuery } from '@tanstack/react-query'
+import { getTaskApi } from '../../../../api/getTaskApi'
 
 const ListTasks = () => {
-	const listTasks: IListTasks[] = [
-		// {
-		// 	numberOfTask: 'Первое задание',
-		// 	startDate: 'пт, 22 декабря 2023, 16:30',
-		// 	endDate: 'ср, 27 декабря 2023, 12:00',
-		// 	successDate: 'ср, 27 декабря 2023, 12:11',
-		// 	status: 'согласовано',
-		// 	roleAuthor: 'Согласующий',
-		// 	author: 'Петр Петров',
-		// 	group: 'группа согласующего',
-		// 	remarks: [
-		// 		{
-		// 			author: 'Сергей Сергеев',
-		// 			date: 'ср, 27 декабря 2023, 13:32',
-		// 			text: 'Всё в порядке - утверждаю',
-		// 		},
-		// 		{
-		// 			author: 'Петр Петров',
-		// 			date: 'ср, 27 декабря 2023, 13:32',
-		// 			text: 'Исправил выявленные проблемы',
-		// 		},
-		// 		{
-		// 			author: 'Сергей Сергеев',
-		// 			date: 'ср, 27 декабря 2023, 13:32',
-		// 			text: 'Необходимо исправить недостатки',
-		// 		},
-		// 	],
-		// },
-		// {
-		// 	numberOfTask: 'Второе задание',
-		// 	startDate: 'пт, 22 декабря 2023, 16:30',
-		// 	endDate: 'ср, 27 декабря 2023, 12:00',
-		// 	successDate: 'ср, 27 декабря 2023, 12:11',
-		// 	status: 'в процессе',
-		// 	roleAuthor: 'Согласующий',
-		// 	author: 'Сергей Сергеев',
-		// 	group: 'группа согласующего',
-		// 	remarks: [
-		// 		{
-		// 			author: 'Сергей Сергеев',
-		// 			date: 'ср, 27 декабря 2023, 13:32',
-		// 			text: 'Всё в порядке - утверждаю',
-		// 		},
-		// 		{
-		// 			author: 'Петр Петров',
-		// 			date: 'ср, 27 декабря 2023, 13:32',
-		// 			text: 'Исправил выявленные проблемы',
-		// 		},
-		// 		{
-		// 			author: 'Сергей Сергеев',
-		// 			date: 'ср, 27 декабря 2023, 13:32',
-		// 			text: 'Необходимо исправить недостатки',
-		// 		},
-		// 	],
-		// },
-		// {
-		// 	numberOfTask: 'Третье задание',
-		// 	startDate: 'пт, 22 декабря 2023, 16:30',
-		// 	endDate: 'ср, 27 декабря 2023, 12:00',
-		// 	successDate: 'ср, 27 декабря 2023, 12:11',
-		// 	status: 'отклонено',
-		// 	roleAuthor: 'Согласующий',
-		// 	author: 'Иван Петров',
-		// 	group: 'группа согласующего',
-		// 	remarks: [
-		// 		{
-		// 			author: 'Сергей Сергеев',
-		// 			date: 'ср, 27 декабря 2023, 13:32',
-		// 			text: 'Всё в порядке - утверждаю',
-		// 		},
-		// 		{
-		// 			author: 'Петр Петров',
-		// 			date: 'ср, 27 декабря 2023, 13:32',
-		// 			text: 'Исправил выявленные проблемы',
-		// 		},
-		// 		{
-		// 			author: 'Сергей Сергеев',
-		// 			date: 'ср, 27 декабря 2023, 13:32',
-		// 			text: 'Необходимо исправить недостатки',
-		// 		},
-		// 	],
-		// },
-	]
+	const selectedStage = useAppSelector(state => state.processes.openedStage)
+
+	const {
+		data: tasks,
+		isLoading,
+		isSuccess,
+	} = useQuery({
+		queryKey: ['tasks', selectedStage],
+		queryFn: () => getTaskApi.getTaskAll(selectedStage),
+	})
 
 	return (
 		<List component='nav' className={styles.list}>
-			{!listTasks.length && (
+			{isLoading && <LinearProgress />}
+			{isSuccess && tasks && !tasks.length && (
 				<Typography variant='h4' className={styles.typography}>
 					Процессов нет
 				</Typography>
 			)}
-			{listTasks.map((task, index) => (
-				<Accordion disableGutters key={index} className={styles.accordion}>
-					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-						{task.status === 'согласовано' && (
-							<img src='/completed.svg' className={styles.img} />
-						)}
-						{task.status === 'в процессе' && (
-							<img src='/inprogress.svg' className={styles.img} />
-						)}
-						{task.status === 'отклонено' && (
-							<img src='/rejected.svg' className={styles.img} />
-						)}
-						<Typography className={styles.title}>
-							{task.numberOfTask}
-						</Typography>
-					</AccordionSummary>
-					<AccordionDetails>
-						<ListTask
-							startDate={task.startDate}
-							endDate={task.endDate}
-							successDate={task.successDate}
-							roleAuthor={task.roleAuthor}
-							author={task.author}
-							group={task.group}
-							remarks={task.remarks}
-						/>
-					</AccordionDetails>
-				</Accordion>
-			))}
+			{isSuccess &&
+				tasks &&
+				tasks.map((task, index) => (
+					<Accordion disableGutters key={index} className={styles.accordion}>
+						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+							{/* {task.status === 'согласовано' && (
+								<img src='/completed.svg' className={styles.img} />
+							)}
+							{task.status === 'в процессе' && (
+								<img src='/inprogress.svg' className={styles.img} />
+							)}
+							{task.status === 'отклонено' && (
+								<img src='/rejected.svg' className={styles.img} />
+							)} */}
+							<Typography className={styles.title}>{task.title}</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<ListTask
+								startDate={task.startedAt}
+								endDate={task.endVerificationDate}
+								successDate={task.approvedAt}
+								roleAuthor={task.user.roles ? task.user.roles[0] : 'Рабочий'}
+								author={task.user.longName}
+								group={'группа согласующего'} //TODO:
+								remarks={task.comments}
+							/>
+						</AccordionDetails>
+					</Accordion>
+				))}
 		</List>
 	)
 }

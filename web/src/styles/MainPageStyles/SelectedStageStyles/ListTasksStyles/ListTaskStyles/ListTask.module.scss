@@ -4,4 +4,24 @@
 	.divider {
 		@apply my-1 border;
 	}
+
+	.typography {
+		@apply font-[Montserrat] text-ap-black text-[20px] font-semibold;
+	}
+
+	.list {
+		@apply mt-1 w-full h-[200px] overflow-auto;
+
+		.img {
+			@apply h-[20px] w-[20px];
+		}
+
+		.reportText {
+			@apply flex flex-col;
+
+			.title {
+				@apply flex gap-[3px];
+			}
+		}
+	}
 }
