@@ -1,6 +1,6 @@
 import { Box, Divider, LinearProgress } from '@mui/material'
 import DateInfo from './DateInfoField/DateInfo'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import UploadButton from './UploadButton/UploadButton'
 import UserField from './UserField/UserField'
 import HeaderField from './HeaderProcessField/HeaderField'
@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getProcessApi } from '../../../../api/getProcessApi'
 import { useAppSelector } from '../../../../hooks/reduxHooks'
 import StartProcessButton from './StartProcessButton/StartProcessButton'
+import dayjs from 'dayjs'
 
 const InfoProcess = () => {
 	const openedProcessID = useAppSelector(state => state.processes.openedProcess)
@@ -31,6 +32,28 @@ const InfoProcess = () => {
 		}
 	}
 
+	const [intervalDate, setIntervalDate] = useState(' ')
+
+	useEffect(() => {
+		if (isSuccess && process && process.status !== 'завершен') {
+			const interval = setInterval(() => {
+				setIntervalDate(
+					`${dayjs(process.completedAtUnparsed)
+						.subtract(dayjs().day(), 'day')
+						.day()}:${dayjs(process.completedAtUnparsed)
+						.subtract(dayjs().hour(), 'hour')
+						.hour()}:${dayjs(process.completedAtUnparsed)
+						.subtract(dayjs().minute(), 'minute')
+						.minute()}:${dayjs(process.completedAtUnparsed)
+						.subtract(dayjs().second(), 'second')
+						.second()}`
+				)
+			}, 1000)
+
+			return () => clearInterval(interval)
+		}
+	}, [isSuccess, process])
+
 	return (
 		<Box className={styles.container}>
 			{isLoading && <LinearProgress />}
@@ -45,13 +68,13 @@ const InfoProcess = () => {
 					<Divider className={styles.divider} />
 					<DateInfo
 						startDate={process.createdAt}
-						endData={'TODO'} //TODO:
-						interval={process.expectedTime} //TODO:
+						endData={process.completedAt}
+						interval={intervalDate} //TODO:
 					/>
 					<Divider className={styles.divider} />
 					<UserField
-						responsible={process.hold[0].users[0].longName} //TODO:
-						group={process.hold[1].groups[0].title} //TODO:
+						responsible={process.hold[0].users[0].longName}
+						group={process.hold[1].groups[0].title}
 						role='Ответственный'
 					/>
 					<Divider className={styles.divider} />

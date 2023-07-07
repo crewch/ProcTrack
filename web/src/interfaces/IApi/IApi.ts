@@ -30,8 +30,8 @@ export interface IProcess {
 	type: string
 	approvedAt: string
 	createdAt: string
-	CompletedAt: string
-	CompletedAtUnparsed: string
+	completedAt: string
+	completedAtUnparsed: string
 	expectedTime: string
 	hold: IHold[]
 }

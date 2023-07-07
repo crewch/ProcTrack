@@ -33,8 +33,11 @@ const SelectedStage = () => {
 					<Divider className={styles.divider} />
 					<DateInfo
 						startDate={selectedStage.createdAt}
-						success={'111'}
-						confirm={'222'}
+						// Раскоментить, когда починят TODO:
+						// success={selectedStage.approvedAt}
+						// confirm={selectedStage.signedAt}
+						success={'Раскоментить, когда починят'}
+						confirm={'Раскоментить, когда починят'}
 					/>
 					<Divider className={styles.divider} />
 					<UserField
