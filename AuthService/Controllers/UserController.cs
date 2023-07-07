@@ -44,6 +44,14 @@ namespace AuthService.Controllers
             return Ok(res);
         }
 
+        [Route("Roles/Create")]
+        [HttpPost]
+        public async Task<ActionResult<string>> CreateRole(string data)
+        {
+            var res = await _service.AddRole(data);
+            return Ok(res);
+        } 
+
         [Route("Create")]
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateUser(UserDto data)

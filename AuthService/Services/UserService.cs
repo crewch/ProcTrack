@@ -112,5 +112,18 @@ namespace AuthService.Services
 
             return res;
         }
+
+        public Task<string> AddRole(string data)
+        {
+            var role = new Role
+            {
+                Title = data,
+            };
+
+            _context.Add(role);
+            _context.SaveChanges();
+
+            return Task.FromResult(role.Title);
+        }
     }
 }
