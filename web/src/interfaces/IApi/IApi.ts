@@ -31,5 +31,6 @@ export interface IProcess {
 	createdAt: string
 	approvedAt: string
 	expectedTime: string
+	CompletedAt: string
 	hold: IHold[]
 }
