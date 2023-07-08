@@ -198,7 +198,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 									options={groups}
 									sx={{ width: 300 }}
 									renderInput={params => (
-										<TextField {...params} label='Группа' />
+										<TextField {...params} label='Подразделение' />
 									)}
 								/>
 							)}

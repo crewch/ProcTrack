@@ -37,6 +37,24 @@ const InfoProcess = () => {
 	useEffect(() => {
 		if (isSuccess && process && process.status !== 'завершен') {
 			const interval = setInterval(() => {
+				if (
+					dayjs(process.completedAtUnparsed)
+						.subtract(dayjs().day(), 'day')
+						.day() === 0 &&
+					dayjs(process.completedAtUnparsed)
+						.subtract(dayjs().hour(), 'hour')
+						.hour() === 0 &&
+					dayjs(process.completedAtUnparsed)
+						.subtract(dayjs().minute(), 'minute')
+						.minute() === 0 &&
+					dayjs(process.completedAtUnparsed)
+						.subtract(dayjs().second(), 'second')
+						.second() === 0
+				) {
+					setIntervalDate('Время вышло')
+					return () => clearInterval(interval)
+				}
+
 				setIntervalDate(
 					`${dayjs(process.completedAtUnparsed)
 						.subtract(dayjs().day(), 'day')
