@@ -43,8 +43,8 @@ namespace DB_Service.Services
                 {
                     Id = iTemplate.Id,
                     Title = iTemplate.Title,
-                    Type = iTemplate.Type.Title,
-                    Priority = iTemplate.Priority.Title,
+                    Type = iTemplate.Type == null ? null : iTemplate.Type.Title,
+                    Priority = iTemplate.Priority == null ? null : iTemplate.Priority.Title,
                     CreatedAt = iTemplate.CreatedAt == null ? null : DateParser.Parse((DateTime)iTemplate.CreatedAt),
                     ApprovedAt = iTemplate.ApprovedAt == null ? null : DateParser.Parse((DateTime)iTemplate.ApprovedAt),
                     ExpectedTime = iTemplate.ExpectedTime,
