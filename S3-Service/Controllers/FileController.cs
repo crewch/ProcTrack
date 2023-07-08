@@ -39,6 +39,10 @@ namespace S3_Service.Controllers
             if (file is null)
                 return BadRequest("Must upload a valid file!");
 
+            if (file.Length > 15728640) {
+                return BadRequest("Размер файла не должен превышать 15 МБ");
+            }
+
             //Stopwatch stopwatch = Stopwatch.StartNew();
             //var fileId = Guid.NewGuid().ToString();
             var name = Path.GetFileNameWithoutExtension(file.FileName);

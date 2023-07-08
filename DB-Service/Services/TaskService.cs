@@ -85,6 +85,7 @@ namespace DB_Service.Services
             {
                 UserId = data.User.Id,
                 Text = data.Text,
+                FileRef = data.FileRef,
                 CreatedAt = DateTime.Now.AddHours(3),
             };
 
@@ -96,6 +97,7 @@ namespace DB_Service.Services
             {
                 Id = commentModel.Id,
                 Text = commentModel.Text,
+                FileRef = commentModel.FileRef,
                 CreatedAt = DateParser.Parse(DateTime.Now),
                 User = data.User,
             };
@@ -129,6 +131,7 @@ namespace DB_Service.Services
                     Id = comment.Id,
                     CreatedAt = comment.CreatedAt == null ? null : DateParser.Parse((DateTime)comment.CreatedAt),
                     Text = comment.Text,
+                    FileRef = comment.FileRef,
                     User = userDto,
                 });
             }

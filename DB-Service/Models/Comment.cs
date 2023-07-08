@@ -6,6 +6,7 @@
         public int? UserId { get; set; }
         public Task? Task { get; set; }
         public string Text { get; set; }
+        public string? FileRef { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }
