@@ -11,16 +11,15 @@ export const settingsList: ISettingsList[] = [
 	},
 	{
 		mainSetting: { type: 'Тип', status: false },
-		otherSettings: [
-			{ type: 'Первый тип', status: false },
-			{ type: 'Второй тип', status: false },
-		],
+		otherSettings: [{ type: 'КД', status: false }],
 	},
 	{
 		mainSetting: { type: 'Статус', status: false },
 		otherSettings: [
-			{ type: 'В процессе', status: false },
-			{ type: 'Заврешено', status: false },
+			{ type: 'в процессе', status: false },
+			{ type: 'завершен', status: false },
+			{ type: 'остановлен', status: false },
+			{ type: 'отменен', status: false },
 		],
 	},
 ]

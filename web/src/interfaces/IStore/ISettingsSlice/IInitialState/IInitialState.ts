@@ -2,4 +2,5 @@ import { ISettingsList } from '../../../IMainPage/IContainerListProcess/ISetting
 
 export interface IInitialState {
 	settingsList: ISettingsList[]
+	settingsForSearch: string[]
 }
