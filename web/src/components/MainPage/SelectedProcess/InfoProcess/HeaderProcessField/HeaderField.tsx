@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import TextTegs from './TextTags/TextTags'
 import Pen from '/pen.svg'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/HeaderProcessField.module.scss'
 
 const HeaderField: FC<{
@@ -9,7 +9,7 @@ const HeaderField: FC<{
 	status: string
 	importance: string
 	type: string
-}> = ({ name, status, importance, type }) => {
+}> = memo(({ name, status, importance, type }) => {
 	return (
 		<>
 			<Box className={styles.header}>
@@ -40,6 +40,6 @@ const HeaderField: FC<{
 			<TextTegs importance={importance} status={status} type={type} />
 		</>
 	)
-}
+})
 
 export default HeaderField

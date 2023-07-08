@@ -28,11 +28,11 @@ const ListTasks = () => {
 	return (
 		<List component='nav' className={styles.list}>
 			{isLoading && <LinearProgress />}
-			{isSuccess && tasks && !tasks.length && (
+			{/* {isSuccess && tasks && !tasks.length && (
 				<Typography variant='h4' className={styles.typography}>
 					Процессов нет
 				</Typography>
-			)}
+			)} */}
 			{isSuccess &&
 				tasks &&
 				tasks.map((task, index) => (
