@@ -29,7 +29,7 @@ namespace DB_Service.Services
             var passport = new Passport 
             {
                 Title = data.Title,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.Now.AddHours(3),
                 ProcessId = Id,
                 Message = data.Message,
             };
@@ -117,7 +117,7 @@ namespace DB_Service.Services
                     Addenable = stage.Addenable,
                     Status = new_status,
                     CustomField = stage.CustomField,
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = DateTime.Now.AddHours(3),
                     Pass = stage.Pass,
                     Mark = stage.Mark
                 };
@@ -200,7 +200,7 @@ namespace DB_Service.Services
                 Title = data.Process.Title,
                 PriorityId = priority.Id,
                 TypeId = template.TypeId,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.Now.AddHours(3),
                 ExpectedTime = template.ExpectedTime,
                 IsTemplate = false,
                 Head = stageMatrix.Find(d => d.Item1 == template.Head).Item2.Id,
@@ -514,7 +514,7 @@ namespace DB_Service.Services
                 Priority = _context.Priorities.Where(p => p.Title == data.Process.Priority).FirstOrDefault(),
                 Type = _context.Types.Where(t => t.Title == data.Process.Type).FirstOrDefault(),
                 ExpectedTime = (System.TimeSpan) data.Process.ExpectedTime,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now.AddHours(3)
             };
             _context.Processes.Add(process);
 
@@ -526,7 +526,7 @@ namespace DB_Service.Services
                     Title = stage.Title,
                     Process = process,
                     Addenable = false,
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = DateTime.Now.AddHours(3),
                     Status = _context.Statuses.Where(t => t.Title.ToLower() == "не начат").FirstOrDefault()
                 };
                 stageDict[stage.Id] = newStage;

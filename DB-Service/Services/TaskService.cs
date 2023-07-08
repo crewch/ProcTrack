@@ -38,7 +38,7 @@ namespace DB_Service.Services
 
             var user = _authClient.GetUserById(UserId).Result;
 
-            taskModel.ApprovedAt = DateTime.Now;
+            taskModel.ApprovedAt = DateTime.Now.AddHours(3);
             taskModel.Signed = user.LongName;
 
             if (taskModel.StageId != null)
@@ -85,7 +85,7 @@ namespace DB_Service.Services
             {
                 UserId = data.User.Id,
                 Text = data.Text,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.Now.AddHours(3),
             };
 
             _context.Comments.Add(commentModel);
@@ -197,7 +197,7 @@ namespace DB_Service.Services
                 .FirstOrDefault();
 
             taskModel.SignId = UserId;
-            taskModel.StartedAt = DateTime.Now;
+            taskModel.StartedAt = DateTime.Now.AddHours(3);
 
             _context.SaveChanges();
 
@@ -244,7 +244,7 @@ namespace DB_Service.Services
                 .Where(t => t.Id == Id)
                 .FirstOrDefault();
 
-            taskModel.EndVerificationDate = DateTime.Now;
+            taskModel.EndVerificationDate = DateTime.Now.AddHours(3);
 
             _context.SaveChanges();
 
