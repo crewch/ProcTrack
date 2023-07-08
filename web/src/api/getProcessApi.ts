@@ -23,8 +23,6 @@ export const getProcessApi = {
 				return data
 			}
 		} catch (error) {
-			console.log(localStorage.getItem('UserData'), 'UserData')
-
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
