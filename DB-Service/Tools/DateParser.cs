@@ -21,19 +21,16 @@
                 "124124"
             };
 
-            List<string> days = new List<string>()
-            {
-                "пн",
-                "вт",
-                "ср",
-                "чт",
-                "пт",
-                "сб",
-                "вс",
-                "12412"
-            };
+            Dictionary<string, string> days = new Dictionary<string, string>();
+            days["Monday"] = "пн";
+            days["Tuesday"] = "вт";
+            days["Wednesday"] = "ср";
+            days["Thursday"] = "чт";
+            days["Friday"] = "пт";
+            days["Saturday"] = "сб";
+            days["Sunday"] = "вс";
 
-            var dayWeek = days[(int)input.DayOfWeek - 1];
+            var dayWeek = days[input.DayOfWeek.ToString()];
             var year = input.Year;
             var month = months[input.Month - 1];
             var day = input.Day;
