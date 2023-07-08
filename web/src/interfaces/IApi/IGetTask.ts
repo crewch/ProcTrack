@@ -3,6 +3,7 @@ import { IUser } from './IApi'
 export interface IComment {
 	id: number
 	text: string
+	fileRef: string
 	user: IUser
 	createdAt: string
 }

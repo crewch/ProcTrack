@@ -56,6 +56,7 @@ const ListTasks = () => {
 								author={'Петр Петров'} //TODO:
 								group={'группа согласующего'} //TODO:
 								remarks={task.comments}
+								taskId={task.id}
 							/>
 						</AccordionDetails>
 					</Accordion>
