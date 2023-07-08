@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Mail_Service.Configuration;
+using MailKit;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Minio;
 
-namespace S3_Service
+namespace Mail_Service
 {
     public class Startup
     {
@@ -21,16 +22,9 @@ namespace S3_Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.Configure<MinioOptions>(Configuration.GetSection(nameof(MinioOptions)));
-            services.AddSingleton(sp =>
-            {
-                var options = sp.GetRequiredService<IOptionsMonitor<MinioOptions>>().CurrentValue;
-                
-                return new MinioClient(options.Endpoint, options.AccessKey, options.SecretKey);
-            });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "S3 Service", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Mail Service", Version = "v1"});
             });
             services.AddCors(c => c.AddPolicy("cors", opt =>
             {
@@ -39,6 +33,8 @@ namespace S3_Service
                 opt.AllowAnyMethod();
                 opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
             }));
+            services.Configure<MailSettings>(Configuration.GetSection(nameof(MailSettings)));
+            services.AddTransient<IMailService, MailService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -48,7 +44,7 @@ namespace S3_Service
                 app.UseDeveloperExceptionPage();
             }
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "S3-service"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mail-Service"));
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();

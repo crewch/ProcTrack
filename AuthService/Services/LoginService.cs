@@ -24,15 +24,14 @@ namespace AuthService.Services
             _configuration = configuration;
         }
 
-        public bool ValidateUser(string domainName, int domainPort, string username, string password)
+        public bool ValidateUser(string domainName, string username, string password)
         {
             string userDn = $"{username}@{domainName}";
             try
             {
                 using (var connection = new LdapConnection {SecureSocketLayer = false})
                 {
-                    // connection.Connect(domainName, LdapConnection.DefaultPort);
-                    connection.Connect(domainName, domainPort);
+                    connection.Connect(domainName, LdapConnection.DefaultPort);
                     connection.Bind(userDn, password);
                     if (connection.Bound)
                         return true;
@@ -53,11 +52,7 @@ namespace AuthService.Services
                 .Where(u => u.Email == data.Email)
                 .FirstOrDefault();
 
-            // if (user == null || !this.ValidateUser(Environment.GetEnvironmentVariable("LDAP_HOST"),
-            //     int.Parse(Environment.GetEnvironmentVariable("LDAP_PORT")), data.Email, data.Password)); 
-            // {
-            //     return null;
-            // }
+            
 
             var dto = new UserDto
             {
