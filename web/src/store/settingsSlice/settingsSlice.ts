@@ -5,7 +5,7 @@ import { IToggleStateProps } from '../../interfaces/IStore/ISettingsSlice/IActio
 
 export const settingsSlice = createSlice({
 	name: 'settings',
-	initialState: { settingsList } as IInitialState,
+	initialState: { settingsList, settingsForSearch: [] } as IInitialState,
 	reducers: {
 		toggleState: (state, actions: PayloadAction<IToggleStateProps>) => {
 			for (const setting of state.settingsList) {
@@ -23,7 +23,7 @@ export const settingsSlice = createSlice({
 							otherSetting.status = false
 						}
 					}
-					return
+					break
 				}
 
 				for (const otherSetting of setting.otherSettings) {
@@ -42,6 +42,72 @@ export const settingsSlice = createSlice({
 					setting.mainSetting.status = false
 				}
 			}
+
+			if (state.settingsList[0].otherSettings[0].status) {
+				state.settingsForSearch.push('Высокая важность')
+			} else {
+				state.settingsForSearch = state.settingsForSearch.filter(
+					item => item !== 'Высокая важность'
+				)
+			}
+
+			if (state.settingsList[0].otherSettings[1].status) {
+				state.settingsForSearch.push('Средняя важность')
+			} else {
+				state.settingsForSearch = state.settingsForSearch.filter(
+					item => item !== 'Средняя важность'
+				)
+			}
+
+			if (state.settingsList[0].otherSettings[2].status) {
+				state.settingsForSearch.push('Низкая важность')
+			} else {
+				state.settingsForSearch = state.settingsForSearch.filter(
+					item => item !== 'Низкая важность'
+				)
+			}
+
+			if (state.settingsList[1].otherSettings[0].status) {
+				state.settingsForSearch.push('КД')
+			} else {
+				state.settingsForSearch = state.settingsForSearch.filter(
+					item => item !== 'КД'
+				)
+			}
+
+			if (state.settingsList[2].otherSettings[0].status) {
+				state.settingsForSearch.push('в процессе')
+			} else {
+				state.settingsForSearch = state.settingsForSearch.filter(
+					item => item !== 'в процессе'
+				)
+			}
+
+			if (state.settingsList[2].otherSettings[1].status) {
+				state.settingsForSearch.push('завершен')
+			} else {
+				state.settingsForSearch = state.settingsForSearch.filter(
+					item => item !== 'завершен'
+				)
+			}
+
+			if (state.settingsList[2].otherSettings[2].status) {
+				state.settingsForSearch.push('остановлен')
+			} else {
+				state.settingsForSearch = state.settingsForSearch.filter(
+					item => item !== 'остановлен'
+				)
+			}
+
+			if (state.settingsList[2].otherSettings[3].status) {
+				state.settingsForSearch.push('отменен')
+			} else {
+				state.settingsForSearch = state.settingsForSearch.filter(
+					item => item !== 'отменен'
+				)
+			}
+
+			state.settingsForSearch = Array.from(new Set(state.settingsForSearch))
 		},
 	},
 })

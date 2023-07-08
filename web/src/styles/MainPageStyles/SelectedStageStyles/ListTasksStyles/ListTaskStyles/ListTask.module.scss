@@ -5,6 +5,10 @@
 		@apply my-1 border;
 	}
 
+	.typographySmall {
+		@apply font-[Montserrat] text-ap-black;
+	}
+
 	.typography {
 		@apply font-[Montserrat] text-ap-black text-[20px] font-semibold;
 	}
@@ -20,7 +24,7 @@
 			@apply flex flex-col;
 
 			.title {
-				@apply flex gap-[3px];
+				@apply flex gap-5;
 			}
 		}
 	}

@@ -1,15 +1,15 @@
 import { Box, Divider, LinearProgress } from '@mui/material'
-import DateInfo from './DateInfoField/DateInfo'
 import { ChangeEvent, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getProcessApi } from '../../../../api/getProcessApi'
+import { useAppSelector } from '../../../../hooks/reduxHooks'
+import DateInfo from './DateInfoField/DateInfo'
 import UploadButton from './UploadButton/UploadButton'
 import UserField from './UserField/UserField'
 import HeaderField from './HeaderProcessField/HeaderField'
 import FilesField from './FilesField/FilesField'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/InfoProcess.module.scss'
 import StopProcessButton from './StopProcessButton/StopProcessButton'
-import { useQuery } from '@tanstack/react-query'
-import { getProcessApi } from '../../../../api/getProcessApi'
-import { useAppSelector } from '../../../../hooks/reduxHooks'
 import StartProcessButton from './StartProcessButton/StartProcessButton'
 import dayjs from 'dayjs'
 
@@ -69,7 +69,7 @@ const InfoProcess = () => {
 					<DateInfo
 						startDate={process.createdAt}
 						endData={process.completedAt}
-						interval={intervalDate} //TODO:
+						interval={intervalDate}
 					/>
 					<Divider className={styles.divider} />
 					<UserField
