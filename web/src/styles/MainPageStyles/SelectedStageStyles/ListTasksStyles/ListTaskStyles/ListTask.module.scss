@@ -5,12 +5,12 @@
 		@apply my-1 border;
 	}
 
-	.typographySmall {
-		@apply font-[Montserrat] text-ap-black;
-	}
-
 	.typography {
 		@apply font-[Montserrat] text-ap-black text-[20px] font-semibold;
+	}
+
+	.typographySmall {
+		@apply font-[Montserrat] text-ap-black;
 	}
 
 	.list {
@@ -26,6 +26,30 @@
 			.title {
 				@apply flex gap-5;
 			}
+		}
+	}
+
+	.addCommentContainer {
+		@apply flex flex-col gap-2;
+
+		.inputField {
+			@apply flex gap-2 h-[42px];
+
+			.InputProps {
+				@apply pl-[15px] rounded-[8px] bg-ap-light-gray h-[42px];
+			}
+
+			.TextField {
+				@apply w-[100%];
+			}
+
+			.uploadBtn {
+				@apply rounded-[8px] h-full;
+			}
+		}
+
+		.btns {
+			@apply flex gap-2 self-end;
 		}
 	}
 }

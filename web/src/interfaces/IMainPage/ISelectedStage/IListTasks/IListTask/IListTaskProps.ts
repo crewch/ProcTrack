@@ -8,4 +8,5 @@ export interface IListTaskProps {
 	author: string
 	group: string
 	remarks: IComment[]
+	taskId: number
 }
