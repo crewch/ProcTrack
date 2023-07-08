@@ -87,7 +87,7 @@ namespace DB_Service.Services
             bool blockStage = stage.Status.Title.ToLower() == "отменено";
 
             stage.Signed = UserId.ToString();
-            stage.SignedAt = DateTime.Now;
+            stage.SignedAt = DateTime.Now.AddHours(3);
             
             if (_context.Stages
                     .Include(s => s.Status)
