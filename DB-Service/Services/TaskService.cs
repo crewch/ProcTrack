@@ -165,6 +165,7 @@ namespace DB_Service.Services
                 {
                     Id = iComment.Id,
                     Text = iComment.Text,
+                    FileRef = iComment.FileRef,
                     CreatedAt = iComment.CreatedAt == null ? null : DateParser.Parse((DateTime)iComment.CreatedAt),
                     User = iComment.UserId == null ? null : await _authClient.GetUserById((int)iComment.UserId),
                 });
