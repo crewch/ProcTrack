@@ -69,7 +69,7 @@ const InfoProcess = () => {
 					<DateInfo
 						startDate={process.createdAt}
 						endData={process.completedAt}
-						interval={intervalDate} //TODO:
+						interval={intervalDate}
 					/>
 					<Divider className={styles.divider} />
 					<UserField
