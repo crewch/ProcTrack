@@ -1,12 +1,21 @@
-import { Box } from '@mui/material'
+import {
+	Box,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	TextField,
+} from '@mui/material'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
 import { ChangeEvent, FC, useState } from 'react'
 import { passportApi } from '../../../../../api/passportApi'
 import { IUploadButtonProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IUploadButton/IUploadButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import TelegramIcon from '@mui/icons-material/Telegram'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/UploadButtonStyles/UploadButton.module.scss'
 
 const UploadButton: FC<IUploadButtonProps> = ({ processId }) => {
-	const [message, _setMessage] = useState('') //TODO: добавить ввод сообщения
+	const [message, setMessage] = useState('')
 	const [file, setFile] = useState<FormData>()
 
 	const queryClient = useQueryClient()
@@ -14,21 +23,39 @@ const UploadButton: FC<IUploadButtonProps> = ({ processId }) => {
 		mutationFn: () => passportApi.sendFilePasport(processId, file, message),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['passport'] })
+			setFile(undefined)
+			setMessage('')
 		},
 	})
 
-	const sendFile = (e: ChangeEvent<HTMLInputElement>) => {
+	const saveFile = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e && e?.target && e.target?.files) {
 			const formData = new FormData()
 			formData.append('file', e.target.files[0])
 			setFile(formData)
-
-			mutation.mutate()
 		}
 	}
 
+	const [open, setOpen] = useState(false)
+
+	const handleClickOpen = () => {
+		setOpen(true)
+	}
+
+	const handleClose = () => {
+		setOpen(false)
+	}
+
+	const sendFile = async () => {
+		await mutation.mutate()
+
+		setFile(undefined)
+		setMessage('')
+		handleClose()
+	}
+
 	return (
-		<Box component='label'>
+		<>
 			<CustomButton
 				sx={{
 					fontSize: {
@@ -39,11 +66,76 @@ const UploadButton: FC<IUploadButtonProps> = ({ processId }) => {
 				component='span'
 				variant='contained'
 				endIcon={<img src='/folderUpload.svg' height='20px' width='20px' />}
+				onClick={handleClickOpen}
 			>
-				Загрузить файл
+				Прикрепить паспорт
 			</CustomButton>
-			<input hidden type='file' onChange={sendFile} />
-		</Box>
+
+			<Dialog
+				PaperProps={{
+					sx: {
+						width: '40%',
+						height: '40%',
+						borderRadius: '16px',
+						p: 1,
+					},
+				}}
+				open={open}
+				onClose={handleClose}
+			>
+				<DialogTitle>Добавление паспорта</DialogTitle>
+				<DialogContent className={styles.dialogContainer}>
+					<TextField
+						value={message}
+						onChange={e => setMessage(e.target.value)}
+						placeholder='Введите сообщение'
+						autoComplete='off'
+						variant='standard'
+						InputProps={{
+							className: styles.InputProps,
+							disableUnderline: true,
+						}}
+						className={styles.TextField}
+					></TextField>
+					<Box component='label' className={styles.upload}>
+						<CustomButton
+							sx={{
+								fontSize: {
+									xs: '12px',
+									lg: '14px',
+								},
+								backgroundColor: file ? '#54C16C' : '',
+							}}
+							component='span'
+							variant='contained'
+							endIcon={
+								<img src='/folderUpload.svg' height='20px' width='20px' />
+							}
+						>
+							Прикрепить паспорт
+						</CustomButton>
+						<input hidden type='file' onChange={saveFile} />
+					</Box>
+				</DialogContent>
+				<DialogActions>
+					<CustomButton
+						sx={{
+							fontSize: {
+								xs: '12px',
+								lg: '14px',
+							},
+						}}
+						disabled={!file || (!message && true)}
+						component='span'
+						variant='contained'
+						endIcon={<TelegramIcon />}
+						onClick={sendFile}
+					>
+						Отправить
+					</CustomButton>
+				</DialogActions>
+			</Dialog>
+		</>
 	)
 }
 

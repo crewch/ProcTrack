@@ -1,0 +1,15 @@
+.dialogContainer {
+	@apply flex flex-col gap-3 h-full;
+
+	.InputProps {
+		@apply pl-[15px] rounded-[8px] bg-ap-light-gray h-[42px];
+	}
+
+	.TextField {
+		@apply w-[100%];
+	}
+
+	.upload {
+		@apply self-end;
+	}
+}

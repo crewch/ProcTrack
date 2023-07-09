@@ -18,7 +18,7 @@ const FilesField: FC<IFilesFieldProps> = ({ processId }) => {
 	return (
 		<Box className={styles.container}>
 			{isSuccess && passports && passports[0]?.title ? (
-				<Tooltip title={passports[0].title} arrow>
+				<Tooltip placement='top' title={passports[0].title} arrow>
 					<CustomButton
 						sx={{
 							fontSize: {
