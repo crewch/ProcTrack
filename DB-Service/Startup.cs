@@ -19,6 +19,7 @@ namespace DB_Service
         {
             services.AddHttpClient<IFileDataClient, HttpFileDataClient>();
             services.AddHttpClient<IAuthDataClient, HttpAuthDataClient>();
+            services.AddHttpClient<IMailDataClient, HttpMailDataClient>();
             services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             services.AddSwaggerGen(c =>

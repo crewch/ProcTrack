@@ -4,6 +4,6 @@ namespace Mail_Service.Services
 {
     public interface IMailService
     {
-        Task<bool> SendAsync(MailDto mailData, CancellationToken ct);
+        Task<MailDto> SendAsync(MailDto mailData, CancellationToken ct);
     }
 }

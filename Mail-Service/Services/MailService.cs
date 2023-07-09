@@ -1,7 +1,5 @@
-﻿using Mail_Service.Configuration;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MailKit.Security;
-using Mail_Service.Configuration;
 using Mail_Service.Dtos;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -10,11 +8,11 @@ namespace Mail_Service.Services
 {
     public class MailService : IMailService
     {
-        public MailService(IOptions<MailSettings> settings)
+        public MailService()
         {
         }
 
-        public async Task<bool> SendAsync(MailDto mailData, CancellationToken ct = default)
+        public async Task<MailDto> SendAsync(MailDto mailData, CancellationToken ct = default)
         {
             var host = Environment.GetEnvironmentVariable("SMTP_HOST");
             var port = int.Parse(Environment.GetEnvironmentVariable("SMTP_PORT"));
@@ -35,7 +33,7 @@ namespace Mail_Service.Services
             SMTP.Authenticate(email, password);
             SMTP.Send(mail);
             SMTP.Disconnect(true);
-            return true;
+            return mailData;
         }
     }
 }
