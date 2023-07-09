@@ -1,12 +1,13 @@
 import { Box, Divider } from '@mui/material'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import Search from './Search/Search'
 import ListProccess from './ListProcess/ListProcess'
 import SettingsList from './Search/SettingsList'
 import Buttons from './Buttons/Buttons'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
+import { IContainerListProcessProps } from '../../../interfaces/IMainPage/IContainerListProcess/IContainerListProcess'
 
-const ContainerListProcess = () => {
+const ContainerListProcess: FC<IContainerListProcessProps> = ({ page }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [textForSearchProcess, setTextForSearchProcess] = useState('')
 
@@ -24,7 +25,7 @@ const ContainerListProcess = () => {
 			) : (
 				<>
 					<ListProccess textForSearchProcess={textForSearchProcess} />
-					<Buttons />
+					<Buttons page={page} />
 				</>
 			)}
 		</Box>

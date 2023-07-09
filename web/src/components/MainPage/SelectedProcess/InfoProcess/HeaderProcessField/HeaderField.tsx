@@ -9,7 +9,8 @@ const HeaderField: FC<{
 	status: string
 	importance: string
 	type: string
-}> = memo(({ name, status, importance, type }) => {
+	page?: 'main'
+}> = memo(({ name, status, importance, type, page }) => {
 	return (
 		<>
 			<Box className={styles.header}>
@@ -32,9 +33,11 @@ const HeaderField: FC<{
 							<img src='/completed.svg' className={styles.img} />
 						)}
 					</Typography>
-					<Box className={styles.icon}>
-						<img src={Pen} height='25px' width='25px' />
-					</Box>
+					{page === 'main' && (
+						<Box className={styles.icon}>
+							<img src={Pen} height='25px' width='25px' />
+						</Box>
+					)}
 				</Box>
 			</Box>
 			<TextTegs importance={importance} status={status} type={type} />

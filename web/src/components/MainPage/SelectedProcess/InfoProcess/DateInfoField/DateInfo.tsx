@@ -4,31 +4,67 @@ import { IDataInfoProps } from '../../../../../interfaces/IMainPage/ISelectedPro
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/DateInfoStyles/DateInfo.module.scss'
 
 const DateInfo: FC<IDataInfoProps> = memo(
-	({ startDate, endData, interval, success, confirm }) => {
+	({ startDate, endData, interval, success, confirm, page }) => {
 		return (
-			<>
-				<Box className={styles.container}>
-					<Typography className={styles.typography1}>Время начала</Typography>
+			<Box className={page === 'stageForSuccess' ? 'flex justify-between' : ''}>
+				<Box
+					className={`${styles.container} ${
+						page === 'stageForSuccess' ? 'flex justify-between gap-5' : ''
+					}`}
+				>
+					<Typography
+						className={
+							page === 'main'
+								? styles.MainPageTypography1
+								: styles.StageForSuccessPageTypography1
+						}
+					>
+						Время начала
+					</Typography>
 					<Typography className={styles.typography2}>{startDate}</Typography>
 				</Box>
 				{endData && (
-					<Box className={styles.container}>
-						<Typography className={styles.typography1}>
+					<Box
+						className={`${styles.container} ${
+							page === 'stageForSuccess' ? 'flex justify-between gap-5' : ''
+						}`}
+					>
+						<Typography
+							className={
+								page === 'main'
+									? styles.MainPageTypography1
+									: styles.StageForSuccessPageTypography1
+							}
+						>
 							Время окончания
 						</Typography>
 						<Typography className={styles.typography2}>{endData}</Typography>
 					</Box>
 				)}
 				{success && (
-					<Box className={styles.container}>
-						<Typography className={styles.typography1}>
+					<Box
+						className={`${styles.container} ${
+							page === 'stageForSuccess' ? 'flex justify-between gap-5' : ''
+						}`}
+					>
+						<Typography
+							className={
+								page === 'main'
+									? styles.MainPageTypography1
+									: styles.StageForSuccessPageTypography1
+							}
+						>
 							Время электронного согласования
 						</Typography>
 						<Typography className={styles.typography2}>{success}</Typography>
 					</Box>
 				)}
 				{confirm && (
-					<Box className={styles.container}>
+					<Box
+						className={`${styles.container} ${
+							page === 'stageForSuccess' ? 'flex justify-between gap-5' : ''
+						}`}
+					>
 						<Typography className={styles.typography1}>
 							Время согласования
 						</Typography>
@@ -36,12 +72,24 @@ const DateInfo: FC<IDataInfoProps> = memo(
 					</Box>
 				)}
 				{interval && (
-					<Box className={styles.container}>
-						<Typography className={styles.typography1}>Осталось</Typography>
+					<Box
+						className={`${styles.container} ${
+							page === 'stageForSuccess' ? 'flex justify-between gap-5' : ''
+						}`}
+					>
+						<Typography
+							className={
+								page === 'main'
+									? styles.MainPageTypography1
+									: styles.StageForSuccessPageTypography1
+							}
+						>
+							Осталось
+						</Typography>
 						<Typography className={styles.typography2}>{interval}</Typography>
 					</Box>
 				)}
-			</>
+			</Box>
 		)
 	}
 )

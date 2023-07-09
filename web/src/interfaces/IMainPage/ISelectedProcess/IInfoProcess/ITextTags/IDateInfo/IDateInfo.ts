@@ -4,4 +4,5 @@ export interface IDataInfoProps {
 	interval?: string
 	success?: string
 	confirm?: string
+	page?: 'main' | 'stageForSuccess'
 }

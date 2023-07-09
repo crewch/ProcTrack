@@ -62,12 +62,14 @@ const InfoProcess = () => {
 						status={process.status}
 						importance={process.priority}
 						type={process.type}
+						page='main'
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
 						startDate={process.createdAt}
 						endData={process.completedAt}
 						interval={intervalDate}
+						page='main'
 					/>
 					<Divider className={styles.divider} />
 					<UserField
