@@ -30,7 +30,7 @@ const DateInfo: FC<IDataInfoProps> = memo(
 				{confirm && (
 					<Box className={styles.container}>
 						<Typography className={styles.typography1}>
-							Время утверждения
+							Время согласования
 						</Typography>
 						<Typography className={styles.typography2}>{confirm}</Typography>
 					</Box>

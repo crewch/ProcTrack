@@ -12,8 +12,10 @@ import ListTask from './ListTask/ListTask'
 import { useAppSelector } from '../../../../hooks/reduxHooks'
 import { useQuery } from '@tanstack/react-query'
 import { getTaskApi } from '../../../../api/getTaskApi'
+import { FC } from 'react'
+import { IListTasksProps } from '../../../../interfaces/IMainPage/ISelectedStage/IListTasks/IListTasks'
 
-const ListTasks = () => {
+const ListTasks: FC<IListTasksProps> = ({ group }) => {
 	const selectedStage = useAppSelector(state => state.processes.openedStage)
 
 	const {
@@ -50,11 +52,9 @@ const ListTasks = () => {
 								startDate={task.startedAt}
 								endDate={task.endVerificationDate}
 								successDate={task.approvedAt}
-								roleAuthor={
-									task.user.roles ? task.user.roles[0] : 'Согласующий'
-								}
-								author={'Петр Петров'} //TODO:
-								group={'группа согласующего'} //TODO:
+								roleAuthor={'Согласующий'}
+								author={task.user.longName || 'Согласующий ещё не принял'}
+								group={group}
 								remarks={task.comments}
 								taskId={task.id}
 							/>
