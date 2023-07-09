@@ -28,7 +28,7 @@ const InfoProcess = () => {
 	const [intervalDate, setIntervalDate] = useState(' ')
 
 	useEffect(() => {
-		if (isSuccess && process && process.status !== 'завершен') {
+		if (isSuccess && process && process.status === 'в процессе') {
 			const interval = setInterval(() => {
 				if (dayjs().isAfter(process.completedAtUnparsed)) {
 					setIntervalDate('Время вышло')

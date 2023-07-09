@@ -28,7 +28,10 @@ const SelectedStage = () => {
 					<HeaderField
 						name={selectedStage.title}
 						status={selectedStage.status}
-						nameOfGroup={selectedStage.holds[0].groups[0].title}
+						nameOfGroup={
+							selectedStage?.holds[0]?.groups[0]?.title ||
+							selectedStage?.holds[1]?.groups[0]?.title
+						}
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
@@ -47,17 +50,22 @@ const SelectedStage = () => {
 					<Divider className={styles.divider} />
 					<UserField
 						responsible={
-							selectedStage.holds[0].users.length
-								? selectedStage.holds[0].users[0].longName
-								: selectedStage.holds.length > 1
-								? selectedStage.holds[1].users[0].longName
-								: 'Вся группа' // TODO: исправить
+							// selectedStage.holds[0].users.length
+							// 	? selectedStage.holds[0].users[0].longName
+							// 	: selectedStage.holds.length > 1
+							// 	? selectedStage.holds[1].users[0].longName
+							// 	: 'Вся группа'
+							selectedStage?.holds[0]?.groups[0]?.boss.longName ||
+							selectedStage?.holds[1]?.groups[0]?.boss.longName
 						}
-						group={selectedStage.holds[0].groups[0].title}
+						group={
+							selectedStage?.holds[0]?.groups[0]?.title ||
+							selectedStage?.holds[1]?.groups[0]?.title
+						}
 						role='Главный согласующий'
 					/>
 					<Divider className={styles.divider} />
-					<ListTasks />
+					<ListTasks group={selectedStage.holds[0].groups[0].title} />
 				</>
 			)}
 		</Box>

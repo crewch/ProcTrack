@@ -18,7 +18,7 @@ const Layout = () => {
 					/>
 					<ButtonListItem
 						src='/confirmation.svg'
-						to='confirmation'
+						to='stageforsuccess'
 						lable='Этапы на согласование'
 					/>
 					<ButtonListItem
