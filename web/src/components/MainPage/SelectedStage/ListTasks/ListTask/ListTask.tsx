@@ -3,11 +3,13 @@ import { IListTaskProps } from '../../../../../interfaces/IMainPage/ISelectedSta
 import {
 	Box,
 	Divider,
+	Link,
 	List,
 	ListItem,
 	ListItemIcon,
 	ListItemText,
 	TextField,
+	Tooltip,
 	Typography,
 } from '@mui/material'
 import DateInfo from './DataInfo/DataInfo'
@@ -17,6 +19,7 @@ import { CustomButton } from '../../../../CustomButton/CustomButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { commentsApi } from '../../../../../api/commentsApi'
 import { IComment } from '../../../../../interfaces/IApi/IGetTask'
+import { fileApi } from '../../../../../api/fileApi'
 
 const ListTask: FC<IListTaskProps> = memo(
 	({
@@ -39,7 +42,7 @@ const ListTask: FC<IListTaskProps> = memo(
 				formData.append('file', file)
 
 				const getData = async () => {
-					const data = await commentsApi.sendFile(formData)
+					const data = await fileApi.sendFile(formData)
 
 					setFileRef(data)
 				}
@@ -62,8 +65,9 @@ const ListTask: FC<IListTaskProps> = memo(
 		const mutation = useMutation({
 			mutationFn: () => commentsApi.sendComments(taskId, comment),
 			onSuccess: () => {
-				queryClient.invalidateQueries({ queryKey: ['tasks'] })
 				setTextComment('')
+				setFileRef('')
+				queryClient.invalidateQueries({ queryKey: ['tasks'] })
 			},
 		})
 
@@ -86,7 +90,7 @@ const ListTask: FC<IListTaskProps> = memo(
 				{remarks.length > 0 && (
 					<List className={styles.list}>
 						{remarks.map((remark, index) => (
-							<ListItem key={index}>
+							<ListItem divider key={index}>
 								<ListItemIcon>
 									<img src='/user1.svg' className={styles.img} />
 								</ListItemIcon>
@@ -95,7 +99,17 @@ const ListTask: FC<IListTaskProps> = memo(
 										<Typography>{remark.user.longName}</Typography>
 										<Typography>{remark.createdAt}</Typography>
 									</Box>
-									<Typography>{remark.text}</Typography>
+									<Box className={styles.text}>
+										<Typography>{remark.text}</Typography>
+										<Tooltip arrow title={remark.fileRef}>
+											<Link
+												onClick={() => fileApi.getFile(remark.fileRef)}
+												component='button'
+											>
+												{remark.fileRef && remark.fileRef.slice(0, 20) + '...'}
+											</Link>
+										</Tooltip>
+									</Box>
 								</ListItemText>
 							</ListItem>
 						))}
@@ -117,7 +131,9 @@ const ListTask: FC<IListTaskProps> = memo(
 						/>
 						<Box component='label'>
 							<CustomButton
-								className={styles.uploadBtn}
+								className={`${styles.uploadBtn} ${
+									fileRef ? styles.loadedBtn : ''
+								}`}
 								component='span'
 								variant='contained'
 							>
