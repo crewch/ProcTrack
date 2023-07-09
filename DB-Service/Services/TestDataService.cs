@@ -49,7 +49,8 @@ namespace DB_Service.Services
 
             var types = new Models.Type[]
             {
-               new Models.Type { Title="КД" }
+               new Models.Type { Title="КД" },
+               new Models.Type { Title="ИИ" }
             };
             foreach (var type in types)
             {

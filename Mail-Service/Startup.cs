@@ -1,5 +1,4 @@
-﻿using Mail_Service.Configuration;
-using MailKit;
+﻿using MailKit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,8 +32,7 @@ namespace Mail_Service
                 opt.AllowAnyMethod();
                 opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
             }));
-            services.Configure<MailSettings>(Configuration.GetSection(nameof(MailSettings)));
-            services.AddTransient<IMailService, MailService>();
+            services.AddScoped<Services.IMailService, Services.MailService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

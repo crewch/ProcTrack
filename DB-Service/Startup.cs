@@ -19,6 +19,7 @@ namespace DB_Service
         {
             services.AddHttpClient<IFileDataClient, HttpFileDataClient>();
             services.AddHttpClient<IAuthDataClient, HttpAuthDataClient>();
+            services.AddHttpClient<IMailDataClient, HttpMailDataClient>();
             services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             services.AddSwaggerGen(c =>
@@ -44,6 +45,7 @@ namespace DB_Service
             services.AddScoped<IStageService, StageService>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ITestDataService, TestDataService>();
+            services.AddScoped<ILogService, LogService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
         }

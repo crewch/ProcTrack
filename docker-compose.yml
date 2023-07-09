@@ -127,6 +127,22 @@ services:
     networks:
       - api_network
 
+  mail-service:
+    build:
+      context: .
+      dockerfile: mail-Service/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      SMTP_NAME: "${SMTP_NAME}"
+      SMTP_EMAIL: "${SMTP_EMAIL}"
+      SMTP_HOST: "${SMTP_HOST}"
+      SMTP_PORT: "${SMTP_PORT}"
+      SMTP_PASSWORD: "${SMTP_PASSWORD}"
+    ports:
+      - "8004:80"
+    networks:
+      - api_network
+
   postgres-auth:
     image: postgres
     volumes:
