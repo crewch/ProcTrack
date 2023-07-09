@@ -11,16 +11,41 @@ const Layout = () => {
 				<List>
 					<LogoListItem src='/logo.svg' />
 					<Divider variant='middle' className={styles.divider} />
-					<ButtonListItem src='/document.svg' to='/' />
-					<ButtonListItem src='/confirmation.svg' to='confirmation' />
-					<ButtonListItem src='/analysis.svg' to='analysis' otherPage />
-					<ButtonListItem src='/key.svg' to='/http://localhost:3000' />
+					<ButtonListItem
+						src='/document.svg'
+						to='/'
+						lable='Выпускаемые процессы'
+					/>
+					<ButtonListItem
+						src='/confirmation.svg'
+						to='confirmation'
+						lable='Этапы на согласование'
+					/>
+					<ButtonListItem
+						src='/analysis.svg'
+						to='analysis'
+						otherPage
+						lable='Аналитика'
+					/>
+					<ButtonListItem
+						src='/key.svg'
+						to='/http://localhost:3000'
+						lable='Страница админа'
+					/>
 				</List>
 				<List>
 					<Divider variant='middle' className={styles.divider} />
-					<ButtonListItem src='/notification.svg' to='test4' />
-					<ButtonListItem src='/settings.svg' to='test5' />
-					<ButtonListItem src='/user1.svg' to='test6' />
+					<ButtonListItem
+						src='/notification.svg'
+						to='test4'
+						lable='Уведомления'
+					/>
+					<ButtonListItem src='/settings.svg' to='test5' lable='Настройки' />
+					<ButtonListItem
+						src='/user1.svg'
+						to='test6'
+						lable='Страница пользователя'
+					/>
 				</List>
 			</Box>
 			<Outlet />

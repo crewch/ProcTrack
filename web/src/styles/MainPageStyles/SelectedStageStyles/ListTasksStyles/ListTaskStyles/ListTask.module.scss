@@ -26,6 +26,10 @@
 			.title {
 				@apply flex gap-5;
 			}
+
+			.text {
+				@apply flex gap-3;
+			}
 		}
 	}
 
@@ -45,6 +49,10 @@
 
 			.uploadBtn {
 				@apply rounded-[8px] h-full;
+			}
+
+			.loadedBtn {
+				@apply bg-ap-green;
 			}
 		}
 

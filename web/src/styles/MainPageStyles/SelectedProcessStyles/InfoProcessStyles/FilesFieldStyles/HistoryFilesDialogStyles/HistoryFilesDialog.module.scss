@@ -1,0 +1,17 @@
+.dialog {
+	.title {
+		@apply text-center;
+	}
+
+	.list {
+		@apply h-full;
+
+		.infoText {
+			@apply text-center text-[18px];
+		}
+
+		.listItem {
+			@apply flex gap-4;
+		}
+	}
+}

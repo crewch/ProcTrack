@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { IButtonListItem } from '../../interfaces/ILayout/IButtonListItem'
 import styles from '../../styles/LayoutStyles/ButtonListItemStyles/ButtonListItem.module.scss'
 
-const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage }) => {
+const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage, lable }) => {
 	return (
 		<ListItem disablePadding className={styles.listItem}>
 			{otherPage ? (
@@ -13,7 +13,7 @@ const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage }) => {
 					target='_blank'
 					className={styles.navLink}
 				>
-					<Tooltip title={'analysis'} placement='right' arrow>
+					<Tooltip title={lable} placement='right' arrow>
 						<ListItemButton className={styles.listItemButton}>
 							<ListItemIcon
 								className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
@@ -33,7 +33,7 @@ const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage }) => {
 					}
 				>
 					{({ isActive }) => (
-						<Tooltip title={to} placement='right' arrow>
+						<Tooltip title={lable} placement='right' arrow>
 							<ListItemButton className={styles.listItemButton}>
 								<ListItemIcon
 									className={`${styles.activeStyleButton} ${styles.listItemIcon}`}

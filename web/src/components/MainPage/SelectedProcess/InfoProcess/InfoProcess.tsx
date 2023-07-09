@@ -1,5 +1,5 @@
 import { Box, Divider, LinearProgress } from '@mui/material'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getProcessApi } from '../../../../api/getProcessApi'
 import { useAppSelector } from '../../../../hooks/reduxHooks'
@@ -25,32 +25,12 @@ const InfoProcess = () => {
 		queryFn: () => getProcessApi.getProcessId(openedProcessID),
 	})
 
-	const [_file, setFile] = useState<File>()
-	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files) {
-			setFile(e.target.files[0])
-		}
-	}
-
 	const [intervalDate, setIntervalDate] = useState(' ')
 
 	useEffect(() => {
 		if (isSuccess && process && process.status !== 'завершен') {
 			const interval = setInterval(() => {
-				if (
-					dayjs(process.completedAtUnparsed)
-						.subtract(dayjs().day(), 'day')
-						.day() === 0 &&
-					dayjs(process.completedAtUnparsed)
-						.subtract(dayjs().hour(), 'hour')
-						.hour() === 0 &&
-					dayjs(process.completedAtUnparsed)
-						.subtract(dayjs().minute(), 'minute')
-						.minute() === 0 &&
-					dayjs(process.completedAtUnparsed)
-						.subtract(dayjs().second(), 'second')
-						.second() === 0
-				) {
+				if (dayjs().isAfter(process.completedAtUnparsed)) {
 					setIntervalDate('Время вышло')
 					return () => clearInterval(interval)
 				}
@@ -59,7 +39,7 @@ const InfoProcess = () => {
 					`${dayjs(process.completedAtUnparsed)
 						.subtract(dayjs().day(), 'day')
 						.day()}:${dayjs(process.completedAtUnparsed)
-						.subtract(dayjs().hour(), 'hour')
+						.subtract(dayjs().hour() + 1, 'hour')
 						.hour()}:${dayjs(process.completedAtUnparsed)
 						.subtract(dayjs().minute(), 'minute')
 						.minute()}:${dayjs(process.completedAtUnparsed)
@@ -96,14 +76,12 @@ const InfoProcess = () => {
 						role='Ответственный'
 					/>
 					<Divider className={styles.divider} />
-					<FilesField />
+					<FilesField processId={process.id} />
 					<Divider className={styles.divider} />
 					<Box className={styles.btns}>
 						{process.status === 'в процессе' && <StopProcessButton />}
 						{process.status === 'остановлен' && <StartProcessButton />}
-						<UploadButton
-							handleFileChange={handleFileChange} //TODO:
-						/>
+						<UploadButton processId={process.id} />
 					</Box>
 				</>
 			)}
