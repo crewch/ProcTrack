@@ -34,7 +34,7 @@ namespace Mail_Service
                 opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
             }));
             services.Configure<MailSettings>(Configuration.GetSection(nameof(MailSettings)));
-            services.AddTransient<IMailService, MailService>();
+            services.AddScoped<Services.IMailService, Services.MailService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

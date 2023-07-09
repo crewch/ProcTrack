@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Mail-Service.csproj", "."]
-RUN dotnet restore "./Mail-Service.csproj"
+COPY ["Mail-Service/Mail-Service.csproj", "Mail-Service/"]
+RUN dotnet restore "Mail-Service/Mail-Service.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/Mail-Service"
 RUN dotnet build "Mail-Service.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -19,4 +19,4 @@ RUN dotnet publish "Mail-Service.csproj" -c Release -o /app/publish /p:UseAppHos
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Mail-Service.dll"]
+ENTRYPOINT ["dotnet", "Mail-Service.dll", "--console"]
