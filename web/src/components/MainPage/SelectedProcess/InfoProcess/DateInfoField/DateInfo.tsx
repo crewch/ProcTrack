@@ -15,8 +15,8 @@ const DateInfo: FC<IDataInfoProps> = memo(
 					<Typography
 						className={
 							page === 'main'
-								? styles.MainPageTypography1
-								: styles.StageForSuccessPageTypography1
+								? styles.mainPageTypography1
+								: styles.stageForSuccessPageTypography1
 						}
 					>
 						Время начала
@@ -32,8 +32,8 @@ const DateInfo: FC<IDataInfoProps> = memo(
 						<Typography
 							className={
 								page === 'main'
-									? styles.MainPageTypography1
-									: styles.StageForSuccessPageTypography1
+									? styles.mainPageTypography1
+									: styles.stageForSuccessPageTypography1
 							}
 						>
 							Время окончания
@@ -50,8 +50,8 @@ const DateInfo: FC<IDataInfoProps> = memo(
 						<Typography
 							className={
 								page === 'main'
-									? styles.MainPageTypography1
-									: styles.StageForSuccessPageTypography1
+									? styles.mainPageTypography1
+									: styles.stageForSuccessPageTypography1
 							}
 						>
 							Время электронного согласования
@@ -65,7 +65,13 @@ const DateInfo: FC<IDataInfoProps> = memo(
 							page === 'stageForSuccess' ? 'flex justify-between gap-5' : ''
 						}`}
 					>
-						<Typography className={styles.typography1}>
+						<Typography
+							className={
+								page === 'main'
+									? styles.mainPageTypography1
+									: styles.stageForSuccessPageTypography1
+							}
+						>
 							Время согласования
 						</Typography>
 						<Typography className={styles.typography2}>{confirm}</Typography>
@@ -80,8 +86,8 @@ const DateInfo: FC<IDataInfoProps> = memo(
 						<Typography
 							className={
 								page === 'main'
-									? styles.MainPageTypography1
-									: styles.StageForSuccessPageTypography1
+									? styles.mainPageTypography1
+									: styles.stageForSuccessPageTypography1
 							}
 						>
 							Осталось

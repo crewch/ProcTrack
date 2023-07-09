@@ -46,6 +46,7 @@ const SelectedStage = () => {
 								? selectedStage.signedAt
 								: 'Ещё не согласован'
 						}
+						page='main'
 					/>
 					<Divider className={styles.divider} />
 					<UserField

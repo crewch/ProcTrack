@@ -118,7 +118,7 @@ const StagesList = () => {
 								</ListItem>
 							))}
 					</List>
-					<DataDialog title='Графовое представление' icon='graph'>
+					<DataDialog title='Графовое представление' icon='graph' page='main'>
 						<DataGraph />
 					</DataDialog>
 				</>
