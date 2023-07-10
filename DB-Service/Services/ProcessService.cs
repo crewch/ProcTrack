@@ -614,5 +614,12 @@ namespace DB_Service.Services
 
             return await GetProcessById(process.Id);
         }
+
+        public async Task<ProcessDto> GetProcessByStageId(int StageId)
+        {
+            var stage = await _stageService.GetStageById(StageId);
+            var process = await GetProcessById((int)stage.ProcessId);
+            return process;
+        }
     }
 }

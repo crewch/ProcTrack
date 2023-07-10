@@ -24,5 +24,13 @@ namespace AuthService.Controllers
             return Ok(res);
         }
 
+        [Route("GetEnv")]
+        [HttpGet]
+        public async Task<ActionResult<EnvDto>> GetEnv()
+        {
+            var res = await _service.GetEnv();
+            return Ok(res);
+        }
+
     }
 }

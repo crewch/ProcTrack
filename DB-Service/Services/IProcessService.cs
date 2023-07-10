@@ -25,5 +25,7 @@ namespace DB_Service.Services
         Task<List<PassportDto>> GetPassports(int Id);
 
         Task<ProcessDto?> CreateTemplate(TemplateDto data);
+
+        Task<ProcessDto> GetProcessByStageId(int StageId);
     }
 }

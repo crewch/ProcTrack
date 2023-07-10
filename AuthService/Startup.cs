@@ -1,4 +1,5 @@
 ﻿using AuthService.Data;
+using AuthService.Dtos;
 using AuthService.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -61,7 +62,12 @@ namespace AuthService
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITestDataService, TestDataService>();
 
-            // services.Configure<LdapConfig>(builder.configuration.GetSection("Ldap"));
+            //IConfiguration configuration = new ConfigurationBuilder()
+            //    .AddEnvironmentVariables()
+            //    .Build();
+
+            //services.AddSingleton(configuration);
+            services.AddSingleton(Configuration);
 
         }
 

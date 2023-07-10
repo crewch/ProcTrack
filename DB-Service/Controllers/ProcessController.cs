@@ -104,5 +104,13 @@ namespace DB_Service.Controllers
             var res = await _service.CreateTemplate(data);
             return Ok(res);
         }
+
+        [Route("{StageId}/Process")]
+        [HttpGet]
+        public async Task<ActionResult<ProcessDto>> GetProcessByStageId(int StageId)
+        {
+            var res = await _service.GetProcessByStageId(StageId);
+            return Ok(res);
+        }
     }
 }

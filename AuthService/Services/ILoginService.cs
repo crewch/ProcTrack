@@ -6,5 +6,7 @@ namespace AuthService.Services
     {
         //Task<UserToken> Login(UserLoginPasswordDto userLogin);
         Task<UserDto> Authorize(AuthDto data);
+
+        Task<EnvDto> GetEnv();
     }
 }
