@@ -25,7 +25,7 @@ const InfoProcess = () => {
 		queryFn: () => getProcessApi.getProcessId(openedProcessID),
 	})
 
-	const [intervalDate, setIntervalDate] = useState(' ')
+	const [intervalDate, setIntervalDate] = useState('')
 
 	useEffect(() => {
 		if (isSuccess && process && process.status === 'в процессе') {

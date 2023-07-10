@@ -52,11 +52,6 @@ const SelectedStage = () => {
 					<Divider className={styles.divider} />
 					<UserField
 						responsible={
-							// selectedStage.holds[0].users.length
-							// 	? selectedStage.holds[0].users[0].longName
-							// 	: selectedStage.holds.length > 1
-							// 	? selectedStage.holds[1].users[0].longName
-							// 	: 'Вся группа'
 							selectedStage?.holds[0]?.groups[0]?.boss.longName ||
 							selectedStage?.holds[1]?.groups[0]?.boss.longName
 						}

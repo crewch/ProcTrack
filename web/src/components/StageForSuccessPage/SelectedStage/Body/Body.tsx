@@ -1,16 +1,33 @@
-import { Box } from '@mui/material'
+import { Box, LinearProgress } from '@mui/material'
 import DateInfo from '../../../MainPage/SelectedProcess/InfoProcess/DateInfoField/DateInfo'
 import styles from '/src/styles/StageForSuccessPageStyles/SelectedProcessStyles/FooterStyles/Footer.module.scss'
+import { FC } from 'react'
+import { ISelectedStageChildProps } from '../../../../interfaces/IStageForSuccessPage/ISelectedStage/ISelectedStage'
 
-const Body = () => {
+const Body: FC<ISelectedStageChildProps> = ({
+	selectedStage,
+	isLoading,
+	isSuccess,
+}) => {
 	return (
 		<Box className={styles.container}>
-			<DateInfo
-				page='stageForSuccess'
-				startDate='пт, 22 декабря 2023, 16:30'
-				success='чт, 28 декабря 2023, 12:00'
-				confirm='чт, 28 декабря 2023, 12:00'
-			/>
+			{isLoading && <LinearProgress />}
+			{isSuccess && selectedStage && (
+				<DateInfo
+					page='stageForSuccess'
+					startDate={selectedStage.createdAt}
+					success={
+						selectedStage.approvedAt
+							? selectedStage.approvedAt
+							: 'Ещё не согласован'
+					}
+					confirm={
+						selectedStage.signedAt
+							? selectedStage.signedAt
+							: 'Ещё не согласован'
+					}
+				/>
+			)}
 		</Box>
 	)
 }

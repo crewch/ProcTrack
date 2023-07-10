@@ -50,8 +50,6 @@ export const getStageApi = {
 					})
 				).data
 
-				console.log(data)
-
 				return data
 			}
 
