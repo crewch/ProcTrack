@@ -7,22 +7,20 @@ import FilesField from '../../../MainPage/SelectedProcess/InfoProcess/FilesField
 const Header = () => {
 	return (
 		<Box className={styles.container}>
-			<Box className={styles.leftContainer}>
-				<Box>
-					<HeaderField
-						name='Второй процесс'
-						status={'в процессе'}
-						importance={'Средняя важность'}
-						type={'Первый тип'}
-					/>
-				</Box>
-				<Box>
-					<UserField
-						group={'группа выпускающего'}
-						responsible={'Иван Иванов'}
-						role={'Ответственный'}
-					/>
-				</Box>
+			<Box>
+				<HeaderField
+					name='Второй процесс'
+					status={'в процессе'}
+					importance={'Средняя важность'}
+					type={'Первый тип'}
+				/>
+			</Box>
+			<Box>
+				<UserField
+					group={'группа выпускающего'}
+					responsible={'Иван Иванов'}
+					role={'Ответственный'}
+				/>
 			</Box>
 			<FilesField processId={0} />
 		</Box>

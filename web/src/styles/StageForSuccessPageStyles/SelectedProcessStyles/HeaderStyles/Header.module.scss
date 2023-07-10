@@ -1,7 +1,3 @@
 .container {
-	@apply flex justify-between p-2 xl:p-3;
-
-	.leftContainer {
-		@apply gap-5 2xl:gap-0  w-[65%] 2xl:w-[57%] flex justify-between items-center;
-	}
+	@apply flex justify-between items-center p-2 xl:p-3;
 }

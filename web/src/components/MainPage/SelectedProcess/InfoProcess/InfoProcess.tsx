@@ -36,9 +36,9 @@ const InfoProcess = () => {
 				}
 
 				setIntervalDate(
-					`${dayjs(process.completedAtUnparsed)
-						.subtract(dayjs().day(), 'day')
-						.day()}:${dayjs(process.completedAtUnparsed)
+					`${dayjs(process.completedAtUnparsed).diff(dayjs(), 'day')}:${dayjs(
+						process.completedAtUnparsed
+					)
 						.subtract(dayjs().hour() + 1, 'hour')
 						.hour()}:${dayjs(process.completedAtUnparsed)
 						.subtract(dayjs().minute(), 'minute')
