@@ -130,7 +130,7 @@ services:
   mail-service:
     build:
       context: .
-      dockerfile: Mail-Service/Dockerfile
+      dockerfile: mail-Service/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       SMTP_NAME: "${SMTP_NAME}"
