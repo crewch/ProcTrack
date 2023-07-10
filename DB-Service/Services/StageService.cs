@@ -152,9 +152,9 @@ namespace DB_Service.Services
                 .FirstOrDefault();
             foreach (var next in nextStages)
             {
-                if (stage.Pass ?? false)
+                if (next.Pass ?? false)
                 {
-                    await AssignStage(UserId, stage.Id);
+                    await AssignStage(UserId, next.Id);
                     continue;
                 }
                 next.Status = newStatus;
