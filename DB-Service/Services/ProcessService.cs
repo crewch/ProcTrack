@@ -573,7 +573,7 @@ namespace DB_Service.Services
             }
 
             var dependences = new List<Models.Dependence>();
-            foreach (var dep in data.Links.Edges)
+            foreach (var dep in data.Links.Dependences)
             {
                 var newDependence = new Models.Dependence
                 {
