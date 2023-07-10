@@ -1,6 +1,7 @@
 FROM node:18.15.0 as buildArtifacts
 
 COPY . .
+
 RUN yarn --offline --frozen-lockfile --link-duplicates 
 RUN yarn build
 
