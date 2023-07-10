@@ -119,7 +119,7 @@ namespace DB_Service.Services
                     CustomField = stage.CustomField,
                     CreatedAt = DateTime.Now.AddHours(3),
                     Pass = stage.Pass,
-                    Mark = stage.Mark
+                    Mark = stage.Mark,
                 };
                 stageMatrix.Add(new Tuple<int, Stage>(stage.Id, newStage));
                 _context.Stages.Add(newStage);
@@ -527,7 +527,9 @@ namespace DB_Service.Services
                     Process = process,
                     Addenable = false,
                     CreatedAt = DateTime.Now.AddHours(3),
-                    Status = _context.Statuses.Where(t => t.Title.ToLower() == "не начат").FirstOrDefault()
+                    Status = _context.Statuses.Where(t => t.Title.ToLower() == "не начат").FirstOrDefault(),
+                    Mark = stage.Mark,
+                    Pass = stage.Pass,
                 };
                 stageDict[stage.Id] = newStage;
                 _context.Stages.Add(newStage);
