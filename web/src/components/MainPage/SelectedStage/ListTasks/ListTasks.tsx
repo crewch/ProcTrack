@@ -15,7 +15,7 @@ import { getTaskApi } from '../../../../api/getTaskApi'
 import { FC } from 'react'
 import { IListTasksProps } from '../../../../interfaces/IMainPage/ISelectedStage/IListTasks/IListTasks'
 
-const ListTasks: FC<IListTasksProps> = ({ group }) => {
+const ListTasks: FC<IListTasksProps> = ({ group, page }) => {
 	const selectedStage = useAppSelector(state => state.processes.openedStage)
 
 	const {
@@ -57,6 +57,7 @@ const ListTasks: FC<IListTasksProps> = ({ group }) => {
 								group={group}
 								remarks={task.comments}
 								taskId={task.id}
+								page={page}
 							/>
 						</AccordionDetails>
 					</Accordion>

@@ -2,6 +2,7 @@ import { ChangeEvent, FC, memo, useState } from 'react'
 import { IListTaskProps } from '../../../../../interfaces/IMainPage/ISelectedStage/IListTasks/IListTask/IListTaskProps'
 import {
 	Box,
+	Button,
 	Divider,
 	Link,
 	List,
@@ -31,6 +32,7 @@ const ListTask: FC<IListTaskProps> = memo(
 		group,
 		remarks,
 		taskId,
+		page,
 	}) => {
 		const [textComment, setTextComment] = useState('')
 		const [fileRef, setFileRef] = useState('')
@@ -73,11 +75,47 @@ const ListTask: FC<IListTaskProps> = memo(
 
 		return (
 			<Box className={styles.container}>
-				<DateInfo
-					startDate={startDate}
-					endData={endDate}
-					success={successDate}
-				/>
+				{page && !startDate ? (
+					<Button className={styles.startBtn} variant='outlined'>
+						начать согласование
+					</Button>
+				) : !endDate ? (
+					<Box className={styles.dateField}>
+						<DateInfo
+							startDate={startDate && startDate}
+							endData={endDate && endDate}
+							success={successDate && successDate}
+						/>
+						<Box className={styles.btns}>
+							<Button className={styles.btn} variant='outlined'>
+								отметить конец проверки
+							</Button>
+							{startDate && (
+								<Button color='error' variant='outlined'>
+									отменить
+								</Button>
+							)}
+						</Box>
+					</Box>
+				) : (
+					<Box className={styles.dateField}>
+						<DateInfo
+							startDate={startDate && startDate}
+							endData={endDate && endDate}
+							success={successDate && successDate}
+						/>
+						<Box className={styles.btns}>
+							<Button className={styles.btn} variant='outlined'>
+								согласовать задание
+							</Button>
+							{startDate && (
+								<Button color='error' variant='outlined'>
+									отменить
+								</Button>
+							)}
+						</Box>
+					</Box>
+				)}
 				<Divider className={styles.divider} />
 				<UserField group={group} responsible={author} role={roleAuthor} />
 				<Divider className={styles.divider} />

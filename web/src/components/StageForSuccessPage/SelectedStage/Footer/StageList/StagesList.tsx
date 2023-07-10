@@ -53,7 +53,7 @@ const StagesList: FC<{ textForSearchProcess: string }> = ({
 				<>
 					<List className={styles.list}>
 						{filteredProcesses
-							.sort((a, b) => a.statusValue - b.statusValue)
+							.sort((a, b) => b.id - a.id)
 							.map((stage, index) => (
 								<ListItem
 									disablePadding

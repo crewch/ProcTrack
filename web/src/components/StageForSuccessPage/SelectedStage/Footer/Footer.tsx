@@ -12,7 +12,10 @@ const Footer: FC<ISelectedStageChildProps> = ({
 		<>
 			{isLoading && <LinearProgress />}
 			{isSuccess && selectedStage && (
-				<ListTasks group={selectedStage.holds[0].groups[0].title} />
+				<ListTasks
+					page='stageForSuccess'
+					group={selectedStage.holds[0].groups[0].title}
+				/>
 			)}
 		</>
 	)
