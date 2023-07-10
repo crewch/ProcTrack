@@ -3,7 +3,7 @@ import { IProcess, IUser } from '../interfaces/IApi/IApi'
 
 const URL_AllProcess = 'http://localhost:8000/api/track/process/get'
 const URL_IDProcess = 'http://localhost:8000/api/track/process/'
-const URL_IDProcessByIdStage = 'http://localhost:8000/api/track/stage/'
+const URL_IDProcessByIdStage = 'http://localhost:8000/api/track/process/'
 
 export const getProcessApi = {
 	async getProcessAll() {
