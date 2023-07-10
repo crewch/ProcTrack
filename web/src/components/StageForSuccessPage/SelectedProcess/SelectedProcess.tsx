@@ -8,10 +8,9 @@ import { getProcessApi } from '../../../api/getProcessApi'
 
 const SelectedProcess = () => {
 	const selectedStage = useAppSelector(state => state.processes.openedStage)
-	const selectedProcess = useAppSelector(state => state.processes.openedProcess)
 
 	const { data, isLoading, isSuccess } = useQuery({
-		queryKey: ['processByStageIdStageForSuccess', selectedProcess],
+		queryKey: ['processByStageIdStageForSuccess', selectedStage],
 		queryFn: () => getProcessApi.getProcessByStageId(selectedStage),
 	})
 
