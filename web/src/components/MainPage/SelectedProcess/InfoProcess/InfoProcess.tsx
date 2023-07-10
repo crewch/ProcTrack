@@ -25,7 +25,7 @@ const InfoProcess = () => {
 		queryFn: () => getProcessApi.getProcessId(openedProcessID),
 	})
 
-	const [intervalDate, setIntervalDate] = useState(' ')
+	const [intervalDate, setIntervalDate] = useState('')
 
 	useEffect(() => {
 		if (isSuccess && process && process.status === 'в процессе') {
@@ -36,9 +36,9 @@ const InfoProcess = () => {
 				}
 
 				setIntervalDate(
-					`${dayjs(process.completedAtUnparsed)
-						.subtract(dayjs().day(), 'day')
-						.day()}:${dayjs(process.completedAtUnparsed)
+					`${dayjs(process.completedAtUnparsed).diff(dayjs(), 'day')}:${dayjs(
+						process.completedAtUnparsed
+					)
 						.subtract(dayjs().hour() + 1, 'hour')
 						.hour()}:${dayjs(process.completedAtUnparsed)
 						.subtract(dayjs().minute(), 'minute')
@@ -62,12 +62,14 @@ const InfoProcess = () => {
 						status={process.status}
 						importance={process.priority}
 						type={process.type}
+						page='main'
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
 						startDate={process.createdAt}
 						endData={process.completedAt}
 						interval={intervalDate}
+						page='main'
 					/>
 					<Divider className={styles.divider} />
 					<UserField

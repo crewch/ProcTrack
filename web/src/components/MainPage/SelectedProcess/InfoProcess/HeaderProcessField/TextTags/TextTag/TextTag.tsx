@@ -10,7 +10,7 @@ const TextTag: FC<ITextTagProps> = ({ text, color, backgroundColor }) => {
 				py: '1px',
 				px: { xs: '2px', lg: 1 },
 				borderRadius: '3px',
-				fontSize: { xs: '10px', lg: '16px' },
+				fontSize: { xs: '12px', xl: '16px' },
 				color: color,
 			}}
 			variant='body2'

@@ -1,0 +1,7 @@
+.container {
+	@apply p-2 xl:p-3 flex justify-between items-center;
+
+	.headerField {
+		@apply max-w-[30%];
+	}
+}

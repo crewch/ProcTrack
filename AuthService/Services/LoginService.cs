@@ -17,29 +17,24 @@ namespace AuthService.Services
     {
         private readonly AuthContext _context;
         private IConfiguration _configuration;
-        private readonly LdapConnection _connection;
 
         public LoginService(AuthContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
-           
         }
 
         public bool ValidateUser(string domainName, string username, string password)
-        {   
+        {
             string userDn = $"{username}@{domainName}";
             try
             {
-                var ldapServer = Environment.GetEnvironmentVariable("LDAP_HOST");
-                if (int.TryParse(Environment.GetEnvironmentVariable("LDAP_PORT"), out int ldapPort)) {
-                    using (var connection = new LdapConnection {SecureSocketLayer = false})
-                    {
-                        connection.Connect(ldapServer, ldapPort);
-                        connection.Bind(userDn, password);
-                        if (connection.Bound)
-                            return true;
-                    } 
+                using (var connection = new LdapConnection {SecureSocketLayer = false})
+                {
+                    connection.Connect(domainName, LdapConnection.DefaultPort);
+                    connection.Bind(userDn, password);
+                    if (connection.Bound)
+                        return true;
                 }
             }
             catch (LdapException ex)

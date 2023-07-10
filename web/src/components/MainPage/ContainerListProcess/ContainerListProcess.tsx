@@ -1,17 +1,25 @@
 import { Box, Divider } from '@mui/material'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import Search from './Search/Search'
 import ListProccess from './ListProcess/ListProcess'
 import SettingsList from './Search/SettingsList'
 import Buttons from './Buttons/Buttons'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
+import { IContainerListProcessProps } from '../../../interfaces/IMainPage/IContainerListProcess/IContainerListProcess'
+import StagesList from '../../StageForSuccessPage/SelectedStage/Footer/StageList/StagesList'
 
-const ContainerListProcess = () => {
+const ContainerListProcess: FC<IContainerListProcessProps> = ({ page }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [textForSearchProcess, setTextForSearchProcess] = useState('')
 
 	return (
-		<Box className={styles.containerListProcess}>
+		<Box
+			className={`${styles.containerListProcess} ${
+				page === 'stageForSuccess'
+					? styles.containerListProcessStageForSuccess
+					: ''
+			}`}
+		>
 			<Search
 				isOpen={isOpen}
 				setIsOpen={setIsOpen}
@@ -23,8 +31,13 @@ const ContainerListProcess = () => {
 				<SettingsList />
 			) : (
 				<>
-					<ListProccess textForSearchProcess={textForSearchProcess} />
-					<Buttons />
+					{page === 'main' && (
+						<ListProccess textForSearchProcess={textForSearchProcess} />
+					)}
+					{page === 'stageForSuccess' && (
+						<StagesList textForSearchProcess={textForSearchProcess} />
+					)}
+					<Buttons page={page} />
 				</>
 			)}
 		</Box>

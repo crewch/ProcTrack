@@ -1,3 +1,7 @@
-.btns {
+.mainPageBtns {
 	@apply flex justify-around gap-3;
+}
+
+.stageForSuccessPageBtns {
+	@apply flex;
 }
