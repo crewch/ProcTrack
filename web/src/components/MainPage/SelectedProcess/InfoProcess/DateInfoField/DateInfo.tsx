@@ -41,7 +41,7 @@ const DateInfo: FC<IDataInfoProps> = memo(
 						<Typography className={styles.typography2}>{endData}</Typography>
 					</Box>
 				)}
-				{success && (
+				{confirm && (
 					<Box
 						className={`${styles.container} ${
 							page === 'stageForSuccess' ? 'flex justify-between gap-5' : ''
@@ -56,10 +56,10 @@ const DateInfo: FC<IDataInfoProps> = memo(
 						>
 							Время электронного согласования
 						</Typography>
-						<Typography className={styles.typography2}>{success}</Typography>
+						<Typography className={styles.typography2}>{confirm}</Typography>
 					</Box>
 				)}
-				{confirm && (
+				{success && (
 					<Box
 						className={`${styles.container} ${
 							page === 'stageForSuccess' ? 'flex justify-between gap-5' : ''
@@ -74,7 +74,7 @@ const DateInfo: FC<IDataInfoProps> = memo(
 						>
 							Время согласования
 						</Typography>
-						<Typography className={styles.typography2}>{confirm}</Typography>
+						<Typography className={styles.typography2}>{success}</Typography>
 					</Box>
 				)}
 				{interval && (
