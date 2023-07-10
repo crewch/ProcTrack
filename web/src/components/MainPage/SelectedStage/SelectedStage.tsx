@@ -32,6 +32,7 @@ const SelectedStage = () => {
 							selectedStage?.holds[0]?.groups[0]?.title ||
 							selectedStage?.holds[1]?.groups[0]?.title
 						}
+						page='main'
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo

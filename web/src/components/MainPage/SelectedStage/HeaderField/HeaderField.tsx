@@ -6,7 +6,7 @@ import TextTags from './TextTags/TextTags'
 import { IHeaderFieldProps } from '../../../../interfaces/IMainPage/ISelectedStage/IHeaderField/IHeaderField'
 
 const HeaderField: FC<IHeaderFieldProps> = memo(
-	({ name, status, nameOfGroup }) => {
+	({ name, status, nameOfGroup, page }) => {
 		return (
 			<>
 				<Box className={styles.header}>
@@ -55,9 +55,11 @@ const HeaderField: FC<IHeaderFieldProps> = memo(
 								/>
 							)}
 						</Typography>
-						<Box className={styles.icon}>
-							<img src={Pen} height='25px' width='25px' />
-						</Box>
+						{page === 'main' && (
+							<Box className={styles.icon}>
+								<img src={Pen} height='25px' width='25px' />
+							</Box>
+						)}
 					</Box>
 				</Box>
 				<TextTags status={status} nameOfGroup={nameOfGroup} />

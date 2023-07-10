@@ -1,3 +1,7 @@
 .container {
-	@apply w-full h-[82%] bg-ap-white rounded-[8px];
+	@apply w-full h-[80%] xl:h-[82%] bg-ap-white rounded-[8px] flex flex-col justify-around;
+
+	.divider {
+		@apply border;
+	}
 }
