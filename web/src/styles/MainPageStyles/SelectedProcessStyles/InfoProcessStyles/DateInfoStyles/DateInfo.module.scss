@@ -2,14 +2,14 @@
 	@apply flex;
 
 	.mainPageTypography1 {
-		@apply w-[45%] text-[13px] xl:text-[16px] 2xl:text-[20px] font-[Montserrat] font-semibold text-ap-black;
+		@apply w-[60%] text-[13px] xl:text-[16px] 2xl:text-[20px] font-[Montserrat] font-semibold text-ap-black;
 	}
 
 	.stageForSuccessPageTypography1 {
-		@apply text-[13px] xl:text-[16px] 2xl:text-[20px] font-[Montserrat] font-semibold text-ap-black;
+		@apply text-[16px] font-[Montserrat] font-semibold text-ap-black;
 	}
 
 	.typography2 {
-		@apply text-[13px] xl:text-[16px] 2xl:text-[16px] text-ap-black flex items-center;
+		@apply text-[12x] xl:text-[14px] text-ap-black flex items-center;
 	}
 }

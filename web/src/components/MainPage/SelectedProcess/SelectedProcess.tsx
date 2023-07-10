@@ -7,7 +7,7 @@ const SelectedProcess = () => {
 	return (
 		<Box className={styles.selectedProcess}>
 			<InfoProcess />
-			<StagesList />
+			<StagesList page='main' />
 		</Box>
 	)
 }
