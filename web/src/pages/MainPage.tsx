@@ -12,7 +12,7 @@ const MainPage = () => {
 
 	return (
 		<Box component='main' className={styles.page}>
-			<ContainerListProcess />
+			<ContainerListProcess page='main' />
 			<SelectedProcess />
 			<SelectedStage />
 		</Box>

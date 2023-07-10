@@ -2,9 +2,13 @@ import { ListItem, ListItemButton, ListItemIcon, Tooltip } from '@mui/material'
 import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 import { IButtonListItem } from '../../interfaces/ILayout/IButtonListItem'
+import { useAppDispatch } from '../../hooks/reduxHooks'
+import { reset } from '../../store/processSlice/processSlice'
 import styles from '../../styles/LayoutStyles/ButtonListItemStyles/ButtonListItem.module.scss'
 
 const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage, lable }) => {
+	const dispatch = useAppDispatch()
+
 	return (
 		<ListItem disablePadding className={styles.listItem}>
 			{otherPage ? (
@@ -14,7 +18,10 @@ const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage, lable }) => {
 					className={styles.navLink}
 				>
 					<Tooltip title={lable} placement='right' arrow>
-						<ListItemButton className={styles.listItemButton}>
+						<ListItemButton
+							className={styles.listItemButton}
+							onClick={() => dispatch(reset())}
+						>
 							<ListItemIcon
 								className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
 							>
@@ -34,7 +41,10 @@ const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage, lable }) => {
 				>
 					{({ isActive }) => (
 						<Tooltip title={lable} placement='right' arrow>
-							<ListItemButton className={styles.listItemButton}>
+							<ListItemButton
+								className={styles.listItemButton}
+								onClick={() => dispatch(reset())}
+							>
 								<ListItemIcon
 									className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
 								>

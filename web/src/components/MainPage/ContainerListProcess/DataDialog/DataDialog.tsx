@@ -21,7 +21,7 @@ const Transition = forwardRef(function Transition(
 	return <Slide direction='up' ref={ref} {...props} />
 })
 
-const DataDialog: FC<IDialogProps> = memo(({ children, title, icon }) => {
+const DataDialog: FC<IDialogProps> = memo(({ children, title, icon, page }) => {
 	const [open, setOpen] = useState(false)
 
 	const handleClickOpen = () => {
@@ -40,6 +40,7 @@ const DataDialog: FC<IDialogProps> = memo(({ children, title, icon }) => {
 						lg: '14px',
 					},
 					maxWidth: '53%',
+					alignSelf: page === 'stageForSuccess' ? 'start' : '',
 				}}
 				variant='contained'
 				endIcon={<img src={`/${icon}.svg`} height='20px' width='20px' />}
