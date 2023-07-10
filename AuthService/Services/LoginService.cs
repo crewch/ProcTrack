@@ -69,5 +69,17 @@ namespace AuthService.Services
             };
             return dto;
         }
+
+        public async Task<EnvDto> GetEnv()
+        {
+            var res = new EnvDto
+            {
+                LDAP_HOST = _configuration["LDAP_HOST"],
+                LDAP_PORT = int.Parse(_configuration["LDAP_PORT"]),
+                LDAP_LOGIN = _configuration["LDAP_LOGIN"],
+                LDAP_PASSWORD = _configuration["LDAP_PASSWORD"]
+            };
+            return res;
+        }
     }
 }
