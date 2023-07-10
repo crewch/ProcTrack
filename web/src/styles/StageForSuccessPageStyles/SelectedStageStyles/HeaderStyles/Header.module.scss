@@ -4,4 +4,12 @@
 	.headerField {
 		@apply max-w-[30%];
 	}
+
+	.btns {
+		@apply flex flex-col gap-3;
+
+		.btn {
+			@apply lowercase;
+		}
+	}
 }
