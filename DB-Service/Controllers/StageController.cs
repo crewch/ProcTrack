@@ -12,7 +12,7 @@ namespace DB_Service.Controllers
     public class StageController : ControllerBase
     {
         private readonly IStageService _service;
-
+        
         public StageController(IStageService service)
         {
             _service = service;

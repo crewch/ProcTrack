@@ -204,6 +204,7 @@ namespace DB_Service.Services
             var res = new StageDto
             {
                 Id = stageModel.Id,
+                ProcessId = stageModel.ProcessId,
                 Title = stageModel.Title,
                 Status = status == null ? null : status.Title,
                 StatusValue = status == null ? null : status.Value,
