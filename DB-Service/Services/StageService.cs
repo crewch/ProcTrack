@@ -59,7 +59,7 @@ namespace DB_Service.Services
             {
                 return null;
             }
-            if (stage.Pass == null ? false : (bool) stage.Pass)
+            if (stage.Pass ?? false)
             {
                 var nextStagesPass = _context.Edges
                     .Include(e => e.EndStage.Status)
@@ -152,7 +152,7 @@ namespace DB_Service.Services
                 .FirstOrDefault();
             foreach (var next in nextStages)
             {
-                if (stage.Pass == null ? false : (bool) stage.Pass)
+                if (stage.Pass ?? false)
                 {
                     await AssignStage(UserId, stage.Id);
                     continue;
