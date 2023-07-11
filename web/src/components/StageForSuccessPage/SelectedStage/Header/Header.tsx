@@ -1,11 +1,21 @@
-import { Box, Button, LinearProgress } from '@mui/material'
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogContent,
+	DialogTitle,
+	LinearProgress,
+} from '@mui/material'
 import HeaderField from '../../../MainPage/SelectedStage/HeaderField/HeaderField'
 import styles from '/src/styles/StageForSuccessPageStyles/SelectedStageStyles/HeaderStyles/Header.module.scss'
 import UserField from '../../../MainPage/SelectedProcess/InfoProcess/UserField/UserField'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { ISelectedStageChildProps } from '../../../../interfaces/IStageForSuccessPage/ISelectedStage/ISelectedStage'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { stageApi } from '../../../../api/stageApi'
+import { IUser } from '../../../../interfaces/IApi/IApi'
+import { IStage } from '../../../../interfaces/IApi/IGetStageApi'
+import { getStageApi } from '../../../../api/getStageApi'
 
 const Header: FC<ISelectedStageChildProps> = ({
 	selectedStage,
@@ -44,6 +54,34 @@ const Header: FC<ISelectedStageChildProps> = ({
 		},
 	})
 
+	const userDataText = localStorage.getItem('UserData')
+	const userData: IUser = JSON.parse(userDataText ? userDataText : '')
+
+	const [open, setOpen] = useState(false)
+
+	const handleClickOpen = () => {
+		setOpen(true)
+	}
+
+	const handleClose = () => {
+		setOpen(false)
+	}
+
+	const [stages, setStages] = useState<IStage[]>([])
+
+	const getStages = () => {
+		selectedStage &&
+			selectedStage.canCreate.forEach(async item => {
+				const stage: IStage | null | undefined = await getStageApi.getStageId(
+					item
+				)
+
+				if (stage) {
+					setStages([...stages, stage])
+				}
+			})
+	}
+
 	return (
 		<Box className={styles.container}>
 			{isLoading && <LinearProgress />}
@@ -72,33 +110,49 @@ const Header: FC<ISelectedStageChildProps> = ({
 							role={'Главный согласующий'}
 						/>
 					</Box>
-					<Box className={styles.btns}>
-						{selectedStage.status === 'Согласовано' ||
-						selectedStage.status === 'Согласовано-Блокировано' ? (
-							<Button
-								className={styles.btn}
-								size='small'
-								color='error'
-								variant='outlined'
-								onClick={() => mutationCancelStage.mutate()}
-							>
-								Отменить Согласование
-							</Button>
-						) : (
-							<Button
-								color='success'
-								className={styles.btn}
-								size='small'
-								variant='outlined'
-								onClick={() => mutationSuccessStage.mutate()}
-							>
-								Согласовать
-							</Button>
-						)}
-						<Button className={styles.btn} size='small' variant='outlined'>
-							Редактировать путь согласования
-						</Button>
-					</Box>
+					{selectedStage.holds[0].groups[0].boss.id === userData.id ||
+						(selectedStage.holds[1].groups[0].boss.id === userData.id && (
+							<Box className={styles.btns}>
+								{selectedStage.status === 'Согласовано' ||
+								selectedStage.status === 'Согласовано-Блокировано' ? (
+									<Button
+										className={styles.btn}
+										size='small'
+										color='error'
+										variant='outlined'
+										onClick={() => mutationCancelStage.mutate()}
+									>
+										Отменить Согласование
+									</Button>
+								) : (
+									<Button
+										color='success'
+										className={styles.btn}
+										size='small'
+										variant='outlined'
+										onClick={() => mutationSuccessStage.mutate()}
+									>
+										Согласовать
+									</Button>
+								)}
+								{selectedStage.canCreate.length && (
+									<>
+										<Button
+											className={styles.btn}
+											size='small'
+											variant='outlined'
+											onClick={handleClickOpen}
+										>
+											Редактировать путь согласования
+										</Button>
+										<Dialog open={open} onClose={handleClose}>
+											<DialogTitle>Редактировать путь согласования</DialogTitle>
+											<DialogContent></DialogContent>
+										</Dialog>
+									</>
+								)}
+							</Box>
+						))}
 				</>
 			)}
 		</Box>

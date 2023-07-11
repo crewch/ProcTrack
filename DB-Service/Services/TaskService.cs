@@ -8,252 +8,253 @@ using System.Diagnostics;
 
 namespace DB_Service.Services
 {
-    public class TaskService : ITaskService
-    {
-        private readonly DataContext _context;
-        private readonly IAuthDataClient _authClient;
-        private readonly IFileDataClient _fileClient;
+	public class TaskService : ITaskService
+	{
+		private readonly DataContext _context;
+		private readonly IAuthDataClient _authClient;
+		private readonly IFileDataClient _fileClient;
 
-        public TaskService(DataContext context, IAuthDataClient authClient, IFileDataClient fileClient)
-        {
-            _context = context;
-            _authClient = authClient;
-            _fileClient = fileClient;
-        }
+		public TaskService(DataContext context, IAuthDataClient authClient, IFileDataClient fileClient)
+		{
+			_context = context;
+			_authClient = authClient;
+			_fileClient = fileClient;
+		}
 
-        public async Task<TaskDto> AssignTask(int UserId, int Id)
-        {
-            var taskDto = await GetTaskById(Id);
-            
-            if (taskDto == null)
-            {
-                return null;
-            }
+		public async Task<TaskDto> AssignTask(int UserId, int Id)
+		{
+			var taskDto = await GetTaskById(Id);
 
-            var taskModel = _context.Tasks
-                .Include(t => t.Stage)
-                .ThenInclude(s => s.Status)
-                .Where(t => t.Id == Id)
-                .FirstOrDefault();
+			if (taskDto == null)
+			{
+				return null;
+			}
 
-            var user = _authClient.GetUserById(UserId).Result;
+			var taskModel = _context.Tasks
+					.Include(t => t.Stage)
+					.ThenInclude(s => s.Status)
+					.Where(t => t.Id == Id)
+					.FirstOrDefault();
 
-            taskModel.ApprovedAt = DateTime.Now.AddHours(3);
-            taskModel.Signed = user.LongName;
+			var user = _authClient.GetUserById(UserId).Result;
 
-            if (taskModel.StageId != null)
-            {
-                var stage = _context.Stages
-                .Where(s => s.Id == taskModel.StageId)
-                .FirstOrDefault();
-            
-                var status = _context.Statuses
-                    .Where(s => s.Id == stage.StatusId)
-                    .FirstOrDefault();
+			taskModel.ApprovedAt = DateTime.Now.AddHours(3);
+			taskModel.Signed = user.LongName;
+			taskModel.SignId = user.Id;
 
-                if (status.Title.ToLower() == "отправлен на проверку")
-                {
-                    var newStatus = _context.Statuses
-                        .Where(s => s.Title.ToLower() == "принят на проверку")
-                        .FirstOrDefault();
+			if (taskModel.StageId != null)
+			{
+				var stage = _context.Stages
+				.Where(s => s.Id == taskModel.StageId)
+				.FirstOrDefault();
 
-                    stage.Status = newStatus;
-                }
-            }
+				var status = _context.Statuses
+						.Where(s => s.Id == stage.StatusId)
+						.FirstOrDefault();
 
-            _context.SaveChanges();
-            
-            taskDto = await GetTaskById(Id);
-            
-            return taskDto;
-        }
+				if (status.Title.ToLower() == "отправлен на проверку")
+				{
+					var newStatus = _context.Statuses
+							.Where(s => s.Title.ToLower() == "принят на проверку")
+							.FirstOrDefault();
 
-        public Task<CommentDto> CreateCommment(int Id, CommentDto data)
-        {
-            var taskDto = GetTaskById(Id).Result;
+					stage.Status = newStatus;
+				}
+			}
 
-            if (taskDto == null)
-            {
-                return null;
-            }
+			_context.SaveChanges();
 
-            var taskModel = _context.Tasks
-                .Where(t => t.Id == taskDto.Id)
-                .FirstOrDefault();
+			taskDto = await GetTaskById(Id);
 
-            var commentModel = new Comment
-            {
-                UserId = data.User.Id,
-                Text = data.Text,
-                FileRef = data.FileRef,
-                CreatedAt = DateTime.Now.AddHours(3),
-            };
+			return taskDto;
+		}
 
-            _context.Comments.Add(commentModel);
-            taskModel.Comments.Add(commentModel);
-            _context.SaveChanges();
+		public Task<CommentDto> CreateCommment(int Id, CommentDto data)
+		{
+			var taskDto = GetTaskById(Id).Result;
 
-            var commentDto = new CommentDto
-            {
-                Id = commentModel.Id,
-                Text = commentModel.Text,
-                FileRef = commentModel.FileRef,
-                CreatedAt = DateParser.Parse(DateTime.Now),
-                User = data.User,
-            };
-            return System.Threading.Tasks.Task.FromResult(commentDto);
-        }
+			if (taskDto == null)
+			{
+				return null;
+			}
 
-        public async Task<List<CommentDto>> GetComentsByTaskId(int Id)
-        {
-            var comments = _context.Comments
-                .Where(c => c.TaskId == Id)
-                .ToList();
+			var taskModel = _context.Tasks
+					.Where(t => t.Id == taskDto.Id)
+					.FirstOrDefault();
 
-            if (comments.Count == 0)
-            {
-                return null;
-            }
-            
-            var dtos = new List<CommentDto>();
-            
-            foreach (var comment in comments)
-            {
-                var userDto = new UserDto();
-                
-                if (comment.UserId != null)
-                {
-                    userDto = await _authClient.GetUserById((int)comment.UserId);
-                }
+			var commentModel = new Comment
+			{
+				UserId = data.User.Id,
+				Text = data.Text,
+				FileRef = data.FileRef,
+				CreatedAt = DateTime.Now.AddHours(3),
+			};
 
-                dtos.Add(new CommentDto
-                {
-                    Id = comment.Id,
-                    CreatedAt = comment.CreatedAt == null ? null : DateParser.Parse((DateTime)comment.CreatedAt),
-                    Text = comment.Text,
-                    FileRef = comment.FileRef,
-                    User = userDto,
-                });
-            }
-            return dtos;
-        }
+			_context.Comments.Add(commentModel);
+			taskModel.Comments.Add(commentModel);
+			_context.SaveChanges();
 
-        public async Task<TaskDto> GetTaskById(int Id)
-        {
-            var task = _context.Tasks
-                .Include(t => t.Comments)
-                .Where(t => t.Id == Id)
-                .FirstOrDefault();
-            
-            if (task == null)
-            {
-                return null;
-            }
-            
-            var userDto = new UserDto();
-            
-            if (task.SignId != null)
-            {
-                userDto = await _authClient.GetUserById((int)task.SignId);
-            }
+			var commentDto = new CommentDto
+			{
+				Id = commentModel.Id,
+				Text = commentModel.Text,
+				FileRef = commentModel.FileRef,
+				CreatedAt = DateParser.Parse(DateTime.Now),
+				User = data.User,
+			};
+			return System.Threading.Tasks.Task.FromResult(commentDto);
+		}
 
-            var comments = new List<CommentDto>();
+		public async Task<List<CommentDto>> GetComentsByTaskId(int Id)
+		{
+			var comments = _context.Comments
+					.Where(c => c.TaskId == Id)
+					.ToList();
 
-            foreach (var iComment in task.Comments)
-            {
-                comments.Add(new CommentDto
-                {
-                    Id = iComment.Id,
-                    Text = iComment.Text,
-                    FileRef = iComment.FileRef,
-                    CreatedAt = iComment.CreatedAt == null ? null : DateParser.Parse((DateTime)iComment.CreatedAt),
-                    User = iComment.UserId == null ? null : await _authClient.GetUserById((int)iComment.UserId),
-                });
-            }
+			if (comments.Count == 0)
+			{
+				return null;
+			}
 
-            var res = new TaskDto
-            {
-                Id = task.Id,
-                Title = task.Title,
-                ApprovedAt = task.ApprovedAt == null ? null : DateParser.Parse((DateTime)task.ApprovedAt),
-                ExpectedTime = task.ExpectedTime,
-                User = userDto,
-                Comments = comments,
-                SignId = task.SignId,
-                StartedAt = task.StartedAt == null ? null : DateParser.Parse((DateTime)task.StartedAt),
-                Signed = task.Signed,
-                EndVerificationDate = task.EndVerificationDate == null ? null : DateParser.Parse((DateTime)task.EndVerificationDate),
-            };
-            return res;
-        }
+			var dtos = new List<CommentDto>();
 
-        public async Task<TaskDto> StartTask(int UserId, int Id)
-        {
-            var taskDto = await GetTaskById(Id);
-            
-            if (taskDto == null)
-            {
-                return null;
-            }
+			foreach (var comment in comments)
+			{
+				var userDto = new UserDto();
 
-            var taskModel = _context.Tasks
-                .Where(t => t.Id == Id)
-                .FirstOrDefault();
+				if (comment.UserId != null)
+				{
+					userDto = await _authClient.GetUserById((int)comment.UserId);
+				}
 
-            taskModel.SignId = UserId;
-            taskModel.StartedAt = DateTime.Now.AddHours(3);
+				dtos.Add(new CommentDto
+				{
+					Id = comment.Id,
+					CreatedAt = comment.CreatedAt == null ? null : DateParser.Parse((DateTime)comment.CreatedAt),
+					Text = comment.Text,
+					FileRef = comment.FileRef,
+					User = userDto,
+				});
+			}
+			return dtos;
+		}
 
-            _context.SaveChanges();
+		public async Task<TaskDto> GetTaskById(int Id)
+		{
+			var task = _context.Tasks
+					.Include(t => t.Comments)
+					.Where(t => t.Id == Id)
+					.FirstOrDefault();
 
-            taskDto = await GetTaskById(Id);
+			if (task == null)
+			{
+				return null;
+			}
 
-            return taskDto;
-        }
+			var userDto = new UserDto();
 
-        public async Task<TaskDto> StopTask(int UserId, int Id)
-        {
-            var taskDto = await GetTaskById(Id);
-            
-            if (taskDto == null)
-            {
-                return null;
-            }
+			if (task.SignId != null)
+			{
+				userDto = await _authClient.GetUserById((int)task.SignId);
+			}
 
-            var taskModel = _context.Tasks
-                .Where(t => t.Id == Id)
-                .FirstOrDefault();
+			var comments = new List<CommentDto>();
 
-            taskModel.SignId = null;
-            taskModel.Signed = null;
-            taskModel.ApprovedAt = null;
-            taskModel.EndVerificationDate = null;
-            taskModel.StartedAt = null;
+			foreach (var iComment in task.Comments)
+			{
+				comments.Add(new CommentDto
+				{
+					Id = iComment.Id,
+					Text = iComment.Text,
+					FileRef = iComment.FileRef,
+					CreatedAt = iComment.CreatedAt == null ? null : DateParser.Parse((DateTime)iComment.CreatedAt),
+					User = iComment.UserId == null ? null : await _authClient.GetUserById((int)iComment.UserId),
+				});
+			}
 
-            _context.SaveChanges();
+			var res = new TaskDto
+			{
+				Id = task.Id,
+				Title = task.Title,
+				ApprovedAt = task.ApprovedAt == null ? null : DateParser.Parse((DateTime)task.ApprovedAt),
+				ExpectedTime = task.ExpectedTime,
+				User = userDto,
+				Comments = comments,
+				SignId = task.SignId,
+				StartedAt = task.StartedAt == null ? null : DateParser.Parse((DateTime)task.StartedAt),
+				Signed = task.Signed,
+				EndVerificationDate = task.EndVerificationDate == null ? null : DateParser.Parse((DateTime)task.EndVerificationDate),
+			};
+			return res;
+		}
 
-            taskDto = await GetTaskById(Id);
-            return taskDto;
-        }
+		public async Task<TaskDto> StartTask(int UserId, int Id)
+		{
+			var taskDto = await GetTaskById(Id);
 
-        public async Task<TaskDto> UpdateEndVerification(int UserId, int Id)
-        {
-            var taskDto = await GetTaskById(Id);
-            
-            if (taskDto == null)
-            {
-                return null;
-            }
+			if (taskDto == null)
+			{
+				return null;
+			}
 
-            var taskModel = _context.Tasks
-                .Where(t => t.Id == Id)
-                .FirstOrDefault();
+			var taskModel = _context.Tasks
+					.Where(t => t.Id == Id)
+					.FirstOrDefault();
 
-            taskModel.EndVerificationDate = DateTime.Now.AddHours(3);
+			taskModel.SignId = UserId;
+			taskModel.StartedAt = DateTime.Now.AddHours(3);
 
-            _context.SaveChanges();
+			_context.SaveChanges();
 
-            taskDto = await GetTaskById(Id);
-            return taskDto;
-        }
-    }
+			taskDto = await GetTaskById(Id);
+
+			return taskDto;
+		}
+
+		public async Task<TaskDto> StopTask(int UserId, int Id)
+		{
+			var taskDto = await GetTaskById(Id);
+
+			if (taskDto == null)
+			{
+				return null;
+			}
+
+			var taskModel = _context.Tasks
+					.Where(t => t.Id == Id)
+					.FirstOrDefault();
+
+			taskModel.SignId = null;
+			taskModel.Signed = null;
+			taskModel.ApprovedAt = null;
+			taskModel.EndVerificationDate = null;
+			taskModel.StartedAt = null;
+
+			_context.SaveChanges();
+
+			taskDto = await GetTaskById(Id);
+			return taskDto;
+		}
+
+		public async Task<TaskDto> UpdateEndVerification(int UserId, int Id)
+		{
+			var taskDto = await GetTaskById(Id);
+
+			if (taskDto == null)
+			{
+				return null;
+			}
+
+			var taskModel = _context.Tasks
+					.Where(t => t.Id == Id)
+					.FirstOrDefault();
+
+			taskModel.EndVerificationDate = DateTime.Now.AddHours(3);
+
+			_context.SaveChanges();
+
+			taskDto = await GetTaskById(Id);
+			return taskDto;
+		}
+	}
 }

@@ -21,6 +21,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { commentsApi } from '../../../../../api/commentsApi'
 import { IComment } from '../../../../../interfaces/IApi/IGetTask'
 import { fileApi } from '../../../../../api/fileApi'
+import { switchTaskApi } from '../../../../../api/switchTaskApi'
+import { IUser } from '../../../../../interfaces/IApi/IApi'
 
 const ListTask: FC<IListTaskProps> = memo(
 	({
@@ -54,12 +56,13 @@ const ListTask: FC<IListTaskProps> = memo(
 		}
 
 		const userDataText = localStorage.getItem('UserData')
+		const userData: IUser = JSON.parse(userDataText ? userDataText : '')
 
 		const comment: IComment = {
 			id: 0,
 			text: textComment,
 			fileRef: fileRef,
-			user: JSON.parse(userDataText ? userDataText : ''),
+			user: userData,
 			createdAt: '',
 		}
 
@@ -73,10 +76,67 @@ const ListTask: FC<IListTaskProps> = memo(
 			},
 		})
 
+		const mutationStartTask = useMutation({
+			mutationFn: () => switchTaskApi.startTaskId(taskId, userData.id),
+			onSuccess: () => {
+				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
+				queryClient.invalidateQueries({
+					queryKey: ['selectedStageStageForSuccessPage'],
+				})
+				queryClient.invalidateQueries({
+					queryKey: ['tasks'],
+				})
+			},
+		})
+
+		const mutationStopTask = useMutation({
+			mutationFn: () => switchTaskApi.stopTaskId(taskId, userData.id),
+			onSuccess: () => {
+				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
+				queryClient.invalidateQueries({
+					queryKey: ['selectedStageStageForSuccessPage'],
+				})
+				queryClient.invalidateQueries({
+					queryKey: ['tasks'],
+				})
+			},
+		})
+
+		const mutationEndVerificationTask = useMutation({
+			mutationFn: () =>
+				switchTaskApi.endVerificationTaskId(taskId, userData.id),
+			onSuccess: () => {
+				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
+				queryClient.invalidateQueries({
+					queryKey: ['selectedStageStageForSuccessPage'],
+				})
+				queryClient.invalidateQueries({
+					queryKey: ['tasks'],
+				})
+			},
+		})
+
+		const mutationAssignsTask = useMutation({
+			mutationFn: () => switchTaskApi.assignTaskId(taskId, userData.id),
+			onSuccess: () => {
+				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
+				queryClient.invalidateQueries({
+					queryKey: ['selectedStageStageForSuccessPage'],
+				})
+				queryClient.invalidateQueries({
+					queryKey: ['tasks'],
+				})
+			},
+		})
+
 		return (
 			<Box className={styles.container}>
 				{page && !startDate ? (
-					<Button className={styles.startBtn} variant='outlined'>
+					<Button
+						className={styles.startBtn}
+						variant='outlined'
+						onClick={() => mutationStartTask.mutate()}
+					>
 						начать согласование
 					</Button>
 				) : page && !endDate ? (
@@ -87,11 +147,19 @@ const ListTask: FC<IListTaskProps> = memo(
 							success={successDate && successDate}
 						/>
 						<Box className={styles.btns}>
-							<Button className={styles.btn} variant='outlined'>
+							<Button
+								className={styles.btn}
+								variant='outlined'
+								onClick={() => mutationEndVerificationTask.mutate()}
+							>
 								отметить конец проверки
 							</Button>
 							{startDate && (
-								<Button color='error' variant='outlined'>
+								<Button
+									color='error'
+									variant='outlined'
+									onClick={() => mutationStopTask.mutate()}
+								>
 									отменить
 								</Button>
 							)}
@@ -106,11 +174,21 @@ const ListTask: FC<IListTaskProps> = memo(
 								success={successDate && successDate}
 							/>
 							<Box className={styles.btns}>
-								<Button className={styles.btn} variant='outlined'>
-									согласовать задание
-								</Button>
+								{!successDate && (
+									<Button
+										className={styles.btn}
+										variant='outlined'
+										onClick={() => mutationAssignsTask.mutate()}
+									>
+										согласовать задание
+									</Button>
+								)}
 								{startDate && (
-									<Button color='error' variant='outlined'>
+									<Button
+										color='error'
+										variant='outlined'
+										onClick={() => mutationStopTask.mutate()}
+									>
 										отменить
 									</Button>
 								)}
