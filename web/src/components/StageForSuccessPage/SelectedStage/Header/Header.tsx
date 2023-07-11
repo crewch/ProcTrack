@@ -1,15 +1,20 @@
 import {
 	Box,
 	Button,
+	Checkbox,
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	LinearProgress,
+	List,
+	ListItem,
+	ListItemText,
+	Typography,
 } from '@mui/material'
 import HeaderField from '../../../MainPage/SelectedStage/HeaderField/HeaderField'
 import styles from '/src/styles/StageForSuccessPageStyles/SelectedStageStyles/HeaderStyles/Header.module.scss'
 import UserField from '../../../MainPage/SelectedProcess/InfoProcess/UserField/UserField'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { ISelectedStageChildProps } from '../../../../interfaces/IStageForSuccessPage/ISelectedStage/ISelectedStage'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { stageApi } from '../../../../api/stageApi'
@@ -67,20 +72,34 @@ const Header: FC<ISelectedStageChildProps> = ({
 		setOpen(false)
 	}
 
+	const isBoss =
+		selectedStage?.holds[0]?.groups[0]?.boss?.id === userData.id ||
+		selectedStage?.holds[1]?.groups[0]?.boss?.id === userData.id
+
 	const [stages, setStages] = useState<IStage[]>([])
+	const [stageFlag, setStageFlag] = useState(false)
 
-	const getStages = () => {
-		selectedStage &&
-			selectedStage.canCreate.forEach(async item => {
-				const stage: IStage | null | undefined = await getStageApi.getStageId(
-					item
-				)
+	useEffect(() => {
+		setStages([])
+	}, [isBoss, selectedStage, stageFlag])
 
-				if (stage) {
-					setStages([...stages, stage])
+	useEffect(() => {
+		if (isBoss) {
+			const getStages = async () => {
+				if (selectedStage) {
+					for (const item of selectedStage.canCreate) {
+						const stage = await getStageApi.getStageId(item)
+
+						if (stage) {
+							setStages(prevStages => [...prevStages, stage])
+						}
+					}
 				}
-			})
-	}
+			}
+
+			getStages()
+		}
+	}, [isBoss, selectedStage, stageFlag])
 
 	return (
 		<Box className={styles.container}>
@@ -110,49 +129,86 @@ const Header: FC<ISelectedStageChildProps> = ({
 							role={'Главный согласующий'}
 						/>
 					</Box>
-					{selectedStage.holds[0].groups[0].boss.id === userData.id ||
-						(selectedStage.holds[1].groups[0].boss.id === userData.id && (
-							<Box className={styles.btns}>
-								{selectedStage.status === 'Согласовано' ||
-								selectedStage.status === 'Согласовано-Блокировано' ? (
-									<Button
-										className={styles.btn}
-										size='small'
-										color='error'
-										variant='outlined'
-										onClick={() => mutationCancelStage.mutate()}
-									>
-										Отменить Согласование
-									</Button>
-								) : (
-									<Button
-										color='success'
-										className={styles.btn}
-										size='small'
-										variant='outlined'
-										onClick={() => mutationSuccessStage.mutate()}
-									>
-										Согласовать
-									</Button>
-								)}
-								{selectedStage.canCreate.length && (
+					{isBoss && (
+						<Box className={styles.btns}>
+							{selectedStage.status === 'Согласовано' ||
+							selectedStage.status === 'Согласовано-Блокировано' ? (
+								<Button
+									className={styles.btn}
+									size='small'
+									color='error'
+									variant='outlined'
+									onClick={() => mutationCancelStage.mutate()}
+								>
+									Отменить Согласование
+								</Button>
+							) : (
+								<Button
+									color='success'
+									className={styles.btn}
+									size='small'
+									variant='outlined'
+									onClick={() => mutationSuccessStage.mutate()}
+								>
+									Согласовать
+								</Button>
+							)}
+							{selectedStage.status !== 'Согласовано' &&
+								selectedStage.status !== 'Согласовано-Блокировано' &&
+								selectedStage.canCreate.length > 0 && (
 									<>
 										<Button
 											className={styles.btn}
 											size='small'
 											variant='outlined'
-											onClick={handleClickOpen}
+											onClick={() => {
+												handleClickOpen()
+											}}
 										>
 											Редактировать путь согласования
 										</Button>
-										<Dialog open={open} onClose={handleClose}>
+										<Dialog
+											PaperProps={{
+												sx: {
+													width: '30%',
+													height: '40%',
+													borderRadius: '16px',
+													p: 1,
+												},
+											}}
+											open={open}
+											onClose={handleClose}
+										>
 											<DialogTitle>Редактировать путь согласования</DialogTitle>
-											<DialogContent></DialogContent>
+											<DialogContent>
+												<List sx={{ height: '100%', overflow: 'auto' }}>
+													{stages
+														.sort((a, b) => Number(b.mark) - Number(a.mark))
+														.map((item, index) => (
+															<ListItem key={index}>
+																<Checkbox
+																	onClick={() => {
+																		stageApi.toggleStagePass(item)
+																		setStageFlag(!stageFlag)
+																	}}
+																	checked={!item.pass}
+																/>
+																<ListItemText>
+																	<Typography
+																		sx={{ fontWeight: item.mark ? 600 : 300 }}
+																	>
+																		{item.title}
+																	</Typography>
+																</ListItemText>
+															</ListItem>
+														))}
+												</List>
+											</DialogContent>
 										</Dialog>
 									</>
 								)}
-							</Box>
-						))}
+						</Box>
+					)}
 				</>
 			)}
 		</Box>
