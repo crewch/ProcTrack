@@ -46,6 +46,7 @@ namespace CreateTemplate
     {
         public int? Id { get; set; } = 0;
         public string Text { get; set; } = "string";
+        public string? FileRef { get; set; } = "string";
         public UserDto User { get; set; } = new UserDto();
         public string? CreatedAt { get; set; } = "string";
     }

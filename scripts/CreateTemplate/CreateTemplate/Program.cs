@@ -8,6 +8,7 @@ class Program
 {
     static void Main(string[] args)
     {
+
         var allowType = new List<string> { "ИИ" };
         var allowGroup = new List<GroupDto>
             {
@@ -35,7 +36,152 @@ class Program
                 {
                     Id = 8,
                     Title = "Отделение электронного макета и конфигураций самолетов"
+                },
+                new GroupDto
+                {
+                    Id = 9,
+                    Title = "Отдел материаловедения"
+                },
+                new GroupDto
+                {
+                    Id = 10,
+                    Title = "Группа главного технолога"
+                },
+                new GroupDto
+                {
+                    Id = 11,
+                    Title = "Отделение общих видов"
+                },
+                new GroupDto
+                {
+                    Id = 12,
+                    Title = "Отделение прочности"
+                },
+                new GroupDto
+                {
+                    Id = 13,
+                    Title = "Отделение поддержки эксплуатации"
+                },
+                new GroupDto
+                {
+                    Id = 14,
+                    Title = "Отдел химмотологии"
+                },
+                new GroupDto
+                {
+                    Id = 15,
+                    Title = "Методологическая экспертиза"
+                },
+                new GroupDto
+                {
+                    Id = 16,
+                    Title = "Группа главного конструктора"
+                },
+                new GroupDto
+                {
+                    Id = 17,
+                    Title = "Независимая инспекция"
+                },
+                new GroupDto
+                {
+                    Id = 18,
+                    Title = "Бригада Нормоконтроль"
+                },
+                new GroupDto
+                {
+                    Id = 19,
+                    Title = "Отделение аэродинамики"
+                },
+                new GroupDto
+                {
+                    Id = 20,
+                    Title = "Отделение планера"
+                },
+                new GroupDto
+                {
+                    Id = 21,
+                    Title = "Отделение систем управления"
+                },
+                new GroupDto
+                {
+                    Id = 22,
+                    Title = "Отделение систем самолёта"
+                },
+                new GroupDto
+                {
+                    Id = 23,
+                    Title = "Отдел интерьера, пассажирского и бытового оборудования"
+                },
+                new GroupDto
+                {
+                    Id = 24,
+                    Title = "Отделение силовых установок"
+                },
+                new GroupDto
+                {
+                    Id = 25,
+                    Title = "Отделение оборудования"
+                },
+                new GroupDto
+                {
+                    Id = 26,
+                    Title = "Отдел испытаний"
+                },
+                new GroupDto
+                {
+                    Id = 27,
+                    Title = "Отделение средств спасения и специального оборудования"
+                },
+                new GroupDto
+                {
+                    Id = 28,
+                    Title = "Отделение спецсистем"
+                },
+                new GroupDto
+                {
+                    Id = 29,
+                    Title = "Отдел сопровождения серийной постройки"
+                },
+                new GroupDto
+                {
+                    Id = 30,
+                    Title = "Отдел системы менеджмента качества"
+                },
+                new GroupDto
+                {
+                    Id = 31,
+                    Title = "Отделение неразрушающего контроля"
+                },
+                new GroupDto
+                {
+                    Id = 32,
+                    Title = "Отдел нагрузок и аэроупругости"
+                },
+                new GroupDto
+                {
+                    Id = 33,
+                    Title = "Контроль покупных изделий и подшипников"
+                },
+                new GroupDto
+                {
+                    Id = 34,
+                    Title = "Отдел контролепригодности"
+                },
+                new GroupDto
+                {
+                    Id = 35,
+                    Title = "Отдел неразрушающего контроля"
+                },
+                new GroupDto
+                {
+                    Id = 36,
+                    Title = "Отделение сертификации, надежности и безопастности"
+                },
+                new GroupDto
+                {
+                    
                 }
+                
             };
 
         var newTemplate = new TemplateDto();
@@ -68,7 +214,7 @@ class Program
             Console.WriteLine("Введите название этапа:");
             Stage.Title = Console.ReadLine().ToString();
 
-            Console.WriteLine("Пометить этап если он может быть добавляем (y/n):");
+            Console.WriteLine("Пометить этап если он отмечается на странице добавления шаблонов (y/n):");
             if (Console.ReadLine().ToString().ToLower() == "y")
             {
                 Stage.Mark = true;
@@ -91,14 +237,15 @@ class Program
             {
                 Console.WriteLine($"{j}: {allowGroup[j].Title}");
             }
-            choose = int.Parse(Console.ReadLine().ToString());
+            var titleGroup = Console.ReadLine().ToString();
+            var group = allowGroup.Find(g => g.Title == titleGroup);
             Stage.Holds.Add(new HoldDto
             {
                 DestId = i,
                 Type = "Stage",
                 Groups = new List<GroupDto>()
                 {
-                    allowGroup[choose]
+                    group
                 }
             });
 
@@ -125,10 +272,13 @@ class Program
         {
             Console.Write($"{i}: {newTemplate.Stages[i - 1].Title}; ");
         }
-        Console.WriteLine("");
+        Console.WriteLine("\n");
 
         for (int i = 1; i <= n; i++)
         {
+            Console.WriteLine($"для {i}: {newTemplate.Stages[i - 1].Title}");
+
+            
             var listStages = new List<int>();
             Console.WriteLine("Сколько значений будет введено?");
             choose = int.Parse(Console.ReadLine().ToString());
@@ -136,6 +286,7 @@ class Program
             {
                 listStages.Add(int.Parse(Console.ReadLine().ToString()));
             }
+            newTemplate.Stages[i - 1].CanCreate = listStages;
         }
         Console.WriteLine("Выберете начальный этап:");
         newTemplate.StartStage = int.Parse(Console.ReadLine());
@@ -155,11 +306,12 @@ class Program
         Console.WriteLine("Введите пары ключ-значение:");
         for (int i = 1; i <= n; i++)
         {
-            newTemplate.Links.Edges.Add(new Tuple<int, int>(int.Parse(Console.ReadLine().ToString()), int.Parse(Console.ReadLine().ToString())));
+            newTemplate.Links.Dependences.Add(new Tuple<int, int>(int.Parse(Console.ReadLine().ToString()), int.Parse(Console.ReadLine().ToString())));
         }
 
         string json = JsonConvert.SerializeObject(newTemplate);
         Console.WriteLine(json);
+        Console.ReadLine();
     }
 }
 
