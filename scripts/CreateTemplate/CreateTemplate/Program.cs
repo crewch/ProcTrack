@@ -3,9 +3,23 @@
 using CreateTemplate;
 using Newtonsoft.Json;
 using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Text.Json.Serialization;
 class Program
 {
+    static async Task RunAsync()
+    {
+        var client = new HttpClient();
+
+        var content = new StringContent("text/plain");
+
+        HttpResponseMessage response = await client.GetAsync("http://localhost:8000/api/auth/user/group", content);
+
+        var allowType = new List<string> { "ИИ" };
+
+    }
+
     static void Main(string[] args)
     {
 
@@ -176,12 +190,7 @@ class Program
                 {
                     Id = 36,
                     Title = "Отделение сертификации, надежности и безопастности"
-                },
-                new GroupDto
-                {
-                    
                 }
-                
             };
 
         var newTemplate = new TemplateDto();
@@ -262,7 +271,8 @@ class Program
                     Id = j,
                     ExpectedTime = TimeSpan.Parse("2.00:00:00.0"),
                     Title = title,
-                    StageId = i};
+                    StageId = i
+                };
                 newTemplate.Tasks.Add(task);
             }
         }
@@ -278,7 +288,7 @@ class Program
         {
             Console.WriteLine($"для {i}: {newTemplate.Stages[i - 1].Title}");
 
-            
+
             var listStages = new List<int>();
             Console.WriteLine("Сколько значений будет введено?");
             choose = int.Parse(Console.ReadLine().ToString());
