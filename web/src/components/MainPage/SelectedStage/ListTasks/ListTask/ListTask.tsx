@@ -79,7 +79,7 @@ const ListTask: FC<IListTaskProps> = memo(
 					<Button className={styles.startBtn} variant='outlined'>
 						начать согласование
 					</Button>
-				) : !endDate ? (
+				) : page && !endDate ? (
 					<Box className={styles.dateField}>
 						<DateInfo
 							startDate={startDate && startDate}
@@ -98,23 +98,25 @@ const ListTask: FC<IListTaskProps> = memo(
 						</Box>
 					</Box>
 				) : (
-					<Box className={styles.dateField}>
-						<DateInfo
-							startDate={startDate && startDate}
-							endData={endDate && endDate}
-							success={successDate && successDate}
-						/>
-						<Box className={styles.btns}>
-							<Button className={styles.btn} variant='outlined'>
-								согласовать задание
-							</Button>
-							{startDate && (
-								<Button color='error' variant='outlined'>
-									отменить
+					page && (
+						<Box className={styles.dateField}>
+							<DateInfo
+								startDate={startDate && startDate}
+								endData={endDate && endDate}
+								success={successDate && successDate}
+							/>
+							<Box className={styles.btns}>
+								<Button className={styles.btn} variant='outlined'>
+									согласовать задание
 								</Button>
-							)}
+								{startDate && (
+									<Button color='error' variant='outlined'>
+										отменить
+									</Button>
+								)}
+							</Box>
 						</Box>
-					</Box>
+					)
 				)}
 				<Divider className={styles.divider} />
 				<UserField group={group} responsible={author} role={roleAuthor} />
