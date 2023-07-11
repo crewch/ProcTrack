@@ -9,4 +9,5 @@ export interface IListTaskProps {
 	group: string
 	remarks: IComment[]
 	taskId: number
+	page?: 'stageForSuccess'
 }
