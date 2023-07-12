@@ -186,7 +186,6 @@ const Header: FC<ISelectedStageChildProps> = ({
 																		<Checkbox
 																			onClick={() => {
 																				mutationGetStages.mutate(item.data)
-																				// setStageFlag(!stageFlag)
 																			}}
 																			checked={!item.data?.pass}
 																		/>
