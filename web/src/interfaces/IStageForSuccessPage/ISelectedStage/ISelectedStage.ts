@@ -1,7 +1,7 @@
 import { IStage } from '../../IApi/IGetStageApi'
 
 export interface ISelectedStageChildProps {
-	selectedStage: IStage | null | undefined
+	selectedStage: IStage
 	isLoading: boolean
 	isSuccess: boolean
 }

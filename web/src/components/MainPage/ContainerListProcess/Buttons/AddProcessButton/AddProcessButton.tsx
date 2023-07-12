@@ -1,9 +1,9 @@
+import { useState } from 'react'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
-import * as React from 'react'
 import AddProcess from '../../../Dialogs/AddProcess/AddProcess'
 
 export default function FormDialog() {
-	const [open, setOpen] = React.useState(false)
+	const [open, setOpen] = useState(false)
 
 	const handleClickOpen = () => {
 		setOpen(true)

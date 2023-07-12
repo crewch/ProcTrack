@@ -21,23 +21,27 @@ const SelectedStage = () => {
 
 	return (
 		<Box className={styles.container}>
-			<Header
-				selectedStage={selectedStage}
-				isLoading={isLoading}
-				isSuccess={isSuccess}
-			/>
-			<Divider className={styles.divider} variant='middle' />
-			<Body
-				selectedStage={selectedStage}
-				isLoading={isLoading}
-				isSuccess={isSuccess}
-			/>
-			<Divider className={styles.divider} variant='middle' />
-			<Footer
-				selectedStage={selectedStage}
-				isLoading={isLoading}
-				isSuccess={isSuccess}
-			/>
+			{selectedStage && (
+				<>
+					<Header
+						selectedStage={selectedStage}
+						isLoading={isLoading}
+						isSuccess={isSuccess}
+					/>
+					<Divider className={styles.divider} variant='middle' />
+					<Body
+						selectedStage={selectedStage}
+						isLoading={isLoading}
+						isSuccess={isSuccess}
+					/>
+					<Divider className={styles.divider} variant='middle' />
+					<Footer
+						selectedStage={selectedStage}
+						isLoading={isLoading}
+						isSuccess={isSuccess}
+					/>
+				</>
+			)}
 		</Box>
 	)
 }

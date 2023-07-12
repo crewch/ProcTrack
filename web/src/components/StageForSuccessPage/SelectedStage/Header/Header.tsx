@@ -14,12 +14,11 @@ import {
 import HeaderField from '../../../MainPage/SelectedStage/HeaderField/HeaderField'
 import styles from '/src/styles/StageForSuccessPageStyles/SelectedStageStyles/HeaderStyles/Header.module.scss'
 import UserField from '../../../MainPage/SelectedProcess/InfoProcess/UserField/UserField'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { ISelectedStageChildProps } from '../../../../interfaces/IStageForSuccessPage/ISelectedStage/ISelectedStage'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
 import { stageApi } from '../../../../api/stageApi'
 import { IUser } from '../../../../interfaces/IApi/IApi'
-import { IStage } from '../../../../interfaces/IApi/IGetStageApi'
 import { getStageApi } from '../../../../api/getStageApi'
 
 const Header: FC<ISelectedStageChildProps> = ({
@@ -76,30 +75,23 @@ const Header: FC<ISelectedStageChildProps> = ({
 		selectedStage?.holds[0]?.groups[0]?.boss?.id === userData.id ||
 		selectedStage?.holds[1]?.groups[0]?.boss?.id === userData.id
 
-	const [stages, setStages] = useState<IStage[]>([])
-	const [stageFlag, setStageFlag] = useState(false)
-
-	useEffect(() => {
-		setStages([])
-	}, [isBoss, selectedStage, stageFlag])
-
-	useEffect(() => {
-		if (isBoss) {
-			const getStages = async () => {
-				if (selectedStage) {
-					for (const item of selectedStage.canCreate) {
-						const stage = await getStageApi.getStageId(item)
-
-						if (stage) {
-							setStages(prevStages => [...prevStages, stage])
-						}
-					}
-				}
+	const stages = useQueries({
+		queries: selectedStage.canCreate.map(item => {
+			return {
+				queryKey: ['stageHeader', item],
+				queryFn: () => getStageApi.getStageId(item),
 			}
+		}),
+	})
 
-			getStages()
-		}
-	}, [isBoss, selectedStage, stageFlag])
+	const mutationGetStages = useMutation({
+		mutationFn: stageApi.toggleStagePass,
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ['stageHeader'],
+			})
+		},
+	})
 
 	return (
 		<Box className={styles.container}>
@@ -183,23 +175,34 @@ const Header: FC<ISelectedStageChildProps> = ({
 											<DialogContent>
 												<List sx={{ height: '100%', overflow: 'auto' }}>
 													{stages
-														.sort((a, b) => Number(b.mark) - Number(a.mark))
+														.sort(
+															(a, b) =>
+																Number(b.data?.mark) - Number(a.data?.mark)
+														)
 														.map((item, index) => (
 															<ListItem key={index}>
-																<Checkbox
-																	onClick={() => {
-																		stageApi.toggleStagePass(item)
-																		setStageFlag(!stageFlag)
-																	}}
-																	checked={!item.pass}
-																/>
-																<ListItemText>
-																	<Typography
-																		sx={{ fontWeight: item.mark ? 600 : 300 }}
-																	>
-																		{item.title}
-																	</Typography>
-																</ListItemText>
+																{item.isSuccess && (
+																	<>
+																		<Checkbox
+																			onClick={() => {
+																				mutationGetStages.mutate(item.data)
+																				// setStageFlag(!stageFlag)
+																			}}
+																			checked={!item.data?.pass}
+																		/>
+																		<ListItemText>
+																			<Typography
+																				sx={{
+																					fontWeight: item.data?.mark
+																						? 600
+																						: 300,
+																				}}
+																			>
+																				{item.data?.title}
+																			</Typography>
+																		</ListItemText>
+																	</>
+																)}
 															</ListItem>
 														))}
 												</List>

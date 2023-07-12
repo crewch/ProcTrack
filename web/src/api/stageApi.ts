@@ -47,7 +47,7 @@ export const stageApi = {
 			}
 		}
 	},
-	async toggleStagePass(stage: IStage) {
+	async toggleStagePass(stage: IStage | null | undefined) {
 		try {
 			const textUserData = localStorage.getItem('UserData')
 

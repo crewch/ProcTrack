@@ -231,6 +231,8 @@ namespace DB_Service.Services
 
             var holds = await _authClient.GetHolds(req);
             
+            var used = new HashSet<int>();
+            
             var res = new List<StageDto>();
 
             if (holds == null) 
@@ -240,6 +242,13 @@ namespace DB_Service.Services
 
             foreach (var hold in holds)
             {
+                if (used.Any(u => hold.DestId == u))
+                {
+                    continue;
+                }
+
+                used.Add(hold.DestId);
+
                 var stageModel = _context.Stages
                     .Include(s => s.Status)
                     .Where(s => s.Id == hold.DestId &&
