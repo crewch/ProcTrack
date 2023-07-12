@@ -51,7 +51,7 @@ const StagesList: FC<{ textForSearchProcess: string }> = ({
 			{isLoading && <LinearProgress />}
 			{isSuccess && stagesList && filteredProcesses && (
 				<>
-					<List className={styles.list}>
+					<List component='nav' className={styles.list}>
 						{filteredProcesses
 							.sort((a, b) => b.id - a.id)
 							.map((stage, index) => (
