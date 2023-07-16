@@ -15,13 +15,19 @@ namespace DB_Service.Services
         private readonly IAuthDataClient _authClient;
         private readonly IFileDataClient _fileClient;
         private readonly IStageService _stageService;
+        private readonly ILogService _logService;
 
-        public ProcessService(DataContext context, IAuthDataClient authClient, IFileDataClient fileClient, IStageService stageService)
+        public ProcessService(DataContext context, 
+                              IAuthDataClient authClient, 
+                              IFileDataClient fileClient, 
+                              IStageService stageService,
+                              ILogService logService)
         {
             _context = context;
             _authClient = authClient;
             _fileClient = fileClient;
             _stageService = stageService;
+            _logService = logService;
         }
 
         public async Task<PassportDto> CreatePassport(CreatePassportDto data, int UserId, int Id)
@@ -45,7 +51,7 @@ namespace DB_Service.Services
                 Message = passport.Message,
                 ProcessId = passport.ProcessId,
             };
-            
+
             return dto;
         }
 
@@ -159,6 +165,7 @@ namespace DB_Service.Services
                         EndStage = stageMatrix.Find(e => e.Item1 == j).Item2,
                     };
                     _context.Edges.Add(newEdge);
+
                 }
             }
 
@@ -172,6 +179,7 @@ namespace DB_Service.Services
                     .ToList();
 
                 dependenceGraph[stageMatrix[i].Item1] = inDependences;
+
             }
 
             foreach (var i in dependenceGraph)
@@ -184,6 +192,7 @@ namespace DB_Service.Services
                         SecondStage = stageMatrix.Find(e => e.Item1 == j).Item2,
                     };
                     _context.Dependences.Add(newDependence);
+
                 }
             }
 
