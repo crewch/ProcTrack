@@ -385,7 +385,7 @@ namespace DB_Service.Services
 
             var stages = _context.Stages
                 .Include(s => s.Status)
-                .Where(s => s.ProcessId == process.Id && !(s.Pass ?? false))
+                .Where(s => s.ProcessId == process.Id)
                 .Select(s => s.Status.Title)
                 .ToList();
 
@@ -431,7 +431,7 @@ namespace DB_Service.Services
             var process = await GetProcessById(id);
 
             var stageModels = _context.Stages
-                .Where(s => s.ProcessId == process.Id && !(s.Pass ?? false))
+                .Where(s => s.ProcessId == process.Id)
                 .ToList();
 
             var stages = new List<StageDto>();
