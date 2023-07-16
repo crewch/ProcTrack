@@ -11,6 +11,4 @@
         public string? Author { get; set; } // чел
         public DateTime? CreatedAt { get; set; } // время изменения 
     }
-
-    // писать на все запросы на изменение / создание
 }
