@@ -254,8 +254,7 @@ namespace DB_Service.Services
                     .Where(s => s.Id == hold.DestId &&
                                 s.Status != null && 
                                 s.Status.Title.ToLower() != "не начат" &&
-                                s.Status.Title.ToLower() != "остановлен" &&
-                                !(s.Pass ?? false)
+                                s.Status.Title.ToLower() != "остановлен"
                     )
                     .FirstOrDefault();
 
