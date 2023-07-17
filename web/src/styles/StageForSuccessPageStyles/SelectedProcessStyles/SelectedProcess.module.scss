@@ -1,5 +1,5 @@
 .container {
-	@apply w-full h-[20%] xl:h-[18%] bg-ap-white rounded-[8px] flex flex-col justify-around;
+	@apply w-[full] h-[40%] bg-ap-white rounded-[8px] flex flex-col justify-around p-3;
 
 	.divider {
 		@apply border;

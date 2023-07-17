@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { FC } from 'react'
-import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/DateInfoStyles/DateInfo.module.scss'
 import { IDataInfoProps } from '../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/ITextTags/IDateInfo/IDateInfo'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/DateInfoStyles/DateInfo.module.scss'
 
 const DateInfo: FC<IDataInfoProps> = ({ startDate, endData, success }) => {
 	return (

@@ -1,6 +1,7 @@
-export interface IHeaderFieldProps {
+import { ISelectedStageProps } from '../ISelectedStage'
+
+export interface IHeaderFieldProps extends ISelectedStageProps {
 	name: string
 	status: string
 	nameOfGroup: string
-	page?: 'main'
 }

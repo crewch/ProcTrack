@@ -3,8 +3,8 @@ import Checkbox from '@mui/material/Checkbox'
 import { FC } from 'react'
 import { useAppDispatch } from '../../../../hooks/reduxHooks'
 import { toggleState } from '../../../../store/settingsSlice/settingsSlice'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/SettingsCheckboxStyles/SettingsCheckbox.module.scss'
 import { ISettingsCheckboxProps } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch/ISettingsCheckbox.ts'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/SettingsCheckboxStyles/SettingsCheckbox.module.scss'
 
 const SettingsCheckbox: FC<ISettingsCheckboxProps> = ({ setting }) => {
 	const dispatch = useAppDispatch()

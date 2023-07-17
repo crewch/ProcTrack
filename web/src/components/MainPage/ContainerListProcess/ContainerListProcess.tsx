@@ -4,22 +4,16 @@ import Search from './Search/Search'
 import ListProccess from './ListProcess/ListProcess'
 import SettingsList from './Search/SettingsList'
 import Buttons from './Buttons/Buttons'
+import StagesList from '../../StageForSuccessPage/SelectedStage/StageList/StagesList'
+import { ISelectedStageProps } from '../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
-import { IContainerListProcessProps } from '../../../interfaces/IMainPage/IContainerListProcess/IContainerListProcess'
-import StagesList from '../../StageForSuccessPage/SelectedStage/Footer/StageList/StagesList'
 
-const ContainerListProcess: FC<IContainerListProcessProps> = ({ page }) => {
+const ContainerListProcess: FC<ISelectedStageProps> = ({ page }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [textForSearchProcess, setTextForSearchProcess] = useState('')
 
 	return (
-		<Box
-			className={`${styles.containerListProcess} ${
-				page === 'stageForSuccess'
-					? styles.containerListProcessStageForSuccess
-					: ''
-			}`}
-		>
+		<Box className={styles.containerListProcess}>
 			<Search
 				isOpen={isOpen}
 				setIsOpen={setIsOpen}

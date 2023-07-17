@@ -1,4 +1,5 @@
-export interface IListTasksProps {
+import { ISelectedStageProps } from '../ISelectedStage'
+
+export interface IListTasksProps extends ISelectedStageProps {
 	group: string
-	page?: 'stageForSuccess'
 }

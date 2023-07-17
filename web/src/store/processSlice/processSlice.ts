@@ -13,6 +13,9 @@ export const processesSlice = createSlice({
 			state.openedProcess = actions.payload.id
 			state.openedStage = undefined
 		},
+		setOpenedProcess(state, actions: PayloadAction<IChangeProcess>) {
+			state.openedProcess = actions.payload.id
+		},
 		changeOpenedStage(state, actions: PayloadAction<IChangeProcess>) {
 			state.openedStage = actions.payload.id
 		},
@@ -23,6 +26,10 @@ export const processesSlice = createSlice({
 	},
 })
 
-export const { changeOpenedProcess, changeOpenedStage, reset } =
-	processesSlice.actions
+export const {
+	changeOpenedProcess,
+	setOpenedProcess,
+	changeOpenedStage,
+	reset,
+} = processesSlice.actions
 export default processesSlice.reducer

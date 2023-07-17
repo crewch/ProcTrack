@@ -2,14 +2,14 @@
 	@apply flex flex-col gap-1;
 
 	.startBtn {
-		@apply flex self-end;
+		@apply flex;
 	}
 
 	.dateField {
-		@apply flex justify-between;
+		@apply flex flex-col gap-2;
 
 		.btns {
-			@apply flex gap-2 self-end;
+			@apply flex flex-wrap justify-end gap-2;
 		}
 	}
 

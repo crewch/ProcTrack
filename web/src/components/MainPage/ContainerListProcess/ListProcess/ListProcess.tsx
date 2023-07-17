@@ -12,10 +12,10 @@ import { useQuery } from '@tanstack/react-query'
 import { getProcessApi } from '../../../../api/getProcessApi'
 import { FC, memo } from 'react'
 import { IProcess } from '../../../../interfaces/IApi/IApi'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
 import { IListProcessProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcess/IListProcess'
 import ListImg from './ListImg/ListImg'
 import { useFilterProcess } from '../../../../hooks/filterProcessHook'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
 
 const ListProcess: FC<IListProcessProps> = memo(({ textForSearchProcess }) => {
 	const dispatch = useAppDispatch()

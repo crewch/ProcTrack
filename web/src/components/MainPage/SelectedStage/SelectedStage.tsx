@@ -6,9 +6,12 @@ import ListTasks from './ListTasks/ListTasks'
 import { useQuery } from '@tanstack/react-query'
 import { useAppSelector } from '../../../hooks/reduxHooks'
 import { getStageApi } from '../../../api/getStageApi'
+import { FC } from 'react'
+import Buttons from '../../StageForSuccessPage/SelectedStage/Buttons/Buttons'
+import { ISelectedStageProps } from '../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
 import styles from '/src/styles/MainPageStyles/SelectedStageStyles/SelectedStage.module.scss'
 
-const SelectedStage = () => {
+const SelectedStage: FC<ISelectedStageProps> = ({ page }) => {
 	const openedStageID = useAppSelector(state => state.processes.openedStage)
 
 	const {
@@ -32,7 +35,7 @@ const SelectedStage = () => {
 							selectedStage?.holds[0]?.groups[0]?.title ||
 							selectedStage?.holds[1]?.groups[0]?.title
 						} //TODO: тут проблема при статусе ещё не начат
-						page='main'
+						page={page}
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
@@ -47,7 +50,6 @@ const SelectedStage = () => {
 								? selectedStage.signedAt
 								: 'Ещё не согласован'
 						}
-						page='main'
 					/>
 					<Divider className={styles.divider} />
 					<UserField
@@ -61,8 +63,21 @@ const SelectedStage = () => {
 						}
 						role='Главный согласующий'
 					/>
+					{page === 'stageForSuccess' && (
+						<>
+							<Divider className={styles.divider} />
+							<Buttons
+								selectedStage={selectedStage}
+								isLoading={isLoading}
+								isSuccess={isSuccess}
+							/>
+						</>
+					)}
 					<Divider className={styles.divider} />
-					<ListTasks group={selectedStage?.holds[0]?.groups[0]?.title} />
+					<ListTasks
+						group={selectedStage?.holds[0]?.groups[0]?.title}
+						page={page}
+					/>
 				</>
 			)}
 		</Box>

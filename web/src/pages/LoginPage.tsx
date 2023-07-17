@@ -5,8 +5,8 @@ import { IFormInput } from '../interfaces/ILoginPage/IFormInput'
 import { useMutation } from '@tanstack/react-query'
 import { loginApi } from '../api/loginApi'
 import { useNavigate } from 'react-router-dom'
-import styles from '../styles/LoginPageStyles/LoginPage.module.scss'
 import { useEffect } from 'react'
+import styles from '../styles/LoginPageStyles/LoginPage.module.scss'
 
 const LoginPage = () => {
 	const { control, handleSubmit, reset } = useForm({

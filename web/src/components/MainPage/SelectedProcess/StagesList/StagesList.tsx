@@ -9,14 +9,16 @@ import {
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedStage } from '../../../../store/processSlice/processSlice'
-import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.scss'
 import DataDialog from '../../ContainerListProcess/DataDialog/DataDialog'
 import DataGraph from '../../Dialogs/DataGraph/DataGraph'
 import { useQuery } from '@tanstack/react-query'
 import { getStageApi } from '../../../../api/getStageApi'
 import ListImg from './ListImg/ListImg'
+import { FC } from 'react'
+import { ISelectedStageProps } from '../../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.scss'
 
-const StagesList = () => {
+const StagesList: FC<ISelectedStageProps> = ({ page }) => {
 	const openedProcess = useAppSelector(state => state.processes.openedProcess)
 	const openedStage = useAppSelector(state => state.processes.openedStage)
 	const dispatch = useAppDispatch()
@@ -31,7 +33,11 @@ const StagesList = () => {
 	})
 
 	return (
-		<Box className={styles.container}>
+		<Box
+			className={`${styles.container} ${
+				page === 'stageForSuccess' ? styles.stageForSuccessSmallContainer : ''
+			}`}
+		>
 			{isLoading && <LinearProgress />}
 			{isSuccess && stagesList && (
 				<>

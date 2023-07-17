@@ -1,13 +1,13 @@
 import { Box } from '@mui/material'
-import styles from '/src/styles/StageForSuccessPageStyles/StageForSuccess.module.scss'
 import SelectedProcess from './SelectedProcess/SelectedProcess'
-import SelectedStage from './SelectedStage/SelectedStage'
+import StagesList from '../MainPage/SelectedProcess/StagesList/StagesList'
+import styles from '/src/styles/StageForSuccessPageStyles/StageForSuccess.module.scss'
 
 const StageForSuccess = () => {
 	return (
 		<Box className={styles.container}>
 			<SelectedProcess />
-			<SelectedStage />
+			<StagesList page='stageForSuccess' />
 		</Box>
 	)
 }

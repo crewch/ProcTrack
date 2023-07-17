@@ -7,12 +7,12 @@ import {
 } from '@mui/material'
 import { CustomButton } from '../../../CustomButton/CustomButton'
 import { FC, useEffect, useState } from 'react'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/AddProcessDialog/AddProcessDialog.module.scss'
 import { Box } from '@mui/system'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IDataForSend } from '../../../../interfaces/IApi/IAddProcessApi'
 import { addProcessApi } from '../../../../api/addProcessApi'
 import { IAutocomplete } from '../../../../interfaces/IMainPage/IDialogs/IAddProcess/IAddProcess'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/AddProcessDialog/AddProcessDialog.module.scss'
 
 const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	open,

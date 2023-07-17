@@ -12,8 +12,8 @@ import {
 } from '@mui/material'
 import { FC, useState } from 'react'
 import { IHistoryFilesDialogProps } from '../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IFilesField/IHistoryFilesDialog/IHistoryFilesDialog'
-import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/FilesFieldStyles/HistoryFilesDialogStyles/HistoryFilesDialog.module.scss'
 import { fileApi } from '../../../../../../api/fileApi'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/FilesFieldStyles/HistoryFilesDialogStyles/HistoryFilesDialog.module.scss'
 
 const HistoryFilesDialog: FC<IHistoryFilesDialogProps> = ({ passports }) => {
 	const [open, setOpen] = useState(false)

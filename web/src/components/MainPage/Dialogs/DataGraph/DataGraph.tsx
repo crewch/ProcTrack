@@ -11,9 +11,9 @@ import ReactFlow, {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import dagre from 'dagre'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialogStyles/DataDialog.module.scss'
 import { CustomButton } from '../../../CustomButton/CustomButton'
 import { Box } from '@mui/material'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialogStyles/DataDialog.module.scss'
 
 const acceptanceColor = '#54C16C'
 const rejectionColor = '#E25E63'

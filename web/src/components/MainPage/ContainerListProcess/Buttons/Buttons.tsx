@@ -2,11 +2,11 @@ import { Box } from '@mui/material'
 import AddProcessButton from './AddProcessButton/AddProcessButton'
 import DataDialog from '../DataDialog/DataDialog'
 import DataTable from '../../Dialogs/DataTable/DataTable'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ButtonsStyles/Buttons.module.scss'
 import { FC } from 'react'
-import { IContainerListProcessProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IContainerListProcess'
+import { ISelectedStageProps } from '../../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ButtonsStyles/Buttons.module.scss'
 
-const Buttons: FC<IContainerListProcessProps> = ({ page }) => {
+const Buttons: FC<ISelectedStageProps> = ({ page }) => {
 	return (
 		<Box
 			className={

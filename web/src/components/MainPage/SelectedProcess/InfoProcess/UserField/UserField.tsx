@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { FC, memo } from 'react'
-import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/UserFieldStyles/UserField.module.scss'
 import { IUserFieldProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IUserFieldProps/IUserFieldProps'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/UserFieldStyles/UserField.module.scss'
 
 const UserField: FC<IUserFieldProps> = memo(({ group, responsible, role }) => {
 	return (

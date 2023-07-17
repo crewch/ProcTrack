@@ -34,9 +34,9 @@ const TextTags: FC<ITextTagsProps> = ({ importance, status, type }) => {
 			{status === 'остановлен' && (
 				<TextTag
 					text={status}
-					color='#981418'
-					backgroundColor='rgba(226, 94, 99, 0.50)'
-					borderColor='#E25E63'
+					color='#814422'
+					backgroundColor='rgba(238, 140, 85, 0.50)'
+					borderColor='#EE8C55'
 				/>
 			)}
 			<TextTag

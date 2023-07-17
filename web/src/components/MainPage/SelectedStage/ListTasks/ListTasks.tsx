@@ -7,13 +7,13 @@ import {
 	Typography,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import styles from '/src/styles/MainPageStyles/SelectedStageStyles/ListTasksStyles/ListTasksStyles.module.scss'
 import ListTask from './ListTask/ListTask'
 import { useAppSelector } from '../../../../hooks/reduxHooks'
 import { useQuery } from '@tanstack/react-query'
 import { getTaskApi } from '../../../../api/getTaskApi'
 import { FC } from 'react'
 import { IListTasksProps } from '../../../../interfaces/IMainPage/ISelectedStage/IListTasks/IListTasks'
+import styles from '/src/styles/MainPageStyles/SelectedStageStyles/ListTasksStyles/ListTasksStyles.module.scss'
 
 const ListTasks: FC<IListTasksProps> = ({ group, page }) => {
 	const selectedStage = useAppSelector(state => state.processes.openedStage)

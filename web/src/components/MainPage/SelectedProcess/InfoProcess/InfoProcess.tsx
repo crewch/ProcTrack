@@ -8,10 +8,10 @@ import UploadButton from './UploadButton/UploadButton'
 import UserField from './UserField/UserField'
 import HeaderField from './HeaderProcessField/HeaderField'
 import FilesField from './FilesField/FilesField'
-import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/InfoProcess.module.scss'
 import StopProcessButton from './StopProcessButton/StopProcessButton'
 import StartProcessButton from './StartProcessButton/StartProcessButton'
 import dayjs from 'dayjs'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/InfoProcess.module.scss'
 
 const InfoProcess = () => {
 	const openedProcessID = useAppSelector(state => state.processes.openedProcess)
@@ -69,7 +69,6 @@ const InfoProcess = () => {
 						startDate={process.createdAt}
 						endData={process.completedAt}
 						interval={intervalDate}
-						page='main'
 					/>
 					<Divider className={styles.divider} />
 					<UserField

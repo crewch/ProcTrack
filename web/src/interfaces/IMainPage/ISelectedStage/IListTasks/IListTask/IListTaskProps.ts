@@ -1,6 +1,7 @@
 import { IComment } from '../../../../IApi/IGetTask'
+import { ISelectedStageProps } from '../../ISelectedStage'
 
-export interface IListTaskProps {
+export interface IListTaskProps extends ISelectedStageProps {
 	startDate: string
 	endDate: string
 	successDate: string
@@ -9,5 +10,4 @@ export interface IListTaskProps {
 	group: string
 	remarks: IComment[]
 	taskId: number
-	page?: 'stageForSuccess'
 }

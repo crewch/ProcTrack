@@ -27,5 +27,9 @@
 }
 
 .stageForSuccessContainer {
-	@apply h-full justify-between;
+	@apply h-full justify-between p-0;
+}
+
+.stageForSuccessSmallContainer {
+	@apply h-[60%];
 }

@@ -14,7 +14,6 @@ import {
 	Typography,
 } from '@mui/material'
 import DateInfo from './DataInfo/DataInfo'
-import styles from '/src/styles/MainPageStyles/SelectedStageStyles/ListTasksStyles/ListTaskStyles/ListTask.module.scss'
 import UserField from '../../../SelectedProcess/InfoProcess/UserField/UserField'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -23,6 +22,7 @@ import { IComment } from '../../../../../interfaces/IApi/IGetTask'
 import { fileApi } from '../../../../../api/fileApi'
 import { switchTaskApi } from '../../../../../api/switchTaskApi'
 import { IUser } from '../../../../../interfaces/IApi/IApi'
+import styles from '/src/styles/MainPageStyles/SelectedStageStyles/ListTasksStyles/ListTaskStyles/ListTask.module.scss'
 
 const ListTask: FC<IListTaskProps> = memo(
 	({
@@ -81,7 +81,7 @@ const ListTask: FC<IListTaskProps> = memo(
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
 				queryClient.invalidateQueries({
-					queryKey: ['selectedStageStageForSuccessPage'],
+					queryKey: ['stageId'],
 				})
 				queryClient.invalidateQueries({
 					queryKey: ['tasks'],
@@ -94,7 +94,7 @@ const ListTask: FC<IListTaskProps> = memo(
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
 				queryClient.invalidateQueries({
-					queryKey: ['selectedStageStageForSuccessPage'],
+					queryKey: ['stageId'],
 				})
 				queryClient.invalidateQueries({
 					queryKey: ['tasks'],
@@ -108,7 +108,7 @@ const ListTask: FC<IListTaskProps> = memo(
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
 				queryClient.invalidateQueries({
-					queryKey: ['selectedStageStageForSuccessPage'],
+					queryKey: ['stageId'],
 				})
 				queryClient.invalidateQueries({
 					queryKey: ['tasks'],
@@ -121,7 +121,7 @@ const ListTask: FC<IListTaskProps> = memo(
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
 				queryClient.invalidateQueries({
-					queryKey: ['selectedStageStageForSuccessPage'],
+					queryKey: ['stageId'],
 				})
 				queryClient.invalidateQueries({
 					queryKey: ['tasks'],
@@ -131,7 +131,7 @@ const ListTask: FC<IListTaskProps> = memo(
 
 		return (
 			<Box className={styles.container}>
-				{page && !startDate ? (
+				{page === 'stageForSuccess' && !startDate ? (
 					<Button
 						className={styles.startBtn}
 						variant='outlined'
@@ -139,7 +139,7 @@ const ListTask: FC<IListTaskProps> = memo(
 					>
 						начать согласование
 					</Button>
-				) : page && !endDate ? (
+				) : page === 'stageForSuccess' && !endDate ? (
 					<Box className={styles.dateField}>
 						<DateInfo
 							startDate={startDate && startDate}
@@ -166,7 +166,7 @@ const ListTask: FC<IListTaskProps> = memo(
 						</Box>
 					</Box>
 				) : (
-					page && (
+					page === 'stageForSuccess' && (
 						<Box className={styles.dateField}>
 							<DateInfo
 								startDate={startDate && startDate}

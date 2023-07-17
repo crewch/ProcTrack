@@ -1,10 +1,10 @@
 import { Box, Typography } from '@mui/material'
 import Pen from '/pen.svg'
 import { FC, memo } from 'react'
-import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/HeaderProcessField.module.scss'
 import TextTags from './TextTags/TextTags'
 import { IHeaderFieldProps } from '../../../../interfaces/IMainPage/ISelectedStage/IHeaderField/IHeaderField'
 import HeaderFieldImg from '../../SelectedProcess/InfoProcess/HeaderProcessField/HeaderFieldImg/HeaderFieldImg'
+import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/HeaderProcessField.module.scss'
 
 const HeaderField: FC<IHeaderFieldProps> = memo(
 	({ name, status, nameOfGroup, page }) => {

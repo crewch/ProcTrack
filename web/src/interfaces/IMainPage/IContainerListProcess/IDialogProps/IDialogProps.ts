@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
-import { IContainerListProcessProps } from '../IContainerListProcess'
+import { ISelectedStageProps } from '../../ISelectedStage/ISelectedStage'
 
-export interface IDialogProps extends IContainerListProcessProps {
+export interface IDialogProps extends ISelectedStageProps {
 	title: string
 	icon: string
 	children?: ReactNode
