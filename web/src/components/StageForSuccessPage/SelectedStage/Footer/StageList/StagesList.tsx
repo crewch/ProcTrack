@@ -31,7 +31,7 @@ const StagesList: FC<{ textForSearchProcess: string }> = ({
 		isSuccess,
 	} = useQuery({
 		queryKey: ['stagesStageForSuccess'],
-		queryFn: () => getStageApi.getStageALLStageForSuccess(userData.id),
+		queryFn: () => getStageApi.getStageAllStageForSuccess(userData.id),
 	})
 
 	const filteredProcesses: IStage[] | null = useMemo(() => {

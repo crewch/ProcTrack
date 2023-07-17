@@ -14,9 +14,7 @@ const UserField: FC<IUserFieldProps> = memo(({ group, responsible, role }) => {
 					{role}
 				</Typography>
 				<Box className={styles.descriptions}>
-					<Typography variant='body1' className={styles.responsible}>
-						{responsible}
-					</Typography>
+					<Typography className={styles.responsible}>{responsible}</Typography>
 					<Box className={styles.wrapGroup}>
 						<Typography variant='body2' className={styles.group}>
 							{group}

@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { IProcess, IUser } from '../interfaces/IApi/IApi'
+import { URL } from './URL/URL'
 
-const URL_AllProcess = 'http://localhost:8000/api/track/process/get'
-const URL_IDProcess = 'http://localhost:8000/api/track/process/'
-const URL_IDProcessByIdStage = 'http://localhost:8000/api/track/process/'
+const URL_AllProcess = `http://${URL}/api/track/process/get`
+const URL_IDProcess = `http://${URL}/api/track/process/`
+const URL_IDProcessByIdStage = `http://${URL}/api/track/process/`
 
 export const getProcessApi = {
 	async getProcessAll() {

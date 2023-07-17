@@ -40,18 +40,18 @@ const ListTask: FC<IListTaskProps> = memo(
 		const [fileRef, setFileRef] = useState('')
 
 		const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-			if (e.target.files) {
-				const file = e.target.files[0]
+			if (e && e?.target && e.target?.files) {
 				const formData = new FormData()
-				formData.append('file', file)
+				formData.append('file', e.target.files[0])
 
 				const getData = async () => {
 					const data = await fileApi.sendFile(formData)
 
 					setFileRef(data)
 				}
-
 				getData()
+
+				e.target.value = ''
 			}
 		}
 
@@ -67,7 +67,7 @@ const ListTask: FC<IListTaskProps> = memo(
 		}
 
 		const queryClient = useQueryClient()
-		const mutation = useMutation({
+		const mutationSendComment = useMutation({
 			mutationFn: () => commentsApi.sendComments(taskId, comment),
 			onSuccess: () => {
 				setTextComment('')
@@ -261,10 +261,19 @@ const ListTask: FC<IListTaskProps> = memo(
 						</Box>
 					</Box>
 					<Box className={styles.btns}>
-						<CustomButton onClick={() => setTextComment('')}>
+						<CustomButton
+							disabled={!textComment}
+							onClick={() => {
+								setTextComment('')
+								setFileRef('')
+							}}
+						>
 							Отмена
 						</CustomButton>
-						<CustomButton onClick={() => mutation.mutate()}>
+						<CustomButton
+							disabled={!textComment}
+							onClick={() => mutationSendComment.mutate()}
+						>
 							Отправить
 						</CustomButton>
 					</Box>

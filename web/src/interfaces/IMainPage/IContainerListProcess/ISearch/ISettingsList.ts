@@ -1,4 +1,4 @@
-export interface ISetting {
+interface ISetting {
 	type: string
 	status: boolean
 }

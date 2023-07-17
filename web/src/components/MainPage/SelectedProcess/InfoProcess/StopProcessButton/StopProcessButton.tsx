@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
 import { useAppSelector } from '../../../../../hooks/reduxHooks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { stopProcessApi } from '../../../../../api/stopProcessApi'
+import { toggleProcessApi } from '../../../../../api/toggleProcessApi'
 
 const StopProcessButton: FC = () => {
 	const openedProcessID = useAppSelector(state => state.processes.openedProcess)
@@ -10,7 +10,7 @@ const StopProcessButton: FC = () => {
 	const queryClient = useQueryClient()
 	const mutation = useMutation({
 		mutationKey: [openedProcessID],
-		mutationFn: stopProcessApi.stopProcessId,
+		mutationFn: toggleProcessApi.stopProcessId,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['processId'] })
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })

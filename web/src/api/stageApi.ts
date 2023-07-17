@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { IUser } from '../interfaces/IApi/IApi'
 import { IStage } from '../interfaces/IApi/IGetStageApi'
+import { URL } from './URL/URL'
 
-const URL_Stage = 'http://localhost:8000/api/track/stage/'
+const URL_Stage = `http://${URL}/api/track/stage/`
 
 export const stageApi = {
 	async successStage(stageId: number | undefined) {

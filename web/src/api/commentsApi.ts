@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { IComment } from '../interfaces/IApi/IGetTask'
+import { URL } from './URL/URL'
 
-const URL_commentsCreate = 'http://localhost:8000/api/track/task/'
+const URL_commentsCreate = `http://${URL}/api/track/task/`
 
 export const commentsApi = {
 	async sendComments(openedTaskID: number | undefined, commentsData: IComment) {

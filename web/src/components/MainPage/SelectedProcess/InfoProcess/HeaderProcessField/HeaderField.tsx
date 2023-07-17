@@ -3,46 +3,30 @@ import TextTegs from './TextTags/TextTags'
 import Pen from '/pen.svg'
 import { FC, memo } from 'react'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/HeaderProcessField.module.scss'
+import { IHeaderFieldProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IHeaderField/IHeaderField'
+import HeaderFieldImg from './HeaderFieldImg/HeaderFieldImg'
 
-const HeaderField: FC<{
-	name: string
-	status: string
-	importance: string
-	type: string
-	page?: 'main'
-}> = memo(({ name, status, importance, type, page }) => {
-	return (
-		<>
-			<Box className={styles.header}>
-				<Box className={styles.wrap}>
-					<Typography variant='h4' className={styles.typography}>
-						{`${name} `}
-						{status === 'в процессе' && (
-							<img src='/inprogress.svg' className={styles.img} />
+const HeaderField: FC<IHeaderFieldProps> = memo(
+	({ name, status, importance, type, page }) => {
+		return (
+			<>
+				<Box className={styles.header}>
+					<Box className={styles.wrap}>
+						<Typography variant='h4' className={styles.typography}>
+							{name}
+							<HeaderFieldImg status={status} />
+						</Typography>
+						{page === 'main' && (
+							<Box className={styles.icon}>
+								<img src={Pen} height='25px' width='25px' />
+							</Box>
 						)}
-						{status === 'отменен' && (
-							<img src='/rejected.svg' className={styles.img} />
-						)}
-						{status === 'завершен' && (
-							<img src='/completed.svg' className={styles.img} />
-						)}
-						{status === 'остановлен' && (
-							<img src='/pause-circle.svg' className={styles.img} />
-						)}
-						{status === 'согласован с замечаниями' && (
-							<img src='/completed.svg' className={styles.img} />
-						)}
-					</Typography>
-					{page === 'main' && (
-						<Box className={styles.icon}>
-							<img src={Pen} height='25px' width='25px' />
-						</Box>
-					)}
+					</Box>
 				</Box>
-			</Box>
-			<TextTegs importance={importance} status={status} type={type} />
-		</>
-	)
-})
+				<TextTegs importance={importance} status={status} type={type} />
+			</>
+		)
+	}
+)
 
 export default HeaderField

@@ -31,7 +31,7 @@ const SelectedStage = () => {
 						nameOfGroup={
 							selectedStage?.holds[0]?.groups[0]?.title ||
 							selectedStage?.holds[1]?.groups[0]?.title
-						}
+						} //TODO: тут проблема при статусе ещё не начат
 						page='main'
 					/>
 					<Divider className={styles.divider} />
@@ -62,7 +62,7 @@ const SelectedStage = () => {
 						role='Главный согласующий'
 					/>
 					<Divider className={styles.divider} />
-					<ListTasks group={selectedStage.holds[0].groups[0].title} />
+					<ListTasks group={selectedStage?.holds[0]?.groups[0]?.title} />
 				</>
 			)}
 		</Box>

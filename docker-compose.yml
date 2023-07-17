@@ -21,6 +21,9 @@ services:
   frontend:
     build:
       context: web
+    environment:
+      VITE_API_HOST: "localhost"
+      VITE_API_PORT: "8000"
     ports:
       - "5173:5173"
     networks:

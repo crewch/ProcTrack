@@ -30,21 +30,11 @@ const ListTasks: FC<IListTasksProps> = ({ group, page }) => {
 	return (
 		<List component='nav' className={styles.list}>
 			{isLoading && <LinearProgress />}
-			{/* {isSuccess && tasks && !tasks.length && (
-				<Typography variant='h4' className={styles.typography}>
-					Процессов нет
-				</Typography>
-			)} */}
 			{isSuccess &&
 				tasks &&
 				tasks.map((task, index) => (
 					<Accordion disableGutters key={index} className={styles.accordion}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							{/* {task.status === 'согласовано' && (
-								<img src='/completed.svg' className={styles.img} />
-							)} 
-							//TODO:
-							*/}
 							<Typography className={styles.title}>{task.title}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>

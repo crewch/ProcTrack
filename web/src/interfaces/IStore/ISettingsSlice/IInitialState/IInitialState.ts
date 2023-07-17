@@ -1,4 +1,4 @@
-import { ISettingsList } from '../../../IMainPage/IContainerListProcess/ISettingsList'
+import { ISettingsList } from '../../../IMainPage/IContainerListProcess/ISearch/ISettingsList'
 
 export interface IInitialState {
 	settingsList: ISettingsList[]

@@ -1,8 +1,9 @@
 import axios from 'axios'
 import fileDownload from 'js-file-download'
+import { HOST } from './URL/URL'
 
-const URL_sendFile = 'http://localhost:8002/upload'
-const URL_getFile = 'http://localhost:8002/download'
+const URL_sendFile = `http://${HOST}:8002/upload`
+const URL_getFile = `http://${HOST}:8002/download`
 
 export const fileApi = {
 	async sendFile(file: FormData) {

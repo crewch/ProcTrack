@@ -12,11 +12,7 @@ import { Box } from '@mui/system'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IDataForSend } from '../../../../interfaces/IApi/IAddProcessApi'
 import { addProcessApi } from '../../../../api/addProcessApi'
-
-export interface IAutocomplete {
-	label: string
-	id: number
-}
+import { IAutocomplete } from '../../../../interfaces/IMainPage/IDialogs/IAddProcess/IAddProcess'
 
 const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	open,
@@ -25,7 +21,6 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	const [templates, setTemplates] = useState<IAutocomplete[]>()
 	const [groups, setGroups] = useState<IAutocomplete[]>()
 	const [priorities, setPriorities] = useState<IAutocomplete[]>()
-	// console.log(templates, groups, priorities)
 
 	const [selectedTemplate, setSelectedTemplate] = useState<
 		IAutocomplete | undefined | null
@@ -36,10 +31,8 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	const [selectedPriority, setSelectedPriority] = useState<
 		IAutocomplete | undefined | null
 	>()
-	// console.log(selectedTemplate, selectedGroup, selectedPriority)
 
 	const [title, setTitle] = useState<string | undefined>()
-	// console.log(title)
 
 	const dataForSend: IDataForSend = {
 		templateId: selectedTemplate?.id,
@@ -133,7 +126,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 
 	const queryClient = useQueryClient()
 
-	const mutation = useMutation({
+	const mutationAddProcess = useMutation({
 		mutationFn: addProcessApi.addProcess,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
@@ -158,7 +151,13 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 				},
 			}}
 			open={open}
-			onClose={handleClose}
+			onClose={() => {
+				handleClose()
+				setTitle('')
+				setSelectedTemplate(undefined)
+				setSelectedGroup(undefined)
+				setSelectedPriority(undefined)
+			}}
 		>
 			<DialogTitle className={styles.dialogTitle}>
 				Добавление Процесса
@@ -221,7 +220,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 					</Box>
 					<CustomButton
 						onClick={() => {
-							mutation.mutate(dataForSend)
+							mutationAddProcess.mutate(dataForSend)
 							handleClose()
 						}}
 						disabled={

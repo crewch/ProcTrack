@@ -23,8 +23,6 @@ const UploadButton: FC<IUploadButtonProps> = ({ processId }) => {
 		mutationFn: () => passportApi.sendFilePasport(processId, file, message),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['passport'] })
-			setFile(undefined)
-			setMessage('')
 		},
 	})
 
@@ -33,6 +31,8 @@ const UploadButton: FC<IUploadButtonProps> = ({ processId }) => {
 			const formData = new FormData()
 			formData.append('file', e.target.files[0])
 			setFile(formData)
+
+			e.target.value = ''
 		}
 	}
 
@@ -44,13 +44,13 @@ const UploadButton: FC<IUploadButtonProps> = ({ processId }) => {
 
 	const handleClose = () => {
 		setOpen(false)
+		setFile(undefined)
+		setMessage('')
 	}
 
 	const sendFile = async () => {
 		await mutation.mutate()
 
-		setFile(undefined)
-		setMessage('')
 		handleClose()
 	}
 
@@ -125,7 +125,7 @@ const UploadButton: FC<IUploadButtonProps> = ({ processId }) => {
 								lg: '14px',
 							},
 						}}
-						disabled={!file || (!message && true)}
+						disabled={!file || !message}
 						component='span'
 						variant='contained'
 						endIcon={<TelegramIcon />}

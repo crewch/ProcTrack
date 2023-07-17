@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { IPassport } from '../interfaces/IApi/IPassportApi'
 import { fileApi } from './fileApi'
+import { URL } from './URL/URL'
 
-const URL_getFileName = 'http://localhost:8000/api/track/process/'
-const URL_sendFile = 'http://localhost:8000/api/track/process/'
+const URL_getFileName = `http://${URL}/api/track/process/`
+const URL_sendFile = `http://${URL}/api/track/process/`
 
 export const passportApi = {
 	async getPassport(processId: number) {

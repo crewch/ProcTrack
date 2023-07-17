@@ -14,6 +14,7 @@ import DataDialog from '../../ContainerListProcess/DataDialog/DataDialog'
 import DataGraph from '../../Dialogs/DataGraph/DataGraph'
 import { useQuery } from '@tanstack/react-query'
 import { getStageApi } from '../../../../api/getStageApi'
+import ListImg from './ListImg/ListImg'
 
 const StagesList = () => {
 	const openedProcess = useAppSelector(state => state.processes.openedProcess)
@@ -26,7 +27,7 @@ const StagesList = () => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['stages', openedProcess],
-		queryFn: () => getStageApi.getStageALL(openedProcess),
+		queryFn: () => getStageApi.getStageAll(openedProcess),
 	})
 
 	return (
@@ -47,56 +48,7 @@ const StagesList = () => {
 											: styles.closedProcessWrap
 									}
 								>
-									{stage.status === 'Согласовано' && (
-										<img
-											src='/completed.svg'
-											loading='lazy'
-											className={styles.img}
-										/>
-									)}
-									{stage.status === 'Не начат' && (
-										<img
-											src='/stoppedProcess.svg'
-											loading='lazy'
-											className={styles.img}
-										/>
-									)}
-									{stage.status === 'Согласовано-Блокировано' && (
-										<img
-											src='/lock.svg'
-											loading='lazy'
-											className={styles.img}
-										/>
-									)}
-									{stage.status === 'Принят на проверку' && (
-										<img
-											src='/arrow-circle-down.svg'
-											loading='lazy'
-											className={styles.img}
-										/>
-									)}
-									{stage.status === 'Отправлен на проверку' && (
-										<img
-											src='/arrow-circle-right.svg'
-											loading='lazy'
-											className={styles.img}
-										/>
-									)}
-									{stage.status === 'Отменен' && (
-										<img
-											src='/rejected.svg'
-											loading='lazy'
-											className={styles.img}
-										/>
-									)}
-									{stage.status === 'Остановлен' && (
-										<img
-											src='/pause-circle.svg'
-											loading='lazy'
-											className={styles.img}
-										/>
-									)}
-
+									<ListImg status={stage.status} />
 									<ListItemButton
 										className={styles.openedProcess}
 										onClick={() =>

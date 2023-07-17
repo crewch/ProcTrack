@@ -1,13 +1,13 @@
 import axios from 'axios'
 import { IStage } from '../interfaces/IApi/IGetStageApi'
+import { URL } from './URL/URL'
 
-const URL_StageGetAll = 'http://localhost:8000/api/track/process/'
-const URL_IDStage = 'http://localhost:8000/api/track/stage/'
-const URL_StageGetAllStageForSuccess =
-	'http://localhost:8000/api/track/stage/get'
+const URL_StageGetAll = `http://${URL}/api/track/process/`
+const URL_IDStage = `http://${URL}/api/track/stage/`
+const URL_StageGetAllStageForSuccess = `http://${URL}/api/track/stage/get`
 
 export const getStageApi = {
-	async getStageALL(id: number | undefined) {
+	async getStageAll(id: number | undefined) {
 		try {
 			if (typeof id === 'number') {
 				const data: IStage[] = await (
@@ -39,7 +39,7 @@ export const getStageApi = {
 			}
 		}
 	},
-	async getStageALLStageForSuccess(id: number | undefined) {
+	async getStageAllStageForSuccess(id: number | undefined) {
 		try {
 			if (typeof id === 'number') {
 				const data: IStage[] = await (

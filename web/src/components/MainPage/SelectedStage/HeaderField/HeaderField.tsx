@@ -4,6 +4,7 @@ import { FC, memo } from 'react'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/HeaderProcessField.module.scss'
 import TextTags from './TextTags/TextTags'
 import { IHeaderFieldProps } from '../../../../interfaces/IMainPage/ISelectedStage/IHeaderField/IHeaderField'
+import HeaderFieldImg from '../../SelectedProcess/InfoProcess/HeaderProcessField/HeaderFieldImg/HeaderFieldImg'
 
 const HeaderField: FC<IHeaderFieldProps> = memo(
 	({ name, status, nameOfGroup, page }) => {
@@ -13,47 +14,7 @@ const HeaderField: FC<IHeaderFieldProps> = memo(
 					<Box className={styles.wrap}>
 						<Typography variant='h4' className={styles.typography}>
 							{`${name} `}
-							{status === 'Согласовано' && (
-								<img
-									src='/completed.svg'
-									loading='lazy'
-									className={styles.img}
-								/>
-							)}
-							{status === 'Не начат' && (
-								<img src='/circle.svg' loading='lazy' className={styles.img} />
-							)}
-							{status === 'Согласовано-Блокировано' && (
-								<img src='/lock.svg' loading='lazy' className={styles.img} />
-							)}
-							{status === 'Принят на проверку' && (
-								<img
-									src='/arrow-circle-down.svg'
-									loading='lazy'
-									className={styles.img}
-								/>
-							)}
-							{status === 'Отправлен на проверку' && (
-								<img
-									src='/arrow-circle-right.svg'
-									loading='lazy'
-									className={styles.img}
-								/>
-							)}
-							{status === 'Отменен' && (
-								<img
-									src='/rejected.svg'
-									loading='lazy'
-									className={styles.img}
-								/>
-							)}
-							{status === 'Остановлен' && (
-								<img
-									src='/pause-circle.svg'
-									loading='lazy'
-									className={styles.img}
-								/>
-							)}
+							<HeaderFieldImg status={status} />
 						</Typography>
 						{page === 'main' && (
 							<Box className={styles.icon}>

@@ -8,19 +8,49 @@ const TextTags: FC<ITextTagsProps> = ({ importance, status, type }) => {
 	return (
 		<Box className={styles.textTags}>
 			{status === 'в процессе' && (
-				<TextTag text={status} color='#5A3F0B' backgroundColor='#EBB855' />
+				<TextTag
+					text={status}
+					color='#89641B'
+					backgroundColor='rgba(235, 184, 85, 0.50)'
+					borderColor='#EBB855'
+				/>
 			)}
 			{status === 'отменен' && (
-				<TextTag text={status} color='#540E10' backgroundColor='#E25E63' />
+				<TextTag
+					text={status}
+					color='#981418'
+					backgroundColor='rgba(226, 94, 99, 0.50)'
+					borderColor='#E25E63'
+				/>
 			)}
 			{status === 'завершен' && (
-				<TextTag text={status} color='#3E5107' backgroundColor='#AAC954' />
+				<TextTag
+					text={status}
+					color='#19712D'
+					backgroundColor='rgba(84, 193, 108, 0.50)'
+					borderColor='#54C16C'
+				/>
 			)}
 			{status === 'остановлен' && (
-				<TextTag text={status} color='#3E5107' backgroundColor='#ECECEC' />
+				<TextTag
+					text={status}
+					color='#981418'
+					backgroundColor='rgba(226, 94, 99, 0.50)'
+					borderColor='#E25E63'
+				/>
 			)}
-			<TextTag text={type} color='#3E5107' backgroundColor='#ECECEC' />
-			<TextTag text={importance} color='#3E5107' backgroundColor='#ECECEC' />
+			<TextTag
+				text={type}
+				color='#333333'
+				backgroundColor='#ECECEC'
+				borderColor='#ECECEC'
+			/>
+			<TextTag
+				text={importance}
+				color='#333333'
+				backgroundColor='#ECECEC'
+				borderColor='#ECECEC'
+			/>
 		</Box>
 	)
 }

@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { ITask } from '../interfaces/IApi/IGetTask'
+import { URL } from './URL/URL'
 
-const URL_TaskAll = 'http://localhost:8000/api/track/stage/'
+const URL_TaskAll = `http://${URL}/api/track/stage/`
 
 export const getTaskApi = {
 	async getTaskAll(id: number | undefined) {

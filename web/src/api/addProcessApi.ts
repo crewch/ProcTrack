@@ -5,11 +5,12 @@ import {
 	ITemplate,
 } from '../interfaces/IApi/IAddProcessApi'
 import { IGroup, IUser } from '../interfaces/IApi/IApi'
+import { URL } from './URL/URL'
 
-const URL_Template = 'http://localhost:8000/api/track/property/templates'
-const URL_Group = 'http://localhost:8000/api/auth/user/groups'
-const URL_Priority = 'http://localhost:8000/api/track/property/priorities'
-const URL_AddProcess = 'http://localhost:8000/api/track/process/create'
+const URL_Template = `http://${URL}/api/track/property/templates`
+const URL_Group = `http://${URL}/api/auth/user/groups`
+const URL_Priority = `http://${URL}/api/track/property/priorities`
+const URL_AddProcess = `http://${URL}/api/track/process/create`
 
 export const addProcessApi = {
 	async getTemplates() {

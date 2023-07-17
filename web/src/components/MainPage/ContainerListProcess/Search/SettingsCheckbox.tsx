@@ -1,12 +1,12 @@
 import { FormControlLabel, FormGroup, Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import { FC } from 'react'
-import { ISettingsList } from '../../../../interfaces/IMainPage/IContainerListProcess/ISettingsList'
 import { useAppDispatch } from '../../../../hooks/reduxHooks'
 import { toggleState } from '../../../../store/settingsSlice/settingsSlice'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/SettingsCheckboxStyles/SettingsCheckbox.module.scss'
+import { ISettingsCheckboxProps } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch/ISettingsCheckbox.ts'
 
-const SettingsCheckbox: FC<{ setting: ISettingsList }> = ({ setting }) => {
+const SettingsCheckbox: FC<ISettingsCheckboxProps> = ({ setting }) => {
 	const dispatch = useAppDispatch()
 
 	return (

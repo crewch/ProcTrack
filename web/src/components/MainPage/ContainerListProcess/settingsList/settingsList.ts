@@ -1,4 +1,4 @@
-import { ISettingsList } from '../../../../interfaces/IMainPage/IContainerListProcess/ISettingsList'
+import { ISettingsList } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch/ISettingsList'
 
 export const settingsList: ISettingsList[] = [
 	{

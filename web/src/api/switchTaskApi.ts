@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { URL } from './URL/URL'
 
-const URL_startTaskId = 'http://localhost:8000/api/track/task/'
+const URL_startTaskId = `http://${URL}/api/track/task/`
 
 export const switchTaskApi = {
 	async startTaskId(
