@@ -2,11 +2,11 @@ import { Box } from '@mui/material'
 import AddProcessButton from './AddProcessButton/AddProcessButton'
 import DataDialog from '../DataDialog/DataDialog'
 import DataTable from '../../Dialogs/DataTable/DataTable'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { ISelectedStageProps } from '../../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ButtonsStyles/Buttons.module.scss'
 
-const Buttons: FC<ISelectedStageProps> = ({ page }) => {
+const Buttons: FC<ISelectedStageProps> = memo(({ page }) => {
 	return (
 		<Box
 			className={
@@ -19,6 +19,6 @@ const Buttons: FC<ISelectedStageProps> = ({ page }) => {
 			</DataDialog>
 		</Box>
 	)
-}
+})
 
 export default Buttons

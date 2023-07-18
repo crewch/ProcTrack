@@ -1,8 +1,8 @@
 import { useQueryClient, useMutation, useQueries } from '@tanstack/react-query'
 import { FC, useState } from 'react'
-import { getStageApi } from '../../../../api/getStageApi'
-import { stageApi } from '../../../../api/stageApi'
-import { IUser } from '../../../../interfaces/IApi/IApi'
+import { getStageApi } from '../../../../../api/getStageApi'
+import { stageApi } from '../../../../../api/stageApi'
+import { IUser } from '../../../../../interfaces/IApi/IApi'
 import {
 	Box,
 	Button,
@@ -16,7 +16,7 @@ import {
 	Typography,
 	LinearProgress,
 } from '@mui/material'
-import { ISelectedStageChildProps } from '../../../../interfaces/IStageForSuccessPage/ISelectedStage/ISelectedStage'
+import { ISelectedStageChildProps } from '../../../../../interfaces/IStageForSuccessPage/ISelectedStage/ISelectedStage'
 
 const Buttons: FC<ISelectedStageChildProps> = ({
 	selectedStage,

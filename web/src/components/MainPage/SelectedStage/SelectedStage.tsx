@@ -7,8 +7,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useAppSelector } from '../../../hooks/reduxHooks'
 import { getStageApi } from '../../../api/getStageApi'
 import { FC } from 'react'
-import Buttons from '../../StageForSuccessPage/SelectedStage/Buttons/Buttons'
 import { ISelectedStageProps } from '../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
+import Buttons from '../../StageForSuccessPage/SelectedProcessAndListStage/SelectedStage/Buttons/Buttons'
 import styles from '/src/styles/MainPageStyles/SelectedStageStyles/SelectedStage.module.scss'
 
 const SelectedStage: FC<ISelectedStageProps> = ({ page }) => {

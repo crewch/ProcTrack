@@ -15,7 +15,11 @@ const SelectedProcess = () => {
 	const selectedStage = useAppSelector(state => state.processes.openedStage)
 	const dispatch = useAppDispatch()
 
-	const { data, isLoading, isSuccess } = useQuery({
+	const {
+		data: selectedProcess,
+		isLoading,
+		isSuccess,
+	} = useQuery({
 		queryKey: ['processByStageIdStageForSuccess', selectedStage],
 		queryFn: () => getProcessApi.getProcessByStageId(selectedStage),
 	})
@@ -23,27 +27,32 @@ const SelectedProcess = () => {
 	const [intervalDate, setIntervalDate] = useState('')
 
 	useEffect(() => {
-		if (isSuccess && data) {
-			dispatch(setOpenedProcess({ id: data.id }))
+		if (isSuccess && selectedProcess) {
+			dispatch(setOpenedProcess({ id: selectedProcess.id }))
 		}
-	}, [data, dispatch, isSuccess])
+	}, [selectedProcess, dispatch, isSuccess])
 
 	useEffect(() => {
-		if (isSuccess && data && data.status === 'в процессе') {
+		if (
+			isSuccess &&
+			selectedProcess &&
+			selectedProcess.status === 'в процессе'
+		) {
 			const interval = setInterval(() => {
-				if (dayjs().isAfter(data.completedAtUnparsed)) {
+				if (dayjs().isAfter(selectedProcess.completedAtUnparsed)) {
 					setIntervalDate('Время вышло')
 					return () => clearInterval(interval)
 				}
 
 				setIntervalDate(
-					`${dayjs(data.completedAtUnparsed).diff(dayjs(), 'day')}:${dayjs(
-						data.completedAtUnparsed
-					)
+					`${dayjs(selectedProcess.completedAtUnparsed).diff(
+						dayjs(),
+						'day'
+					)}:${dayjs(selectedProcess.completedAtUnparsed)
 						.subtract(dayjs().hour() + 1, 'hour')
-						.hour()}:${dayjs(data.completedAtUnparsed)
+						.hour()}:${dayjs(selectedProcess.completedAtUnparsed)
 						.subtract(dayjs().minute(), 'minute')
-						.minute()}:${dayjs(data.completedAtUnparsed)
+						.minute()}:${dayjs(selectedProcess.completedAtUnparsed)
 						.subtract(dayjs().second(), 'second')
 						.second()}`
 				)
@@ -51,34 +60,34 @@ const SelectedProcess = () => {
 
 			return () => clearInterval(interval)
 		}
-	}, [isSuccess, data])
+	}, [isSuccess, selectedProcess])
 
 	return (
 		<Box className={styles.container}>
 			{isLoading && <LinearProgress />}
-			{isSuccess && data && (
+			{isSuccess && selectedProcess && (
 				<>
 					<HeaderField
-						name={data.title}
-						status={data.status}
-						importance={data.priority}
-						type={data.type}
-						page='main'
+						name={selectedProcess.title}
+						status={selectedProcess.status}
+						importance={selectedProcess.priority}
+						type={selectedProcess.type}
+						page='stageForSuccess'
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
-						startDate={data.createdAt}
-						endData={data.completedAt}
+						startDate={selectedProcess.createdAt}
+						endData={selectedProcess.completedAt}
 						interval={intervalDate}
 					/>
 					<Divider className={styles.divider} />
 					<UserField
-						responsible={data.hold[0].users[0].longName}
-						group={data.hold[1].groups[0].title}
+						responsible={selectedProcess.hold[0].users[0].longName}
+						group={selectedProcess.hold[1].groups[0].title}
 						role='Ответственный'
 					/>
 					<Divider className={styles.divider} />
-					<FilesField processId={data.id} />
+					<FilesField processId={selectedProcess.id} />
 				</>
 			)}
 		</Box>

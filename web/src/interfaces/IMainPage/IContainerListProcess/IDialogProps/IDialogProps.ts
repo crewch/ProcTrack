@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
-import { ISelectedStageProps } from '../../ISelectedStage/ISelectedStage'
 
-export interface IDialogProps extends ISelectedStageProps {
+export interface IDialogProps {
 	title: string
 	icon: string
 	children?: ReactNode

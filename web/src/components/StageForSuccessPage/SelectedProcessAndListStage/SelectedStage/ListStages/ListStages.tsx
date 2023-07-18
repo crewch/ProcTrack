@@ -7,18 +7,18 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { changeOpenedStage } from '../../../../store/processSlice/processSlice'
-import { IStage } from '../../../../interfaces/IApi/IGetStageApi'
-import { FC, useMemo } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../../../hooks/reduxHooks'
+import { changeOpenedStage } from '../../../../../store/processSlice/processSlice'
+import { IStage } from '../../../../../interfaces/IApi/IGetStageApi'
+import { FC, memo, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { getStageApi } from '../../../../api/getStageApi'
-import { IUser } from '../../../../interfaces/IApi/IApi'
-import ListImg from '../../../MainPage/SelectedProcess/StagesList/ListImg/ListImg'
-import { IListProcessProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcess/IListProcess'
+import { getStageApi } from '../../../../../api/getStageApi'
+import { IUser } from '../../../../../interfaces/IApi/IApi'
+import ListImg from '../../../../MainPage/SelectedProcess/StagesList/ListImg/ListImg'
+import { IListProcessProps } from '../../../../../interfaces/IMainPage/IContainerListProcess/IListProcess/IListProcess'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.scss'
 
-const StagesList: FC<IListProcessProps> = ({ textForSearchProcess }) => {
+const StagesList: FC<IListProcessProps> = memo(({ textForSearchProcess }) => {
 	const openedStage = useAppSelector(state => state.processes.openedStage)
 	const dispatch = useAppDispatch()
 
@@ -26,7 +26,7 @@ const StagesList: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 	const userData: IUser = userDataText && JSON.parse(userDataText)
 
 	const {
-		data: stagesList,
+		data: listStages,
 		isLoading,
 		isSuccess,
 	} = useQuery({
@@ -35,8 +35,8 @@ const StagesList: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 	})
 
 	const filteredStages: IStage[] | null = useMemo(() => {
-		if (stagesList) {
-			return stagesList
+		if (listStages) {
+			return listStages
 				.filter(process =>
 					process.title
 						.toLocaleLowerCase()
@@ -46,12 +46,12 @@ const StagesList: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 		}
 
 		return null
-	}, [stagesList, textForSearchProcess])
+	}, [listStages, textForSearchProcess])
 
 	return (
 		<Box className={`${styles.container} ${styles.stageForSuccessContainer}`}>
 			{isLoading && <LinearProgress />}
-			{isSuccess && stagesList && filteredStages && (
+			{isSuccess && listStages && filteredStages && (
 				<>
 					<List component='nav' className={styles.list}>
 						{filteredStages.map((stage, index) => (
@@ -88,6 +88,6 @@ const StagesList: FC<IListProcessProps> = ({ textForSearchProcess }) => {
 			)}
 		</Box>
 	)
-}
+})
 
 export default StagesList

@@ -11,11 +11,11 @@ import ListTask from './ListTask/ListTask'
 import { useAppSelector } from '../../../../hooks/reduxHooks'
 import { useQuery } from '@tanstack/react-query'
 import { getTaskApi } from '../../../../api/getTaskApi'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { IListTasksProps } from '../../../../interfaces/IMainPage/ISelectedStage/IListTasks/IListTasks'
 import styles from '/src/styles/MainPageStyles/SelectedStageStyles/ListTasksStyles/ListTasksStyles.module.scss'
 
-const ListTasks: FC<IListTasksProps> = ({ group, page }) => {
+const ListTasks: FC<IListTasksProps> = memo(({ group, page }) => {
 	const selectedStage = useAppSelector(state => state.processes.openedStage)
 
 	const {
@@ -54,6 +54,6 @@ const ListTasks: FC<IListTasksProps> = ({ group, page }) => {
 				))}
 		</List>
 	)
-}
+})
 
 export default ListTasks

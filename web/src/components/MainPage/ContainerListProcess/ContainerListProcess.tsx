@@ -1,14 +1,14 @@
 import { Box, Divider } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC, memo, useState } from 'react'
 import Search from './Search/Search'
 import ListProccess from './ListProcess/ListProcess'
-import SettingsList from './Search/SettingsList'
+import SettingsList from './Search/SettingsList/SettingsList'
 import Buttons from './Buttons/Buttons'
-import StagesList from '../../StageForSuccessPage/SelectedStage/StageList/StagesList'
+import StagesList from '../../StageForSuccessPage/SelectedProcessAndListStage/SelectedStage/ListStages/ListStages'
 import { ISelectedStageProps } from '../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
 
-const ContainerListProcess: FC<ISelectedStageProps> = ({ page }) => {
+const ContainerListProcess: FC<ISelectedStageProps> = memo(({ page }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [textForSearchProcess, setTextForSearchProcess] = useState('')
 
@@ -36,6 +36,6 @@ const ContainerListProcess: FC<ISelectedStageProps> = ({ page }) => {
 			)}
 		</Box>
 	)
-}
+})
 
 export default ContainerListProcess

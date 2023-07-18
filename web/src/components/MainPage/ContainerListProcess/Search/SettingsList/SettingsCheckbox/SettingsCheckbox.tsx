@@ -1,12 +1,12 @@
 import { FormControlLabel, FormGroup, Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
-import { FC } from 'react'
-import { useAppDispatch } from '../../../../hooks/reduxHooks'
-import { toggleState } from '../../../../store/settingsSlice/settingsSlice'
-import { ISettingsCheckboxProps } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch/ISettingsCheckbox.ts'
-import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/SettingsCheckboxStyles/SettingsCheckbox.module.scss'
+import { FC, memo } from 'react'
+import { useAppDispatch } from '../../../../../../hooks/reduxHooks.ts'
+import { toggleState } from '../../../../../../store/settingsSlice/settingsSlice.ts'
+import { ISettingsCheckboxProps } from '../../../../../../interfaces/IMainPage/IContainerListProcess/ISearch/ISettingsCheckbox.ts'
+import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/SettingsListStyles/SettingsCheckboxStyles/SettingsCheckbox.module.scss'
 
-const SettingsCheckbox: FC<ISettingsCheckboxProps> = ({ setting }) => {
+const SettingsCheckbox: FC<ISettingsCheckboxProps> = memo(({ setting }) => {
 	const dispatch = useAppDispatch()
 
 	return (
@@ -32,6 +32,6 @@ const SettingsCheckbox: FC<ISettingsCheckboxProps> = ({ setting }) => {
 			))}
 		</FormGroup>
 	)
-}
+})
 
 export default SettingsCheckbox

@@ -1,6 +1,6 @@
 import { Box, Tooltip, Typography } from '@mui/material'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { passportApi } from '../../../../../api/passportApi'
 import HistoryFilesDialog from './HistoryFilesDialog/HistoryFilesDialog'
@@ -9,7 +9,7 @@ import { fileApi } from '../../../../../api/fileApi'
 import { IUploadButtonProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IUploadButton/IUploadButton'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/FilesFieldStyles/FilesField.module.scss'
 
-const FilesField: FC<IUploadButtonProps> = ({ processId }) => {
+const FilesField: FC<IUploadButtonProps> = memo(({ processId }) => {
 	const { data: passports, isSuccess } = useQuery({
 		queryKey: ['passport', processId],
 		queryFn: () => passportApi.getPassport(processId),
@@ -61,6 +61,6 @@ const FilesField: FC<IUploadButtonProps> = ({ processId }) => {
 			)}
 		</Box>
 	)
-}
+})
 
 export default FilesField

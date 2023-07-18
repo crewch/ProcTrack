@@ -8,9 +8,9 @@ import {
 	Typography,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import SettingsCheckbox from './SettingsCheckbox'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { toggleState } from '../../../../store/settingsSlice/settingsSlice'
+import SettingsCheckbox from './SettingsCheckbox/SettingsCheckbox'
+import { useAppDispatch, useAppSelector } from '../../../../../hooks/reduxHooks'
+import { toggleState } from '../../../../../store/settingsSlice/settingsSlice'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/SettingsListStyles/SettingsList.module.scss'
 
 const SettingsList = () => {

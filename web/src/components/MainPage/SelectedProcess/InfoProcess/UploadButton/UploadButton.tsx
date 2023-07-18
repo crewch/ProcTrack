@@ -7,14 +7,14 @@ import {
 	TextField,
 } from '@mui/material'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, memo, useState } from 'react'
 import { passportApi } from '../../../../../api/passportApi'
 import { IUploadButtonProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IUploadButton/IUploadButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import TelegramIcon from '@mui/icons-material/Telegram'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/UploadButtonStyles/UploadButton.module.scss'
 
-const UploadButton: FC<IUploadButtonProps> = ({ processId }) => {
+const UploadButton: FC<IUploadButtonProps> = memo(({ processId }) => {
 	const [message, setMessage] = useState('')
 	const [file, setFile] = useState<FormData>()
 
@@ -137,6 +137,6 @@ const UploadButton: FC<IUploadButtonProps> = ({ processId }) => {
 			</Dialog>
 		</>
 	)
-}
+})
 
 export default UploadButton

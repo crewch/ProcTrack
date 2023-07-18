@@ -76,7 +76,7 @@ const StagesList: FC<ISelectedStageProps> = ({ page }) => {
 								</ListItem>
 							))}
 					</List>
-					<DataDialog title='Графовое представление' icon='graph' page='main'>
+					<DataDialog title='Графовое представление' icon='graph'>
 						<DataGraph />
 					</DataDialog>
 				</>

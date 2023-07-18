@@ -5,10 +5,10 @@ import {
 	IconButton,
 	Typography,
 } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC, memo, useState } from 'react'
 import { ICommentFilesDialogProps } from '../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IFilesField/ICommentFilesDialog/ICommentFilesDialog'
 
-const CommentFilesDialog: FC<ICommentFilesDialogProps> = ({ message }) => {
+const CommentFilesDialog: FC<ICommentFilesDialogProps> = memo(({ message }) => {
 	const [open, setOpen] = useState(false)
 
 	const handleClickOpen = () => {
@@ -42,6 +42,6 @@ const CommentFilesDialog: FC<ICommentFilesDialogProps> = ({ message }) => {
 			</Dialog>
 		</>
 	)
-}
+})
 
 export default CommentFilesDialog

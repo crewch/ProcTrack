@@ -1,10 +1,10 @@
 import { Box } from '@mui/material'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import TextTag from '../../../SelectedProcess/InfoProcess/HeaderProcessField/TextTags/TextTag/TextTag'
 import { ITextTagsProps } from '../../../../../interfaces/IMainPage/ISelectedStage/IHeaderField/ITextTags/ITextTags'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/TextTagsStyles/TextTags.module.scss'
 
-const TextTags: FC<ITextTagsProps> = ({ status, nameOfGroup }) => {
+const TextTags: FC<ITextTagsProps> = memo(({ status, nameOfGroup }) => {
 	return (
 		<Box className={styles.textTags}>
 			{status === 'Согласовано' && (
@@ -71,6 +71,6 @@ const TextTags: FC<ITextTagsProps> = ({ status, nameOfGroup }) => {
 			/>
 		</Box>
 	)
-}
+})
 
 export default TextTags
