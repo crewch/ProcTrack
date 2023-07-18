@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import TextTegs from './TextTags/TextTags'
+import TextTags from './TextTags/TextTags'
 import Pen from '/pen.svg'
 import { FC, memo } from 'react'
 import { IHeaderFieldProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IHeaderField/IHeaderField'
@@ -23,7 +23,7 @@ const HeaderField: FC<IHeaderFieldProps> = memo(
 						)}
 					</Box>
 				</Box>
-				<TextTegs importance={importance} status={status} type={type} />
+				<TextTags importance={importance} status={status} type={type} />
 			</>
 		)
 	}

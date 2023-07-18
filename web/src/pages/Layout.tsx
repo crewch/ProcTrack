@@ -14,23 +14,23 @@ const Layout = () => {
 					<ButtonListItem
 						src='/document.svg'
 						to='/'
-						lable='Выпускаемые процессы'
+						label='Выпускаемые процессы'
 					/>
 					<ButtonListItem
 						src='/confirmation.svg'
 						to='stageforsuccess'
-						lable='Этапы на согласование'
+						label='Этапы на согласование'
 					/>
 					<ButtonListItem
 						src='/analysis.svg'
 						to='analysis'
 						otherPage
-						lable='Аналитика'
+						label='Аналитика'
 					/>
 					<ButtonListItem
 						src='/key.svg'
 						to='/http://localhost:3000'
-						lable='Страница админа'
+						label='Страница админа'
 					/>
 				</List>
 				<List>
@@ -38,13 +38,13 @@ const Layout = () => {
 					<ButtonListItem
 						src='/notification.svg'
 						to='test4'
-						lable='Уведомления'
+						label='Уведомления'
 					/>
-					<ButtonListItem src='/settings.svg' to='test5' lable='Настройки' />
+					<ButtonListItem src='/settings.svg' to='test5' label='Настройки' />
 					<ButtonListItem
 						src='/user1.svg'
 						to='test6'
-						lable='Страница пользователя'
+						label='Страница пользователя'
 					/>
 				</List>
 			</Box>

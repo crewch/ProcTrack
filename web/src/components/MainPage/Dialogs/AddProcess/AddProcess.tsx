@@ -96,7 +96,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 
 	const { data: dataGroups, isSuccess: isSuccessGroups } = useQuery({
 		queryKey: ['groupsAddProcess'],
-		queryFn: addProcessApi.getGroupes,
+		queryFn: addProcessApi.getGroupies,
 	})
 
 	useEffect(() => {

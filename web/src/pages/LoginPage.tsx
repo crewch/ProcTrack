@@ -54,7 +54,7 @@ const LoginPage = () => {
 									label='Логин'
 									autoComplete='off'
 									InputLabelProps={{
-										className: styles.inputLableProps,
+										className: styles.inputLabelProps,
 									}}
 									InputProps={{
 										className: styles.inputProps,
@@ -73,7 +73,7 @@ const LoginPage = () => {
 									label='Пароль'
 									autoComplete='off'
 									InputLabelProps={{
-										className: styles.inputLableProps,
+										className: styles.inputLabelProps,
 									}}
 									InputProps={{
 										className: styles.inputProps,

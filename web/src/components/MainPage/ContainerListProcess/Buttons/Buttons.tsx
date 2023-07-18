@@ -14,7 +14,7 @@ const Buttons: FC<ISelectedStageProps> = memo(({ page }) => {
 			}
 		>
 			{page === 'main' && <AddProcessButton />}
-			<DataDialog title='Tабличное представление' icon='table' page={page}>
+			<DataDialog title='Tабличное представление' icon='table'>
 				<DataTable />
 			</DataDialog>
 		</Box>

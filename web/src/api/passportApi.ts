@@ -24,7 +24,7 @@ export const passportApi = {
 			}
 		}
 	},
-	async sendFilePasport(
+	async sendFilePassport(
 		processId: number,
 		file: FormData | undefined,
 		message: string

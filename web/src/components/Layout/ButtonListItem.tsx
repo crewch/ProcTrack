@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../hooks/reduxHooks'
 import { reset } from '../../store/processSlice/processSlice'
 import styles from '../../styles/LayoutStyles/ButtonListItemStyles/ButtonListItem.module.scss'
 
-const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage, lable }) => {
+const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage, label }) => {
 	const dispatch = useAppDispatch()
 
 	return (
@@ -17,7 +17,7 @@ const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage, lable }) => {
 					target='_blank'
 					className={styles.navLink}
 				>
-					<Tooltip title={lable} placement='right' arrow>
+					<Tooltip title={label} placement='right' arrow>
 						<ListItemButton
 							className={styles.listItemButton}
 							onClick={() => dispatch(reset())}
@@ -40,7 +40,7 @@ const ButtonListItem: FC<IButtonListItem> = ({ src, to, otherPage, lable }) => {
 					}
 				>
 					{({ isActive }) => (
-						<Tooltip title={lable} placement='right' arrow>
+						<Tooltip title={label} placement='right' arrow>
 							<ListItemButton
 								className={styles.listItemButton}
 								onClick={() => dispatch(reset())}

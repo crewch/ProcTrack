@@ -24,7 +24,7 @@ export const addProcessApi = {
 			}
 		}
 	},
-	async getGroupes() {
+	async getGroupies() {
 		try {
 			const data: IGroup[] = await (await axios.get(URL_Group)).data
 

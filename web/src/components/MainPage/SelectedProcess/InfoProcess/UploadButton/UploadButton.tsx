@@ -20,7 +20,7 @@ const UploadButton: FC<IUploadButtonProps> = memo(({ processId }) => {
 
 	const queryClient = useQueryClient()
 	const mutation = useMutation({
-		mutationFn: () => passportApi.sendFilePasport(processId, file, message),
+		mutationFn: () => passportApi.sendFilePassport(processId, file, message),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['passport'] })
 		},

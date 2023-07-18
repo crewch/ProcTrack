@@ -1,7 +1,7 @@
 import { Box, Divider } from '@mui/material'
 import { FC, memo, useState } from 'react'
 import Search from './Search/Search'
-import ListProccess from './ListProcess/ListProcess'
+import ListProcess from './ListProcess/ListProcess'
 import SettingsList from './Search/SettingsList/SettingsList'
 import Buttons from './Buttons/Buttons'
 import StagesList from '../../StageForSuccessPage/SelectedProcessAndListStage/SelectedStage/ListStages/ListStages'
@@ -26,7 +26,7 @@ const ContainerListProcess: FC<ISelectedStageProps> = memo(({ page }) => {
 			) : (
 				<>
 					{page === 'main' && (
-						<ListProccess textForSearchProcess={textForSearchProcess} />
+						<ListProcess textForSearchProcess={textForSearchProcess} />
 					)}
 					{page === 'stageForSuccess' && (
 						<StagesList textForSearchProcess={textForSearchProcess} />

@@ -1,5 +1,5 @@
 export interface IButtonListItem {
-	lable: string
+	label: string
 	src: string
 	to: string
 	otherPage?: true
