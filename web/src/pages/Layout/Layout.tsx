@@ -1,9 +1,9 @@
 import { Box, Divider, List } from '@mui/material'
 import { Navigate, Outlet } from 'react-router-dom'
-import ButtonListItem from '../../components/Layout/ButtonListItem/ButtonListItem'
-import LogoListItem from '../../components/Layout/LogoListItem/LogoListItem'
-import styles from './Layout.module.scss'
+import ButtonListItem from '../../components/layout/ButtonListItem/ButtonListItem'
+import LogoListItem from '../../components/layout/LogoListItem/LogoListItem'
 import { useGetUserData } from '../../hooks/userDataHook'
+import styles from './Layout.module.scss'
 
 const Layout = () => {
 	if (!useGetUserData()) {
