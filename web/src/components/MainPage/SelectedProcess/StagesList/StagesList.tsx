@@ -8,19 +8,24 @@ import {
 	Typography,
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { changeOpenedStage } from '../../../../store/processSlice/processSlice'
+import { changeOpenedStage } from '../../../../store/processStageSlice/processStageSlice'
 import DataDialog from '../../ContainerListProcess/DataDialog/DataDialog'
 import DataGraph from '../../Dialogs/DataGraph/DataGraph'
 import { useQuery } from '@tanstack/react-query'
-import { getStageApi } from '../../../../api/getStageApi'
 import ListImg from './ListImg/ListImg'
 import { FC } from 'react'
-import { ISelectedStageProps } from '../../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
+import { stageService } from '../../../../services/stage'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.scss'
 
-const StagesList: FC<ISelectedStageProps> = ({ page }) => {
-	const openedProcess = useAppSelector(state => state.processes.openedProcess)
-	const openedStage = useAppSelector(state => state.processes.openedStage)
+interface StagesListProps {
+	page?: 'main' | 'stageForSuccess'
+}
+
+const StagesList: FC<StagesListProps> = ({ page }) => {
+	const openedProcess = useAppSelector(
+		state => state.processStage.openedProcess
+	)
+	const openedStage = useAppSelector(state => state.processStage.openedStage)
 	const dispatch = useAppDispatch()
 
 	const {
@@ -29,7 +34,7 @@ const StagesList: FC<ISelectedStageProps> = ({ page }) => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['stages', openedProcess],
-		queryFn: () => getStageApi.getStageAll(openedProcess),
+		queryFn: () => stageService.getStageAll(openedProcess),
 	})
 
 	return (

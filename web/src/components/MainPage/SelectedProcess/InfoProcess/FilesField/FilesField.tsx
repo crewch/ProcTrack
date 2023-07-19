@@ -2,17 +2,20 @@ import { Box, Tooltip, Typography } from '@mui/material'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
 import { FC, memo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { passportApi } from '../../../../../api/passportApi'
 import HistoryFilesDialog from './HistoryFilesDialog/HistoryFilesDialog'
 import CommentFilesDialog from './CommentFilesDialog/CommentFilesDialog'
-import { fileApi } from '../../../../../api/fileApi'
-import { IUploadButtonProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IUploadButton/IUploadButton'
+import { passportService } from '../../../../../services/passport'
+import { fileService } from '../../../../../services/file'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/FilesFieldStyles/FilesField.module.scss'
 
-const FilesField: FC<IUploadButtonProps> = memo(({ processId }) => {
+interface FilesFieldProps {
+	processId: number
+}
+
+const FilesField: FC<FilesFieldProps> = memo(({ processId }) => {
 	const { data: passports, isSuccess } = useQuery({
 		queryKey: ['passport', processId],
-		queryFn: () => passportApi.getPassport(processId),
+		queryFn: () => passportService.getPassport(processId),
 	})
 
 	return (
@@ -28,7 +31,7 @@ const FilesField: FC<IUploadButtonProps> = memo(({ processId }) => {
 						}}
 						variant='contained'
 						startIcon={<img src='pdf-file.svg' height='20px' width='20px' />}
-						onClick={() => fileApi.getFile(passports[0].title)}
+						onClick={() => fileService.getFile(passports[0].title)}
 					>
 						{passports[0].title.slice(0, 10)}...
 					</CustomButton>

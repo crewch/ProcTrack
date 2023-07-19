@@ -1,7 +1,10 @@
 import { FC } from 'react'
-import { IListImg } from '../../../../../../interfaces/IMainPage/IContainerListProcess/IListProcess/IListImg/IListImg'
 
-const HeaderFieldImg: FC<IListImg> = ({ status }) => {
+interface HeaderFieldImgProps {
+	status: string
+}
+
+const HeaderFieldImg: FC<HeaderFieldImgProps> = ({ status }) => {
 	return (
 		<>
 			{status === 'Согласовано' && (

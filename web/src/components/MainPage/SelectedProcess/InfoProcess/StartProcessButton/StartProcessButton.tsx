@@ -2,15 +2,17 @@ import { FC } from 'react'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
 import { useAppSelector } from '../../../../../hooks/reduxHooks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toggleProcessApi } from '../../../../../api/toggleProcessApi'
+import { processService } from '../../../../../services/process'
 
 const StartProcessButton: FC = () => {
-	const openedProcessID = useAppSelector(state => state.processes.openedProcess)
+	const openedProcessID = useAppSelector(
+		state => state.processStage.openedProcess
+	)
 
 	const queryClient = useQueryClient()
 	const mutation = useMutation({
 		mutationKey: [openedProcessID],
-		mutationFn: toggleProcessApi.startProcessId,
+		mutationFn: processService.startProcessId,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['processId'] })
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })

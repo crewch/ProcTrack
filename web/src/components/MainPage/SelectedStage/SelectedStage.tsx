@@ -5,14 +5,17 @@ import HeaderField from './HeaderField/HeaderField'
 import ListTasks from './ListTasks/ListTasks'
 import { useQuery } from '@tanstack/react-query'
 import { useAppSelector } from '../../../hooks/reduxHooks'
-import { getStageApi } from '../../../api/getStageApi'
 import { FC } from 'react'
-import { ISelectedStageProps } from '../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
 import Buttons from '../../StageForSuccessPage/SelectedProcessAndListStage/SelectedStage/Buttons/Buttons'
+import { stageService } from '../../../services/stage'
 import styles from '/src/styles/MainPageStyles/SelectedStageStyles/SelectedStage.module.scss'
 
-const SelectedStage: FC<ISelectedStageProps> = ({ page }) => {
-	const openedStageID = useAppSelector(state => state.processes.openedStage)
+interface SelectedStageProps {
+	page?: 'main' | 'stageForSuccess'
+}
+
+const SelectedStage: FC<SelectedStageProps> = ({ page }) => {
+	const openedStageID = useAppSelector(state => state.processStage.openedStage)
 
 	const {
 		data: selectedStage,
@@ -20,7 +23,7 @@ const SelectedStage: FC<ISelectedStageProps> = ({ page }) => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['stageId', openedStageID],
-		queryFn: () => getStageApi.getStageId(openedStageID),
+		queryFn: () => stageService.getStageId(openedStageID),
 	})
 
 	return (

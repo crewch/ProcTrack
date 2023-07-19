@@ -1,8 +1,14 @@
 import { Typography } from '@mui/material'
 import { FC, memo } from 'react'
-import { ITextTagProps } from '../../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/ITextTags/ITextTag/ITextTagProps'
 
-const TextTag: FC<ITextTagProps> = memo(
+interface TextTagProps {
+	text: string
+	color: string
+	backgroundColor: string
+	borderColor: string
+}
+
+const TextTag: FC<TextTagProps> = memo(
 	({ text, color, backgroundColor, borderColor }) => {
 		return (
 			<Typography

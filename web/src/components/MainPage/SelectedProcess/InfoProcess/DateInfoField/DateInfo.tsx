@@ -1,9 +1,16 @@
 import { Box, Typography } from '@mui/material'
 import { FC, memo } from 'react'
-import { IDataInfoProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/ITextTags/IDateInfo/IDateInfo'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/DateInfoStyles/DateInfo.module.scss'
 
-const DateInfo: FC<IDataInfoProps> = memo(
+interface DataInfoProps {
+	startDate?: string
+	endData?: string
+	interval?: string
+	success?: string
+	confirm?: string
+}
+
+const DateInfo: FC<DataInfoProps> = memo(
 	({ startDate, endData, interval, success, confirm }) => {
 		return (
 			<Box>

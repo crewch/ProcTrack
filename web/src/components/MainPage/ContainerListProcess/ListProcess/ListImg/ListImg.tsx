@@ -1,8 +1,11 @@
 import { FC } from 'react'
-import { IListImg } from '../../../../../interfaces/IMainPage/IContainerListProcess/IListProcess/IListImg/IListImg'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
 
-const ListImg: FC<IListImg> = ({ status }) => {
+interface ListImgProps {
+	status: string
+}
+
+const ListImg: FC<ListImgProps> = ({ status }) => {
 	return (
 		<>
 			{status === 'в процессе' && (

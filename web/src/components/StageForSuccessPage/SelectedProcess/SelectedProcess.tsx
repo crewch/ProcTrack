@@ -1,18 +1,18 @@
 import { Box, Divider, LinearProgress } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks'
-import { getProcessApi } from '../../../api/getProcessApi'
 import FilesField from '../../MainPage/SelectedProcess/InfoProcess/FilesField/FilesField'
 import UserField from '../../MainPage/SelectedProcess/InfoProcess/UserField/UserField'
 import HeaderField from '../../MainPage/SelectedProcess/InfoProcess/HeaderProcessField/HeaderField'
 import DateInfo from '../../MainPage/SelectedProcess/InfoProcess/DateInfoField/DateInfo'
 import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
-import { setOpenedProcess } from '../../../store/processSlice/processSlice'
+import { setOpenedProcess } from '../../../store/processStageSlice/processStageSlice'
+import { processService } from '../../../services/process'
 import styles from '/src/styles/StageForSuccessPageStyles/SelectedProcessStyles/SelectedProcess.module.scss'
 
 const SelectedProcess = () => {
-	const selectedStage = useAppSelector(state => state.processes.openedStage)
+	const selectedStage = useAppSelector(state => state.processStage.openedStage)
 	const dispatch = useAppDispatch()
 
 	const {
@@ -21,7 +21,7 @@ const SelectedProcess = () => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['processByStageIdStageForSuccess', selectedStage],
-		queryFn: () => getProcessApi.getProcessByStageId(selectedStage),
+		queryFn: () => processService.getProcessByStageId(selectedStage),
 	})
 
 	const [intervalDate, setIntervalDate] = useState('')

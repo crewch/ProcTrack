@@ -8,19 +8,26 @@ import {
 } from '@mui/material'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
 import { ChangeEvent, FC, memo, useState } from 'react'
-import { passportApi } from '../../../../../api/passportApi'
-import { IUploadButtonProps } from '../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IUploadButton/IUploadButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import TelegramIcon from '@mui/icons-material/Telegram'
+import { passportService } from '../../../../../services/passport'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/UploadButtonStyles/UploadButton.module.scss'
+import { useGetUserData } from '../../../../../hooks/userDataHook'
 
-const UploadButton: FC<IUploadButtonProps> = memo(({ processId }) => {
+interface UploadButtonProps {
+	processId: number
+}
+
+const UploadButton: FC<UploadButtonProps> = memo(({ processId }) => {
 	const [message, setMessage] = useState('')
 	const [file, setFile] = useState<FormData>()
 
+	const userId = useGetUserData().id
+
 	const queryClient = useQueryClient()
 	const mutation = useMutation({
-		mutationFn: () => passportApi.sendFilePassport(processId, file, message),
+		mutationFn: () =>
+			passportService.sendPassport(userId, processId, file, message),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['passport'] })
 		},

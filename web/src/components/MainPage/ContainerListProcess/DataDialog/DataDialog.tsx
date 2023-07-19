@@ -6,9 +6,8 @@ import Typography from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/Close'
 import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
-import { FC, forwardRef, memo, useState } from 'react'
+import { FC, ReactNode, forwardRef, memo, useState } from 'react'
 import { Box, Divider } from '@mui/material'
-import { IDialogProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IDialogProps/IDialogProps'
 import { CustomButton } from '../../../CustomButton/CustomButton'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialogStyles/DataDialog.module.scss'
 
@@ -21,7 +20,13 @@ const Transition = forwardRef(function Transition(
 	return <Slide direction='up' ref={ref} {...props} />
 })
 
-const DataDialog: FC<IDialogProps> = memo(({ children, title, icon }) => {
+interface DialogProps {
+	title: string
+	icon: string
+	children?: ReactNode
+}
+
+const DataDialog: FC<DialogProps> = memo(({ children, title, icon }) => {
 	const [open, setOpen] = useState(false)
 
 	const handleClickOpen = () => {

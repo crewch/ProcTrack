@@ -1,8 +1,5 @@
 import { useQueryClient, useMutation, useQueries } from '@tanstack/react-query'
 import { FC, useState } from 'react'
-import { getStageApi } from '../../../../../api/getStageApi'
-import { stageApi } from '../../../../../api/stageApi'
-import { IUser } from '../../../../../interfaces/IApi/IApi'
 import {
 	Box,
 	Button,
@@ -16,17 +13,23 @@ import {
 	Typography,
 	LinearProgress,
 } from '@mui/material'
-import { ISelectedStageChildProps } from '../../../../../interfaces/IStageForSuccessPage/ISelectedStage/ISelectedStage'
+import { Stage } from '../../../../../shared/interfaces/stage'
+import { stageService } from '../../../../../services/stage'
+import { useGetUserData } from '../../../../../hooks/userDataHook'
 
-const Buttons: FC<ISelectedStageChildProps> = ({
-	selectedStage,
-	isSuccess,
-	isLoading,
-}) => {
+interface ButtonsProps {
+	selectedStage: Stage
+	isLoading: boolean
+	isSuccess: boolean
+}
+
+const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 	const queryClient = useQueryClient()
 
+	const userId = useGetUserData().id
+
 	const mutationSuccessStage = useMutation({
-		mutationFn: () => stageApi.successStage(selectedStage?.id),
+		mutationFn: () => stageService.successStage(selectedStage?.id, userId),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ['stageId'],
@@ -41,7 +44,7 @@ const Buttons: FC<ISelectedStageChildProps> = ({
 	})
 
 	const mutationCancelStage = useMutation({
-		mutationFn: () => stageApi.cancelStage(selectedStage?.id),
+		mutationFn: () => stageService.cancelStage(selectedStage?.id, userId),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ['stageId'],
@@ -55,8 +58,7 @@ const Buttons: FC<ISelectedStageChildProps> = ({
 		},
 	})
 
-	const userDataText = localStorage.getItem('UserData')
-	const userData: IUser = JSON.parse(userDataText ? userDataText : '')
+	const userData = useGetUserData()
 
 	const [open, setOpen] = useState(false)
 
@@ -76,13 +78,13 @@ const Buttons: FC<ISelectedStageChildProps> = ({
 		queries: selectedStage.canCreate.map(item => {
 			return {
 				queryKey: ['stageHeader', item],
-				queryFn: () => getStageApi.getStageId(item),
+				queryFn: () => stageService.getStageId(item),
 			}
 		}),
 	})
 
 	const mutationGetStages = useMutation({
-		mutationFn: stageApi.toggleStagePass,
+		mutationFn: stageService.toggleStagePass,
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ['stageHeader'],
@@ -153,7 +155,10 @@ const Buttons: FC<ISelectedStageChildProps> = ({
 															<>
 																<Checkbox
 																	onClick={() => {
-																		mutationGetStages.mutate(item.data)
+																		mutationGetStages.mutate({
+																			stage: item.data,
+																			userId,
+																		})
 																	}}
 																	checked={!item.data?.pass}
 																/>

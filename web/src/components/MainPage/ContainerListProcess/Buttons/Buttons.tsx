@@ -3,10 +3,13 @@ import AddProcessButton from './AddProcessButton/AddProcessButton'
 import DataDialog from '../DataDialog/DataDialog'
 import DataTable from '../../Dialogs/DataTable/DataTable'
 import { FC, memo } from 'react'
-import { ISelectedStageProps } from '../../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ButtonsStyles/Buttons.module.scss'
 
-const Buttons: FC<ISelectedStageProps> = memo(({ page }) => {
+interface ButtonsProps {
+	page?: 'main' | 'stageForSuccess'
+}
+
+const Buttons: FC<ButtonsProps> = memo(({ page }) => {
 	return (
 		<Box
 			className={

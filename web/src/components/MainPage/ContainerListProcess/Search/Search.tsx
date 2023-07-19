@@ -1,11 +1,17 @@
 import { Box, IconButton, TextField } from '@mui/material'
-import { ISearchProps } from '../../../../interfaces/IMainPage/IContainerListProcess/ISearch/ISearch'
-import { FC, memo } from 'react'
+import { Dispatch, FC, SetStateAction, memo } from 'react'
 import searchSetting from '/searchSetting.svg'
 import searchSettingBlue from '/searchSettingBlue.svg'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/SearchStyles/Search.module.scss'
 
-const Search: FC<ISearchProps> = memo(
+interface SearchProps {
+	textForSearchProcess: string
+	setTextForSearchProcess: Dispatch<SetStateAction<string>>
+	isOpen: boolean
+	setIsOpen: Dispatch<SetStateAction<boolean>>
+}
+
+const Search: FC<SearchProps> = memo(
 	({ isOpen, setIsOpen, textForSearchProcess, setTextForSearchProcess }) => {
 		return (
 			<Box className={styles.container}>

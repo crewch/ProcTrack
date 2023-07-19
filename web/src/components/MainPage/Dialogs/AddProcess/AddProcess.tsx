@@ -9,32 +9,39 @@ import { CustomButton } from '../../../CustomButton/CustomButton'
 import { FC, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { IDataForSend } from '../../../../interfaces/IApi/IAddProcessApi'
-import { addProcessApi } from '../../../../api/addProcessApi'
-import { IAutocomplete } from '../../../../interfaces/IMainPage/IDialogs/IAddProcess/IAddProcess'
+import { processService } from '../../../../services/process'
+import { NewProcessForm } from '../../../../shared/interfaces/newProcessForm'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/AddProcessDialog/AddProcessDialog.module.scss'
+import { useGetUserData } from '../../../../hooks/userDataHook'
+
+interface Autocomplete {
+	label: string
+	id: number
+}
 
 const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	open,
 	handleClose,
 }) => {
-	const [templates, setTemplates] = useState<IAutocomplete[]>()
-	const [groups, setGroups] = useState<IAutocomplete[]>()
-	const [priorities, setPriorities] = useState<IAutocomplete[]>()
+	const userId = useGetUserData().id
+
+	const [templates, setTemplates] = useState<Autocomplete[]>()
+	const [groups, setGroups] = useState<Autocomplete[]>()
+	const [priorities, setPriorities] = useState<Autocomplete[]>()
 
 	const [selectedTemplate, setSelectedTemplate] = useState<
-		IAutocomplete | undefined | null
+		Autocomplete | undefined | null
 	>()
 	const [selectedGroup, setSelectedGroup] = useState<
-		IAutocomplete | undefined | null
+		Autocomplete | undefined | null
 	>()
 	const [selectedPriority, setSelectedPriority] = useState<
-		IAutocomplete | undefined | null
+		Autocomplete | undefined | null
 	>()
 
 	const [title, setTitle] = useState<string | undefined>()
 
-	const dataForSend: IDataForSend = {
+	const dataForSend: NewProcessForm = {
 		templateId: selectedTemplate?.id,
 		groupId: selectedGroup?.id,
 		process: {
@@ -81,7 +88,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 
 	const { data: dataTemplates, isSuccess: isSuccessTemplates } = useQuery({
 		queryKey: ['templatesAddProcess'],
-		queryFn: addProcessApi.getTemplates,
+		queryFn: processService.getTemplates,
 	})
 
 	useEffect(() => {
@@ -96,7 +103,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 
 	const { data: dataGroups, isSuccess: isSuccessGroups } = useQuery({
 		queryKey: ['groupsAddProcess'],
-		queryFn: addProcessApi.getGroupies,
+		queryFn: processService.getGroupies,
 	})
 
 	useEffect(() => {
@@ -111,7 +118,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 
 	const { data: dataPriorities, isSuccess: isSuccessPriorities } = useQuery({
 		queryKey: ['prioritiesAddProcess'],
-		queryFn: addProcessApi.getPriorities,
+		queryFn: processService.getPriorities,
 	})
 
 	useEffect(() => {
@@ -127,7 +134,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 	const queryClient = useQueryClient()
 
 	const mutationAddProcess = useMutation({
-		mutationFn: addProcessApi.addProcess,
+		mutationFn: processService.addProcess,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 			setTitle('')
@@ -176,7 +183,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 									value={selectedTemplate || null}
 									onChange={(
 										_event: unknown,
-										newValue: IAutocomplete | null | undefined
+										newValue: Autocomplete | null | undefined
 									) => setSelectedTemplate(newValue)}
 									disablePortal
 									options={templates}
@@ -191,7 +198,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 									value={selectedGroup || null}
 									onChange={(
 										_event: unknown,
-										newValue: IAutocomplete | null | undefined
+										newValue: Autocomplete | null | undefined
 									) => setSelectedGroup(newValue)}
 									disablePortal
 									options={groups}
@@ -206,7 +213,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 									value={selectedPriority || null}
 									onChange={(
 										_event: unknown,
-										newValue: IAutocomplete | null | undefined
+										newValue: Autocomplete | null | undefined
 									) => setSelectedPriority(newValue)}
 									disablePortal
 									options={priorities}
@@ -220,7 +227,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 					</Box>
 					<CustomButton
 						onClick={() => {
-							mutationAddProcess.mutate(dataForSend)
+							mutationAddProcess.mutate({ data: dataForSend, userId })
 							handleClose()
 						}}
 						disabled={

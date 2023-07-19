@@ -1,8 +1,13 @@
-import MainPage from '../pages/MainPage'
-import { IRoutes } from '../interfaces/IRoutes/IRoutes'
-import StageForSuccessPage from '../pages/StageForSuccessPage'
+import { FC } from 'react'
+import Release from '../pages/Release/Release'
+import Approval from '../pages/Approval/Approval'
 
-export const routes: IRoutes[] = [
-	{ path: '/', Element: MainPage },
-	{ path: '/stageforsuccess', Element: StageForSuccessPage },
+interface Route {
+	path: string
+	Element: FC
+}
+
+export const routes: Route[] = [
+	{ path: '/release', Element: Release },
+	{ path: '/approval', Element: Approval },
 ]

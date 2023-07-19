@@ -1,7 +1,6 @@
 import { Box, Divider, LinearProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { getProcessApi } from '../../../../api/getProcessApi'
 import { useAppSelector } from '../../../../hooks/reduxHooks'
 import DateInfo from './DateInfoField/DateInfo'
 import UploadButton from './UploadButton/UploadButton'
@@ -11,10 +10,13 @@ import FilesField from './FilesField/FilesField'
 import StopProcessButton from './StopProcessButton/StopProcessButton'
 import StartProcessButton from './StartProcessButton/StartProcessButton'
 import dayjs from 'dayjs'
+import { processService } from '../../../../services/process'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/InfoProcess.module.scss'
 
 const InfoProcess = () => {
-	const openedProcessID = useAppSelector(state => state.processes.openedProcess)
+	const openedProcessID = useAppSelector(
+		state => state.processStage.openedProcess
+	)
 
 	const {
 		data: process,
@@ -22,7 +24,7 @@ const InfoProcess = () => {
 		isLoading,
 	} = useQuery({
 		queryKey: ['processId', openedProcessID],
-		queryFn: () => getProcessApi.getProcessId(openedProcessID),
+		queryFn: () => processService.getProcessId(openedProcessID),
 	})
 
 	const [intervalDate, setIntervalDate] = useState('')

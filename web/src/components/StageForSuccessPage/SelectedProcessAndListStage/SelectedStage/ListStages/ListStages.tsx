@@ -8,22 +8,24 @@ import {
 	Typography,
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/reduxHooks'
-import { changeOpenedStage } from '../../../../../store/processSlice/processSlice'
-import { IStage } from '../../../../../interfaces/IApi/IGetStageApi'
+import { changeOpenedStage } from '../../../../../store/processStageSlice/processStageSlice'
 import { FC, memo, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { getStageApi } from '../../../../../api/getStageApi'
-import { IUser } from '../../../../../interfaces/IApi/IApi'
 import ListImg from '../../../../MainPage/SelectedProcess/StagesList/ListImg/ListImg'
-import { IListProcessProps } from '../../../../../interfaces/IMainPage/IContainerListProcess/IListProcess/IListProcess'
+import { Stage } from '../../../../../shared/interfaces/stage'
+import { stageService } from '../../../../../services/stage'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/StagesListStyles/StagesListStyle.module.scss'
+import { useGetUserData } from '../../../../../hooks/userDataHook'
 
-const StagesList: FC<IListProcessProps> = memo(({ textForSearchProcess }) => {
-	const openedStage = useAppSelector(state => state.processes.openedStage)
+interface StagesListProps {
+	textForSearchProcess: string
+}
+
+const StagesList: FC<StagesListProps> = memo(({ textForSearchProcess }) => {
+	const openedStage = useAppSelector(state => state.processStage.openedStage)
 	const dispatch = useAppDispatch()
 
-	const userDataText = localStorage.getItem('UserData')
-	const userData: IUser = userDataText && JSON.parse(userDataText)
+	const userData = useGetUserData()
 
 	const {
 		data: listStages,
@@ -31,10 +33,10 @@ const StagesList: FC<IListProcessProps> = memo(({ textForSearchProcess }) => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['stagesStageForSuccess'],
-		queryFn: () => getStageApi.getStageAllStageForSuccess(userData.id),
+		queryFn: () => stageService.getStageAllStageForSuccess(userData.id),
 	})
 
-	const filteredStages: IStage[] | null = useMemo(() => {
+	const filteredStages: Stage[] | null = useMemo(() => {
 		if (listStages) {
 			return listStages
 				.filter(process =>

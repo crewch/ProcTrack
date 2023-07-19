@@ -1,10 +1,15 @@
 import { Box } from '@mui/material'
 import TextTag from './TextTag/TextTag'
 import { FC, memo } from 'react'
-import { ITextTagsProps } from '../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/ITextTags/ITextTagsProps'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/HeaderProcessFieldStyles/TextTagsStyles/TextTags.module.scss'
 
-const TextTags: FC<ITextTagsProps> = memo(({ importance, status, type }) => {
+interface TextTagsProps {
+	status: string
+	type: string
+	importance: string
+}
+
+const TextTags: FC<TextTagsProps> = memo(({ importance, status, type }) => {
 	return (
 		<Box className={styles.textTags}>
 			{status === 'в процессе' && (

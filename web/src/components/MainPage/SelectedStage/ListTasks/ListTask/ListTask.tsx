@@ -1,5 +1,3 @@
-import { ChangeEvent, FC, memo, useState } from 'react'
-import { IListTaskProps } from '../../../../../interfaces/IMainPage/ISelectedStage/IListTasks/IListTask/IListTaskProps'
 import {
 	Box,
 	Button,
@@ -13,18 +11,31 @@ import {
 	Tooltip,
 	Typography,
 } from '@mui/material'
+import { ChangeEvent, FC, memo, useState } from 'react'
 import DateInfo from './DataInfo/DataInfo'
 import UserField from '../../../SelectedProcess/InfoProcess/UserField/UserField'
 import { CustomButton } from '../../../../CustomButton/CustomButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { commentsApi } from '../../../../../api/commentsApi'
-import { IComment } from '../../../../../interfaces/IApi/IGetTask'
-import { fileApi } from '../../../../../api/fileApi'
-import { switchTaskApi } from '../../../../../api/switchTaskApi'
-import { IUser } from '../../../../../interfaces/IApi/IApi'
+import { commentService } from '../../../../../services/comment'
+import { fileService } from '../../../../../services/file'
+import { Comment } from '../../../../../shared/interfaces/comment'
+import { taskService } from '../../../../../services/task'
+import { useGetUserData } from '../../../../../hooks/userDataHook'
 import styles from '/src/styles/MainPageStyles/SelectedStageStyles/ListTasksStyles/ListTaskStyles/ListTask.module.scss'
 
-const ListTask: FC<IListTaskProps> = memo(
+export interface ListTaskProps {
+	startDate: string
+	endDate: string
+	successDate: string
+	roleAuthor: string
+	author: string
+	group: string
+	remarks: Comment[]
+	taskId: number
+	page?: 'main' | 'stageForSuccess'
+}
+
+const ListTask: FC<ListTaskProps> = memo(
 	({
 		startDate,
 		endDate,
@@ -45,7 +56,7 @@ const ListTask: FC<IListTaskProps> = memo(
 				formData.append('file', e.target.files[0])
 
 				const getData = async () => {
-					const data = await fileApi.sendFile(formData)
+					const data = await fileService.sendFile(formData)
 
 					setFileRef(data)
 				}
@@ -55,10 +66,9 @@ const ListTask: FC<IListTaskProps> = memo(
 			}
 		}
 
-		const userDataText = localStorage.getItem('UserData')
-		const userData: IUser = JSON.parse(userDataText ? userDataText : '')
+		const userData = useGetUserData()
 
-		const comment: IComment = {
+		const comment: Comment = {
 			id: 0,
 			text: textComment,
 			fileRef: fileRef,
@@ -68,7 +78,7 @@ const ListTask: FC<IListTaskProps> = memo(
 
 		const queryClient = useQueryClient()
 		const mutationSendComment = useMutation({
-			mutationFn: () => commentsApi.sendComments(taskId, comment),
+			mutationFn: () => commentService.sendComment(taskId, comment),
 			onSuccess: () => {
 				setTextComment('')
 				setFileRef('')
@@ -77,7 +87,7 @@ const ListTask: FC<IListTaskProps> = memo(
 		})
 
 		const mutationStartTask = useMutation({
-			mutationFn: () => switchTaskApi.startTaskId(taskId, userData.id),
+			mutationFn: () => taskService.startTaskId(taskId, userData.id),
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
 				queryClient.invalidateQueries({
@@ -90,7 +100,7 @@ const ListTask: FC<IListTaskProps> = memo(
 		})
 
 		const mutationStopTask = useMutation({
-			mutationFn: () => switchTaskApi.stopTaskId(taskId, userData.id),
+			mutationFn: () => taskService.stopTaskId(taskId, userData.id),
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
 				queryClient.invalidateQueries({
@@ -103,8 +113,7 @@ const ListTask: FC<IListTaskProps> = memo(
 		})
 
 		const mutationEndVerificationTask = useMutation({
-			mutationFn: () =>
-				switchTaskApi.endVerificationTaskId(taskId, userData.id),
+			mutationFn: () => taskService.endVerificationTaskId(taskId, userData.id),
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
 				queryClient.invalidateQueries({
@@ -117,7 +126,7 @@ const ListTask: FC<IListTaskProps> = memo(
 		})
 
 		const mutationAssignsTask = useMutation({
-			mutationFn: () => switchTaskApi.assignTaskId(taskId, userData.id),
+			mutationFn: () => taskService.assignTaskId(taskId, userData.id),
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesStageForSuccess'] })
 				queryClient.invalidateQueries({
@@ -221,7 +230,7 @@ const ListTask: FC<IListTaskProps> = memo(
 										<Typography>{remark.text}</Typography>
 										<Tooltip arrow title={remark.fileRef}>
 											<Link
-												onClick={() => fileApi.getFile(remark.fileRef)}
+												onClick={() => fileService.getFile(remark.fileRef)}
 												component='button'
 											>
 												{remark.fileRef && remark.fileRef.slice(0, 20) + '...'}

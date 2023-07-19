@@ -10,13 +10,17 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ListTask from './ListTask/ListTask'
 import { useAppSelector } from '../../../../hooks/reduxHooks'
 import { useQuery } from '@tanstack/react-query'
-import { getTaskApi } from '../../../../api/getTaskApi'
 import { FC, memo } from 'react'
-import { IListTasksProps } from '../../../../interfaces/IMainPage/ISelectedStage/IListTasks/IListTasks'
 import styles from '/src/styles/MainPageStyles/SelectedStageStyles/ListTasksStyles/ListTasksStyles.module.scss'
+import { taskService } from '../../../../services/task'
 
-const ListTasks: FC<IListTasksProps> = memo(({ group, page }) => {
-	const selectedStage = useAppSelector(state => state.processes.openedStage)
+export interface ListTasksProps {
+	group: string
+	page?: 'main' | 'stageForSuccess'
+}
+
+const ListTasks: FC<ListTasksProps> = memo(({ group, page }) => {
+	const selectedStage = useAppSelector(state => state.processStage.openedStage)
 
 	const {
 		data: tasks,
@@ -24,7 +28,7 @@ const ListTasks: FC<IListTasksProps> = memo(({ group, page }) => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['tasks', selectedStage],
-		queryFn: () => getTaskApi.getTaskAll(selectedStage),
+		queryFn: () => taskService.getTaskAll(selectedStage),
 	})
 
 	return (

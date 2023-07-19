@@ -11,11 +11,15 @@ import {
 	Typography,
 } from '@mui/material'
 import { FC, memo, useState } from 'react'
-import { IHistoryFilesDialogProps } from '../../../../../../interfaces/IMainPage/ISelectedProcess/IInfoProcess/IFilesField/IHistoryFilesDialog/IHistoryFilesDialog'
-import { fileApi } from '../../../../../../api/fileApi'
+import { fileService } from '../../../../../../services/file'
+import { Passport } from '../../../../../../shared/interfaces/passport'
 import styles from '/src/styles/MainPageStyles/SelectedProcessStyles/InfoProcessStyles/FilesFieldStyles/HistoryFilesDialogStyles/HistoryFilesDialog.module.scss'
 
-const HistoryFilesDialog: FC<IHistoryFilesDialogProps> = memo(
+interface HistoryFilesDialogProps {
+	passports: Passport[]
+}
+
+const HistoryFilesDialog: FC<HistoryFilesDialogProps> = memo(
 	({ passports }) => {
 		const [open, setOpen] = useState(false)
 
@@ -59,7 +63,7 @@ const HistoryFilesDialog: FC<IHistoryFilesDialogProps> = memo(
 									<Tooltip arrow title={passport.title}>
 										<Link
 											component='button'
-											onClick={() => fileApi.getFile(passport.title)}
+											onClick={() => fileService.getFile(passport.title)}
 										>
 											{passport.title.slice(0, 10)}
 										</Link>

@@ -5,10 +5,13 @@ import ListProcess from './ListProcess/ListProcess'
 import SettingsList from './Search/SettingsList/SettingsList'
 import Buttons from './Buttons/Buttons'
 import StagesList from '../../StageForSuccessPage/SelectedProcessAndListStage/SelectedStage/ListStages/ListStages'
-import { ISelectedStageProps } from '../../../interfaces/IMainPage/ISelectedStage/ISelectedStage'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ContainerListProcess.module.scss'
 
-const ContainerListProcess: FC<ISelectedStageProps> = memo(({ page }) => {
+interface ContainerListProcessProps {
+	page?: 'main' | 'stageForSuccess'
+}
+
+const ContainerListProcess: FC<ContainerListProcessProps> = memo(({ page }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [textForSearchProcess, setTextForSearchProcess] = useState('')
 

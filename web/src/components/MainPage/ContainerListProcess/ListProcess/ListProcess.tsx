@@ -7,22 +7,29 @@ import {
 	Typography,
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { changeOpenedProcess } from '../../../../store/processSlice/processSlice'
+import { changeOpenedProcess } from '../../../../store/processStageSlice/processStageSlice'
 import { useQuery } from '@tanstack/react-query'
-import { getProcessApi } from '../../../../api/getProcessApi'
-import { FC, memo } from 'react'
-import { IProcess } from '../../../../interfaces/IApi/IApi'
-import { IListProcessProps } from '../../../../interfaces/IMainPage/IContainerListProcess/IListProcess/IListProcess'
+import { FC, memo, useMemo } from 'react'
 import ListImg from './ListImg/ListImg'
-import { useFilterProcess } from '../../../../hooks/filterProcessHook'
+import { Process } from '../../../../shared/interfaces/process'
+import { processService } from '../../../../services/process'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/ListProcessStyles/ListProcess.module.scss'
+import { useGetUserData } from '../../../../hooks/userDataHook'
 
-const ListProcess: FC<IListProcessProps> = memo(({ textForSearchProcess }) => {
+interface ListProcessProps {
+	textForSearchProcess: string
+}
+
+const ListProcess: FC<ListProcessProps> = memo(({ textForSearchProcess }) => {
 	const dispatch = useAppDispatch()
-	const openedProcess = useAppSelector(state => state.processes.openedProcess)
-	const settingsForSearch = useAppSelector(
-		state => state.settings.settingsForSearch
+	const openedProcess = useAppSelector(
+		state => state.processStage.openedProcess
 	)
+	const settingsForSearch = useAppSelector(
+		state => state.searchSettings.settingsForSearch
+	)
+
+	const userId = useGetUserData().id
 
 	const {
 		data: allProcess,
@@ -30,15 +37,33 @@ const ListProcess: FC<IListProcessProps> = memo(({ textForSearchProcess }) => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['allProcess'],
-		queryFn: getProcessApi.getProcessAll,
+		queryFn: () => processService.getProcessAll(userId),
 	})
 
-	const filteredProcesses: IProcess[] = useFilterProcess(
-		isSuccess,
-		allProcess,
-		textForSearchProcess,
-		settingsForSearch
-	)
+	const filteredProcesses: Process[] = useMemo(() => {
+		if (isSuccess && allProcess) {
+			return allProcess
+				.sort((a, b) => b.id - a.id)
+				.filter(process =>
+					process.title
+						.toLocaleLowerCase()
+						.includes(textForSearchProcess.toLocaleLowerCase())
+				)
+				.filter(item => {
+					if (!settingsForSearch.length) return item
+
+					if (
+						settingsForSearch.includes(item.priority) ||
+						settingsForSearch.includes(item.type) ||
+						settingsForSearch.includes(item.status)
+					) {
+						return item
+					}
+				})
+		}
+
+		return []
+	}, [allProcess, isSuccess, settingsForSearch, textForSearchProcess])
 
 	return (
 		<List className={styles.list}>
