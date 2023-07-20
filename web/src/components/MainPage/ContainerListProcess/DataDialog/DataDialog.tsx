@@ -8,7 +8,7 @@ import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
 import { FC, ReactNode, forwardRef, memo, useState } from 'react'
 import { Box, Divider } from '@mui/material'
-import { CustomButton } from '../../../CustomButton/CustomButton'
+import { GrayButton } from '../../../ui/button/GrayButton'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialogStyles/DataDialog.module.scss'
 
 const Transition = forwardRef(function Transition(
@@ -39,7 +39,7 @@ const DataDialog: FC<DialogProps> = memo(({ children, title, icon }) => {
 
 	return (
 		<>
-			<CustomButton
+			<GrayButton
 				sx={{
 					fontSize: {
 						lg: '14px',
@@ -51,7 +51,7 @@ const DataDialog: FC<DialogProps> = memo(({ children, title, icon }) => {
 				onClick={handleClickOpen}
 			>
 				{title}
-			</CustomButton>
+			</GrayButton>
 			<Dialog
 				className={styles.dialog}
 				fullScreen

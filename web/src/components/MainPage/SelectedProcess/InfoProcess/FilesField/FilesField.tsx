@@ -1,5 +1,5 @@
 import { Box, Tooltip, Typography } from '@mui/material'
-import { CustomButton } from '../../../../CustomButton/CustomButton'
+import { GrayButton } from '../../../../ui/button/GrayButton'
 import { FC, memo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import HistoryFilesDialog from './HistoryFilesDialog/HistoryFilesDialog'
@@ -22,7 +22,7 @@ const FilesField: FC<FilesFieldProps> = memo(({ processId }) => {
 		<Box className={styles.container}>
 			{isSuccess && passports && passports[0]?.title ? (
 				<Tooltip placement='top' title={passports[0].title} arrow>
-					<CustomButton
+					<GrayButton
 						sx={{
 							fontSize: {
 								xs: '12px',
@@ -34,10 +34,10 @@ const FilesField: FC<FilesFieldProps> = memo(({ processId }) => {
 						onClick={() => fileService.getFile(passports[0].title)}
 					>
 						{passports[0].title.slice(0, 10)}...
-					</CustomButton>
+					</GrayButton>
 				</Tooltip>
 			) : (
-				<CustomButton
+				<GrayButton
 					sx={{
 						fontSize: {
 							xs: '12px',
@@ -49,7 +49,7 @@ const FilesField: FC<FilesFieldProps> = memo(({ processId }) => {
 					startIcon={<img src='pdf-file.svg' height='20px' width='20px' />}
 				>
 					Нет файла
-				</CustomButton>
+				</GrayButton>
 			)}
 			{isSuccess && passports && passports[0]?.message && (
 				<CommentFilesDialog message={passports[0].message} />

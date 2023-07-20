@@ -5,7 +5,7 @@ import {
 	DialogTitle,
 	TextField,
 } from '@mui/material'
-import { CustomButton } from '../../../CustomButton/CustomButton'
+import { GrayButton } from '../../../ui/button/GrayButton'
 import { FC, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -225,7 +225,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 							)}
 						</Box>
 					</Box>
-					<CustomButton
+					<GrayButton
 						onClick={() => {
 							mutationAddProcess.mutate({ data: dataForSend, userId })
 							handleClose()
@@ -242,7 +242,7 @@ const AddProcess: FC<{ open: boolean; handleClose: () => void }> = ({
 						variant='contained'
 					>
 						Добавить
-					</CustomButton>
+					</GrayButton>
 				</Box>
 				<Box className={styles.graph}></Box>
 			</DialogContent>

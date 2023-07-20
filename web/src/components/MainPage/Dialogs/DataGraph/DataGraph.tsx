@@ -11,7 +11,7 @@ import ReactFlow, {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import dagre from 'dagre'
-import { CustomButton } from '../../../CustomButton/CustomButton'
+import { GrayButton } from '../../../ui/button/GrayButton'
 import { Box } from '@mui/material'
 import styles from '/src/styles/MainPageStyles/ContainerListProcessStyles/DataDialogStyles/DataDialog.module.scss'
 
@@ -193,7 +193,7 @@ const DataGraph = () => {
 				onConnect={onConnect}
 			>
 				<Panel position='top-right' className={styles.panel}>
-					<CustomButton
+					<GrayButton
 						sx={{
 							fontSize: {
 								lg: '14px',
@@ -203,8 +203,8 @@ const DataGraph = () => {
 						onClick={() => onLayout('TB')}
 					>
 						Вертикальный вид
-					</CustomButton>
-					<CustomButton
+					</GrayButton>
+					<GrayButton
 						sx={{
 							fontSize: {
 								lg: '14px',
@@ -214,7 +214,7 @@ const DataGraph = () => {
 						onClick={() => onLayout('LR')}
 					>
 						Горизонтальный вид
-					</CustomButton>
+					</GrayButton>
 				</Panel>
 				<Controls />
 				<Background gap={12} size={1} />

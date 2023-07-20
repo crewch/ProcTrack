@@ -14,7 +14,7 @@ import {
 import { ChangeEvent, FC, memo, useState } from 'react'
 import DateInfo from './DataInfo/DataInfo'
 import UserField from '../../../SelectedProcess/InfoProcess/UserField/UserField'
-import { CustomButton } from '../../../../CustomButton/CustomButton'
+import { GrayButton } from '../../../../ui/button/GrayButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { commentService } from '../../../../../services/comment'
 import { fileService } from '../../../../../services/file'
@@ -257,7 +257,7 @@ const ListTask: FC<ListTaskProps> = memo(
 							className={styles.TextField}
 						/>
 						<Box component='label'>
-							<CustomButton
+							<GrayButton
 								className={`${styles.uploadBtn} ${
 									fileRef ? styles.loadedBtn : ''
 								}`}
@@ -265,12 +265,12 @@ const ListTask: FC<ListTaskProps> = memo(
 								variant='contained'
 							>
 								<img src='/folderUpload.svg' height='20px' width='20px' />
-							</CustomButton>
+							</GrayButton>
 							<input hidden type='file' onChange={handleFileChange} />
 						</Box>
 					</Box>
 					<Box className={styles.btns}>
-						<CustomButton
+						<GrayButton
 							disabled={!textComment}
 							onClick={() => {
 								setTextComment('')
@@ -278,13 +278,13 @@ const ListTask: FC<ListTaskProps> = memo(
 							}}
 						>
 							Отмена
-						</CustomButton>
-						<CustomButton
+						</GrayButton>
+						<GrayButton
 							disabled={!textComment}
 							onClick={() => mutationSendComment.mutate()}
 						>
 							Отправить
-						</CustomButton>
+						</GrayButton>
 					</Box>
 				</Box>
 			</Box>

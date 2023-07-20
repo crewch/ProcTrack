@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CustomButton } from '../../../../CustomButton/CustomButton'
+import { GrayButton } from '../../../../ui/button/GrayButton'
 import AddProcess from '../../../Dialogs/AddProcess/AddProcess'
 
 export default function FormDialog() {
@@ -15,7 +15,7 @@ export default function FormDialog() {
 
 	return (
 		<>
-			<CustomButton
+			<GrayButton
 				sx={{
 					fontSize: {
 						lg: '14px',
@@ -26,7 +26,7 @@ export default function FormDialog() {
 				onClick={handleClickOpen}
 			>
 				Добавить процесс
-			</CustomButton>
+			</GrayButton>
 			<AddProcess open={open} handleClose={handleClose} />
 		</>
 	)

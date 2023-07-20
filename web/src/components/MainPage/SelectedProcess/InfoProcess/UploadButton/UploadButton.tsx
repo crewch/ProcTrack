@@ -6,7 +6,7 @@ import {
 	DialogTitle,
 	TextField,
 } from '@mui/material'
-import { CustomButton } from '../../../../CustomButton/CustomButton'
+import { GrayButton } from '../../../../ui/button/GrayButton'
 import { ChangeEvent, FC, memo, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import TelegramIcon from '@mui/icons-material/Telegram'
@@ -63,7 +63,7 @@ const UploadButton: FC<UploadButtonProps> = memo(({ processId }) => {
 
 	return (
 		<>
-			<CustomButton
+			<GrayButton
 				sx={{
 					fontSize: {
 						xs: '12px',
@@ -76,7 +76,7 @@ const UploadButton: FC<UploadButtonProps> = memo(({ processId }) => {
 				onClick={handleClickOpen}
 			>
 				Прикрепить паспорт
-			</CustomButton>
+			</GrayButton>
 
 			<Dialog
 				PaperProps={{
@@ -105,7 +105,7 @@ const UploadButton: FC<UploadButtonProps> = memo(({ processId }) => {
 						className={styles.TextField}
 					></TextField>
 					<Box component='label' className={styles.upload}>
-						<CustomButton
+						<GrayButton
 							sx={{
 								fontSize: {
 									xs: '12px',
@@ -120,12 +120,12 @@ const UploadButton: FC<UploadButtonProps> = memo(({ processId }) => {
 							}
 						>
 							Прикрепить паспорт
-						</CustomButton>
+						</GrayButton>
 						<input hidden type='file' onChange={saveFile} />
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<CustomButton
+					<GrayButton
 						sx={{
 							fontSize: {
 								xs: '12px',
@@ -139,7 +139,7 @@ const UploadButton: FC<UploadButtonProps> = memo(({ processId }) => {
 						onClick={sendFile}
 					>
 						Отправить
-					</CustomButton>
+					</GrayButton>
 				</DialogActions>
 			</Dialog>
 		</>

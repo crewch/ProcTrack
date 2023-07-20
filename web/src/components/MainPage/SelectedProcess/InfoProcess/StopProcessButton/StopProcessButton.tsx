@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { CustomButton } from '../../../../CustomButton/CustomButton'
+import { GrayButton } from '../../../../ui/button/GrayButton'
 import { useAppSelector } from '../../../../../hooks/reduxHooks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { processService } from '../../../../../services/process'
@@ -22,7 +22,7 @@ const StopProcessButton: FC = () => {
 	})
 
 	return (
-		<CustomButton
+		<GrayButton
 			onClick={() => mutation.mutate(openedProcessID)}
 			sx={{
 				fontSize: {
@@ -34,7 +34,7 @@ const StopProcessButton: FC = () => {
 			endIcon={<img src='/pause.svg' height='20px' width='20px' />}
 		>
 			Остановить процесс
-		</CustomButton>
+		</GrayButton>
 	)
 }
 
