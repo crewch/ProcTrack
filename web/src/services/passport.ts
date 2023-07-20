@@ -3,14 +3,14 @@ import { fileService } from './file'
 import { URL } from '../configs/url'
 import { Passport } from '../shared/interfaces/passport'
 
-const URL_getFileName = `http://${URL}/api/track/process/`
-const URL_sendFile = `http://${URL}/api/track/process/`
+const URL_getPassport = `http://${URL}/api/track/process/`
+const URL_sendPassport = `http://${URL}/api/track/process/`
 
 export const passportService = {
 	async getPassport(processId: number) {
 		try {
 			const fileRef: Passport[] = await (
-				await axios.get(`${URL_getFileName}${processId}/passport`)
+				await axios.get(`${URL_getPassport}${processId}/passport`)
 			).data
 
 			if (fileRef) {
@@ -34,7 +34,7 @@ export const passportService = {
 			const title = await fileService.sendFile(file)
 
 			await axios.post(
-				`${URL_sendFile}${processId}/passport`,
+				`${URL_sendPassport}${processId}/passport`,
 				{
 					title,
 					message,

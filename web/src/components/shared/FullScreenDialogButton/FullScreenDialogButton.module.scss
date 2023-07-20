@@ -1,0 +1,24 @@
+.dialog {
+	.appBar {
+		@apply relative shadow-none;
+		.toolbar {
+			@apply bg-ap-white;
+
+			.icon {
+				@apply text-ap-dark-gray h-[25px] w-[25px];
+			}
+
+			.title {
+				@apply ml-3 flex-1 text-irkut-dark font-[Montserrat] font-semibold text-[28px];
+			}
+		}
+	}
+
+	.main {
+		@apply h-full;
+
+		.divider {
+			@apply border-[1px] border-ap-light-gray;
+		}
+	}
+}

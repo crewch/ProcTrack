@@ -1,0 +1,15 @@
+.header {
+	@apply flex flex-col;
+
+	.wrap {
+		@apply flex justify-between mb-[2px];
+
+		.typography {
+			@apply font-[Montserrat] font-semibold text-[20px] 2xl:text-[32px] text-irkut-dark flex items-center gap-2;
+		}
+
+		.icon {
+			@apply flex justify-center items-center;
+		}
+	}
+}

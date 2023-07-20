@@ -1,9 +1,9 @@
 import { Box } from '@mui/material'
 import { Navigate } from 'react-router-dom'
-import ContainerListProcess from '../../components/MainPage/ContainerListProcess/ContainerListProcess'
-import SelectedProcess from '../../components/MainPage/SelectedProcess/SelectedProcess'
-import SelectedStage from '../../components/MainPage/SelectedStage/SelectedStage'
 import { useGetUserData } from '../../hooks/userDataHook'
+import SelectedStage from '../../components/shared/SelectedStage/SelectedStage'
+import SearchList from '../../components/shared/SearchList/SearchList'
+import SelectedProcessStagesList from '../../components/shared/SelectedProcessStagesList/SelectedProcessStagesList'
 import styles from '../../shared/styles/page.module.scss'
 
 const Release = () => {
@@ -13,9 +13,9 @@ const Release = () => {
 
 	return (
 		<Box component='main' className={styles.page}>
-			<ContainerListProcess page='main' />
-			<SelectedProcess />
-			<SelectedStage page='main' />
+			<SearchList page='release' />
+			<SelectedProcessStagesList page='release' />
+			<SelectedStage page='release' />
 		</Box>
 	)
 }
