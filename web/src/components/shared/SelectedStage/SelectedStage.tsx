@@ -66,14 +66,11 @@ const SelectedStage: FC<SelectedStageProps> = ({ page }) => {
 						role='Главный согласующий'
 					/>
 					{page === 'approval' && (
-						<>
-							<Divider className={styles.divider} />
-							<Buttons
-								selectedStage={selectedStage}
-								isLoading={isLoading}
-								isSuccess={isSuccess}
-							/>
-						</>
+						<Buttons
+							selectedStage={selectedStage}
+							isLoading={isLoading}
+							isSuccess={isSuccess}
+						/>
 					)}
 					<Divider className={styles.divider} />
 					<ListTasks

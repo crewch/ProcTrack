@@ -12,6 +12,7 @@ import {
 	ListItemText,
 	Typography,
 	LinearProgress,
+	Divider,
 } from '@mui/material'
 import { Stage } from '../../../../shared/interfaces/stage'
 import { stageService } from '../../../../services/stage'
@@ -96,91 +97,95 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 		<>
 			{isLoading && <LinearProgress />}
 			{isSuccess && isBoss && (
-				<Box sx={{ display: 'flex', gap: 2 }}>
-					{selectedStage.status === 'Согласовано' ||
-					selectedStage.status === 'Согласовано-Блокировано' ? (
-						<Button
-							size='small'
-							color='error'
-							variant='outlined'
-							onClick={() => mutationCancelStage.mutate()}
-						>
-							Отменить Согласование
-						</Button>
-					) : (
-						<Button
-							color='success'
-							size='small'
-							variant='outlined'
-							onClick={() => mutationSuccessStage.mutate()}
-						>
-							Согласовать
-						</Button>
-					)}
-					{selectedStage.status !== 'Согласовано' &&
-						selectedStage.status !== 'Согласовано-Блокировано' &&
-						selectedStage.canCreate.length > 0 && (
-							<>
-								<Button
-									size='small'
-									variant='outlined'
-									onClick={() => {
-										handleClickOpen()
-									}}
-								>
-									Редактировать путь согласования
-								</Button>
-								<Dialog
-									PaperProps={{
-										sx: {
-											width: '30%',
-											height: '40%',
-											borderRadius: '16px',
-											p: 1,
-										},
-									}}
-									open={open}
-									onClose={handleClose}
-								>
-									<DialogTitle>Редактировать путь согласования</DialogTitle>
-									<DialogContent>
-										<List sx={{ height: '100%', overflow: 'auto' }}>
-											{stages
-												.sort(
-													(a, b) => Number(b.data?.mark) - Number(a.data?.mark)
-												)
-												.map((item, index) => (
-													<ListItem key={index}>
-														{item.isSuccess && (
-															<>
-																<Checkbox
-																	onClick={() => {
-																		mutationGetStages.mutate({
-																			stage: item.data,
-																			userId,
-																		})
-																	}}
-																	checked={!item.data?.pass}
-																/>
-																<ListItemText>
-																	<Typography
-																		sx={{
-																			fontWeight: item.data?.mark ? 600 : 300,
-																		}}
-																	>
-																		{item.data?.title}
-																	</Typography>
-																</ListItemText>
-															</>
-														)}
-													</ListItem>
-												))}
-										</List>
-									</DialogContent>
-								</Dialog>
-							</>
+				<>
+					<Divider sx={{ my: '8px', borderWidth: '1px' }} />
+					<Box sx={{ display: 'flex', gap: 2 }}>
+						{selectedStage.status === 'Согласовано' ||
+						selectedStage.status === 'Согласовано-Блокировано' ? (
+							<Button
+								size='small'
+								color='error'
+								variant='outlined'
+								onClick={() => mutationCancelStage.mutate()}
+							>
+								Отменить Согласование
+							</Button>
+						) : (
+							<Button
+								color='success'
+								size='small'
+								variant='outlined'
+								onClick={() => mutationSuccessStage.mutate()}
+							>
+								Согласовать
+							</Button>
 						)}
-				</Box>
+						{selectedStage.status !== 'Согласовано' &&
+							selectedStage.status !== 'Согласовано-Блокировано' &&
+							selectedStage.canCreate.length > 0 && (
+								<>
+									<Button
+										size='small'
+										variant='outlined'
+										onClick={() => {
+											handleClickOpen()
+										}}
+									>
+										Редактировать путь согласования
+									</Button>
+									<Dialog
+										PaperProps={{
+											sx: {
+												width: '30%',
+												height: '40%',
+												borderRadius: '16px',
+												p: 1,
+											},
+										}}
+										open={open}
+										onClose={handleClose}
+									>
+										<DialogTitle>Редактировать путь согласования</DialogTitle>
+										<DialogContent>
+											<List sx={{ height: '100%', overflow: 'auto' }}>
+												{stages
+													.sort(
+														(a, b) =>
+															Number(b.data?.mark) - Number(a.data?.mark)
+													)
+													.map((item, index) => (
+														<ListItem key={index}>
+															{item.isSuccess && (
+																<>
+																	<Checkbox
+																		onClick={() => {
+																			mutationGetStages.mutate({
+																				stage: item.data,
+																				userId,
+																			})
+																		}}
+																		checked={!item.data?.pass}
+																	/>
+																	<ListItemText>
+																		<Typography
+																			sx={{
+																				fontWeight: item.data?.mark ? 600 : 300,
+																			}}
+																		>
+																			{item.data?.title}
+																		</Typography>
+																	</ListItemText>
+																</>
+															)}
+														</ListItem>
+													))}
+											</List>
+										</DialogContent>
+									</Dialog>
+								</>
+							)}
+					</Box>
+				</>
 			)}
 		</>
 	)
