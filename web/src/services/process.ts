@@ -4,13 +4,13 @@ import { Process } from '../shared/interfaces/process'
 import { Group } from '../shared/interfaces/group'
 import { NewProcessForm } from '../shared/interfaces/newProcessForm'
 
-const URL_AllProcess = `http://${URL}/api/track/process/get`
-const URL_IDProcess = `http://${URL}/api/track/process/`
-const URL_IDProcessByIdStage = `http://${URL}/api/track/process/`
-const URL_Template = `http://${URL}/api/track/property/templates`
-const URL_Group = `http://${URL}/api/auth/user/groups`
-const URL_Priority = `http://${URL}/api/track/property/priorities`
-const URL_AddProcess = `http://${URL}/api/track/process/create`
+const URL_AllProcess = `${URL}/api/track/process/get`
+const URL_IDProcess = `${URL}/api/track/process/`
+const URL_IDProcessByIdStage = `${URL}/api/track/process/`
+const URL_Template = `${URL}/api/track/property/templates`
+const URL_Group = `${URL}/api/auth/user/groups`
+const URL_Priority = `${URL}/api/track/property/priorities`
+const URL_AddProcess = `${URL}/api/track/process/create`
 
 interface Template {
 	id: number

@@ -3,7 +3,7 @@ import { LoginForm } from '../shared/interfaces/loginForm'
 import { URL } from '../configs/url'
 import { User } from '../shared/interfaces/user'
 
-const URL_login = `http://${URL}/api/auth/login`
+const URL_login = `${URL}/api/auth/login`
 
 export const loginService = {
 	async login(data: LoginForm) {

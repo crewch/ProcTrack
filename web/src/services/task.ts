@@ -2,8 +2,8 @@ import axios from 'axios'
 import { URL } from '../configs/url'
 import { Task } from '../shared/interfaces/task'
 
-const URL_TaskAll = `http://${URL}/api/track/stage/`
-const URL_switchTaskId = `http://${URL}/api/track/task/`
+const URL_TaskAll = `${URL}/api/track/stage/`
+const URL_switchTaskId = `${URL}/api/track/task/`
 
 export const taskService = {
 	async getTaskAll(id: number | undefined) {

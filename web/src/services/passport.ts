@@ -3,8 +3,8 @@ import { fileService } from './file'
 import { URL } from '../configs/url'
 import { Passport } from '../shared/interfaces/passport'
 
-const URL_getPassport = `http://${URL}/api/track/process/`
-const URL_sendPassport = `http://${URL}/api/track/process/`
+const URL_getPassport = `${URL}/api/track/process/`
+const URL_sendPassport = `${URL}/api/track/process/`
 
 export const passportService = {
 	async getPassport(processId: number) {

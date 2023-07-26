@@ -2,9 +2,9 @@ import axios from 'axios'
 import { URL } from '../configs/url'
 import { Stage } from '../shared/interfaces/stage'
 
-const URL_stageGetAll = `http://${URL}/api/track/process/`
-const URL_idStage = `http://${URL}/api/track/stage/`
-const URL_getStageAllByUserId = `http://${URL}/api/track/stage/get`
+const URL_stageGetAll = `${URL}/api/track/process/`
+const URL_idStage = `${URL}/api/track/stage/`
+const URL_getStageAllByUserId = `${URL}/api/track/stage/get`
 
 export const stageService = {
 	async getStageAllByProcessId(id: number | undefined) {
