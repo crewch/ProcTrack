@@ -1,4 +1,5 @@
 ﻿using AuthService.Dtos;
+using AuthService.Exceptions;
 using AuthService.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,67 +23,85 @@ namespace AuthService.Controllers
         [HttpPost]
         public async Task<ActionResult<List<HoldDto>>> GetHolds(UserHoldTypeDto data)
         {
-            var res = await _service.GetHolds(data);
-            return Ok(res);
+            try
+            {
+                var res = await _service.GetHolds(data);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Route("{id}")]
         [HttpGet]
         public async Task<ActionResult<HoldDto>> GetHoldById(int id)
         {
-            var res = await _service.GetHoldById(id);
-            return Ok(res);
+            try
+            {
+                var res = await _service.GetHoldById(id);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Route("create")]
         [HttpPost]
         public async Task<ActionResult<CreateHoldResponceDto>> CreateHold(CreateHoldRequestDto data)
         {
-            var res = await _service.CreateHold(data);
-            return Ok(res);
+            try
+            {
+                var res = await _service.CreateHold(data);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Route("find")]
         [HttpGet]
         public async Task<ActionResult<List<HoldDto>>> FindHold(int destId, string type)
         {
-            var res = await _service.FindHold(destId, type);
-            return Ok(res);
+            try
+            {
+                var res = await _service.FindHold(destId, type);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Route("Rights/Get")]
         [HttpPost]
-        public async Task<GetRightResponseDto> GetRights(GetRightRequestDto data)
+        public async Task<ActionResult<GetRightResponseDto>> GetRights(GetRightRequestDto data)
         {
-            var res = await _service.GetRights(data);
-            return res;
+            try
+            {
+                var res = await _service.GetRights(data);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        //[HttpPost]
-        //public async Task<ActionResult<List<HoldRightsDto>>> GetRightsHolds(LoginTypeDto loginType)
-        //{
-        //    var res = _service.GetHoldIdsAndRights(loginType);
-        //    if (res == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(res.Result);
-        //}
-
-        //[Route("CreateHold")]
-        //[HttpPost]
-        //public async Task<ActionResult<HoldRightsDto>> CreateHold(HoldDto data)
-        //{
-        //    var res = _service.CreateHold(data);
-        //    return Ok(res.Result);
-        //}
-
-        //[Route("UsersGroups")]
-        //[HttpPost]
-        //public async Task<ActionResult<UsersGroupsDto>> GetUsersGroups(GetUserByHoldDto data)
-        //{
-        //    var res = _service.GetUsersGroupsByHold(data);
-        //    return Ok(res.Result);
-        //}
-
     }
 }

@@ -32,13 +32,15 @@ namespace S3_Service
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "S3 Service", Version = "v1"});
             });
-            services.AddCors(c => c.AddPolicy("cors", opt =>
-            {
-                opt.AllowAnyHeader();
-                opt.AllowCredentials();
-                opt.AllowAnyMethod();
-                opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
-            }));
+            services.AddCors(
+            // c => c.AddPolicy("cors", opt =>
+            //     {
+            //         opt.AllowAnyHeader();
+            //         opt.AllowCredentials();
+            //         opt.AllowAnyMethod();
+            //         opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
+            //     })
+            );
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -52,7 +54,11 @@ namespace S3_Service
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseCors();
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

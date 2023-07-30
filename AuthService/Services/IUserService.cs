@@ -13,5 +13,9 @@ namespace AuthService.Services
         Task<GroupDto> AddGroup(CreateGroupDto data);
 
         Task<string> AddRole(string data);
+
+        Task<List<UserDto>> AddUsersToGroup(int GroupId, List<UserDto> data);
+
+        Task<List<UserDto>> GetUsersByGroupId(int Id);
     }
 }

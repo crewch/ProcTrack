@@ -3,6 +3,7 @@ version: '3.7'
 services:
 
   proxy:
+    image: proctrack/proxy
     build:
       context: .
       dockerfile: nginx.dockerfile
@@ -19,11 +20,12 @@ services:
       - s3-service
 
   frontend:
+    image: proctrack/frontend
     build:
       context: web
     environment:
-      VITE_API_HOST: "localhost"
-      VITE_API_PORT: "8000"
+      VITE_API_HOST: ${VITE_API_HOST}
+      VITE_API_PORT: ${VITE_API_PORT}
     ports:
       - "5173:5173"
     networks:
@@ -34,7 +36,7 @@ services:
       - s3-service
 
   db-service:
-    image: ${DOCKER_REGISTRY-}dbservice
+    image: proctrack/dbservice
     build:
       context: .
       dockerfile: DB-Service/Dockerfile
@@ -82,13 +84,12 @@ services:
       - api_network
 
   s3-service:
-    restart: on-failure
-    depends_on:
-      - minio
+    image: proctrack/s3service
     build:
       context: .
       dockerfile: S3-Service/Dockerfile
-    image: local/s3service:latest
+    depends_on:
+      - minio
     environment:
       ASPNETCORE_URLS: "http://0.0.0.0:8002"
       ASPNETCORE_ENVIRONMENT: Docker
@@ -96,10 +97,10 @@ services:
       - "8002:8002"
     networks:
       - api_network
+    restart: on-failure
 
   minio:
     container_name: minio
-    restart: on-failure
     image: minio/minio
     volumes:
       - minio_volume:/data
@@ -108,9 +109,10 @@ services:
     command: server /data
     networks:
       - api_network
+    restart: on-failure
 
   auth-service:
-    image: ${DOCKER_REGISTRY-}authservice
+    image: proctrack/authservice
     build:
       context: .
       dockerfile: AuthService/Dockerfile
@@ -131,6 +133,7 @@ services:
       - api_network
 
   mail-service:
+    image: proctrack/mailservice
     build:
       context: .
       dockerfile: mail-Service/Dockerfile

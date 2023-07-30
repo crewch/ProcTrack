@@ -1,4 +1,5 @@
 ﻿using AuthService.Dtos;
+using AuthService.Exceptions;
 using AuthService.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -20,44 +21,107 @@ namespace AuthService.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
-            var res = await _service.GetUserById(id);
-            if (res == null)
+            try
             {
-                return NotFound();
+                var res = await _service.GetUserById(id);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
-            return Ok(res);
         }
 
         [Route("Groups")]
         [HttpGet]
         public async Task<ActionResult<List<GroupDto>>> GetGroups()
         {
-            var res = await _service.GetGroups();
-            return Ok(res);
+            try
+            {
+                var res = await _service.GetGroups();
+                return Ok(res);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Route("Groups/Create")]
         [HttpPost]
         public async Task<ActionResult<GroupDto>> CreateGroup(CreateGroupDto data)
         {
-            var res = await _service.AddGroup(data);
-            return Ok(res);
+            try
+            {
+                var res = await _service.AddGroup(data);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Route("Roles/Create")]
         [HttpPost]
         public async Task<ActionResult<string>> CreateRole(string data)
         {
-            var res = await _service.AddRole(data);
-            return Ok(res);
+            try
+            {
+                var res = await _service.AddRole(data);
+                return Ok(res);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         } 
 
         [Route("Create")]
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateUser(UserDto data)
         {
-            var res = await _service.AddUser(data);
-            return Ok(res);
+            try
+            {
+                var res = await _service.AddUser(data);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Route("Groups/{GroupId}/AddUser")]
+        [HttpPost]
+        public async Task<ActionResult<List<UserDto>>> AddUsersToGroup(int GroupId, List<UserDto> data)
+        {
+            try
+            {
+                var res = await _service.AddUsersToGroup(GroupId, data);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [Route("Groups/{GroupId}/Users")]
+        [HttpGet]
+        public async Task<ActionResult<List<UserDto>>> GetUsersByGroupId(int GroupId)
+        {
+            try
+            {
+                var res = await _service.GetUsersByGroupId(GroupId);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

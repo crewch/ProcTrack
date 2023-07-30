@@ -17,7 +17,7 @@ namespace S3_Service.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [EnableCors("cors")]
+    [EnableCors]
     public class FilesController : ControllerBase
     {
         private const string BucketName = "test";

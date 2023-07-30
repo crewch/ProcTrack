@@ -14,5 +14,6 @@ namespace DB_Service.Clients.Http
         Task<HoldDto> GetHoldById(int id);
         Task<UserDto> GetUserById(int id);
         Task<List<HoldDto>> FindHold(int destId, string type);
+        Task<List<UserDto>> GetUsersByGroupId(int GroupId);
     }
 }
