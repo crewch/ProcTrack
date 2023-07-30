@@ -12,7 +12,7 @@ const LoginPage = () => {
 
 	const { control, handleSubmit, reset } = useForm({
 		defaultValues: {
-			email: '',
+			username: '',
 			password: '',
 		},
 	})
@@ -43,7 +43,7 @@ const LoginPage = () => {
 					</Typography>
 					<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 						<Controller
-							name='email'
+							name='username'
 							control={control}
 							rules={{ required: true }}
 							render={({ field }) => (
