@@ -4,6 +4,7 @@ using DB_Service.Dtos;
 using Microsoft.EntityFrameworkCore;
 using DB_Service.Services;
 using DB_Service.Tools;
+using DB_Service.Models;
 
 namespace DB_Service.Services
 {
@@ -11,65 +12,121 @@ namespace DB_Service.Services
     {
         private readonly DataContext _context;
         private readonly IAuthDataClient _authClient;
-        private readonly IFileDataClient _fileClient;
+        private readonly IMailDataClient _mailClient;
         private readonly ITaskService _taskService;
+        private readonly ILogService _logService;
 
         public StageService(DataContext context, 
-                            IAuthDataClient authClient, 
-                            IFileDataClient fileClient, 
-                            ITaskService taskService)
+                            IAuthDataClient authClient,
+                            IMailDataClient mailClient,
+                            ITaskService taskService,
+                            ILogService logService)
         {
             _context = context;
             _authClient = authClient;
-            _fileClient = fileClient;
+            _mailClient = mailClient;
             _taskService = taskService;
+            _logService = logService;
         }
 
         public async Task<StageDto> CancelStageById(int Id, int UserId)
         {
-            var stage = _context.Stages
+            var stage = await _context.Stages
                 .Include(s => s.Status)
                 .Where(s => s.Id == Id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (stage == null)
             {
                 return null;
             }
 
+            string oldStatus = stage.Status?.Title;
+            var oldSigned = stage.Signed;
+            var oldSignedAt = stage.SignedAt;
+            var oldSignId = stage.SignId;
+
             stage.Signed = null;
             stage.SignedAt = null;
             stage.SignId = null;
-            stage.Status = _context.Statuses
+
+            stage.Status = await _context.Statuses
                 .Where(s => s.Title.ToLower() == "отменен")
-                .FirstOrDefault();
-            _context.SaveChanges();
+                .FirstOrDefaultAsync();
+
+            await _context.SaveChangesAsync();
+
+            var logUser = await _authClient.GetUserById(UserId);
+            if (logUser != null)
+            {
+                await _logService.AddLog(new Log
+                {
+                    Table = "Stage",
+                    Field = "Status, Signed, SignedAt, SignId",
+                    Operation = "Update",
+                    LogId = Id.ToString(),
+                    Old = $"{oldStatus}, {oldSigned}, {oldSignedAt}, {oldSignId}",
+                    New = "Отменен, null, null, null",
+                    Author = logUser.ShortName.ToString(),
+                    CreatedAt = DateTime.Now.AddHours(3)
+                });
+                await _context.SaveChangesAsync();
+            }
+
+            var processForNotification = await _context.Processes
+                .Where(p => p.Id == stage.ProcessId)
+                .FirstOrDefaultAsync();
+
+            var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+            var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+
+            System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
+            {
+                To = notificatedReleaser.Email,
+                Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
+                       $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
+                       $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
+                       $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
+                       $"ProcTrack, Система отслеживания процессов согласования, <br>" +
+                       $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
+                Subject = $"Процесс согласования КД {processForNotification.Title}"
+            }));
 
             return await GetStageById(Id);
         }
 
         public async Task<StageDto> AssignStage(int UserId, int Id)
         {
-            var stage = _context.Stages
+            var logUser = await _authClient.GetUserById(UserId);
+
+            var stage = await _context.Stages
                 .Include(s => s.Status)
                 .Where(s => s.Id == Id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (stage == null)
             {
                 return null;
             }
+
+            var processForNotification = await _context.Processes
+                .Where(p => p.Id == stage.ProcessId)
+                .FirstOrDefaultAsync();
+
+            var oldStatus = stage.Status?.Title;
+
             if (stage.Pass ?? false)
             {
-                var nextStagesPass = _context.Edges
+                var nextStagesPass = await _context.Edges
                     .Include(e => e.EndStage.Status)
                     .Where(e => e.Start == stage.Id && e.EndStage.Status.Title.ToLower() == "не начат")
                     .Select(e => e.EndStage)
-                    .ToList();
+                    .ToListAsync();
 
-                var newStatusPass = _context.Statuses
+                var newStatusPass = await _context.Statuses
                     .Where(s => s.Title.ToLower() == "отправлен на проверку")
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
+                
                 foreach (var next in nextStagesPass)
                 {
                     if (next.Pass == null ? false : (bool) next.Pass)
@@ -78,8 +135,49 @@ namespace DB_Service.Services
                         continue;
                     }
                     next.Status = newStatusPass;
+
+                    var holdsForNotificate = await _authClient.FindHold(next.Id, "Stage");
+                    
+                    if (holdsForNotificate.Count < 1)
+                    {
+                        continue;
+                    }
+
+                    foreach (var group in holdsForNotificate[0]?.Groups)
+                    {
+                        var NotificatedUsers = await _authClient.GetUsersByGroupId(group.Id);
+                        foreach (var user in NotificatedUsers)
+                        {
+                            System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
+                            {
+                                To = user.Email,
+                                Body = $"Уважаемый(ая) {user.LongName.Split(' ').ToList()[1]} {user.LongName.Split(' ').ToList()[2]},<br><br>" +
+                                       $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
+                                       $"\"{stage.Title}\" <br> отправлен на проверку в Ваше подразделение \"{group.Title}\" <br><br>" +
+                                       $"ProcTrack, Система отслеживания процессов согласования, <br>" +
+                                       $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
+                                Subject = $"Процесс согласования КД {processForNotification.Title}"
+                            }));
+                        }
+                    }
+
+                    var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+                    var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+
+                    System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
+                    {
+                        To = notificatedReleaser.Email,
+                        Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
+                               $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
+                               $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
+                               $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
+                               $"ProcTrack, Система отслеживания процессов согласования, <br>" +
+                               $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
+                        Subject = $"Процесс согласования КД {processForNotification.Title}"
+                    }));
                 }
-                _context.SaveChanges();
+
+                await _context.SaveChangesAsync();
 
                 return await GetStageById(Id);
             }
@@ -89,67 +187,107 @@ namespace DB_Service.Services
             stage.Signed = UserId.ToString();
             stage.SignedAt = DateTime.Now.AddHours(3);
             
-            if (_context.Stages
-                    .Include(s => s.Status)
-                    .Where(s => s.ProcessId == stage.ProcessId && 
-                            s.Id != stage.Id && (
-                            s.Status.Title.ToLower() == "отменено" ||
-                            s.Status.Title.ToLower() == "остановлен"
-                        ))
-                    .Select(s => s.Status.Title)
-                    .ToList()
-                    .Count() != 0)
+            var canselledStages = await _context.Stages
+                .Include(s => s.Status)
+                .Where(s => s.ProcessId == stage.ProcessId && 
+                        s.Id != stage.Id && (
+                        s.Status.Title.ToLower() == "отменено" ||
+                        s.Status.Title.ToLower() == "остановлен"
+                    ))
+                .Select(s => s.Status.Title)
+                .ToListAsync();
+
+            if (canselledStages.Count() > 0)
             {
-                stage.Status = _context.Statuses
+                stage.Status = await _context.Statuses
                     .Where(s => s.Title.ToLower() == "согласовано-блокировано")
-                    .FirstOrDefault();
-                _context.SaveChanges();
+                    .FirstOrDefaultAsync();
+
+                await _context.SaveChangesAsync();
+
+                if (logUser != null)
+                {
+                    await _logService.AddLog(new Log
+                    {
+                        Table = "Stage",
+                        Field = "Status",
+                        Operation = "Update",
+                        LogId = Id.ToString(),
+                        Old = $"{oldStatus}",
+                        New = "Cогласовано-блокировано",
+                        Author = logUser.ShortName.ToString(),
+                        CreatedAt = DateTime.Now.AddHours(3)
+                    });
+                    await _context.SaveChangesAsync();
+                }
+
                 return await GetStageById(Id);
             }
 
-            var dependences = _context.Dependences
+            var dependences = await _context.Dependences
                 .Include(d => d.SecondStage.Status)
                 .Where(d => d.First == stage.Id)
                 .Select(d => d.SecondStage)
-                .ToList();
+                .ToListAsync();
             
             if (dependences.All(d => 
                     d.Status.Title.ToLower() == "согласовано-блокировано" ||
                     d.Status.Title.ToLower() == "согласовано") || 
                 dependences == null)
             {
-                stage.Status = _context.Statuses
+                stage.Status = await _context.Statuses
                     .Where(s => s.Title.ToLower() == "согласовано")
-                    .FirstOrDefault();
-                _context.SaveChanges();
+                    .FirstOrDefaultAsync();
+                
+                await _context.SaveChangesAsync();
             } else {
-                stage.Status = _context.Statuses
+                stage.Status = await _context.Statuses
                     .Where(s => s.Title.ToLower() == "согласовано-блокировано")
-                    .FirstOrDefault();
-                _context.SaveChanges();
+                    .FirstOrDefaultAsync();
+
+                await _context.SaveChangesAsync();
+
+                if (logUser != null)
+                {
+                    await _logService.AddLog(new Log
+                    {
+                        Table = "Stage",
+                        Field = "Status",
+                        Operation = "Update",
+                        LogId = Id.ToString(),
+                        Old = $"{oldStatus}",
+                        New = "Cогласовано-блокировано",
+                        Author = logUser.ShortName.ToString(),
+                        CreatedAt = DateTime.Now.AddHours(3)
+                    });
+                    await _context.SaveChangesAsync();
+                }
+
                 return await GetStageById(Id);
             }
             
-            var dependent = _context.Dependences
+            var dependent = await _context.Dependences
                 .Include(d => d.FirstStage.Status)
-                .Where(d => d.Second == stage.Id && d.FirstStage.Status.Title.ToLower() == "согласовано-блокировано")
+                .Where(d => d.Second == stage.Id && 
+                        d.FirstStage.Status.Title.ToLower() == "согласовано-блокировано")
                 .Select(d => d.FirstStage)
-                .ToList();
+                .ToListAsync();
             
             foreach (var depStage in dependent)
             {
                 await AssignStage(UserId, depStage.Id);
             }
 
-            var nextStages = _context.Edges
+            var nextStages = await _context.Edges
                 .Include(e => e.EndStage.Status)
                 .Where(e => e.Start == stage.Id && e.EndStage.Status.Title.ToLower() == "не начат")
                 .Select(e => e.EndStage)
-                .ToList();
+                .ToListAsync();
 
-            var newStatus = _context.Statuses
+            var newStatus = await _context.Statuses
                 .Where(s => s.Title.ToLower() == "отправлен на проверку")
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
+
             foreach (var next in nextStages)
             {
                 if (next.Pass ?? false)
@@ -158,30 +296,92 @@ namespace DB_Service.Services
                     continue;
                 }
                 next.Status = newStatus;
+
+                var holdsForNotificate = await _authClient.FindHold(next.Id, "Stage");
+                    
+                if (holdsForNotificate.Count < 1)
+                {
+                    continue;
+                }
+
+                foreach (var group in holdsForNotificate[0]?.Groups)
+                {
+                    var NotificatedUsers = await _authClient.GetUsersByGroupId(group.Id);
+                    foreach (var user in NotificatedUsers)
+                    {
+                        System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
+                        {
+                            To = user.Email,
+                            Body = $"Уважаемый(ая) {user.LongName.Split(' ').ToList()[1]} {user.LongName.Split(' ').ToList()[2]},<br><br>" +
+                                   $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
+                                   $"\"{stage.Title}\" <br> отправлен на проверку в Ваше подразделение \"{group.Title}\" <br><br>" +
+                                   $"ProcTrack, Система отслеживания процессов согласования, <br>" +
+                                   $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
+                            Subject = $"Процесс согласования КД {processForNotification.Title}"
+                        }));
+                    }
+                }
+                var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+                var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+
+                System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
+                {
+                    To = notificatedReleaser.Email,
+                    Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
+                           $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
+                           $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
+                           $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
+                           $"ProcTrack, Система отслеживания процессов согласования, <br>" +
+                           $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
+                    Subject = $"Процесс согласования КД {processForNotification.Title}"
+                }));
             }
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             if (blockStage) {
-                var blockingStagesIds = _context.Stages
+                var blockingStagesIds = await _context.Stages
                     .Include(s => s.Status)
                     .Where(s => s.ProcessId == stage.ProcessId &&
                                 s.Status.Title.ToLower() == "согласовано-блокировано")
                     .Select(s => s.Id)
-                    .ToList();
+                    .ToListAsync();
+
                 foreach (var blockingStageId in blockingStagesIds)
                 {
                     await AssignStage(UserId, blockingStageId);
                 }
             }
 
+            await _context.SaveChangesAsync();
+
+            string newStatusLog = stage.Status.Title;
+
+            if (logUser != null)
+            {
+                await _logService.AddLog(new Log
+                {
+                    Table = "Stage",
+                    Field = "Status",
+                    Operation = "Update",
+                    LogId = Id.ToString(),
+                    Old = $"{oldStatus}",
+                    New = $"{newStatusLog}",
+                    Author = logUser.ShortName.ToString(),
+                    CreatedAt = DateTime.Now.AddHours(3)
+                });
+                await _context.SaveChangesAsync();
+            }
+
             return await GetStageById(Id);
         }
+
         public async Task<StageDto> GetStageById(int Id)
         {
-            var stageModel = _context.Stages
+            var stageModel = await _context.Stages
                 .Include(s => s.Status)
                 .Where(s => s.Id == Id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (stageModel == null)
             {
@@ -197,11 +397,11 @@ namespace DB_Service.Services
 
             var holds = await _authClient.FindHold(Id, "Stage");
 
-            var status = _context.Statuses
+            var status = await _context.Statuses
                 .Where(s => s.Id == stageModel.StatusId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
-            var res = new StageDto
+            return new StageDto
             {
                 Id = stageModel.Id,
                 ProcessId = stageModel.ProcessId,
@@ -217,8 +417,6 @@ namespace DB_Service.Services
                 Pass = stageModel.Pass,
                 CanCreate = stageModel.CanCreate
             };
-
-            return res;
         }
 
         public async Task<List<StageDto>> GetStagesByUserId(int UserId)
@@ -249,14 +447,15 @@ namespace DB_Service.Services
 
                 used.Add(hold.DestId);
 
-                var stageModel = _context.Stages
+                var stageModel = await _context.Stages
                     .Include(s => s.Status)
                     .Where(s => s.Id == hold.DestId &&
                                 s.Status != null && 
                                 s.Status.Title.ToLower() != "не начат" &&
-                                s.Status.Title.ToLower() != "остановлен"
+                                s.Status.Title.ToLower() != "остановлен" &&
+                                !(s.Pass ?? false) // тут добавить фильтры
                     )
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 if (stageModel != null)
                 {
@@ -269,14 +468,16 @@ namespace DB_Service.Services
                 }
             }
 
+            // тут добавить сортировку и пагинацию
+
             return res;
         }
 
         public async Task<List<TaskDto>> GetTasksByStageId(int Id)
         {
-            var taskModels = _context.Tasks
+            var taskModels = await _context.Tasks
                 .Where(s => s.StageId == Id)
-                .ToList();
+                .ToListAsync();
 
             var res = new List<TaskDto>();
 
@@ -288,39 +489,84 @@ namespace DB_Service.Services
                     res.Add(taskDto);
                 }
             }
+
             return res;
         }
 
         public async Task<StageDto> UpdateStage(int UserId, int Id, StageDto data)
         {
-            var stage = _context.Stages
+            var logUser = await _authClient.GetUserById(UserId);
+
+            var stage = await _context.Stages
                 .Where(s => s.Id == Id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (stage == null)
             {
                 return null;
             }
-            if (data.Title != null) {
+
+            var oldTitle = stage.Title;
+            var oldPass = stage.Pass;
+            var oldStatus = stage.Status?.Title;
+
+            if (data.Title != null)
+            {
                 stage.Title = data.Title;
             }
-            if (data.Pass != null) {
+
+            if (data.Pass != null)
+            {
                 stage.Pass = data.Pass;
             }
             
-            if (data.Status != null) {
-                var status = _context.Statuses
+            if (data.Status != null)
+            {
+                var status = await _context.Statuses
                     .Where(s => s.Title == data.Status)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 stage.Status = status;
+
+                var processForNotification = await _context.Processes
+                    .Where(p => p.Id == stage.ProcessId)
+                    .FirstOrDefaultAsync();
+
+                var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+                var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+
+                System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
+                {
+                    To = notificatedReleaser.Email,
+                    Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
+                           $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
+                           $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
+                           $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
+                           $"ProcTrack, Система отслеживания процессов согласования, <br>" +
+                           $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
+                    Subject = $"Процесс согласования КД {processForNotification.Title}"
+                }));
             }
             
             _context.SaveChanges();
 
-            var res = await GetStageById(Id);
+            if (logUser != null)
+            {
+                await _logService.AddLog(new Log
+                {
+                    Table = "Stage",
+                    Field = "Title, Pass, Status",
+                    Operation = "Update",
+                    LogId = Id.ToString(),
+                    Old = $"{oldTitle}, {oldPass}, {oldStatus}",
+                    New = $"{stage.Title}, {stage.Pass}, {stage.Status?.Title}",
+                    Author = logUser.ShortName.ToString(),
+                    CreatedAt = DateTime.Now.AddHours(3)
+                });
+                await _context.SaveChangesAsync();
+            }
 
-            return res;
+            return await GetStageById(Id);
         }
     }
 }

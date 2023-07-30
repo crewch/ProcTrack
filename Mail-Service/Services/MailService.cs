@@ -25,8 +25,6 @@ namespace Mail_Service.Services
             mail.To.Add(MailboxAddress.Parse(mailData.To));
             mail.Subject = mailData.Subject;
             mail.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = mailData.Body };
-            
-            
 
             using var SMTP = new SmtpClient();
             SMTP.Connect(host, port, SecureSocketOptions.StartTls);

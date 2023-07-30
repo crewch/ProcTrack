@@ -1,5 +1,6 @@
 ﻿using AuthService.Data;
 using AuthService.Dtos;
+using AuthService.Exceptions;
 using AuthService.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,15 +15,17 @@ namespace AuthService.Services
             _context = context;
         }
 
-        public Task<UserDto> GetUserById(int id)
+        public async Task<UserDto> GetUserById(int id)
         {
-            var user = _context.Users
+            var user = await _context.Users
                 .Include(u => u.Roles)
                 .Where(u => u.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
+
             if (user == null)
             {
-                return Task.FromResult<UserDto>(null);
+                // throw new NotFoundException($"user with id {id} not found");
+                return null;
             }
             var userDto = new UserDto
             {
@@ -32,13 +35,13 @@ namespace AuthService.Services
                 ShortName = user.ShortName,
                 Roles = user.Roles.Select(r => r.Title).ToList(),
             };
-            return Task.FromResult(userDto);
+            return userDto;
         }
 
         public async Task<List<GroupDto>> GetGroups()
         {
-            var groups = _context.Groups
-                .ToList();
+            var groups = await _context.Groups
+                .ToListAsync();
             
             var res = new List<GroupDto>();
 
@@ -60,9 +63,16 @@ namespace AuthService.Services
 
             foreach (var role in data.Roles)
             {
-                roles.Add(_context.Roles
+                var roleModel = await _context.Roles
                     .Where(r => r.Title == role)
-                    .FirstOrDefault());
+                    .FirstOrDefaultAsync();
+
+                if (roleModel == null)
+                {
+                    throw new NotFoundException($"role \"{role}\" not found");
+                }
+
+                roles.Add(roleModel);
             }
 
             var user = new User
@@ -86,14 +96,26 @@ namespace AuthService.Services
 
             foreach (var user in data.Users)
             {
-                users.Add(_context.Users
+                var userModel = await _context.Users
                     .Where(u => u.Email == user.Email)
-                    .FirstOrDefault());
+                    .FirstOrDefaultAsync();
+
+                if (userModel == null)
+                {
+                    throw new NotFoundException($"user \"{user.Email}\" not found");
+                }
+                
+                users.Add(userModel);
             }
 
-            var boss = _context.Users
+            var boss = await _context.Users
                 .Where(u => u.Email == data.Boss.Email)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
+
+            if (boss == null)
+            {
+                throw new NotFoundException($"user \"{data.Boss.Email}\" not found");
+            }
 
             var group = new Group
             {
@@ -103,8 +125,8 @@ namespace AuthService.Services
                 Users = users,
             };
 
-            _context.Add(group);
-            _context.SaveChanges();
+            await _context.AddAsync(group);
+            await _context.SaveChangesAsync();
 
             var res = new GroupDto
             {
@@ -117,17 +139,72 @@ namespace AuthService.Services
             return res;
         }
 
-        public Task<string> AddRole(string data)
+        public async Task<string> AddRole(string data)
         {
             var role = new Role
             {
                 Title = data,
             };
 
-            _context.Add(role);
-            _context.SaveChanges();
+            await _context.AddAsync(role);
+            await _context.SaveChangesAsync();
 
-            return Task.FromResult(role.Title);
+            return role.Title;
+        }
+
+        public async Task<List<UserDto>> AddUsersToGroup(int GroupId, List<UserDto> data)
+        {
+            var group = await _context.Groups
+                .Include(g => g.Users)
+                .Where(g => g.Id == GroupId)
+                .FirstOrDefaultAsync();
+
+            if (group == null)
+            {
+                throw new NotFoundException($"group with id {GroupId} not found");
+            }
+            
+            var res = new List<UserDto>();
+
+            foreach (var user in data)
+            {
+                User iUser = await _context.Users
+                        .Where(u => u.Id == user.Id)
+                        .FirstOrDefaultAsync();
+
+                if (iUser == null)
+                {
+                    throw new NotFoundException($"user with id {user.Id} not found");
+                }
+
+                group.Users.Add(iUser);
+                res.Add(await GetUserById(iUser.Id));
+            }
+            await _context.SaveChangesAsync();
+            return res;
+        }
+
+        public async Task<List<UserDto>> GetUsersByGroupId(int Id)
+        {
+            var users = await _context.UserGroupMappers
+                .Where(ug => ug.GroupId == Id)
+                .Select(ug => ug.User)
+                .ToListAsync();
+
+            if (users == null)
+            {
+                return null;
+            }
+            
+            var res = new List<UserDto>();
+
+            foreach (var user in users)
+            {
+                var userDto = await GetUserById(user.Id);
+                res.Add(userDto);
+            }
+
+            return res;
         }
     }
 }

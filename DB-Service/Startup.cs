@@ -1,4 +1,4 @@
-﻿using DB_Service.Clients.Http;
+using DB_Service.Clients.Http;
 using DB_Service.Data;
 using DB_Service.Services;
 using Microsoft.EntityFrameworkCore;

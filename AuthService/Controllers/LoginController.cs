@@ -1,4 +1,5 @@
 ﻿using AuthService.Dtos;
+using AuthService.Exceptions;
 using AuthService.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -20,17 +21,20 @@ namespace AuthService.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDto>> Authorize(AuthDto data)
         {
-            var res = await _service.Authorize(data);
-            return Ok(res);
+            try
+            {
+                var res = await _service.Authorize(data);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (UnauthorizedException ex)
+            {
+                return Unauthorized(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
-        [Route("GetEnv")]
-        [HttpGet]
-        public async Task<ActionResult<EnvDto>> GetEnv()
-        {
-            var res = await _service.GetEnv();
-            return Ok(res);
-        }
-
     }
 }

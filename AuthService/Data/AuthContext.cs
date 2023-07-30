@@ -99,21 +99,3 @@ namespace AuthService.Data
         }
     }
 }
-
-
-// у одного Type мб много Hold
-
-// у одного Group мб много GroupHoldMapper
-// у одного Hold мб много GroupHoldMapper
-
-// у одного Hold мб много RightHoldMapper
-// у одного Right мб много RightHoldMapper
-
-// у одного Hold мб много UserHoldMapper
-// у одного User мб много UserHoldMapper
-
-// у одного User мб много UserGroupMapper
-// у одного Group мб много UserGroupMapper
-
-// у одного User мб много UserRoleMapper
-// у одного Role мб много UserRoleMapper

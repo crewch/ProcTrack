@@ -1,4 +1,5 @@
 ﻿using DB_Service.Dtos;
+using DB_Service.Models;
 using DB_Service.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -11,18 +12,21 @@ namespace DB_Service.Controllers
     [EnableCors("cors")]
     public class PropertyController : ControllerBase
     {
-        private readonly IPropertyService _service;
+        private readonly IPropertyService _propertyService;
+        private readonly ILogService _logService;
 
-        public PropertyController(IPropertyService service)
+        public PropertyController(IPropertyService propertyService,
+                                  ILogService logService)
         {
-            _service = service;
+            _propertyService = propertyService;
+            _logService = logService;
         }
 
         [Route("Templates")]
         [HttpGet]
         public async Task<ActionResult<List<ProcessDto>>> GetTemplates()
         {
-            var res = await _service.GetTemplates();
+            var res = await _propertyService.GetTemplates();
             return Ok(res);
         }
 
@@ -30,8 +34,16 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<string>>> GetPriorities()
         {
-            var res = await _service.GetPriorities();
+            var res = await _propertyService.GetPriorities();
             return Ok(res);
         }
+
+        [Route("Logs")]
+        [HttpGet]
+        public async Task<ActionResult<List<Log>>> GetLogs()
+        {
+            var res = await _logService.GetLogs();
+            return Ok(res);
+        } 
     }
 }

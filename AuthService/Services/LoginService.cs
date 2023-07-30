@@ -1,15 +1,10 @@
 ﻿using AuthService.Data;
 using AuthService.Dtos;
+using AuthService.Exceptions;
 using AuthService.Models;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+
 using Novell.Directory.Ldap;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Authentication;
-using System.Security.Claims;
-using System.Text;
 
 namespace AuthService.Services
 {
@@ -17,64 +12,66 @@ namespace AuthService.Services
     {
         private readonly AuthContext _context;
         private IConfiguration _configuration;
+        private readonly string LDAP_HOST;
+        private readonly int LDAP_PORT;
 
         public LoginService(AuthContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
+            LDAP_HOST = configuration["LDAP_HOST"];
+            LDAP_PORT = int.Parse(configuration["LDAP_PORT"]);
         }
 
-        public bool ValidateUser(string domainName, string username, string password)
+        private bool ValidateUser(string username, string password)
         {
-            string userDn = $"{username}@{domainName}";
+            string domain = "irkut.com";
+
             try
             {
-                using (var connection = new LdapConnection {SecureSocketLayer = false})
+                using (var connection = new LdapConnection())
                 {
-                    connection.Connect(domainName, LdapConnection.DefaultPort);
-                    connection.Bind(userDn, password);
+                    connection.Connect(LDAP_HOST, LDAP_PORT);
+                    connection.Bind(username + "@" + domain, password);
                     if (connection.Bound)
                         return true;
                 }
             }
             catch (LdapException ex)
             {
-                // Log exception
+                return false;
             }
             return false;
         }
 
         public async Task<UserDto> Authorize(AuthDto data)
         {
-            var user = _context.Users
+            var user = await _context.Users
                 .Include(u => u.UserRoles)
                     .ThenInclude(ur => ur.Role)
-                .Where(u => u.Email == data.Email)
-                .FirstOrDefault();
-
+                .Where(u => u.ShortName.ToLower() == data.Username.ToLower())
+                .FirstOrDefaultAsync();
             
-
-            var dto = new UserDto
+            if (user == null)
             {
-                Id = user.Id,
-                Email = user.Email,
-                LongName = user.LongName,
-                ShortName = user.ShortName,
-                Roles = user.Roles.Select(r => r.Title).ToList(),
-            };
-            return dto;
-        }
+                throw new NotFoundException($"User with name {data.Username} not found");
+            }
 
-        public async Task<EnvDto> GetEnv()
-        {
-            var res = new EnvDto
-            {
-                LDAP_HOST = _configuration["LDAP_HOST"],
-                LDAP_PORT = int.Parse(_configuration["LDAP_PORT"]),
-                LDAP_LOGIN = _configuration["LDAP_LOGIN"],
-                LDAP_PASSWORD = _configuration["LDAP_PASSWORD"]
-            };
-            return res;
+            //if (ValidateUser(data.Username, data.Password))
+            //{
+                var dto = new UserDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    LongName = user.LongName,
+                    ShortName = user.ShortName,
+                    Roles = user.Roles.Select(r => r.Title).ToList(),
+                };
+                return dto;   
+            //} else
+            //{
+            //    throw new UnauthorizedException($"User with name {data.Username} not registred");
+            //}
         }
     }
 }

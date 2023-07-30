@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using DB_Service.Tools;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace DB_Service.Services
 {
@@ -13,15 +14,21 @@ namespace DB_Service.Services
     {
         private readonly DataContext _context;
         private readonly IAuthDataClient _authClient;
-        private readonly IFileDataClient _fileClient;
+        private readonly IMailDataClient _mailClient;
         private readonly IStageService _stageService;
+        private readonly ILogService _logService;
 
-        public ProcessService(DataContext context, IAuthDataClient authClient, IFileDataClient fileClient, IStageService stageService)
+        public ProcessService(DataContext context, 
+                              IAuthDataClient authClient,
+                              IMailDataClient mailClient,
+                              IStageService stageService,
+                              ILogService logService)
         {
             _context = context;
             _authClient = authClient;
-            _fileClient = fileClient;
+            _mailClient = mailClient;
             _stageService = stageService;
+            _logService = logService;
         }
 
         public async Task<PassportDto> CreatePassport(CreatePassportDto data, int UserId, int Id)
@@ -35,9 +42,37 @@ namespace DB_Service.Services
             };
             
             _context.Passports.Add(passport);
-            _context.SaveChanges();
+            
+            var stages = _context.Stages
+                .Include(s => s.Status)
+                .Where(s => s.ProcessId == Id && 
+                            (s.Status.Title.ToLower() == "согласовано" || 
+                             s.Status.Title.ToLower() == "согласовано-блокировано"))
+                .ToList();
 
-            var dto = new PassportDto
+            foreach (var stage in stages)
+            {
+                stage.Status = _context.Statuses.Where(s => s.Title.ToLower() == "отменен").FirstOrDefault();    
+            }
+
+            await _context.SaveChangesAsync();
+
+            var user = await _authClient.GetUserById(UserId);
+            if (user != null)
+            {
+                await _logService.AddLog(new Log
+                {
+                    Table = "Passport",
+                    Operation = "Create",
+                    LogId = passport.Id.ToString(),
+                    New = passport.Title,
+                    Author = user.ShortName.ToString(),
+                    CreatedAt = DateTime.Now.AddHours(3)
+                });
+                await _context.SaveChangesAsync();
+            }
+
+            return new PassportDto
             {
                 Id = passport.Id,
                 Title = passport.Title,
@@ -45,52 +80,51 @@ namespace DB_Service.Services
                 Message = passport.Message,
                 ProcessId = passport.ProcessId,
             };
-            
-            return dto;
         }
 
         public async Task<ProcessDto> CreateProcess(CreateProcessDto data, int UserId)
         {
-            // TODO: добавить проверку юзера и группы, на то существуют ли они
             if (data.Process == null)
             {
                 return null;
             }
 
-            var template = _context.Processes
+            var template = await _context.Processes
                 .Include(t => t.Type)
                 .Where(t => t.Id == data.TemplateId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (template == null)
             {
                 return null;
             }
 
-            var priority = _context.Priorities
+            var priority = await _context.Priorities
                 .Where(p => data.Process.Priority == p.Title)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (priority == null)
             {
                 return null;
             }
 
-            var stages = _context.Stages
+            var stages = await _context.Stages
                 .Where(s => s.ProcessId == template.Id)
-                .ToList();
+                .ToListAsync();
 
-            var defualt_status = _context.Statuses
+            var defualt_status = await _context.Statuses
                 .Where(s => s.Title.ToLower() == "не начат")
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             var stageMatrix = new List<Tuple<int, Stage>>();
             foreach (var stage in stages)
             {
-                var tasks = _context.Tasks
+                var tasks = await _context.Tasks
                     .Where(t => t.StageId == stage.Id)
-                    .ToList();
+                    .ToListAsync();
+
                 var newTasks = new List<Models.Task>();
+                
                 foreach (var task in tasks)
                 {
                     var newTask = new Models.Task()
@@ -99,15 +133,15 @@ namespace DB_Service.Services
                         ExpectedTime = task.ExpectedTime,
                     };
                     newTasks.Add(newTask);
-                    _context.Tasks.Add(newTask);
+                    await _context.Tasks.AddAsync(newTask);
                 }
 
                 var new_status = defualt_status;
                 if (stage.Id == template.Head)
                 {
-                    new_status = _context.Statuses
+                    new_status = await _context.Statuses
                         .Where(s => s.Title.ToLower() == "остановлен")
-                        .FirstOrDefault();
+                        .FirstOrDefaultAsync();
                 }
 
                 var newStage = new Stage()
@@ -121,30 +155,34 @@ namespace DB_Service.Services
                     Pass = stage.Pass,
                     Mark = stage.Mark,
                 };
-                stageMatrix.Add(new Tuple<int, Stage>(stage.Id, newStage));
-                _context.Stages.Add(newStage);
-            }
-            _context.SaveChanges();
 
+                stageMatrix.Add(new Tuple<int, Stage>(stage.Id, newStage));
+                await _context.Stages.AddAsync(newStage);
+            }
+
+            await _context.SaveChangesAsync();
+            
             foreach (var stage in stages)
             {
                 var newCanCreate = new List<int>();
+
                 foreach (var id in stage.CanCreate)
                 {
                     newCanCreate.Add(stageMatrix.Find(s => s.Item1 == id).Item2.Id);
                 }
                 stageMatrix.Find(s => s.Item1 == stage.Id).Item2.CanCreate = newCanCreate;
             }
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             var edgeGraph = new Dictionary<int, List<int?>>();
 
             for (int i = 0; i < stageMatrix.Count; i++)
             {
-                var inEdges = _context.Edges
+                var inEdges = await _context.Edges
                     .Where(e => e.Start == stageMatrix[i].Item1)
                     .Select(e => e.End)
-                    .ToList();
+                    .ToListAsync();
 
                 edgeGraph[stageMatrix[i].Item1] = inEdges;
             }
@@ -158,7 +196,7 @@ namespace DB_Service.Services
                         StartStage = stageMatrix.Find(e => e.Item1 == i.Key).Item2,
                         EndStage = stageMatrix.Find(e => e.Item1 == j).Item2,
                     };
-                    _context.Edges.Add(newEdge);
+                    await _context.Edges.AddAsync(newEdge);
                 }
             }
 
@@ -166,10 +204,10 @@ namespace DB_Service.Services
 
             for (int i = 0; i < stageMatrix.Count; i++)
             {
-                var inDependences = _context.Dependences
+                var inDependences = await _context.Dependences
                     .Where(e => e.First == stageMatrix[i].Item1)
                     .Select(e => e.Second)
-                    .ToList();
+                    .ToListAsync();
 
                 dependenceGraph[stageMatrix[i].Item1] = inDependences;
             }
@@ -183,16 +221,8 @@ namespace DB_Service.Services
                         FirstStage = stageMatrix.Find(e => e.Item1 == i.Key).Item2,
                         SecondStage = stageMatrix.Find(e => e.Item1 == j).Item2,
                     };
-                    _context.Dependences.Add(newDependence);
+                    await _context.Dependences.AddAsync(newDependence);
                 }
-            }
-
-            _context.SaveChanges();
-
-            Console.WriteLine("\n\n\n");
-            for (int i = 0; i < stageMatrix.Count; i++)
-            {
-                Console.WriteLine($"{stageMatrix[i].Item2.Id} : {stageMatrix[i].Item1}");
             }
 
             var newProcess = new Models.Process
@@ -208,8 +238,8 @@ namespace DB_Service.Services
                 Stages = stageMatrix.Select(s => s.Item2).ToList(),
             };
 
-            _context.Processes.Add(newProcess);
-            _context.SaveChanges();
+            await _context.Processes.AddAsync(newProcess);
+            await _context.SaveChangesAsync();
 
             var CreateHoldUser = await _authClient.CreateHold(new CreateHoldRequestDto
             {
@@ -232,7 +262,7 @@ namespace DB_Service.Services
                 if (stageTuple.Item2.Id == newProcess.HeadStage.Id)
                 {
                     var newHold = await _authClient.CreateHold(new CreateHoldRequestDto
-                        {
+                    {
                         DestId = stageTuple.Item2.Id,
                         DestType = "Stage",
                         HolderId = (int) data.GroupId,
@@ -270,34 +300,51 @@ namespace DB_Service.Services
                 }
             }
 
+            await _context.SaveChangesAsync();
+
+            var logUser = await _authClient.GetUserById(UserId);
+            if (logUser != null)
+            {
+                await _logService.AddLog(new Log
+                {
+                    Table = "Process",
+                    Operation = "Create",
+                    LogId = newProcess.Id.ToString(),
+                    New = newProcess.Title,
+                    Author = logUser.ShortName.ToString(),
+                    CreatedAt = DateTime.Now.AddHours(3)
+                });
+                await _context.SaveChangesAsync();
+            }
+
             return await GetProcessById(newProcess.Id);
         }
 
         public async Task<LinkDto> GetLinksByProcessId(int Id)
         {
-            var stages = _context.Stages
+            var stages = await _context.Stages
                 .Where(s => s.ProcessId == Id)
-                .ToList();
+                .ToListAsync();
 
             var edges = new List<Tuple<int, int>>();
             var dependences = new List<Tuple<int, int>>();
 
             foreach (var stage in stages)
             {
-                var inEdges = _context.Edges
+                var inEdges = await _context.Edges
                     .Where(e => e.Start == stage.Id)
                     .Select(e => e.End)
-                    .ToList();
+                    .ToListAsync();
 
                 foreach (var inEdge in inEdges)
                 {
                     edges.Add(new Tuple<int, int>(stage.Id, (int) inEdge));
                 }
 
-                var inDependences = _context.Dependences
+                var inDependences = await _context.Dependences
                     .Where(d => d.First == stage.Id)
                     .Select(d => d.Second)
-                    .ToList();
+                    .ToListAsync();
 
                 foreach (var inDependence in inDependences)
                 {
@@ -305,20 +352,18 @@ namespace DB_Service.Services
                 }
             }
 
-            var res = new LinkDto
+            return new LinkDto
             {
                 Edges = edges,
                 Dependences = dependences,
             };
-
-            return res;
         }
 
         public async Task<List<PassportDto>> GetPassports(int Id)
         {
-            var passports = _context.Passports
+            var passports = await _context.Passports
                 .Where(p => p.ProcessId == Id)
-                .ToList();
+                .ToListAsync();
 
             var res = new List<PassportDto>();
 
@@ -339,10 +384,13 @@ namespace DB_Service.Services
 
         public async Task<List<ProcessDto>> GetProcesesByUserId(int UserId)
         {
-            var holds = await _authClient.GetHolds(new UserHoldTypeDto{
-                Id = UserId,
-                HoldType = "Process"
-            });
+            var holds = await _authClient.GetHolds(
+                new UserHoldTypeDto
+                {
+                    Id = UserId,
+                    HoldType = "Process"
+                }
+            );
 
             var used = new HashSet<int>();
 
@@ -354,11 +402,13 @@ namespace DB_Service.Services
                 {
                     continue;
                 }
+
                 used.Add(hold.DestId);
-                var processId = _context.Processes
+                
+                var processId = await _context.Processes
                     .Where(p => p.Id == hold.DestId)
                     .Select(p => p.Id)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
                 
                 var processDto = await GetProcessById(processId);
 
@@ -373,21 +423,20 @@ namespace DB_Service.Services
 
         public async Task<ProcessDto> GetProcessById(int Id)
         {
-            var process = _context.Processes
+            var process = await _context.Processes
                 .Include(p => p.Priority).Include(p => p.Type)
                 .Where(p => p.Id == Id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
-            if (process == null) {
+            if (process == null)
+            {
                 return null;
             }
-            // status: в процессе, завершен, остановлен, отменен
-
-            var stages = _context.Stages
+            var stages = await _context.Stages
                 .Include(s => s.Status)
-                .Where(s => s.ProcessId == process.Id)
+                .Where(s => s.ProcessId == process.Id && !(s.Pass ?? false))
                 .Select(s => s.Status.Title)
-                .ToList();
+                .ToListAsync();
 
             string status = "";
             if (stages.Any(s => s.ToLower() == "остановлен"))
@@ -409,7 +458,7 @@ namespace DB_Service.Services
             
             var hold = await _authClient.FindHold(process.Id, "Process");
             
-            var processDto = new ProcessDto
+            return new ProcessDto
             {
                 Title = process.Title,
                 Id = process.Id,
@@ -423,16 +472,15 @@ namespace DB_Service.Services
                 Hold = hold,
                 Status = status
             };
-            return processDto;
         }
 
         public async Task<List<StageDto>> GetStagesByProcessId(int id)
         {
             var process = await GetProcessById(id);
 
-            var stageModels = _context.Stages
-                .Where(s => s.ProcessId == process.Id)
-                .ToList();
+            var stageModels = await _context.Stages
+                .Where(s => s.ProcessId == process.Id && !(s.Pass ?? false))
+                .ToListAsync();
 
             var stages = new List<StageDto>();
 
@@ -441,68 +489,186 @@ namespace DB_Service.Services
                 var dto = await _stageService.GetStageById(stage.Id);
                 stages.Add(dto);
             }
+
             return stages;
         }
 
         public async Task<ProcessDto> StartProcess(int UserId, int Id)
         {
-            var stages = _context.Stages
+            var processForNotification = await _context.Processes
+                .Where(p => p.Id == Id)
+                .FirstOrDefaultAsync();
+
+            var stages = await _context.Stages
                 .Include(s => s.Status)
-                .Where(s => 
-                    s.Status.Title.ToLower() == "остановлен" &&
-                    s.ProcessId == Id
-                )
-                .ToList();
+                .Where(s => s.Status.Title.ToLower() == "остановлен" && s.ProcessId == Id)
+                .ToListAsync();
             
-            var new_status = _context.Statuses
+            var new_status = await _context.Statuses
                     .Where(s => s.Title.ToLower() == "отправлен на проверку")
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
+
             foreach (var stage in stages)
             {
                 stage.Status = new_status;
+
+                var holdsForNotificate = await _authClient.FindHold(Id, "Stage");
+                
+                if (holdsForNotificate.Count < 1)
+                {
+                    continue;
+                }
+
+                foreach (var group in holdsForNotificate[0]?.Groups)
+                {
+                    var NotificatedUsers = await _authClient.GetUsersByGroupId(group.Id);
+                    foreach (var user in NotificatedUsers)
+                    {
+                        System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
+                        {
+                            To = user.Email,
+                            Body = $"Уважаемый(ая) {user.LongName.Split(' ').ToList()[1]} {user.LongName.Split(' ').ToList()[2]},<br><br>" +
+                                   $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
+                                   $"\"{stage.Title}\" <br> отправлен на проверку в Ваше подразделение \"{group.Title}\" <br><br>" +
+                                   $"ProcTrack, Система отслеживания процессов согласования, <br>" +
+                                   $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
+                            Subject = $"Процесс согласования КД {processForNotification.Title}"
+                        }));
+                    }
+                }
+
+                var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+                var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+
+                System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
+                {
+                    To = notificatedReleaser.Email,
+                    Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
+                           $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
+                           $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
+                           $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
+                           $"ProcTrack, Система отслеживания процессов согласования, <br>" +
+                           $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
+                    Subject = $"Процесс согласования КД {processForNotification.Title}"
+                }));
             }
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
+
+            var logUser = await _authClient.GetUserById(UserId);
+            if (logUser != null)
+            {
+                await _logService.AddLog(new Log
+                {
+                    Table = "Process",
+                    Field = "Status",
+                    Operation = "Update",
+                    LogId = Id.ToString(),
+                    Old = "Остановлен",
+                    New = "Отправлен на проверку",
+                    Author = logUser.ShortName.ToString(),
+                    CreatedAt = DateTime.Now.AddHours(3)
+                });
+                await _context.SaveChangesAsync();
+            }
 
             return await GetProcessById(Id);
         }
 
         public async Task<ProcessDto> StopProcess(int UserId, int Id)
         {
-            var stages = _context.Stages
+            var processForNotification = await _context.Processes
+                .Where(p => p.Id == Id)
+                .FirstOrDefaultAsync();
+
+            var stages = await _context.Stages
                 .Include(s => s.Status)
                 .Where(s => 
                     (s.Status.Title.ToLower() == "отправлен на проверку" ||
                     s.Status.Title.ToLower() == "принят на проверку") &&
                     s.ProcessId == Id
                 )
-                .ToList();
+                .ToListAsync();
 
-            var new_status = _context.Statuses
+            string oldStatus = stages[0].Title;
+
+            var newStatus = await _context.Statuses
                     .Where(s => s.Title.ToLower() == "остановлен")
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
+            
             foreach (var stage in stages)
             {
-                stage.Status = new_status;
+                stage.Status = newStatus;
+
+                var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+                var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+
+                System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
+                {
+                    To = notificatedReleaser.Email,
+                    Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
+                           $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
+                           $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
+                           $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
+                           $"ProcTrack, Система отслеживания процессов согласования, <br>" +
+                           $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
+                    Subject = $"Процесс согласования КД {processForNotification.Title}"
+                }));
             }
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
+
+            var logUser = await _authClient.GetUserById(UserId);
+            if (logUser != null)
+            {
+                await _logService.AddLog(new Log
+                {
+                    Table = "Process",
+                    Field = "Status",
+                    Operation = "Update",
+                    LogId = Id.ToString(),
+                    Old = oldStatus,
+                    New = "Остановлен",
+                    Author = logUser.ShortName.ToString(),
+                    CreatedAt = DateTime.Now.AddHours(3)
+                });
+                await _context.SaveChangesAsync();
+            }
 
             return await GetProcessById(Id);
         }
 
         public async Task<ProcessDto> UpdateProcess(ProcessDto data, int UserId, int Id)
         {
-            var process = _context.Processes
+            var process = await _context.Processes
                 .Where(p => p.Id == Id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
+
+            string oldTitle = process.Title;
 
             process.Title = data.Title;
             process.Priority = _context.Priorities.Where(p => p.Title == data.Priority).FirstOrDefault();
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            
+            var logUser = await _authClient.GetUserById(UserId);
+            if (logUser != null)
+            {
+                await _logService.AddLog(new Log
+                {
+                    Table = "Process",
+                    Field = "Title, Priority",
+                    Operation = "Update",
+                    LogId = process.Id.ToString(),
+                    Old = oldTitle,
+                    New = process.Title,
+                    Author = logUser.ShortName.ToString(),
+                    CreatedAt = DateTime.Now.AddHours(3)
+                });
+                await _context.SaveChangesAsync();
+            }
 
-            var res = await GetProcessById(Id);
-
-            return res;
+            return await GetProcessById(Id);
         }
 
         public async Task<ProcessDto?> CreateTemplate(TemplateDto data)
@@ -516,12 +682,13 @@ namespace DB_Service.Services
                 ExpectedTime = (System.TimeSpan) data.Process.ExpectedTime,
                 CreatedAt = DateTime.Now.AddHours(3)
             };
-            _context.Processes.Add(process);
 
-            var stageDict = new Dictionary<int, Models.Stage>();
+            await _context.Processes.AddAsync(process);
+
+            var stageDict = new Dictionary<int, Stage>();
             foreach (var stage in data.Stages)
             {
-                var newStage = new Models.Stage
+                var newStage = new Stage
                 {
                     Title = stage.Title,
                     Process = process,
@@ -532,9 +699,11 @@ namespace DB_Service.Services
                     Pass = stage.Pass,
                 };
                 stageDict[stage.Id] = newStage;
-                _context.Stages.Add(newStage);
+                await _context.Stages.AddAsync(newStage);
             }
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
+
             foreach (var stage in data.Stages)
             {
                 var newCanCreate = new List<int>();
@@ -544,7 +713,8 @@ namespace DB_Service.Services
                 }
                 stageDict[stage.Id].CanCreate = newCanCreate;
             }
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             process.Head = stageDict[(int)data.StartStage].Id;
             process.Tail = stageDict[(int)data.EndStage].Id;
@@ -559,33 +729,34 @@ namespace DB_Service.Services
                     Stage = stageDict[task.StageId],
                 };
                 tasks.Add(newTask);
-                _context.Tasks.Add(newTask);
+                await _context.Tasks.AddAsync(newTask);
             }
 
             var edges = new List<Models.Edge>();
             foreach (var edge in data.Links.Edges)
             {
-                var newEdge = new Models.Edge
+                var newEdge = new Edge
                 {
                     StartStage = stageDict[edge.Item1],
                     EndStage = stageDict[edge.Item2]
                 };
                 edges.Add(newEdge);
-                _context.Edges.Add(newEdge);
+                await _context.Edges.AddAsync(newEdge);
             }
 
-            var dependences = new List<Models.Dependence>();
+            var dependences = new List<Dependence>();
             foreach (var dep in data.Links.Dependences)
             {
-                var newDependence = new Models.Dependence
+                var newDependence = new Dependence
                 {
                     FirstStage = stageDict[dep.Item1],
                     SecondStage = stageDict[dep.Item2]
                 };
                 dependences.Add(newDependence);
-                _context.Dependences.Add(newDependence);
+                await _context.Dependences.AddAsync(newDependence);
             }
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             foreach (var stage in data.Stages)
             {
@@ -614,14 +785,16 @@ namespace DB_Service.Services
                 }
             }
 
+            await _context.SaveChangesAsync();
+
             return await GetProcessById(process.Id);
         }
 
         public async Task<ProcessDto> GetProcessByStageId(int StageId)
         {
             var stage = await _stageService.GetStageById(StageId);
-            var process = await GetProcessById((int)stage.ProcessId);
-            return process;
+            
+            return await GetProcessById((int)stage.ProcessId);
         }
     }
 }

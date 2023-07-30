@@ -1,4 +1,5 @@
 ﻿using AuthService.Data;
+using AuthService.Exceptions;
 using AuthService.Models;
 
 namespace AuthService.Services
@@ -16,7 +17,7 @@ namespace AuthService.Services
         {
             if (_context.Types.Any())
             {
-                return Task.CompletedTask;
+                throw new ConflictException($"data is already exists");
             }
 
             var roles = new Role[]
@@ -26,8 +27,9 @@ namespace AuthService.Services
                 new Role{ Title="admin" },
                 new Role{ Title="observer" },
                 new Role{ Title="inner-observer" },
-                new Role{ Title="checker"}
+                new Role{ Title="checker" }
             };
+
             foreach (var role in roles)
             {
                 _context.Roles.Add(role);
@@ -42,6 +44,7 @@ namespace AuthService.Services
                 new Right{ Title="matching" },
                 new Right{ Title="commenting" }
             };
+
             foreach (var right in rights)
             {
                 _context.Rights.Add(right);
@@ -53,6 +56,7 @@ namespace AuthService.Services
                 new Models.Type { Title="Process" },
                 new Models.Type { Title="Stage" }
             };
+
             foreach (var type in types)
             {
                 _context.Types.Add(type);
