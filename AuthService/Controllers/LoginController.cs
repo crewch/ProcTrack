@@ -8,7 +8,8 @@ namespace AuthService.Controllers
 {
     [Route("[controller]/")]
     [ApiController]
-    [EnableCors("cors")]
+    // [EnableCors("cors")]
+    [EnableCors]
     public class LoginController : ControllerBase
     {
         private readonly ILoginService _service;

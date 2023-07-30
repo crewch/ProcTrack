@@ -8,7 +8,8 @@ namespace DB_Service.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [EnableCors("cors")]
+    // [EnableCors("cors")]
+    [EnableCors]
     public class ProcessController : ControllerBase
     {
         private readonly IProcessService _service;
