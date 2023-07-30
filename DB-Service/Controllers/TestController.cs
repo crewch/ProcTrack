@@ -14,7 +14,8 @@ namespace DB_Service.Controllers
 {
     [Route("[controller]/")]
     [ApiController]
-    [EnableCors("cors")]
+    // [EnableCors("cors")]
+    [EnableCors]
     public class TestController : ControllerBase
     {
         private readonly IMailDataClient _client;

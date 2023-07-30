@@ -32,13 +32,15 @@ namespace DB_Service
                     connectionString
                 )
             );
-            services.AddCors(c => c.AddPolicy("cors", opt =>
-            {
-                opt.AllowAnyHeader();
-                opt.AllowCredentials();
-                opt.AllowAnyMethod();
-                opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
-            }));
+            services.AddCors(
+            //     c => c.AddPolicy("cors", opt =>
+            // {
+            //     opt.AllowAnyHeader();
+            //     opt.AllowCredentials();
+            //     opt.AllowAnyMethod();
+            //     opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
+            // })
+            );
             
             services.AddScoped<IProcessService, ProcessService>();
             services.AddScoped<IPropertyService, PropertyService>();
@@ -59,7 +61,13 @@ namespace DB_Service
             }
             app.UseRouting();
             app.UseAuthorization();
-            app.UseCors();
+            
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

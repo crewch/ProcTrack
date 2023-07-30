@@ -7,7 +7,8 @@ namespace DB_Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("cors")]
+    // [EnableCors("cors")]
+    [EnableCors]
     public class FileController : ControllerBase
     {
         private readonly IFileDataClient _fileDataClient;

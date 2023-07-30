@@ -35,13 +35,15 @@ namespace AuthService
                     connectionString
                 )
             );
-            services.AddCors(c => c.AddPolicy("cors", opt =>
-            {
-                opt.AllowAnyHeader();
-                opt.AllowCredentials();
-                opt.AllowAnyMethod();
-                opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
-            }));
+            services.AddCors(
+            //     c => c.AddPolicy("cors", opt =>
+            // {
+            //     opt.AllowAnyHeader();
+            //     opt.AllowCredentials();
+            //     opt.AllowAnyMethod();
+            //     opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
+            // })
+            );
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
@@ -84,7 +86,11 @@ namespace AuthService
             app.UseAuthentication();
             app.UseAuthorization();
             
-            app.UseCors();
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
 
             app.UseEndpoints(endpoints =>
             {
