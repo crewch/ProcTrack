@@ -3,7 +3,8 @@ export interface NewProcessForm {
 	groupId: number | undefined
 	process: {
 		id: number
-		title: string | undefined
+		title: string
+		description: string
 		priority: string | undefined | null
 		type: string
 		createdAt: string
