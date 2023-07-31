@@ -142,6 +142,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 			setTitle('')
+			setDescription('')
 			setSelectedTemplate(undefined)
 			setSelectedGroup(undefined)
 			setSelectedPriority(undefined)
@@ -165,6 +166,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 			onClose={() => {
 				handleClose()
 				setTitle('')
+				setDescription('')
 				setSelectedTemplate(undefined)
 				setSelectedGroup(undefined)
 				setSelectedPriority(undefined)
