@@ -8,5 +8,9 @@ namespace DB_Service.Services
         Task<List<ProcessDto>> GetTemplates();
 
         Task<List<string>> GetPriorities();
+        
+        Task<List<string>> GetTypes();
+
+        Task<List<string>> GetStatuses();
     }
 }

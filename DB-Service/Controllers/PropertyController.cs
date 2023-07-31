@@ -45,6 +45,22 @@ namespace DB_Service.Controllers
         {
             var res = await _logService.GetLogs();
             return Ok(res);
-        } 
+        }
+
+        [Route("Statuses")]
+        [HttpGet]
+        public async Task<ActionResult<List<string>>> GetStatuses()
+        {
+            var res = await _propertyService.GetStatuses();
+            return Ok(res);
+        }
+
+        [Route("Types")]
+        [HttpGet]
+        public async Task<ActionResult<List<string>>> GetTypes()
+        {
+            var res = await _propertyService.GetTypes();
+            return Ok(res);
+        }
     }
 }

@@ -19,21 +19,40 @@ namespace DB_Service.Services
             _fileClient = fileClient;
         }
 
-        public Task<List<string>> GetPriorities()
+        public async Task<List<string>> GetPriorities()
         {
-            var priorities = _context.Priorities
+            return await _context.Priorities
                 .Select(p => p.Title)
-                .ToList();
-            return Task.FromResult(priorities);
+                .ToListAsync();
         }
 
-        public Task<List<ProcessDto>> GetTemplates()
+        public async Task<List<string>> GetStatuses()
         {
-            var templates = _context.Processes
+            var res = new List<string>()
+            {
+                "остановлен",
+                "отменен",
+                "завершен",
+                "в процессе"
+            };
+
+            return res;
+        }
+
+        public async Task<List<string>> GetTypes()
+        {
+            return await _context.Types
+                .Select(p => p.Title)
+                .ToListAsync();
+        }
+
+        public async Task<List<ProcessDto>> GetTemplates()
+        {
+            var templates = await _context.Processes
                 .Include(t => t.Type)
                 .Include(t => t.Priority)
                 .Where(p => p.IsTemplate)
-                .ToList();
+                .ToListAsync();
 
             var templateDtos = new List<ProcessDto>();
 
@@ -50,7 +69,8 @@ namespace DB_Service.Services
                     ExpectedTime = iTemplate.ExpectedTime,
                 });
             }
-            return Task.FromResult(templateDtos);
+            return templateDtos;
         }
+
     }
 }
