@@ -41,7 +41,8 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 		Autocomplete | undefined | null
 	>()
 
-	const [title, setTitle] = useState<string | undefined>()
+	const [title, setTitle] = useState<string>('')
+	const [description, setDescription] = useState<string>('')
 
 	const dataForSend: NewProcessForm = {
 		templateId: selectedTemplate?.id,
@@ -49,6 +50,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 		process: {
 			id: 0,
 			title: title,
+			description: description,
 			priority: selectedPriority?.label,
 			type: 'string',
 			createdAt: '2023-07-05T12:38:34.439Z',
@@ -175,9 +177,10 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 				<Box className={styles.mainContainer}>
 					<Box className={styles.form}>
 						<TextField
-							value={title || ''}
+							value={title}
 							onChange={e => setTitle(e.target.value)}
 							label='Название процесса'
+							required
 						/>
 						<Box className={styles.autocompletes}>
 							{isSuccessTemplates && templates && (
@@ -226,6 +229,14 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 								/>
 							)}
 						</Box>
+						<TextField
+							value={description}
+							onChange={e => setDescription(e.target.value)}
+							label='Дополнительная информация по процессу'
+							autoComplete='off'
+							multiline
+							rows={17}
+						/>
 					</Box>
 					<GrayButton
 						onClick={() => {
