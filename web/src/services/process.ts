@@ -15,6 +15,7 @@ const URL_AddProcess = `${URL}/api/track/process/create`
 interface Template {
 	id: number
 	title: string
+	description: string
 	priority: string
 	type: string
 	createdAt: string
