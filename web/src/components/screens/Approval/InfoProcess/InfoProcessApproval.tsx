@@ -1,4 +1,4 @@
-import { Box, Divider, LinearProgress } from '@mui/material'
+import { Box, Divider, Skeleton } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import FilesField from '../../../shared/FilesField/FilesField'
@@ -64,7 +64,7 @@ const InfoProcessApproval = () => {
 
 	return (
 		<Box className={styles.container}>
-			{isLoading && <LinearProgress />}
+			{isLoading && <Skeleton variant='rounded' height='100%' />}
 			{isSuccess && selectedProcess && (
 				<>
 					<InfoField
@@ -72,6 +72,7 @@ const InfoProcessApproval = () => {
 						status={selectedProcess.status}
 						importance={selectedProcess.priority}
 						type={selectedProcess.type}
+						page='approval'
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo

@@ -10,10 +10,11 @@ interface InfoFieldProps {
 	importance?: string
 	type?: string
 	nameOfGroup?: string
+	page: 'release' | 'approval'
 }
 
 const InfoField: FC<InfoFieldProps> = memo(
-	({ name, status, importance, type, nameOfGroup }) => {
+	({ name, status, importance, type, nameOfGroup, page }) => {
 		return (
 			<>
 				<Box className={styles.header}>
@@ -22,9 +23,11 @@ const InfoField: FC<InfoFieldProps> = memo(
 							{name}
 							<InfoFieldImg status={status} />
 						</Typography>
-						<Box className={styles.icon}>
-							<img src='/pen.svg' height='25px' width='25px' />
-						</Box>
+						{page === 'release' && (
+							<Box className={styles.icon}>
+								<img src='/pen.svg' height='25px' width='25px' />
+							</Box>
+						)}
 					</Box>
 				</Box>
 				<Tags

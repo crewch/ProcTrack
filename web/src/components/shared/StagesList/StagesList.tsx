@@ -1,10 +1,10 @@
 import {
 	Box,
-	LinearProgress,
 	List,
 	ListItem,
 	ListItemButton,
 	ListItemText,
+	Skeleton,
 	Typography,
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks'
@@ -34,7 +34,7 @@ const StagesList = () => {
 
 	return (
 		<Box className={styles.container}>
-			{isLoading && <LinearProgress />}
+			{isLoading && <Skeleton variant='rounded' height='100%' />}
 			{isSuccess && stagesList && (
 				<>
 					<List className={styles.list}>
