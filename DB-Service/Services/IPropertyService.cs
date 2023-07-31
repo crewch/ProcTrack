@@ -11,6 +11,8 @@ namespace DB_Service.Services
         
         Task<List<string>> GetTypes();
 
-        Task<List<string>> GetStatuses();
+        Task<List<string>> GetProcessStatuses();
+
+        Task<List<string>> GetStageStatuses();
     }
 }

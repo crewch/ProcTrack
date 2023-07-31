@@ -26,7 +26,14 @@ namespace DB_Service.Services
                 .ToListAsync();
         }
 
-        public async Task<List<string>> GetStatuses()
+        public async Task<List<string>> GetStageStatuses()
+        {
+            return await _context.Statuses
+                .Select(s => s.Title)
+                .ToListAsync();
+        }
+
+        public async Task<List<string>> GetProcessStatuses()
         {
             var res = new List<string>()
             {

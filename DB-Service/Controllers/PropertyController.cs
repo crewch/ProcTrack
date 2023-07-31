@@ -47,11 +47,19 @@ namespace DB_Service.Controllers
             return Ok(res);
         }
 
-        [Route("Statuses")]
+        [Route("ProcessStatuses")]
         [HttpGet]
-        public async Task<ActionResult<List<string>>> GetStatuses()
+        public async Task<ActionResult<List<string>>> GetProcessStatuses()
         {
-            var res = await _propertyService.GetStatuses();
+            var res = await _propertyService.GetProcessStatuses();
+            return Ok(res);
+        }
+
+        [Route("StageStatuses")]
+        [HttpGet]
+        public async Task<ActionResult<List<string>>> GetStageStatuses()
+        {
+            var res = await _propertyService.GetStageStatuses();
             return Ok(res);
         }
 
