@@ -228,6 +228,7 @@ namespace DB_Service.Services
             var newProcess = new Models.Process
             {
                 Title = data.Process.Title,
+                Description = data.Process.Description,
                 PriorityId = priority.Id,
                 TypeId = template.TypeId,
                 CreatedAt = DateTime.Now.AddHours(3),
@@ -460,8 +461,9 @@ namespace DB_Service.Services
             
             return new ProcessDto
             {
-                Title = process.Title,
                 Id = process.Id,
+                Title = process.Title,
+                Description = process.Description,
                 Priority = process.Priority == null ? null : process.Priority.Title,
                 Type = process.Type == null ? null : process.Type.Title,
                 CreatedAt = process.CreatedAt == null ? null : DateParser.Parse((DateTime)process.CreatedAt),
@@ -645,8 +647,11 @@ namespace DB_Service.Services
                 .FirstOrDefaultAsync();
 
             string oldTitle = process.Title;
+            string oldDescription = process.Description;
+            string oldPriority = process?.Priority?.Title;
 
             process.Title = data.Title;
+            process.Description = data.Description;
             process.Priority = _context.Priorities.Where(p => p.Title == data.Priority).FirstOrDefault();
 
             await _context.SaveChangesAsync();
@@ -657,11 +662,11 @@ namespace DB_Service.Services
                 await _logService.AddLog(new Log
                 {
                     Table = "Process",
-                    Field = "Title, Priority",
+                    Field = "Title, Description, Priority",
                     Operation = "Update",
                     LogId = process.Id.ToString(),
-                    Old = oldTitle,
-                    New = process.Title,
+                    Old = $"{oldTitle}, {oldDescription}, {oldPriority}",
+                    New = $"{process.Title}, {process.Description}, {process.Priority}",
                     Author = logUser.ShortName.ToString(),
                     CreatedAt = DateTime.Now.AddHours(3)
                 });
