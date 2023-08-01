@@ -6,7 +6,7 @@ namespace DB_Service.Services
     {
         Task<ProcessDto> CreateProcess(CreateProcessDto data, int UserId);
 
-        Task<List<ProcessDto>> GetProcesesByUserId(int UserId, FilterProcessDto filter);
+        Task<List<ProcessDto>> GetProcesesByUserId(int UserId, FilterProcessDto filter, int limit, int offset);
         
         Task<ProcessDto> GetProcessById(int Id);
         

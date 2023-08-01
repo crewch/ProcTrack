@@ -21,9 +21,9 @@ namespace DB_Service.Controllers
 
         [Route("Get")]
         [HttpPost]
-        public async Task<ActionResult<List<ProcessDto>>> GetProcessesByUserId(int UserId, FilterProcessDto filter)
+        public async Task<ActionResult<List<ProcessDto>>> GetProcessesByUserId(int UserId, FilterProcessDto filter, int limit, int offset)
         {
-            var res = await _service.GetProcesesByUserId(UserId, filter);
+            var res = await _service.GetProcesesByUserId(UserId, filter, limit, offset);
             return Ok(res);
         }
 

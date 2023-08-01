@@ -21,9 +21,9 @@ namespace DB_Service.Services
 
             var priorities = new Priority[]
             {
-               new Priority { Title="Высокая важность" },
-               new Priority { Title="Средняя важность" },
-               new Priority { Title="Низкая важность" }
+               new Priority { Title="Высокая важность", Value = 0 },
+               new Priority { Title="Средняя важность", Value = 1 },
+               new Priority { Title="Низкая важность", Value = 2 }
             };
             foreach (var priority in priorities)
             {

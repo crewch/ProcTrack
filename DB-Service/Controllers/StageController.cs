@@ -21,9 +21,9 @@ namespace DB_Service.Controllers
 
         [Route("Get")]
         [HttpPost]
-        public async Task<ActionResult<List<StageDto>>> GetStages(int UserId, FilterStageDto filter)
+        public async Task<ActionResult<List<StageDto>>> GetStages(int UserId, FilterStageDto filter, int limit, int offset)
         {
-            var res = await _service.GetStagesByUserId(UserId, filter);
+            var res = await _service.GetStagesByUserId(UserId, filter, limit, offset);
             return Ok(res);
         }
 

@@ -4,7 +4,7 @@ namespace DB_Service.Services
 {
     public interface IStageService
     {
-        Task<List<StageDto>> GetStagesByUserId(int UserId, FilterStageDto filter);
+        Task<List<StageDto>> GetStagesByUserId(int UserId, FilterStageDto filter, int limit, int offset);
 
         Task<StageDto> AssignStage(int UserId, int Id);
 

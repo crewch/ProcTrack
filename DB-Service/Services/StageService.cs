@@ -419,7 +419,7 @@ namespace DB_Service.Services
             };
         }
 
-        public async Task<List<StageDto>> GetStagesByUserId(int UserId, FilterStageDto filter)
+        public async Task<List<StageDto>> GetStagesByUserId(int UserId, FilterStageDto filter, int limit, int offset)
         {
             var req = new UserHoldTypeDto
             {
@@ -470,9 +470,11 @@ namespace DB_Service.Services
                 }
             }
 
-            // тут добавить пагинацию
-
-            return res;
+            return res
+                      //.OrderBy(r => r.CreatedAtUnparsed)
+                      //.Skip(Math.Min(offset, res.Count - 1))
+                      //.Take(Math.Min(limit, res.Count - 1 - offset))
+                      .ToList();
         }
 
         public async Task<List<TaskDto>> GetTasksByStageId(int Id)
@@ -483,7 +485,7 @@ namespace DB_Service.Services
 
             var res = new List<TaskDto>();
 
-            foreach(var task in taskModels)
+            foreach (var task in taskModels)
             {
                 var taskDto = await _taskService.GetTaskById(task.Id);
                 if (taskDto != null)
