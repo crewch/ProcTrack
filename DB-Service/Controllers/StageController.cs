@@ -20,10 +20,10 @@ namespace DB_Service.Controllers
         }
 
         [Route("Get")]
-        [HttpGet]
-        public async Task<ActionResult<List<StageDto>>> GetStages(int UserId)
+        [HttpPost]
+        public async Task<ActionResult<List<StageDto>>> GetStages(int UserId, FilterStageDto filter, int limit, int offset)
         {
-            var res = await _service.GetStagesByUserId(UserId);
+            var res = await _service.GetStagesByUserId(UserId, filter, limit, offset);
             return Ok(res);
         }
 

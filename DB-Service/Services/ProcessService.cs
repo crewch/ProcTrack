@@ -383,7 +383,7 @@ namespace DB_Service.Services
             return res;
         }
 
-        public async Task<List<ProcessDto>> GetProcesesByUserId(int UserId)
+        public async Task<List<ProcessDto>> GetProcesesByUserId(int UserId, FilterProcessDto filter, int limit, int offset)
         {
             var holds = await _authClient.GetHolds(
                 new UserHoldTypeDto
@@ -405,21 +405,33 @@ namespace DB_Service.Services
                 }
 
                 used.Add(hold.DestId);
-                
+
                 var processId = await _context.Processes
-                    .Where(p => p.Id == hold.DestId)
+                    .Include(p => p.Type)
+                    .Include(p => p.Priority)
+                    .Where(p => p.Id == hold.DestId &&
+                                        filter.Types.Contains(p.Type.Title) &&
+                                        filter.Priorities.Contains(p.Priority.Title) &&
+                                        (filter.Text == null || filter.Text.Length == 0 || (p.Title + p.Description).Contains(filter.Text)))
                     .Select(p => p.Id)
                     .FirstOrDefaultAsync();
                 
                 var processDto = await GetProcessById(processId);
 
-                if (processDto != null && !res.Any(r => r.Id == processDto.Id))
+                if (processDto != null && 
+                    !res.Any(r => r.Id == processDto.Id) && 
+                    (filter.Statuses == null || filter.Statuses.Count == 0 || filter.Statuses.Contains(processDto.Status)))
                 {
                     res.Add(processDto);
                 }
             }
             
-            return res;
+            return res
+                      //.OrderBy(r => r.PriorityValue)
+                      //.OrderBy(r => r.CompletedAtUnparsed)
+                      //.Skip(Math.Min(offset, res.Count - 1))
+                      //.Take(Math.Min(limit, res.Count - 1 - offset))
+                      .ToList();
         }
 
         public async Task<ProcessDto> GetProcessById(int Id)
@@ -465,10 +477,11 @@ namespace DB_Service.Services
                 Title = process.Title,
                 Description = process.Description,
                 Priority = process.Priority == null ? null : process.Priority.Title,
+                PriorityValue = process.Priority == null ? null : process.Priority.Value,
                 Type = process.Type == null ? null : process.Type.Title,
                 CreatedAt = process.CreatedAt == null ? null : DateParser.Parse((DateTime)process.CreatedAt),
                 CompletedAt = process.CreatedAt == null ? null : DateParser.Parse((DateTime)process.CreatedAt.Add(process.ExpectedTime)),
-                CompletedAtUnparsed = process.CreatedAt.Add(process.ExpectedTime).ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                CompletedAtUnparsed = process.CreatedAt.Add(process.ExpectedTime),
                 ApprovedAt = process.ApprovedAt == null ? null : DateParser.Parse((DateTime)process.ApprovedAt),
                 ExpectedTime = process.ExpectedTime,
                 Hold = hold,
