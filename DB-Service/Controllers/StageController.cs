@@ -65,5 +65,13 @@ namespace DB_Service.Controllers
             var res = await _service.GetTasksByStageId(Id);
             return Ok(res);
         }
+
+        [Route("Count")]
+        [HttpGet]
+        public async Task<ActionResult<int>> StageCount(int UserId)
+        {
+            var res = await _service.GetStageCount(UserId);
+            return Ok(res);
+        }
     }
 }

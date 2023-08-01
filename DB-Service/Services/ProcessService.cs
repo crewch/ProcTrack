@@ -827,5 +827,20 @@ namespace DB_Service.Services
             
             return await GetProcessById((int)stage.ProcessId);
         }
+
+        public async Task<int> GetProcessCount(int UserId)
+        {
+            var filter = new FilterProcessDto
+            {
+                Text = "",
+                Statuses = new List<string>(),
+                Types = new List<string>(),
+                Priorities = new List<string>()
+            };
+
+            var res = await GetProcesesByUserId(UserId, filter, int.MaxValue, 0);
+
+            return res.Count;
+        }
     }
 }

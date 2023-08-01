@@ -113,5 +113,13 @@ namespace DB_Service.Controllers
             var res = await _service.GetProcessByStageId(StageId);
             return Ok(res);
         }
+
+        [Route("Count")]
+        [HttpGet]
+        public async Task<ActionResult<int>> ProcessCount(int UserId)
+        {
+            var res = await _service.GetProcessCount(UserId);
+            return Ok(res);
+        }
     }
 }
