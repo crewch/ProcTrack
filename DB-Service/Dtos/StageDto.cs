@@ -15,5 +15,6 @@
         public List<int>? CanCreate { get; set; }
         public bool? Mark { get; set; }
         public bool? Pass { get; set; }
+        public FilterStageDto? Filter { get; set; }
     }
 }

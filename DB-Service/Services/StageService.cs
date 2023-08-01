@@ -419,7 +419,7 @@ namespace DB_Service.Services
             };
         }
 
-        public async Task<List<StageDto>> GetStagesByUserId(int UserId)
+        public async Task<List<StageDto>> GetStagesByUserId(int UserId, FilterStageDto filter)
         {
             var req = new UserHoldTypeDto
             {
@@ -453,7 +453,9 @@ namespace DB_Service.Services
                                 s.Status != null && 
                                 s.Status.Title.ToLower() != "не начат" &&
                                 s.Status.Title.ToLower() != "остановлен" &&
-                                !(s.Pass ?? false) // тут добавить фильтры
+                                (filter.Statuses == null || filter.Statuses.Count == 0 || filter.Statuses.Contains(s.Status.Title)) &&
+                                (filter.Text == null || filter.Text.Length == 0 || s.Title.Contains(filter.Text)) &&
+                                !(s.Pass ?? false) 
                     )
                     .FirstOrDefaultAsync();
 
@@ -468,7 +470,7 @@ namespace DB_Service.Services
                 }
             }
 
-            // тут добавить сортировку и пагинацию
+            // тут добавить пагинацию
 
             return res;
         }

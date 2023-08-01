@@ -20,10 +20,10 @@ namespace DB_Service.Controllers
         }
 
         [Route("Get")]
-        [HttpGet]
-        public async Task<ActionResult<List<ProcessDto>>> GetProcessesByUserId(int UserId)
+        [HttpPost]
+        public async Task<ActionResult<List<ProcessDto>>> GetProcessesByUserId(int UserId, FilterProcessDto filter)
         {
-            var res = await _service.GetProcesesByUserId(UserId);
+            var res = await _service.GetProcesesByUserId(UserId, filter);
             return Ok(res);
         }
 

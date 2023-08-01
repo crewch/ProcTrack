@@ -383,7 +383,7 @@ namespace DB_Service.Services
             return res;
         }
 
-        public async Task<List<ProcessDto>> GetProcesesByUserId(int UserId)
+        public async Task<List<ProcessDto>> GetProcesesByUserId(int UserId, FilterProcessDto filter)
         {
             var holds = await _authClient.GetHolds(
                 new UserHoldTypeDto
@@ -405,15 +405,22 @@ namespace DB_Service.Services
                 }
 
                 used.Add(hold.DestId);
-                
+
                 var processId = await _context.Processes
-                    .Where(p => p.Id == hold.DestId)
+                    .Include(p => p.Type)
+                    .Include(p => p.Priority)
+                    .Where(p => p.Id == hold.DestId &&
+                                        filter.Types.Contains(p.Type.Title) &&
+                                        filter.Priorities.Contains(p.Priority.Title) &&
+                                        (filter.Text == null || filter.Text.Length == 0 || (p.Title + p.Description).Contains(filter.Text)))
                     .Select(p => p.Id)
                     .FirstOrDefaultAsync();
                 
                 var processDto = await GetProcessById(processId);
 
-                if (processDto != null && !res.Any(r => r.Id == processDto.Id))
+                if (processDto != null && 
+                    !res.Any(r => r.Id == processDto.Id) && 
+                    (filter.Statuses == null || filter.Statuses.Count == 0 || filter.Statuses.Contains(processDto.Status)))
                 {
                     res.Add(processDto);
                 }
