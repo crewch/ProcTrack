@@ -13,11 +13,12 @@ import { useQuery } from '@tanstack/react-query'
 import { stageService } from '../../../../services/stage'
 import { useGetUserData } from '../../../../hooks/userDataHook'
 import ListImg from '../../ListImg/ListImg'
-import styles from './StagesListStyle.module.scss'
+import styles from './ListStages.module.scss'
 
 const StagesList = () => {
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
 	const dispatch = useAppDispatch()
+	const settings = useAppSelector(state => state.settingStages)
 
 	const userData = useGetUserData()
 
@@ -26,12 +27,12 @@ const StagesList = () => {
 		isLoading,
 		isSuccess,
 	} = useQuery({
-		queryKey: ['stagesAllByUserId'],
-		queryFn: () => stageService.getStageAllByUserId(userData.id),
+		queryKey: ['stagesAllByUserId', settings],
+		queryFn: () => stageService.getStageAllByUserId(userData.id, settings),
 	})
 
 	return (
-		<Box className={`${styles.container} h-full justify-between p-0`}>
+		<Box className={`${styles.container}`}>
 			{isLoading && <LinearProgress />}
 			{isSuccess && listStages && (
 				<>

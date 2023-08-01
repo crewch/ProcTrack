@@ -1,5 +1,5 @@
 .container {
-	@apply h-full w-full bg-ap-white rounded-[8px] p-1 xl:p-3 flex flex-col overflow-auto;
+	@apply h-full w-full justify-between p-0 bg-ap-white rounded-[8px] xl:p-3 flex flex-col overflow-auto;
 
 	.list {
 		@apply h-full overflow-auto pr-2;

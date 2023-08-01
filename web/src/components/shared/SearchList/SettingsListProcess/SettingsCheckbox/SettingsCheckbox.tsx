@@ -2,8 +2,8 @@ import { FormControlLabel, FormGroup, Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import { FC, memo } from 'react'
 import styles from './SettingsCheckbox.module.scss'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { toggleSetting } from '../../../../store/settingProcessSlice/settingProcessSlice'
+import { useAppDispatch, useAppSelector } from '../../../../../hooks/reduxHooks'
+import { toggleSetting } from '../../../../../store/settingProcessSlice/settingProcessSlice'
 
 interface SettingsCheckboxProps {
 	settings: string[]

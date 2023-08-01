@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { URL } from '../configs/url'
 import { Stage } from '../shared/interfaces/stage'
+import { FilterStage } from '../shared/interfaces/filterStage'
 
 const URL_stageGetAll = `${URL}/api/track/process/`
 const URL_idStage = `${URL}/api/track/stage/`
@@ -39,13 +40,15 @@ export const stageService = {
 			}
 		}
 	},
-	async getStageAllByUserId(id: number | undefined) {
+	async getStageAllByUserId(id: number | undefined, settings: FilterStage) {
 		try {
 			if (typeof id === 'number') {
 				const data: Stage[] = await (
-					await axios.get(`${URL_getStageAllByUserId}`, {
+					await axios.post(URL_getStageAllByUserId, settings, {
 						params: {
 							UserId: id,
+							limit: 10,
+							offset: 0,
 						},
 					})
 				).data
