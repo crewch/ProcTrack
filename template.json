@@ -1,0 +1,2231 @@
+{
+	"Process": {
+		"Id": 0,
+		"Title": "Базовая контрольная структура (БКС)",
+		"Priority": "string",
+		"Status": "string",
+		"Type": "ИИ",
+		"CreatedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "5.00:00:00",
+		"Hold": []
+	},
+	"StartStage": 1,
+	"EndStage": 38,
+	"Stages": [{
+		"Id": 1,
+		"Title": "Отделение разработчика",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 1,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 16,
+				"Title": "Отдел управления конфигурацией",
+				"Description": "Отдел управления конфигурацией",
+				"Boss": {
+					"Id": 20,
+					"Email": "dmitry.muhin@irkut.com",
+					"LongName": "Мухин Дмитрий Сергеевич",
+					"ShortName": "dmitry.muhin",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+		"Mark": false,
+		"Pass": false
+	}, {
+		"Id": 2,
+		"Title": "Отдел управления конфигурацией",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 2,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 16,
+				"Title": "Отдел управления конфигурацией",
+				"Description": "Отдел управления конфигурацией",
+				"Boss": {
+					"Id": 20,
+					"Email": "dmitry.muhin@irkut.com",
+					"LongName": "Мухин Дмитрий Сергеевич",
+					"ShortName": "dmitry.muhin",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": false
+	}, {
+		"Id": 3,
+		"Title": "Нормоконтроль",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 3,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 19,
+				"Title": "Бригада нормоконтроля",
+				"Description": "Бригада нормоконтроля",
+				"Boss": {
+					"Id": 23,
+					"Email": "alexandr.makarov@irkut.com",
+					"LongName": "Макаров Александр Владимирович",
+					"ShortName": "alexandr.makarov",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": false
+	}, {
+		"Id": 4,
+		"Title": "Отдел управления электронными макетами изделий",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 4,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 13,
+				"Title": "Отдел управления электронными макетами изделий",
+				"Description": "Отдел управления электронными макетами изделий",
+				"Boss": {
+					"Id": 16,
+					"Email": "andrey.bodrov@irkut.com",
+					"LongName": "Бодров Андрей Сергеевич",
+					"ShortName": "andrey.bodrov",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": false
+	}, {
+		"Id": 5,
+		"Title": "Группа главного конструктора",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 5,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 26,
+				"Title": "Техническая группа Главного конструктора специальных проектов",
+				"Description": "Техническая группа Главного конструктора специальных проектов",
+				"Boss": {
+					"Id": 28,
+					"Email": "alexandr.korochkin@irkut.com",
+					"LongName": "Корочкин Александр Борисович",
+					"ShortName": "alexandr.korochkin",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+		"Mark": false,
+		"Pass": false
+	}, {
+		"Id": 6,
+		"Title": "Отдел управления проектными данными",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 6,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 15,
+				"Title": "Отдел управления проектными данными",
+				"Description": "Отдел управления проектными данными",
+				"Boss": {
+					"Id": 18,
+					"Email": "sergey.gorshunov@irkut.com",
+					"LongName": "Горшунов Сергей Владимирович",
+					"ShortName": "sergey.gorshunov",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": true,
+		"Pass": true
+	}, {
+		"Id": 7,
+		"Title": "Отделение аэродинамики",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 7,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 8,
+		"Title": "Отделение планера",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 8,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 3,
+				"Title": "Отделение планера 741.040",
+				"Description": "Отделение планера 741.040",
+				"Boss": {
+					"Id": 3,
+					"Email": "viktor.nikolaev@irkut.com",
+					"LongName": "Николаев Виктор Сергеевич",
+					"ShortName": "viktor.nikolaev",
+					"Roles": ["string", "releaser"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 9,
+		"Title": "Отделение систем управления",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 9,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 10,
+		"Title": "Отделение систем самолёта",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 10,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 11,
+		"Title": "Отдел интерьера, пассажирского и бытового оборудовани",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 11,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 12,
+		"Title": "Отделение силовых установок",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 12,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 13,
+		"Title": "Отделение оборудования",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 13,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 14,
+		"Title": "Отдел шасси",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 14,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 15,
+		"Title": "Отделение испытаний",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 15,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 16,
+		"Title": "Отделение средств спасения и специального оборудования",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 16,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 17,
+		"Title": "Отделение спецсистем",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 17,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 18,
+		"Title": "Отдел сопровождения серийной постройки",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 18,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 19,
+		"Title": "Отдел менеджмента качества",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 19,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 20,
+		"Title": "Отделение сертификации, надежности и безопастности",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 20,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 21,
+		"Title": "Отдел неразрушающего контроля",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 21,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 22,
+		"Title": "Отдел нагрузок и аэроупругости",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 22,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 23,
+		"Title": "Технологический контроль",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 23,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 5,
+				"Title": "Отдел управления технологичностью изделия 140.143",
+				"Description": "Отдел управления технологичностью изделия 140.143",
+				"Boss": {
+					"Id": 6,
+					"Email": "valery.vashyak@irkut.com",
+					"LongName": "Ващак Валерий Георгиевич",
+					"ShortName": "valery.vashyak",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 24,
+		"Title": "Отделение общих видов",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 24,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 8,
+				"Title": "Отделение общих видов",
+				"Description": "Отделение общих видов",
+				"Boss": {
+					"Id": 13,
+					"Email": "pavel.nesterov@irkut.com",
+					"LongName": "Нестеров Павел Валерьевич",
+					"ShortName": "pavel.nesterov",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 25,
+		"Title": "Отделение поддержки эксплуатации",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 25,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 26,
+		"Title": "Контроль покупных изделий и подшипников",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 26,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 27,
+		"Title": "Контроль прочности",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 27,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 9,
+				"Title": "Отделение прочности ",
+				"Description": "Отделение прочности ",
+				"Boss": {
+					"Id": 14,
+					"Email": "artem.pomozov@irkut.com",
+					"LongName": "Помозов Артем Вячеславович",
+					"ShortName": "artem.pomozov",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 28,
+		"Title": "Отдел контролепригодности",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 28,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 29,
+		"Title": "Отдел неразрушающего контроля",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 29,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 30,
+		"Title": "Главный технолог",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 30,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 28,
+				"Title": "Группа главного технолога",
+				"Description": "Группа главного технолога",
+				"Boss": {
+					"Id": 11,
+					"Email": "pavel.oreshenko@irkut.com",
+					"LongName": "Орешенко Павел Аркадьевич",
+					"ShortName": "pavel.oreshenko",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 31,
+		"Title": "Метрологическая экспертиза",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 31,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 24,
+				"Title": "Отдел метрологии",
+				"Description": "Отдел метрологии",
+				"Boss": {
+					"Id": 26,
+					"Email": "andrey.zubarev@irkut.com",
+					"LongName": "Зубарев Андрей Антонович",
+					"ShortName": "andrey.zubarev",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 32,
+		"Title": "Главный металлург",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 32,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 7,
+				"Title": "Главный металлург",
+				"Description": "Главный металлург",
+				"Boss": {
+					"Id": 12,
+					"Email": "galina.philimonova@irkut.com",
+					"LongName": "Филимонова Галина Ивановна",
+					"ShortName": "galina.philimonova",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 33,
+		"Title": "Контроль масс",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 33,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 8,
+				"Title": "Отделение общих видов",
+				"Description": "Отделение общих видов",
+				"Boss": {
+					"Id": 13,
+					"Email": "pavel.nesterov@irkut.com",
+					"LongName": "Нестеров Павел Валерьевич",
+					"ShortName": "pavel.nesterov",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 34,
+		"Title": "Отдел химмотологии",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 34,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 25,
+				"Title": "Отдел химмотологии",
+				"Description": "Отдел химмотологии",
+				"Boss": {
+					"Id": 27,
+					"Email": "sergey.maslukov@irkut.com",
+					"LongName": "Маслюков Сергей Александрович",
+					"ShortName": "sergey.maslukov",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": true
+	}, {
+		"Id": 35,
+		"Title": "Главный конструктор",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 35,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 26,
+				"Title": "Техническая группа Главного конструктора специальных проектов",
+				"Description": "Техническая группа Главного конструктора специальных проектов",
+				"Boss": {
+					"Id": 28,
+					"Email": "alexandr.korochkin@irkut.com",
+					"LongName": "Корочкин Александр Борисович",
+					"ShortName": "alexandr.korochkin",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": false
+	}, {
+		"Id": 36,
+		"Title": "Независимая инспекция",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 36,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 27,
+				"Title": "Тест 01",
+				"Description": "Тест 01",
+				"Boss": {
+					"Id": 30,
+					"Email": "user1@irkut.com",
+					"LongName": "user1",
+					"ShortName": "user1",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": false
+	}, {
+		"Id": 37,
+		"Title": "Финальный нормоконтроль",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 37,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 19,
+				"Title": "Бригада нормоконтроля",
+				"Description": "Бригада нормоконтроля",
+				"Boss": {
+					"Id": 23,
+					"Email": "alexandr.makarov@irkut.com",
+					"LongName": "Макаров Александр Владимирович",
+					"ShortName": "alexandr.makarov",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": false
+	}, {
+		"Id": 38,
+		"Title": "Утверждение",
+		"CreatedAt": "string",
+		"SignedAt": "string",
+		"ApprovedAt": "string",
+		"Status": "string",
+		"StatusValue": 0,
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Holds": [{
+			"Id": 0,
+			"DestId": 38,
+			"Type": "string",
+			"Rights": ["string"],
+			"Users": [],
+			"Groups": [{
+				"Id": 15,
+				"Title": "Отдел управления проектными данными",
+				"Description": "Отдел управления проектными данными",
+				"Boss": {
+					"Id": 18,
+					"Email": "sergey.gorshunov@irkut.com",
+					"LongName": "Горшунов Сергей Владимирович",
+					"ShortName": "sergey.gorshunov",
+					"Roles": ["string", "checker"]
+				}
+			}]
+		}],
+		"CanCreate": [],
+		"Mark": false,
+		"Pass": false
+	}],
+	"Tasks": [{
+		"Id": 9,
+		"Title": "Наименование задания этапа №1",
+		"StageId": 1,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 10,
+		"Title": "Утвердил",
+		"StageId": 2,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 11,
+		"Title": "Главный согласующий",
+		"StageId": 3,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 12,
+		"Title": "Главный согласующий",
+		"StageId": 4,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 13,
+		"Title": "Главный согласующий",
+		"StageId": 5,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 14,
+		"Title": "Главный согласующий",
+		"StageId": 6,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 15,
+		"Title": "Главный согласующий",
+		"StageId": 7,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 16,
+		"Title": "Главный согласующий",
+		"StageId": 8,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 17,
+		"Title": "Главный согласующий",
+		"StageId": 9,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 18,
+		"Title": "Главный согласующий",
+		"StageId": 10,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 19,
+		"Title": "Главный согласующий",
+		"StageId": 11,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 20,
+		"Title": "Главный согласующий",
+		"StageId": 12,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 21,
+		"Title": "Главный согласующий",
+		"StageId": 13,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 22,
+		"Title": "Главный согласующий",
+		"StageId": 14,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 23,
+		"Title": "Главный согласующий",
+		"StageId": 15,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 24,
+		"Title": "Главный согласующий",
+		"StageId": 16,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 25,
+		"Title": "Главный согласующий",
+		"StageId": 17,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 26,
+		"Title": "Главный согласующий",
+		"StageId": 18,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 27,
+		"Title": "Главный согласующий",
+		"StageId": 19,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 28,
+		"Title": "Главный согласующий",
+		"StageId": 20,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 29,
+		"Title": "Главный согласующий",
+		"StageId": 21,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 30,
+		"Title": "Главный согласующий",
+		"StageId": 22,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 31,
+		"Title": "Главный согласующий",
+		"StageId": 23,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 32,
+		"Title": "Задел",
+		"StageId": 24,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 33,
+		"Title": "Главный согласующий",
+		"StageId": 25,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 34,
+		"Title": "Главный согласующий",
+		"StageId": 26,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 35,
+		"Title": "Главный согласующий",
+		"StageId": 27,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 36,
+		"Title": "Главный согласующий",
+		"StageId": 28,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 37,
+		"Title": "Главный согласующий",
+		"StageId": 29,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 38,
+		"Title": "Главный согласующий",
+		"StageId": 30,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 39,
+		"Title": "Главный согласующий",
+		"StageId": 31,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 40,
+		"Title": "Главный согласующий",
+		"StageId": 32,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 41,
+		"Title": "Главный согласующий",
+		"StageId": 33,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 42,
+		"Title": "Главный согласующий",
+		"StageId": 34,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 43,
+		"Title": "Главный согласующий",
+		"StageId": 35,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 44,
+		"Title": "Главный согласующий",
+		"StageId": 36,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 45,
+		"Title": "Главный согласующий",
+		"StageId": 37,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}, {
+		"Id": 46,
+		"Title": "Главный согласующий",
+		"StageId": 38,
+		"SignId": 0,
+		"StartedAt": "string",
+		"ApprovedAt": "string",
+		"ExpectedTime": "00:00:00",
+		"Signed": "string",
+		"User": {
+			"Id": 0,
+			"Email": "string",
+			"LongName": "string",
+			"ShortName": "string",
+			"Roles": ["string"]
+		},
+		"Comments": [],
+		"EndVerificationDate": "string"
+	}],
+	"Links": {
+		"Edges": [{
+			"Item1": 1,
+			"Item2": 2
+		}, {
+			"Item1": 2,
+			"Item2": 3
+		}, {
+			"Item1": 3,
+			"Item2": 4
+		}, {
+			"Item1": 4,
+			"Item2": 5
+		}, {
+			"Item1": 5,
+			"Item2": 6
+		}, {
+			"Item1": 6,
+			"Item2": 7
+		}, {
+			"Item1": 7,
+			"Item2": 8
+		}, {
+			"Item1": 8,
+			"Item2": 9
+		}, {
+			"Item1": 9,
+			"Item2": 10
+		}, {
+			"Item1": 10,
+			"Item2": 11
+		}, {
+			"Item1": 11,
+			"Item2": 12
+		}, {
+			"Item1": 12,
+			"Item2": 13
+		}, {
+			"Item1": 13,
+			"Item2": 14
+		}, {
+			"Item1": 14,
+			"Item2": 15
+		}, {
+			"Item1": 15,
+			"Item2": 16
+		}, {
+			"Item1": 16,
+			"Item2": 17
+		}, {
+			"Item1": 17,
+			"Item2": 18
+		}, {
+			"Item1": 18,
+			"Item2": 19
+		}, {
+			"Item1": 19,
+			"Item2": 20
+		}, {
+			"Item1": 20,
+			"Item2": 21
+		}, {
+			"Item1": 21,
+			"Item2": 22
+		}, {
+			"Item1": 22,
+			"Item2": 23
+		}, {
+			"Item1": 23,
+			"Item2": 24
+		}, {
+			"Item1": 24,
+			"Item2": 25
+		}, {
+			"Item1": 25,
+			"Item2": 26
+		}, {
+			"Item1": 26,
+			"Item2": 27
+		}, {
+			"Item1": 27,
+			"Item2": 28
+		}, {
+			"Item1": 28,
+			"Item2": 29
+		}, {
+			"Item1": 29,
+			"Item2": 30
+		}, {
+			"Item1": 30,
+			"Item2": 31
+		}, {
+			"Item1": 30,
+			"Item2": 34
+		}, {
+			"Item1": 31,
+			"Item2": 32
+		}, {
+			"Item1": 32,
+			"Item2": 33
+		}, {
+			"Item1": 33,
+			"Item2": 35
+		}, {
+			"Item1": 34,
+			"Item2": 32
+		}, {
+			"Item1": 35,
+			"Item2": 36
+		}, {
+			"Item1": 36,
+			"Item2": 37
+		}, {
+			"Item1": 37,
+			"Item2": 38
+		}],
+		"Dependences": [{
+			"Item1": 31,
+			"Item2": 34
+		}, {
+			"Item1": 34,
+			"Item2": 31
+		}]
+	}
+}
