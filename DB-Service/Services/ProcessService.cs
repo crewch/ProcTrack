@@ -427,7 +427,7 @@ namespace DB_Service.Services
             }
             
             return res
-                        //.OrderBy(r => r.PriorityValue)
+                      //.OrderBy(r => r.PriorityValue)
                       //.OrderBy(r => r.CompletedAtUnparsed)
                       //.Skip(Math.Min(offset, res.Count - 1))
                       //.Take(Math.Min(limit, res.Count - 1 - offset))
