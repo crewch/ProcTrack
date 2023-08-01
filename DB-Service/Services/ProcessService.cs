@@ -4,6 +4,8 @@ using DB_Service.Dtos;
 using DB_Service.Models;
 using Microsoft.EntityFrameworkCore;
 using DB_Service.Tools;
+using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
 using System.Diagnostics;
@@ -425,12 +427,23 @@ namespace DB_Service.Services
                     res.Add(processDto);
                 }
             }
+
+            res.Sort((x, y) =>
+            {
+                int cmp = x.PriorityValue == y.PriorityValue 
+                    ? 
+                        0 
+                    : 
+                        x.PriorityValue > y.PriorityValue ? 1 : -1;
+                if (cmp != 0)
+                {
+                    return cmp;
+                }
+                return x.CompletedAtUnparsed > y.CompletedAtUnparsed ? 1 : -1;
+            });
             
-            return res
-                      //.OrderBy(r => r.PriorityValue)
-                      //.OrderBy(r => r.CompletedAtUnparsed)
-                      //.Skip(Math.Min(offset, res.Count - 1))
-                      //.Take(Math.Min(limit, res.Count - 1 - offset))
+            return res.Skip(Math.Min(offset * limit, res.Count - 1))
+                      .Take(Math.Min(limit, res.Count - offset))
                       .ToList();
         }
 
