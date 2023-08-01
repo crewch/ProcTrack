@@ -1,0 +1,27 @@
+.list {
+	@apply mt-1 h-full overflow-auto;
+
+	.img {
+		@apply mr-[14px] ml-[6px] h-[20px] w-[20px];
+	}
+
+	.typography {
+		@apply text-center font-[Montserrat];
+	}
+
+	.openedProcessWrap {
+		@apply bg-transparent;
+
+		.openedProcess {
+			@apply bg-[#d8ecff] rounded-[7px];
+		}
+
+		.openedProcessText {
+			@apply text-irkut-dark;
+		}
+	}
+
+	.closedProcessText {
+		@apply text-ap-black;
+	}
+}

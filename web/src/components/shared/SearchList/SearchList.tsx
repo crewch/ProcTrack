@@ -1,11 +1,13 @@
 import { Box, Divider } from '@mui/material'
 import { FC, memo, useState } from 'react'
-import SettingsListProcess from '../SettingsListProcess/SettingsListProcess'
+import SettingsListProcess from './SettingsListProcess/SettingsListProcess'
 import ListProcess from './ListProcess/ListProcess'
 import StagesList from './ListStages/ListStages'
 import Buttons from './Buttons/Buttons'
 import styles from './SearchList.module.scss'
-import SearchProcess from '../SearchProcess/SearchProcess'
+import SearchProcess from './SearchProcess/SearchProcess'
+import SearchStage from './SearchStage/SearchStage'
+import SettingsListStage from './SettingsListStage/SettingsListStage'
 
 interface SearchListWrapProps {
 	page: 'release' | 'approval'
@@ -19,9 +21,15 @@ const SearchList: FC<SearchListWrapProps> = memo(({ page }) => {
 			{page === 'release' && (
 				<SearchProcess isOpen={isOpen} setIsOpen={setIsOpen} />
 			)}
+			{page === 'approval' && (
+				<SearchStage isOpen={isOpen} setIsOpen={setIsOpen} />
+			)}
 			<Divider variant='middle' className={styles.divider} />
 			{isOpen ? (
-				<>{page === 'release' && <SettingsListProcess />}</>
+				<>
+					{page === 'release' && <SettingsListProcess />}
+					{page === 'approval' && <SettingsListStage />}
+				</>
 			) : (
 				<>
 					{page === 'release' && <ListProcess />}
