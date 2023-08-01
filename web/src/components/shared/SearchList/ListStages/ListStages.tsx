@@ -1,5 +1,4 @@
 import {
-	Box,
 	LinearProgress,
 	List,
 	ListItem,
@@ -32,44 +31,45 @@ const StagesList = () => {
 	})
 
 	return (
-		<Box className={`${styles.container}`}>
+		<List component='nav' className={styles.list}>
 			{isLoading && <LinearProgress />}
-			{isSuccess && listStages && (
-				<>
-					<List component='nav' className={styles.list}>
-						{listStages.map((stage, index) => (
-							<ListItem
-								disablePadding
-								key={index}
-								className={
-									openedStage === stage.id
-										? styles.openedProcessWrap
-										: styles.closedProcessWrap
-								}
-							>
-								<ListImg status={stage.status} />
-								<ListItemButton
-									className={styles.openedProcess}
-									onClick={() => dispatch(changeOpenedStage({ id: stage.id }))}
-								>
-									<ListItemText>
-										<Typography
-											className={
-												openedStage === stage.id
-													? styles.openedProcessText
-													: styles.closedProcessText
-											}
-										>
-											{stage.title}
-										</Typography>
-									</ListItemText>
-								</ListItemButton>
-							</ListItem>
-						))}
-					</List>
-				</>
+			{isSuccess && listStages && !listStages.length && (
+				<Typography variant='h4' className={styles.typography}>
+					Этапов нет
+				</Typography>
 			)}
-		</Box>
+			{isSuccess &&
+				listStages &&
+				listStages.map((stage, index) => (
+					<ListItem
+						disablePadding
+						key={index}
+						className={
+							openedStage === stage.id
+								? styles.openedProcessWrap
+								: styles.closedProcessWrap
+						}
+					>
+						<ListImg status={stage.status} />
+						<ListItemButton
+							className={styles.openedProcess}
+							onClick={() => dispatch(changeOpenedStage({ id: stage.id }))}
+						>
+							<ListItemText>
+								<Typography
+									className={
+										openedStage === stage.id
+											? styles.openedProcessText
+											: styles.closedProcessText
+									}
+								>
+									{stage.title}
+								</Typography>
+							</ListItemText>
+						</ListItemButton>
+					</ListItem>
+				))}
+		</List>
 	)
 }
 
