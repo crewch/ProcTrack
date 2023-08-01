@@ -476,7 +476,7 @@ namespace DB_Service.Services
             });
 
             return res.Skip(Math.Min(offset * limit, res.Count - 1))
-                      .Take(Math.Min(limit, res.Count - 1 - offset))
+                      .Take(Math.Min(limit, res.Count - offset))
                       .ToList();
         }
 
@@ -574,6 +574,19 @@ namespace DB_Service.Services
             }
 
             return await GetStageById(Id);
+        }
+
+        public async Task<int> GetStageCount(int UserId)
+        {
+            var filter = new FilterStageDto
+            {
+                Text = "",
+                Statuses = new List<string>()
+            };
+
+            var res = await GetStagesByUserId(UserId, filter, int.MaxValue, 0);
+
+            return res.Count;
         }
     }
 }

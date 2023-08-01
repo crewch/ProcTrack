@@ -27,5 +27,7 @@ namespace DB_Service.Services
         Task<ProcessDto?> CreateTemplate(TemplateDto data);
 
         Task<ProcessDto> GetProcessByStageId(int StageId);
+
+        Task<int> GetProcessCount(int UserId);
     }
 }
