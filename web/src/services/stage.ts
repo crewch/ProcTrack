@@ -150,7 +150,7 @@ export const stageService = {
 					],
 					canCreate: [0],
 					mark: true,
-					pass: !stage.pass,
+					pass: stage.pass,
 				}
 
 				await axios.put(`${URL_idStage}${stage.id}/update`, data, {
