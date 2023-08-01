@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import searchSettingsReducer from './searchSettingsSlice/searchSettingsSlice'
 import processStageReducer from './processStageSlice/processStageSlice'
+import settingProcessReducer from './settingProcessSlice/settingProcessSlice'
 
 export const store = configureStore({
 	reducer: {
 		processStage: processStageReducer,
-		searchSettings: searchSettingsReducer,
+		settingProcess: settingProcessReducer,
 	},
 })
 

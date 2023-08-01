@@ -3,6 +3,7 @@ import { URL } from '../configs/url'
 import { Process } from '../shared/interfaces/process'
 import { Group } from '../shared/interfaces/group'
 import { NewProcessForm } from '../shared/interfaces/newProcessForm'
+import { FilterProcess } from '../shared/interfaces/filterProcess'
 
 const URL_AllProcess = `${URL}/api/track/process/get`
 const URL_IDProcess = `${URL}/api/track/process/`
@@ -15,6 +16,7 @@ const URL_AddProcess = `${URL}/api/track/process/create`
 interface Template {
 	id: number
 	title: string
+	description: string
 	priority: string
 	type: string
 	createdAt: string
@@ -26,12 +28,14 @@ interface Template {
 type Priority = string
 
 export const processService = {
-	async getProcessAll(userId: number) {
+	async getProcessAll(userId: number, settings: FilterProcess) {
 		try {
 			const data: Process[] = await (
-				await axios.get(URL_AllProcess, {
+				await axios.post(URL_AllProcess, settings, {
 					params: {
 						UserId: userId,
+						limit: 10,
+						offset: 0,
 					},
 				})
 			).data
@@ -75,13 +79,11 @@ export const processService = {
 	},
 	async startProcessId(openedProcessID: number | undefined) {
 		try {
-			if (typeof openedProcessID === 'undefined') return null
+			if (typeof openedProcessID === 'undefined') return
 
-			const data = await (
+			await (
 				await axios.get(`${URL_IDProcess}${openedProcessID}/start`)
 			).data
-
-			return data
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
@@ -90,13 +92,11 @@ export const processService = {
 	},
 	async stopProcessId(openedProcessID: number | undefined) {
 		try {
-			if (typeof openedProcessID === 'undefined') return null
+			if (typeof openedProcessID === 'undefined') return
 
-			const data = await (
+			await (
 				await axios.get(`${URL_IDProcess}${openedProcessID}/stop`)
 			).data
-
-			return data
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)

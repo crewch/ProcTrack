@@ -1,4 +1,4 @@
-import { Box, Divider, LinearProgress } from '@mui/material'
+import { Box, Divider, Skeleton } from '@mui/material'
 import UserInfo from '../UserInfo/UserInfo'
 import ListTasks from './ListTasks/ListTasks'
 import { useQuery } from '@tanstack/react-query'
@@ -28,7 +28,7 @@ const SelectedStage: FC<SelectedStageProps> = ({ page }) => {
 
 	return (
 		<Box className={styles.selectedStage}>
-			{isLoading && <LinearProgress />}
+			{isLoading && <Skeleton variant='rounded' height='100%' />}
 			{isSuccess && selectedStage && (
 				<>
 					<InfoField
@@ -38,6 +38,7 @@ const SelectedStage: FC<SelectedStageProps> = ({ page }) => {
 							selectedStage?.holds[0]?.groups[0]?.title ||
 							selectedStage?.holds[1]?.groups[0]?.title
 						} //TODO: тут проблема при статусе ещё не начат
+						page={page}
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
