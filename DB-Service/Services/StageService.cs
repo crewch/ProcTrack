@@ -470,12 +470,13 @@ namespace DB_Service.Services
                 }
             }
 
-            
+            res.Sort((x, y) =>
+            {
+                return x.CreatedAtUnparsed > y.CreatedAtUnparsed ? 1 : -1;
+            });
 
-            return res
-                      //.OrderBy(r => r.CreatedAtUnparsed)
-                      //.Skip(Math.Min(offset, res.Count - 1))
-                      //.Take(Math.Min(limit, res.Count - 1 - offset))
+            return res.Skip(Math.Min(offset * limit, res.Count - 1))
+                      .Take(Math.Min(limit, res.Count - 1 - offset))
                       .ToList();
         }
 
