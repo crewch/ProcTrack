@@ -1,11 +1,11 @@
 import { Box, Divider } from '@mui/material'
 import { FC, memo, useState } from 'react'
-import SettingsList from '../SettingsList/SettingsList'
-import Search from '../Search/Search'
+import SettingsListProcess from '../SettingsListProcess/SettingsListProcess'
 import ListProcess from './ListProcess/ListProcess'
 import StagesList from './ListStages/ListStages'
 import Buttons from './Buttons/Buttons'
 import styles from './SearchList.module.scss'
+import SearchProcess from '../SearchProcess/SearchProcess'
 
 interface SearchListWrapProps {
 	page: 'release' | 'approval'
@@ -13,27 +13,19 @@ interface SearchListWrapProps {
 
 const SearchList: FC<SearchListWrapProps> = memo(({ page }) => {
 	const [isOpen, setIsOpen] = useState(false)
-	const [textForSearchProcess, setTextForSearchProcess] = useState('')
 
 	return (
 		<Box className={styles.container}>
-			<Search
-				isOpen={isOpen}
-				setIsOpen={setIsOpen}
-				textForSearchProcess={textForSearchProcess}
-				setTextForSearchProcess={setTextForSearchProcess}
-			/>
+			{page === 'release' && (
+				<SearchProcess isOpen={isOpen} setIsOpen={setIsOpen} />
+			)}
 			<Divider variant='middle' className={styles.divider} />
 			{isOpen ? (
-				<SettingsList />
+				<>{page === 'release' && <SettingsListProcess />}</>
 			) : (
 				<>
-					{page === 'release' && (
-						<ListProcess textForSearchProcess={textForSearchProcess} />
-					)}
-					{page === 'approval' && (
-						<StagesList textForSearchProcess={textForSearchProcess} />
-					)}
+					{page === 'release' && <ListProcess />}
+					{page === 'approval' && <StagesList />}
 					<Buttons page={page} />
 				</>
 			)}

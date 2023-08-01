@@ -15,8 +15,6 @@ export const taskService = {
 
 				return data
 			}
-
-			return null
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error)
@@ -28,17 +26,15 @@ export const taskService = {
 		userId: number | undefined
 	) {
 		try {
-			if (typeof openedTaskID === 'undefined') return null
+			if (typeof openedTaskID === 'undefined') return
 
-			const data = await (
+			await (
 				await axios.get(`${URL_switchTaskId}${openedTaskID}/start`, {
 					params: {
 						UserId: userId,
 					},
 				})
 			).data
-
-			return data
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
@@ -50,17 +46,15 @@ export const taskService = {
 		userId: number | undefined
 	) {
 		try {
-			if (typeof openedTaskID === 'undefined') return null
+			if (typeof openedTaskID === 'undefined') return
 
-			const data = await (
+			await (
 				await axios.get(`${URL_switchTaskId}${openedTaskID}/stop`, {
 					params: {
 						UserId: userId,
 					},
 				})
 			).data
-
-			return data
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
@@ -72,17 +66,15 @@ export const taskService = {
 		userId: number | undefined
 	) {
 		try {
-			if (typeof openedTaskID === 'undefined') return null
+			if (typeof openedTaskID === 'undefined') return
 
-			const data = await (
+			await (
 				await axios.get(`${URL_switchTaskId}${openedTaskID}/endverification`, {
 					params: {
 						UserId: userId,
 					},
 				})
 			).data
-
-			return data
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
@@ -94,17 +86,15 @@ export const taskService = {
 		userId: number | undefined
 	) {
 		try {
-			if (typeof openedTaskID === 'undefined') return null
+			if (typeof openedTaskID === 'undefined') return
 
-			const data = await (
+			await (
 				await axios.get(`${URL_switchTaskId}${openedTaskID}/assign`, {
 					params: {
 						UserId: userId,
 					},
 				})
 			).data
-
-			return data
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)

@@ -9,19 +9,12 @@ import {
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SettingsCheckbox from './SettingsCheckbox/SettingsCheckbox'
-import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks'
-import { toggleState } from '../../../store/searchSettingsSlice/searchSettingsSlice'
-import styles from './SettingsList.module.scss'
+import styles from './SettingsListProcess.module.scss'
 
-const SettingsList = () => {
-	const searchSettings = useAppSelector(
-		state => state.searchSettings.searchSettingsList
-	)
-	const dispatch = useAppDispatch()
-
+const SettingsListProcess = () => {
 	return (
 		<List component='nav' className={styles.list}>
-			{searchSettings.map((setting, index) => (
+			{/* {searchSettings.map((setting, index) => (
 				<Accordion disableGutters key={index} className={styles.accordion}>
 					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 						<FormControlLabel
@@ -48,9 +41,9 @@ const SettingsList = () => {
 						<SettingsCheckbox setting={setting} />
 					</AccordionDetails>
 				</Accordion>
-			))}
+			))} */}
 		</List>
 	)
 }
 
-export default SettingsList
+export default SettingsListProcess

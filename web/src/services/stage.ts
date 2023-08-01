@@ -52,8 +52,6 @@ export const stageService = {
 
 				return data
 			}
-
-			return null
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error)
@@ -69,8 +67,6 @@ export const stageService = {
 					},
 				})
 			}
-
-			return null
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
@@ -86,8 +82,6 @@ export const stageService = {
 					},
 				})
 			}
-
-			return null
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
@@ -162,8 +156,6 @@ export const stageService = {
 					},
 				})
 			}
-
-			return null
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)

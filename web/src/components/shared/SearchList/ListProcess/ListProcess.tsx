@@ -9,25 +9,17 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedProcess } from '../../../../store/processStageSlice/processStageSlice'
 import { useQuery } from '@tanstack/react-query'
-import { FC, memo, useMemo } from 'react'
-import { Process } from '../../../../shared/interfaces/process'
 import { processService } from '../../../../services/process'
 import { useGetUserData } from '../../../../hooks/userDataHook'
 import styles from './ListProcess.module.scss'
 import ListImg from '../../ListImg/ListImg'
 
-interface ListProcessProps {
-	textForSearchProcess: string
-}
-
-const ListProcess: FC<ListProcessProps> = memo(({ textForSearchProcess }) => {
+const ListProcess = () => {
 	const dispatch = useAppDispatch()
 	const openedProcess = useAppSelector(
 		state => state.processStage.openedProcess
 	)
-	const settingsForSearch = useAppSelector(
-		state => state.searchSettings.settingsForSearch
-	)
+	const settings = useAppSelector(state => state.settingProcess)
 
 	const userId = useGetUserData().id
 
@@ -37,45 +29,20 @@ const ListProcess: FC<ListProcessProps> = memo(({ textForSearchProcess }) => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['allProcess'],
-		queryFn: () => processService.getProcessAll(userId),
+		queryFn: () => processService.getProcessAll(userId, settings),
 	})
-
-	const filteredProcesses: Process[] = useMemo(() => {
-		if (isSuccess && allProcess) {
-			return allProcess
-				.sort((a, b) => b.id - a.id)
-				.filter(process =>
-					process.title
-						.toLocaleLowerCase()
-						.includes(textForSearchProcess.toLocaleLowerCase())
-				)
-				.filter(item => {
-					if (!settingsForSearch.length) return item
-
-					if (
-						settingsForSearch.includes(item.priority) ||
-						settingsForSearch.includes(item.type) ||
-						settingsForSearch.includes(item.status)
-					) {
-						return item
-					}
-				})
-		}
-
-		return []
-	}, [allProcess, isSuccess, settingsForSearch, textForSearchProcess])
 
 	return (
 		<List className={styles.list}>
 			{isLoading && <LinearProgress />}
-			{isSuccess && filteredProcesses && !filteredProcesses.length && (
+			{isSuccess && allProcess && !allProcess.length && (
 				<Typography variant='h4' className={styles.typography}>
 					Процессов нет
 				</Typography>
 			)}
 			{isSuccess &&
-				filteredProcesses &&
-				filteredProcesses.map((process, index) => (
+				allProcess &&
+				allProcess.map((process, index) => (
 					<ListItem
 						disablePadding
 						key={index}
@@ -104,6 +71,6 @@ const ListProcess: FC<ListProcessProps> = memo(({ textForSearchProcess }) => {
 				))}
 		</List>
 	)
-})
+}
 
 export default ListProcess

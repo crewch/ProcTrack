@@ -16,8 +16,6 @@ export const passportService = {
 			if (fileRef) {
 				return fileRef.sort((a, b) => b.id - a.id)
 			}
-
-			return null
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
