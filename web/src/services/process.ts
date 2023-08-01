@@ -34,7 +34,7 @@ export const processService = {
 				await axios.post(URL_AllProcess, settings, {
 					params: {
 						UserId: userId,
-						limit: 0,
+						limit: 10,
 						offset: 0,
 					},
 				})

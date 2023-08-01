@@ -28,7 +28,7 @@ const ListProcess = () => {
 		isLoading,
 		isSuccess,
 	} = useQuery({
-		queryKey: ['allProcess'],
+		queryKey: ['allProcess', settings],
 		queryFn: () => processService.getProcessAll(userId, settings),
 	})
 
