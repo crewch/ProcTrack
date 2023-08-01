@@ -413,7 +413,7 @@ namespace DB_Service.Services
                     .Include(p => p.Priority)
                     .Where(p => p.Id == hold.DestId &&
                                         (filter.Types == null || filter.Types.Count == 0 || filter.Types.Contains(p.Type.Title)) &&
-                                        (filter.Types == null || filter.Types.Count == 0 || filter.Priorities.Contains(p.Priority.Title)) &&
+                                        (filter.Priorities == null || filter.Priorities.Count == 0 || filter.Priorities.Contains(p.Priority.Title)) &&
                                         (filter.Text == null || filter.Text.Length == 0 || (p.Title + p.Description).Contains(filter.Text)))
                     .Select(p => p.Id)
                     .FirstOrDefaultAsync();
@@ -430,9 +430,9 @@ namespace DB_Service.Services
 
             res.Sort((x, y) =>
             {
-                int cmp = x.PriorityValue == y.PriorityValue 
-                    ? 
-                        0 
+                int cmp = x.PriorityValue == y.PriorityValue
+                    ?
+                        0
                     : 
                         x.PriorityValue > y.PriorityValue ? 1 : -1;
                 if (cmp != 0)
