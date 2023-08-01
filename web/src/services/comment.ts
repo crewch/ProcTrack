@@ -5,10 +5,9 @@ import { Comment } from '../shared/interfaces/comment'
 const URL_sendComment = `${URL}/api/track/task/`
 
 export const commentService = {
-	async sendComment(openedTaskID: number | undefined, commentsData: Comment) {
+	async sendComment(openedTaskID: number, commentsData: Comment) {
 		try {
-			if (typeof openedTaskID === 'undefined') return null
-			if (!commentsData.text) return null
+			if (!commentsData.text) return
 
 			await axios.post(
 				`${URL_sendComment}${openedTaskID}/comments/create`,

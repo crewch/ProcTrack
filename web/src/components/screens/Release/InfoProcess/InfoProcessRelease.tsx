@@ -1,4 +1,4 @@
-import { Box, Divider, LinearProgress } from '@mui/material'
+import { Box, Divider, Skeleton } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useAppSelector } from '../../../../hooks/reduxHooks'
@@ -55,7 +55,7 @@ const InfoProcessRelease = () => {
 
 	return (
 		<Box className={styles.container}>
-			{isLoading && <LinearProgress />}
+			{isLoading && <Skeleton variant='rounded' height='100%' />}
 			{isSuccess && process && (
 				<>
 					<InfoField
@@ -63,6 +63,7 @@ const InfoProcessRelease = () => {
 						status={process.status}
 						importance={process.priority}
 						type={process.type}
+						page='release'
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
