@@ -31,7 +31,7 @@ const ListStages = () => {
 	})
 
 	return (
-		<List component='nav' className={styles.list}>
+		<List className={styles.list}>
 			{isLoading && <LinearProgress />}
 			{isSuccess && listStages && !listStages.length && (
 				<Typography variant='h4' className={styles.typography}>
