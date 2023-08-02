@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import { FC, memo } from 'react'
-import Tag from '../../ui/Tag/Tag'
+import Tag from './Tag/Tag'
 import styles from './Tags.module.scss'
 
 interface TagsProps {

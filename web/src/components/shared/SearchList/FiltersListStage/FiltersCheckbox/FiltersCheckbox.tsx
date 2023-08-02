@@ -1,9 +1,9 @@
 import { FormControlLabel, FormGroup, Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import { FC, memo } from 'react'
-import styles from './FiltersCheckbox.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/reduxHooks'
 import { toggleFilter } from '../../../../../store/filterStageSlice/filterStageSlice'
+import styles from './FiltersCheckbox.module.scss'
 
 interface FiltersCheckboxProps {
 	settings: string[]

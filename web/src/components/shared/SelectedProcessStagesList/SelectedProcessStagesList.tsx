@@ -1,9 +1,9 @@
 import { Box } from '@mui/material'
 import StagesList from '../StagesList/StagesList'
-import styles from './SelectedProcessStagesList.module.scss'
 import { FC } from 'react'
 import InfoProcessApproval from '../../screens/Approval/InfoProcess/InfoProcessApproval'
 import InfoProcessRelease from '../../screens/Release/InfoProcess/InfoProcessRelease'
+import styles from './SelectedProcessStagesList.module.scss'
 
 interface SelectedProcessStagesListProps {
 	page: 'release' | 'approval'

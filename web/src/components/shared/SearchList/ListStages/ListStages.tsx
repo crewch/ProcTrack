@@ -11,7 +11,7 @@ import { changeOpenedStage } from '../../../../store/processStageSlice/processSt
 import { useQuery } from '@tanstack/react-query'
 import { stageService } from '../../../../services/stage'
 import { useGetUserData } from '../../../../hooks/userDataHook'
-import ListImg from '../../ListImg/ListImg'
+import ListImg from '../../../ui/ListImg/ListImg'
 import styles from './ListStages.module.scss'
 
 const ListStages = () => {

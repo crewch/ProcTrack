@@ -1,9 +1,9 @@
 import { Box, IconButton, TextField } from '@mui/material'
 import { Dispatch, FC, SetStateAction, memo } from 'react'
-import styles from './SearchStage.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeTextStage } from '../../../../store/filterStageSlice/filterStageSlice'
 import SettingsImg from '../../SettingsImg/SettingsImg'
+import styles from './SearchStage.module.scss'
 
 interface SearchProps {
 	isOpen: boolean

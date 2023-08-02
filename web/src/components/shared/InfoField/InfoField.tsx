@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { FC, memo } from 'react'
 import InfoFieldImg from './InfoFieldImg/InfoFieldImg'
-import Tags from '../Tags/Tags'
+import Tags from '../../ui/Tags/Tags'
 import styles from './InfoField.module.scss'
 
 interface InfoFieldProps {

@@ -9,12 +9,12 @@ import {
 	Typography,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import styles from './FiltersListStage.module.scss'
 import { useQuery } from '@tanstack/react-query'
 import { filtersService } from '../../../../services/filters.ts'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks.ts'
 import { toggleAllFilters } from '../../../../store/filterStageSlice/filterStageSlice.ts'
 import FiltersCheckbox from './FiltersCheckbox/FiltersCheckbox.tsx'
+import styles from './FiltersListStage.module.scss'
 
 const FiltersListStage = () => {
 	const {

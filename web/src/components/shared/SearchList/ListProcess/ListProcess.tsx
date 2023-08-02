@@ -11,7 +11,7 @@ import { changeOpenedProcess } from '../../../../store/processStageSlice/process
 import { useQuery } from '@tanstack/react-query'
 import { processService } from '../../../../services/process'
 import { useGetUserData } from '../../../../hooks/userDataHook'
-import ListImg from '../../ListImg/ListImg'
+import ListImg from '../../../ui/ListImg/ListImg'
 import styles from './ListProcess.module.scss'
 
 const ListProcess = () => {

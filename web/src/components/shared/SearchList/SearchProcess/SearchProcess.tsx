@@ -1,9 +1,9 @@
 import { Box, IconButton, TextField } from '@mui/material'
 import { Dispatch, FC, SetStateAction, memo } from 'react'
-import styles from './SearchProcess.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeTextProcess } from '../../../../store/filterProcessSlice/filterProcessSlice'
 import SettingsImg from '../../SettingsImg/SettingsImg'
+import styles from './SearchProcess.module.scss'
 
 interface SearchProps {
 	isOpen: boolean

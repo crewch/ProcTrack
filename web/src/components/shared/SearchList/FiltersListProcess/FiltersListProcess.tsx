@@ -9,14 +9,14 @@ import {
 	Typography,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import styles from './FilterListProcess.module.scss'
 import { useQuery } from '@tanstack/react-query'
 import { filtersService } from '../../../../services/filters'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { toggleAllFilters } from '../../../../store/filterProcessSlice/filterProcessSlice'
 import FiltersCheckbox from './FiltersCheckbox/FiltersCheckbox'
+import styles from './FiltersListProcess.module.scss'
 
-const FilterListProcess = () => {
+const FiltersListProcess = () => {
 	const {
 		data: filtersProcess,
 		isLoading,
@@ -138,4 +138,4 @@ const FilterListProcess = () => {
 	)
 }
 
-export default FilterListProcess
+export default FiltersListProcess

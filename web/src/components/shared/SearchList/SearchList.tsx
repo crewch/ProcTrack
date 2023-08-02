@@ -5,7 +5,7 @@ import ListStages from './ListStages/ListStages'
 import Buttons from './Buttons/Buttons'
 import SearchProcess from './SearchProcess/SearchProcess'
 import SearchStage from './SearchStage/SearchStage'
-import FiltersListProcess from './FiltersListProcess/FilterListProcess'
+import FiltersListProcess from './FiltersListProcess/FiltersListProcess'
 import FiltersListStage from './FiltersListStage/FiltersListStage'
 import styles from './SearchList.module.scss'
 

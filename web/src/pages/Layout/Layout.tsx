@@ -3,7 +3,6 @@ import { Navigate, Outlet } from 'react-router-dom'
 import ButtonListItem from '../../components/layout/ButtonListItem/ButtonListItem'
 import LogoListItem from '../../components/layout/LogoListItem/LogoListItem'
 import { useGetUserData } from '../../hooks/userDataHook'
-import styles from './Layout.module.scss'
 import { ReactComponent as Analysis } from '/src/assets/analysis.svg'
 import { ReactComponent as Confirmation } from '/src/assets/confirmation.svg'
 import { ReactComponent as Document } from '/src/assets/document.svg'
@@ -11,6 +10,7 @@ import { ReactComponent as Key } from '/src/assets/key.svg'
 import { ReactComponent as Notification } from '/src/assets/notification.svg'
 import { ReactComponent as Settings } from '/src/assets/settings.svg'
 import { ReactComponent as User } from '/src/assets/user1.svg'
+import styles from './Layout.module.scss'
 
 const Layout = () => {
 	if (!useGetUserData()) {
