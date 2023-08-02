@@ -9,30 +9,30 @@ import {
 	Typography,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import styles from './SettingsListStage.module.scss'
+import styles from './FiltersListStage.module.scss'
 import { useQuery } from '@tanstack/react-query'
-import { settingsService } from '../../../../services/settings'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { toggleAllSettings } from '../../../../store/settingStageSlice/settingStageSlice.ts'
-import SettingsCheckbox from './SettingsCheckbox/SettingsCheckbox'
+import { filtersService } from '../../../../services/filters.ts'
+import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks.ts'
+import { toggleAllFilters } from '../../../../store/filterStageSlice/filterStageSlice.ts'
+import FiltersCheckbox from './FiltersCheckbox/FiltersCheckbox.tsx'
 
-const SettingsListStage = () => {
+const FiltersListStage = () => {
 	const {
-		data: settingsStage,
+		data: filtersStage,
 		isLoading,
 		isSuccess,
 	} = useQuery({
-		queryKey: ['settingsStage'],
-		queryFn: settingsService.getSettingsStage,
+		queryKey: ['filtersStage'],
+		queryFn: filtersService.getFiltersStage,
 	})
 
 	const dispatch = useAppDispatch()
-	const selectedSettings = useAppSelector(state => state.settingStages)
+	const selectedFilters = useAppSelector(state => state.filterStages)
 
 	return (
 		<List component='nav' className={styles.list}>
 			{isLoading && <LinearProgress />}
-			{isSuccess && settingsStage && (
+			{isSuccess && filtersStage && (
 				<Accordion disableGutters className={styles.accordion}>
 					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 						<FormControlLabel
@@ -43,13 +43,13 @@ const SettingsListStage = () => {
 							onFocus={event => event.stopPropagation()}
 							control={
 								<Checkbox
-									checked={settingsStage.statuses.every(item =>
-										selectedSettings.statuses.includes(item)
+									checked={filtersStage.statuses.every(item =>
+										selectedFilters.statuses.includes(item)
 									)}
 									onChange={() =>
 										dispatch(
-											toggleAllSettings({
-												settings: settingsStage.statuses,
+											toggleAllFilters({
+												settings: filtersStage.statuses,
 												type: 'statuses',
 											})
 										)
@@ -60,10 +60,7 @@ const SettingsListStage = () => {
 						/>
 					</AccordionSummary>
 					<AccordionDetails>
-						<SettingsCheckbox
-							settings={settingsStage.statuses}
-							type='statuses'
-						/>
+						<FiltersCheckbox settings={filtersStage.statuses} type='statuses' />
 					</AccordionDetails>
 				</Accordion>
 			)}
@@ -71,4 +68,4 @@ const SettingsListStage = () => {
 	)
 }
 
-export default SettingsListStage
+export default FiltersListStage

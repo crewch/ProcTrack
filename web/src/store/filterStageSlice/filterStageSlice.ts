@@ -1,25 +1,23 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { FilterProcess } from '../../shared/interfaces/filterProcess'
+import { FilterStage } from '../../shared/interfaces/filterStage'
 
-const initialState: FilterProcess = {
+const initialState: FilterStage = {
 	text: '',
-	priorities: [],
 	statuses: [],
-	types: [],
 }
 
-export const settingProcessSlice = createSlice({
-	name: 'settingProcess',
+export const filterStageSlice = createSlice({
+	name: 'filterStage',
 	initialState,
 	reducers: {
-		changeTextProcess(state, actions: PayloadAction<string>) {
+		changeTextStage(state, actions: PayloadAction<string>) {
 			state.text = actions.payload
 		},
-		toggleAllSettings(
+		toggleAllFilters(
 			state,
 			actions: PayloadAction<{
 				settings: string[]
-				type: 'priorities' | 'statuses' | 'types'
+				type: 'statuses'
 			}>
 		) {
 			if (
@@ -32,11 +30,11 @@ export const settingProcessSlice = createSlice({
 				state[actions.payload.type] = actions.payload.settings
 			}
 		},
-		toggleSetting(
+		toggleFilter(
 			state,
 			actions: PayloadAction<{
 				setting: string
-				type: 'priorities' | 'statuses' | 'types'
+				type: 'statuses'
 			}>
 		) {
 			if (state[actions.payload.type].includes(actions.payload.setting)) {
@@ -50,6 +48,6 @@ export const settingProcessSlice = createSlice({
 	},
 })
 
-export const { changeTextProcess, toggleAllSettings, toggleSetting } =
-	settingProcessSlice.actions
-export default settingProcessSlice.reducer
+export const { changeTextStage, toggleAllFilters, toggleFilter } =
+	filterStageSlice.actions
+export default filterStageSlice.reducer

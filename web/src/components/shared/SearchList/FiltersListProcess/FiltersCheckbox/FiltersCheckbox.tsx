@@ -1,18 +1,18 @@
 import { FormControlLabel, FormGroup, Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import { FC, memo } from 'react'
-import styles from './SettingsCheckbox.module.scss'
+import styles from './FiltersCheckbox.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/reduxHooks'
-import { toggleSetting } from '../../../../../store/settingProcessSlice/settingProcessSlice'
+import { toggleFilter } from '../../../../../store/filterProcessSlice/filterProcessSlice'
 
 interface SettingsCheckboxProps {
 	settings: string[]
 	type: 'priorities' | 'statuses' | 'types'
 }
 
-const SettingsCheckbox: FC<SettingsCheckboxProps> = memo(
+const FiltersCheckbox: FC<SettingsCheckboxProps> = memo(
 	({ settings, type }) => {
-		const selectedSettings = useAppSelector(state => state.settingProcess)
+		const selectedFilters = useAppSelector(state => state.filterProcess)
 		const dispatch = useAppDispatch()
 
 		return (
@@ -25,8 +25,8 @@ const SettingsCheckbox: FC<SettingsCheckboxProps> = memo(
 						}
 						control={
 							<Checkbox
-								checked={selectedSettings[type].includes(setting)}
-								onChange={() => dispatch(toggleSetting({ setting, type }))}
+								checked={selectedFilters[type].includes(setting)}
+								onChange={() => dispatch(toggleFilter({ setting, type }))}
 								name={setting}
 							/>
 						}
@@ -37,4 +37,4 @@ const SettingsCheckbox: FC<SettingsCheckboxProps> = memo(
 	}
 )
 
-export default SettingsCheckbox
+export default FiltersCheckbox

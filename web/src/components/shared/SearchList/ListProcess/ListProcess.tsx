@@ -11,15 +11,15 @@ import { changeOpenedProcess } from '../../../../store/processStageSlice/process
 import { useQuery } from '@tanstack/react-query'
 import { processService } from '../../../../services/process'
 import { useGetUserData } from '../../../../hooks/userDataHook'
-import styles from './ListProcess.module.scss'
 import ListImg from '../../ListImg/ListImg'
+import styles from './ListProcess.module.scss'
 
 const ListProcess = () => {
 	const dispatch = useAppDispatch()
 	const openedProcess = useAppSelector(
 		state => state.processStage.openedProcess
 	)
-	const settings = useAppSelector(state => state.settingProcess)
+	const filters = useAppSelector(state => state.filterProcess)
 
 	const userId = useGetUserData().id
 
@@ -28,8 +28,8 @@ const ListProcess = () => {
 		isLoading,
 		isSuccess,
 	} = useQuery({
-		queryKey: ['allProcess', settings],
-		queryFn: () => processService.getProcessAll(userId, settings),
+		queryKey: ['allProcess', filters],
+		queryFn: () => processService.getProcessAll(userId, filters),
 	})
 
 	return (

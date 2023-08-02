@@ -2,7 +2,7 @@ import { Box, IconButton, TextField } from '@mui/material'
 import { Dispatch, FC, SetStateAction, memo } from 'react'
 import styles from './SearchStage.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { changeTextStage } from '../../../../store/settingStageSlice/settingStageSlice'
+import { changeTextStage } from '../../../../store/filterStageSlice/filterStageSlice'
 import SettingsImg from '../../SettingsImg/SettingsImg'
 
 interface SearchProps {
@@ -12,7 +12,7 @@ interface SearchProps {
 
 const SearchStage: FC<SearchProps> = memo(({ isOpen, setIsOpen }) => {
 	const dispatch = useAppDispatch()
-	const text = useAppSelector(state => state.settingStages.text)
+	const text = useAppSelector(state => state.filterStages.text)
 
 	return (
 		<Box className={styles.container}>
