@@ -21,6 +21,7 @@ import { Comment } from '../../../../../shared/interfaces/comment'
 import { taskService } from '../../../../../services/task'
 import { useGetUserData } from '../../../../../hooks/userDataHook'
 import DateInfo from '../../../DateInfo/DateInfo'
+import { ReactComponent as User } from '/src/assets/user1.svg'
 import styles from './ListTask.module.scss'
 
 export interface ListTaskProps {
@@ -219,7 +220,7 @@ const ListTask: FC<ListTaskProps> = memo(
 						{remarks.map((remark, index) => (
 							<ListItem divider key={index}>
 								<ListItemIcon>
-									<img src='/user1.svg' className={styles.img} />
+									<User className={styles.img} />
 								</ListItemIcon>
 								<ListItemText className={styles.reportText}>
 									<Box className={styles.title}>

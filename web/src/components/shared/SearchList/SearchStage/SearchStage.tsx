@@ -3,6 +3,7 @@ import { Dispatch, FC, SetStateAction, memo } from 'react'
 import styles from './SearchStage.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeTextStage } from '../../../../store/settingStageSlice/settingStageSlice'
+import SettingsImg from '../../SettingsImg/SettingsImg'
 
 interface SearchProps {
 	isOpen: boolean
@@ -31,11 +32,7 @@ const SearchStage: FC<SearchProps> = memo(({ isOpen, setIsOpen }) => {
 				onClick={() => setIsOpen(!isOpen)}
 				className={isOpen ? styles.openSettings : styles.closeSettings}
 			>
-				{isOpen ? (
-					<img src='/searchSettingBlue.svg' height='25px' width='25px' />
-				) : (
-					<img src='/searchSetting.svg' height='25px' width='25px' />
-				)}
+				<SettingsImg isOpen={isOpen} />
 			</IconButton>
 		</Box>
 	)
