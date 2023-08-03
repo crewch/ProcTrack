@@ -38,39 +38,35 @@ const StagesList = () => {
 			{isSuccess && stagesList && (
 				<>
 					<List className={styles.list}>
-						{stagesList
-							.sort((a, b) => a.id - b.id)
-							.map((stage, index) => (
-								<ListItem
-									disablePadding
-									key={index}
-									className={
-										openedStage === stage.id
-											? styles.openedProcessWrap
-											: styles.closedProcessWrap
-									}
+						{stagesList.map((stage, index) => (
+							<ListItem
+								disablePadding
+								key={index}
+								className={
+									openedStage === stage.id
+										? styles.openedProcessWrap
+										: styles.closedProcessWrap
+								}
+							>
+								<ListImg status={stage.status} />
+								<ListItemButton
+									className={styles.openedProcess}
+									onClick={() => dispatch(changeOpenedStage({ id: stage.id }))}
 								>
-									<ListImg status={stage.status} />
-									<ListItemButton
-										className={styles.openedProcess}
-										onClick={() =>
-											dispatch(changeOpenedStage({ id: stage.id }))
-										}
-									>
-										<ListItemText>
-											<Typography
-												className={
-													openedStage === stage.id
-														? styles.openedProcessText
-														: styles.closedProcessText
-												}
-											>
-												{stage.title}
-											</Typography>
-										</ListItemText>
-									</ListItemButton>
-								</ListItem>
-							))}
+									<ListItemText>
+										<Typography
+											className={
+												openedStage === stage.id
+													? styles.openedProcessText
+													: styles.closedProcessText
+											}
+										>
+											{stage.title}
+										</Typography>
+									</ListItemText>
+								</ListItemButton>
+							</ListItem>
+						))}
 					</List>
 					<FullScreenDialogButton title='Графовое представление' icon='graph'>
 						<DataGraph />
