@@ -3,6 +3,13 @@ import { Navigate, Outlet } from 'react-router-dom'
 import ButtonListItem from '../../components/layout/ButtonListItem/ButtonListItem'
 import LogoListItem from '../../components/layout/LogoListItem/LogoListItem'
 import { useGetUserData } from '../../hooks/userDataHook'
+import { ReactComponent as Analysis } from '/src/assets/analysis.svg'
+import { ReactComponent as Confirmation } from '/src/assets/confirmation.svg'
+import { ReactComponent as Document } from '/src/assets/document.svg'
+import { ReactComponent as Key } from '/src/assets/key.svg'
+import { ReactComponent as Notification } from '/src/assets/notification.svg'
+import { ReactComponent as Settings } from '/src/assets/settings.svg'
+import { ReactComponent as User } from '/src/assets/user1.svg'
 import styles from './Layout.module.scss'
 
 const Layout = () => {
@@ -17,40 +24,28 @@ const Layout = () => {
 					<LogoListItem pathImg='/logo.svg' />
 					<Divider variant='middle' className={styles.divider} />
 					<ButtonListItem
-						pathImg='/document.svg'
+						Img={Document}
 						to='release'
 						label='Выпускаемые процессы'
 					/>
 					<ButtonListItem
-						pathImg='/confirmation.svg'
+						Img={Confirmation}
 						to='approval'
 						label='Этапы на согласование'
 					/>
 					<ButtonListItem
-						pathImg='/analysis.svg'
+						Img={Analysis}
 						to='analysis'
 						label='Аналитика'
 						otherPage='http://localhost:3000'
 					/>
-					<ButtonListItem
-						pathImg='/key.svg'
-						to='test'
-						label='Страница админа'
-					/>
+					<ButtonListItem Img={Key} to='/404' label='Страница админа' />
 				</List>
 				<List>
 					<Divider variant='middle' className={styles.divider} />
-					<ButtonListItem
-						pathImg='/notification.svg'
-						to='test'
-						label='Уведомления'
-					/>
-					<ButtonListItem pathImg='/settings.svg' to='test' label='Настройки' />
-					<ButtonListItem
-						pathImg='/user1.svg'
-						to='test'
-						label='Страница пользователя'
-					/>
+					<ButtonListItem Img={Notification} to='/404' label='Уведомления' />
+					<ButtonListItem Img={Settings} to='/404' label='Настройки' />
+					<ButtonListItem Img={User} to='/404' label='Страница пользователя' />
 				</List>
 			</Box>
 			<Outlet />

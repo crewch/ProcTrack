@@ -7,13 +7,17 @@ import styles from './ButtonListItem.module.scss'
 
 interface ButtonListItemProps {
 	label: string
-	pathImg: string
+	Img: React.FunctionComponent<
+		React.SVGProps<SVGSVGElement> & {
+			title?: string | undefined
+		}
+	>
 	to: string
 	otherPage?: string
 }
 
 const ButtonListItem: FC<ButtonListItemProps> = ({
-	pathImg,
+	Img,
 	to,
 	otherPage,
 	label,
@@ -32,7 +36,7 @@ const ButtonListItem: FC<ButtonListItemProps> = ({
 							<ListItemIcon
 								className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
 							>
-								<img src={pathImg} className={styles.img} />
+								<Img className={styles.img} />
 							</ListItemIcon>
 						</ListItemButton>
 					</Tooltip>
@@ -56,12 +60,9 @@ const ButtonListItem: FC<ButtonListItemProps> = ({
 									className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
 								>
 									{isActive ? (
-										<img
-											src={`${pathImg.slice(0, -4)}Blue.svg`}
-											className={styles.img}
-										/>
+										<Img className={`${styles.img} ${styles.imgColor}`} />
 									) : (
-										<img src={pathImg} className={styles.img} />
+										<Img className={styles.img} />
 									)}
 								</ListItemIcon>
 							</ListItemButton>

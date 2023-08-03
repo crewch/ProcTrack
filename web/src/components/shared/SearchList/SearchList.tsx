@@ -1,19 +1,19 @@
 import { Box, Divider } from '@mui/material'
 import { FC, memo, useState } from 'react'
-import SettingsListProcess from './SettingsListProcess/SettingsListProcess'
 import ListProcess from './ListProcess/ListProcess'
-import StagesList from './ListStages/ListStages'
+import ListStages from './ListStages/ListStages'
 import Buttons from './Buttons/Buttons'
-import styles from './SearchList.module.scss'
 import SearchProcess from './SearchProcess/SearchProcess'
 import SearchStage from './SearchStage/SearchStage'
-import SettingsListStage from './SettingsListStage/SettingsListStage'
+import FiltersListProcess from './FiltersListProcess/FiltersListProcess'
+import FiltersListStage from './FiltersListStage/FiltersListStage'
+import styles from './SearchList.module.scss'
 
-interface SearchListWrapProps {
+interface SearchListProps {
 	page: 'release' | 'approval'
 }
 
-const SearchList: FC<SearchListWrapProps> = memo(({ page }) => {
+const SearchList: FC<SearchListProps> = memo(({ page }) => {
 	const [isOpen, setIsOpen] = useState(false)
 
 	return (
@@ -27,13 +27,13 @@ const SearchList: FC<SearchListWrapProps> = memo(({ page }) => {
 			<Divider variant='middle' className={styles.divider} />
 			{isOpen ? (
 				<>
-					{page === 'release' && <SettingsListProcess />}
-					{page === 'approval' && <SettingsListStage />}
+					{page === 'release' && <FiltersListProcess />}
+					{page === 'approval' && <FiltersListStage />}
 				</>
 			) : (
 				<>
 					{page === 'release' && <ListProcess />}
-					{page === 'approval' && <StagesList />}
+					{page === 'approval' && <ListStages />}
 					<Buttons page={page} />
 				</>
 			)}

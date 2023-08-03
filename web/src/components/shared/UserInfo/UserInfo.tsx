@@ -1,5 +1,6 @@
 import { Box, Tooltip, Typography } from '@mui/material'
 import { FC, memo } from 'react'
+import { ReactComponent as User } from '/src/assets/user1.svg'
 import styles from './UserInfo.module.scss'
 
 interface UserInfoProps {
@@ -12,7 +13,7 @@ const UserInfo: FC<UserInfoProps> = memo(({ group, responsible, role }) => {
 	return (
 		<Box className={styles.userField}>
 			<Box className={styles.wrapIcon}>
-				<img className={styles.icon} src='/user2.svg' />
+				<User className={styles.icon} />
 			</Box>
 			<Box className={styles.wrapUserInfo}>
 				<Typography variant='h6' className={styles.title}>

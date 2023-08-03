@@ -6,7 +6,6 @@ import { store } from './store/store.ts'
 import Layout from './pages/Layout/Layout.tsx'
 import NotFound from './pages/NotFound/NotFound.tsx'
 import LoginPage from './pages/Login/Login.tsx'
-
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'

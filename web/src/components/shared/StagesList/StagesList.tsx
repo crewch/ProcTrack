@@ -13,7 +13,7 @@ import DataGraph from '../DataGraph/DataGraph'
 import { useQuery } from '@tanstack/react-query'
 import { stageService } from '../../../services/stage'
 import FullScreenDialogButton from '../FullScreenDialogButton/FullScreenDialogButton'
-import ListImg from '../ListImg/ListImg'
+import ListImg from '../../ui/ListImg/ListImg'
 import styles from './StagesList.module.scss'
 
 const StagesList = () => {

@@ -1,8 +1,9 @@
 import { Box, IconButton, TextField } from '@mui/material'
 import { Dispatch, FC, SetStateAction, memo } from 'react'
-import styles from './SearchProcess.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { changeTextProcess } from '../../../../store/settingProcessSlice/settingProcessSlice'
+import { changeTextProcess } from '../../../../store/filterProcessSlice/filterProcessSlice'
+import SettingsImg from '../../SettingsImg/SettingsImg'
+import styles from './SearchProcess.module.scss'
 
 interface SearchProps {
 	isOpen: boolean
@@ -11,7 +12,7 @@ interface SearchProps {
 
 const SearchProcess: FC<SearchProps> = memo(({ isOpen, setIsOpen }) => {
 	const dispatch = useAppDispatch()
-	const text = useAppSelector(state => state.settingProcess.text)
+	const text = useAppSelector(state => state.filterProcess.text)
 
 	return (
 		<Box className={styles.container}>
@@ -31,11 +32,7 @@ const SearchProcess: FC<SearchProps> = memo(({ isOpen, setIsOpen }) => {
 				onClick={() => setIsOpen(!isOpen)}
 				className={isOpen ? styles.openSettings : styles.closeSettings}
 			>
-				{isOpen ? (
-					<img src='/searchSettingBlue.svg' height='25px' width='25px' />
-				) : (
-					<img src='/searchSetting.svg' height='25px' width='25px' />
-				)}
+				<SettingsImg isOpen={isOpen} />
 			</IconButton>
 		</Box>
 	)

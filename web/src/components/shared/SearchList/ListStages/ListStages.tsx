@@ -11,13 +11,13 @@ import { changeOpenedStage } from '../../../../store/processStageSlice/processSt
 import { useQuery } from '@tanstack/react-query'
 import { stageService } from '../../../../services/stage'
 import { useGetUserData } from '../../../../hooks/userDataHook'
-import ListImg from '../../ListImg/ListImg'
+import ListImg from '../../../ui/ListImg/ListImg'
 import styles from './ListStages.module.scss'
 
-const StagesList = () => {
+const ListStages = () => {
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
 	const dispatch = useAppDispatch()
-	const settings = useAppSelector(state => state.settingStages)
+	const filters = useAppSelector(state => state.filterStages)
 
 	const userData = useGetUserData()
 
@@ -26,12 +26,12 @@ const StagesList = () => {
 		isLoading,
 		isSuccess,
 	} = useQuery({
-		queryKey: ['stagesAllByUserId', settings],
-		queryFn: () => stageService.getStageAllByUserId(userData.id, settings),
+		queryKey: ['stagesAllByUserId', filters],
+		queryFn: () => stageService.getStageAllByUserId(userData.id, filters),
 	})
 
 	return (
-		<List component='nav' className={styles.list}>
+		<List className={styles.list}>
 			{isLoading && <LinearProgress />}
 			{isSuccess && listStages && !listStages.length && (
 				<Typography variant='h4' className={styles.typography}>
@@ -73,4 +73,4 @@ const StagesList = () => {
 	)
 }
 
-export default StagesList
+export default ListStages

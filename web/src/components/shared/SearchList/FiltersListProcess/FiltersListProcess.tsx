@@ -9,30 +9,30 @@ import {
 	Typography,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import styles from './SettingsListProcess.module.scss'
 import { useQuery } from '@tanstack/react-query'
-import { settingsService } from '../../../../services/settings'
+import { filtersService } from '../../../../services/filters'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { toggleAllSettings } from '../../../../store/settingProcessSlice/settingProcessSlice'
-import SettingsCheckbox from './SettingsCheckbox/SettingsCheckbox'
+import { toggleAllFilters } from '../../../../store/filterProcessSlice/filterProcessSlice'
+import FiltersCheckbox from './FiltersCheckbox/FiltersCheckbox'
+import styles from './FiltersListProcess.module.scss'
 
-const SettingsListProcess = () => {
+const FiltersListProcess = () => {
 	const {
-		data: settingsProcess,
+		data: filtersProcess,
 		isLoading,
 		isSuccess,
 	} = useQuery({
-		queryKey: ['settingsProcess'],
-		queryFn: settingsService.getSettingsProcess,
+		queryKey: ['filtersProcess'],
+		queryFn: filtersService.getFiltersProcess,
 	})
 
 	const dispatch = useAppDispatch()
-	const selectedSettings = useAppSelector(state => state.settingProcess)
+	const selectedFilters = useAppSelector(state => state.filterProcess)
 
 	return (
 		<List component='nav' className={styles.list}>
 			{isLoading && <LinearProgress />}
-			{isSuccess && settingsProcess && (
+			{isSuccess && filtersProcess && (
 				<>
 					<Accordion disableGutters className={styles.accordion}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -46,13 +46,13 @@ const SettingsListProcess = () => {
 								onFocus={event => event.stopPropagation()}
 								control={
 									<Checkbox
-										checked={settingsProcess.priorities.every(item =>
-											selectedSettings.priorities.includes(item)
+										checked={filtersProcess.priorities.every(item =>
+											selectedFilters.priorities.includes(item)
 										)}
 										onChange={() =>
 											dispatch(
-												toggleAllSettings({
-													settings: settingsProcess.priorities,
+												toggleAllFilters({
+													settings: filtersProcess.priorities,
 													type: 'priorities',
 												})
 											)
@@ -63,8 +63,8 @@ const SettingsListProcess = () => {
 							/>
 						</AccordionSummary>
 						<AccordionDetails>
-							<SettingsCheckbox
-								settings={settingsProcess.priorities}
+							<FiltersCheckbox
+								settings={filtersProcess.priorities}
 								type='priorities'
 							/>
 						</AccordionDetails>
@@ -79,13 +79,13 @@ const SettingsListProcess = () => {
 								onFocus={event => event.stopPropagation()}
 								control={
 									<Checkbox
-										checked={settingsProcess.types.every(item =>
-											selectedSettings.types.includes(item)
+										checked={filtersProcess.types.every(item =>
+											selectedFilters.types.includes(item)
 										)}
 										onChange={() =>
 											dispatch(
-												toggleAllSettings({
-													settings: settingsProcess.types,
+												toggleAllFilters({
+													settings: filtersProcess.types,
 													type: 'types',
 												})
 											)
@@ -96,7 +96,7 @@ const SettingsListProcess = () => {
 							/>
 						</AccordionSummary>
 						<AccordionDetails>
-							<SettingsCheckbox settings={settingsProcess.types} type='types' />
+							<FiltersCheckbox settings={filtersProcess.types} type='types' />
 						</AccordionDetails>
 					</Accordion>
 					<Accordion disableGutters className={styles.accordion}>
@@ -109,13 +109,13 @@ const SettingsListProcess = () => {
 								onFocus={event => event.stopPropagation()}
 								control={
 									<Checkbox
-										checked={settingsProcess.statuses.every(item =>
-											selectedSettings.statuses.includes(item)
+										checked={filtersProcess.statuses.every(item =>
+											selectedFilters.statuses.includes(item)
 										)}
 										onChange={() =>
 											dispatch(
-												toggleAllSettings({
-													settings: settingsProcess.statuses,
+												toggleAllFilters({
+													settings: filtersProcess.statuses,
 													type: 'statuses',
 												})
 											)
@@ -126,8 +126,8 @@ const SettingsListProcess = () => {
 							/>
 						</AccordionSummary>
 						<AccordionDetails>
-							<SettingsCheckbox
-								settings={settingsProcess.statuses}
+							<FiltersCheckbox
+								settings={filtersProcess.statuses}
 								type='statuses'
 							/>
 						</AccordionDetails>
@@ -138,4 +138,4 @@ const SettingsListProcess = () => {
 	)
 }
 
-export default SettingsListProcess
+export default FiltersListProcess

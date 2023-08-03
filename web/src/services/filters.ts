@@ -6,8 +6,8 @@ const URL_processStatuses = `${URL}/api/track/property/processStatuses`
 const URL_processTypes = `${URL}/api/track/property/types`
 const URL_stageStatuses = `${URL}/api/track/property/stageStatuses`
 
-export const settingsService = {
-	async getSettingsProcess() {
+export const filtersService = {
+	async getFiltersProcess() {
 		try {
 			const statuses: string[] = await (
 				await axios.get(URL_processStatuses)
@@ -29,7 +29,7 @@ export const settingsService = {
 			}
 		}
 	},
-	async getSettingsStage() {
+	async getFiltersStage() {
 		try {
 			const statuses: string[] = await (await axios.get(URL_stageStatuses)).data
 

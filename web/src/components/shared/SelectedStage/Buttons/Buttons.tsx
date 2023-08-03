@@ -86,11 +86,11 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 
 	const mutationGetStages = useMutation({
 		mutationFn: stageService.toggleStagePass,
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: ['stageHeader'],
-			})
-		},
+		// onSuccess: () => {
+		// 	queryClient.invalidateQueries({
+		// 		queryKey: ['stageHeader'],
+		// 	})
+		// },
 	})
 
 	return (
@@ -159,6 +159,20 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 																<>
 																	<Checkbox
 																		onClick={() => {
+																			//TODO:надо тестировать
+																			const newData = { ...item }
+																			if (newData.data?.pass !== undefined) {
+																				newData.data.pass = !item.data?.pass
+																			}
+
+																			queryClient.setQueryData(
+																				['stageHeader', item],
+																				{
+																					...item,
+																					data: newData,
+																				}
+																			)
+
 																			mutationGetStages.mutate({
 																				stage: item.data,
 																				userId,
