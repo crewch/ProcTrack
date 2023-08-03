@@ -28,6 +28,6 @@ namespace DB_Service.Services
 
         Task<ProcessDto> GetProcessByStageId(int StageId);
 
-        Task<int> GetProcessCount(int UserId);
+        Task<int> GetProcessCount(int UserId, FilterProcessDto filter);
     }
 }

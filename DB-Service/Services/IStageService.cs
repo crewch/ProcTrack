@@ -16,6 +16,6 @@ namespace DB_Service.Services
 
         Task<StageDto> CancelStageById(int Id, int UserId);
 
-        Task<int> GetStageCount(int UserId);
+        Task<int> GetStageCount(int UserId, FilterStageDto filter);
     }
 }
