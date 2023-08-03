@@ -174,11 +174,13 @@ export const stageService = {
 		settings: FilterStage
 	}) {
 		try {
-			const countStage = await axios.post(URL_CountStage, settings, {
-				params: {
-					UserId: userId,
-				},
-			})
+			const countStage = await (
+				await axios.post(URL_CountStage, settings, {
+					params: {
+						UserId: userId,
+					},
+				})
+			).data
 
 			return countStage
 		} catch (error) {

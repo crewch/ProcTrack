@@ -29,13 +29,18 @@ interface Template {
 type Priority = string
 
 export const processService = {
-	async getProcessAll(userId: number, filters: FilterProcess, offset: number) {
+	async getProcessAll(
+		userId: number,
+		filters: FilterProcess,
+		limit: number,
+		offset: number
+	) {
 		try {
 			const data: Process[] = await (
 				await axios.post(URL_AllProcess, filters, {
 					params: {
 						UserId: userId,
-						limit: 10,
+						limit: limit,
 						offset: offset - 1,
 					},
 				})
@@ -152,11 +157,13 @@ export const processService = {
 	},
 	async getCountProcess(userId: number, filters: FilterProcess) {
 		try {
-			const countProcess: number = await axios.post(URL_ProcessCount, filters, {
-				params: {
-					UserId: userId,
-				},
-			})
+			const countProcess: number = await (
+				await axios.post(URL_ProcessCount, filters, {
+					params: {
+						UserId: userId,
+					},
+				})
+			).data
 
 			return countProcess
 		} catch (error) {
