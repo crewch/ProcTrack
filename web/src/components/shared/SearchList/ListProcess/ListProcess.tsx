@@ -26,6 +26,7 @@ const ListProcess = () => {
 	const userId = useGetUserData().id
 
 	const [selectedPage, setSelectedPage] = useState(1)
+	const limit = 14
 
 	const queryClient = useQueryClient()
 
@@ -35,7 +36,8 @@ const ListProcess = () => {
 		isSuccess: isSuccessAllProcess,
 	} = useQuery({
 		queryKey: ['allProcess', filters, selectedPage],
-		queryFn: () => processService.getProcessAll(userId, filters, selectedPage),
+		queryFn: () =>
+			processService.getProcessAll(userId, filters, limit, selectedPage),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['countProcess'] })
 		},
@@ -89,7 +91,7 @@ const ListProcess = () => {
 			</List>
 			{isSuccessCountProcess && countProcess && (
 				<PaginationList
-					count={Math.ceil(countProcess / 10)}
+					count={Math.ceil(countProcess / limit)}
 					selectedPage={selectedPage}
 					setSelectedPage={setSelectedPage}
 				/>

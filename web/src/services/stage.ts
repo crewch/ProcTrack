@@ -41,21 +41,24 @@ export const stageService = {
 			}
 		}
 	},
-	async getStageAllByUserId(id: number | undefined, settings: FilterStage) {
+	async getStageAllByUserId(
+		userId: number,
+		filters: FilterStage,
+		limit: number,
+		offset: number
+	) {
 		try {
-			if (typeof id === 'number') {
-				const data: Stage[] = await (
-					await axios.post(URL_GetStageAllByUserId, settings, {
-						params: {
-							UserId: id,
-							limit: 10,
-							offset: 0,
-						},
-					})
-				).data
+			const data: Stage[] = await (
+				await axios.post(URL_GetStageAllByUserId, filters, {
+					params: {
+						UserId: userId,
+						limit: limit,
+						offset: offset - 1,
+					},
+				})
+			).data
 
-				return data
-			}
+			return data
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error)
@@ -166,19 +169,15 @@ export const stageService = {
 			}
 		}
 	},
-	async getCountStage({
-		userId,
-		settings,
-	}: {
-		userId: number
-		settings: FilterStage
-	}) {
+	async getCountStage(userId: number, filters: FilterStage) {
 		try {
-			const countStage = await axios.post(URL_CountStage, settings, {
-				params: {
-					UserId: userId,
-				},
-			})
+			const countStage = await (
+				await axios.post(URL_CountStage, filters, {
+					params: {
+						UserId: userId,
+					},
+				})
+			).data
 
 			return countStage
 		} catch (error) {

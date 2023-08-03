@@ -20,6 +20,8 @@ const PaginationList: FC<PaginationListProps> = ({
 			onChange={(_e, page) => setSelectedPage(page)}
 			color='primary'
 			variant='outlined'
+			showFirstButton
+			showLastButton
 			className={styles.pagination}
 		/>
 	)
