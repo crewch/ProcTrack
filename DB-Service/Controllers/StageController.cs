@@ -67,7 +67,7 @@ namespace DB_Service.Controllers
         }
 
         [Route("Count")]
-        [HttpGet]
+        [HttpPost]
         public async Task<ActionResult<int>> StageCount(int UserId, FilterStageDto filter)
         {
             var res = await _service.GetStageCount(UserId, filter);
