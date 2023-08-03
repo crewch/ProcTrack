@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { changeOpenedProcess } from '../../../../store/processStageSlice/processStageSlice'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { processService } from '../../../../services/process'
 import { useGetUserData } from '../../../../hooks/userDataHook'
 import ListImg from '../../../ui/ListImg/ListImg'
@@ -27,6 +27,8 @@ const ListProcess = () => {
 
 	const [selectedPage, setSelectedPage] = useState(1)
 
+	const queryClient = useQueryClient()
+
 	const {
 		data: allProcess,
 		isLoading: isLoadingAllProcess,
@@ -34,6 +36,9 @@ const ListProcess = () => {
 	} = useQuery({
 		queryKey: ['allProcess', filters, selectedPage],
 		queryFn: () => processService.getProcessAll(userId, filters, selectedPage),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['countProcess'] })
+		},
 	})
 
 	const { data: countProcess, isSuccess: isSuccessCountProcess } = useQuery({
