@@ -13,6 +13,8 @@ import { processService } from '../../../../services/process'
 import { useGetUserData } from '../../../../hooks/userDataHook'
 import ListImg from '../../../ui/ListImg/ListImg'
 import styles from './ListProcess.module.scss'
+import { useState } from 'react'
+import PaginationList from '../../PaginationList/PaginationList'
 
 const ListProcess = () => {
 	const dispatch = useAppDispatch()
@@ -23,53 +25,71 @@ const ListProcess = () => {
 
 	const userId = useGetUserData().id
 
+	const [selectedPage, setSelectedPage] = useState(1)
+
 	const {
 		data: allProcess,
-		isLoading,
-		isSuccess,
+		isLoading: isLoadingAllProcess,
+		isSuccess: isSuccessAllProcess,
 	} = useQuery({
-		queryKey: ['allProcess', filters],
-		queryFn: () => processService.getProcessAll(userId, filters),
+		queryKey: ['allProcess', filters, selectedPage],
+		queryFn: () => processService.getProcessAll(userId, filters, selectedPage),
+	})
+
+	const { data: countProcess, isSuccess: isSuccessCountProcess } = useQuery({
+		queryKey: ['countProcess', filters],
+		queryFn: () => processService.getCountProcess(userId, filters),
 	})
 
 	return (
-		<List className={styles.list}>
-			{isLoading && <LinearProgress />}
-			{isSuccess && allProcess && !allProcess.length && (
-				<Typography variant='h4' className={styles.typography}>
-					Процессов нет
-				</Typography>
-			)}
-			{isSuccess &&
-				allProcess &&
-				allProcess.map((process, index) => (
-					<ListItem
-						disablePadding
-						key={index}
-						className={
-							openedProcess === process.id ? styles.openedProcessWrap : ''
-						}
-					>
-						<ListImg status={process.status} />
-						<ListItemButton
-							className={styles.openedProcess}
-							onClick={() => dispatch(changeOpenedProcess({ id: process.id }))}
+		<>
+			<List className={styles.list}>
+				{isLoadingAllProcess && <LinearProgress />}
+				{isSuccessAllProcess && allProcess && !allProcess.length && (
+					<Typography variant='h4' className={styles.typography}>
+						Процессов нет
+					</Typography>
+				)}
+				{isSuccessAllProcess &&
+					allProcess &&
+					allProcess.map((process, index) => (
+						<ListItem
+							disablePadding
+							key={index}
+							className={
+								openedProcess === process.id ? styles.openedProcessWrap : ''
+							}
 						>
-							<ListItemText>
-								<Typography
-									className={
-										openedProcess === process.id
-											? styles.openedProcessText
-											: styles.closedProcessText
-									}
-								>
-									{process.title}
-								</Typography>
-							</ListItemText>
-						</ListItemButton>
-					</ListItem>
-				))}
-		</List>
+							<ListImg status={process.status} />
+							<ListItemButton
+								className={styles.openedProcess}
+								onClick={() =>
+									dispatch(changeOpenedProcess({ id: process.id }))
+								}
+							>
+								<ListItemText>
+									<Typography
+										className={
+											openedProcess === process.id
+												? styles.openedProcessText
+												: styles.closedProcessText
+										}
+									>
+										{process.title}
+									</Typography>
+								</ListItemText>
+							</ListItemButton>
+						</ListItem>
+					))}
+			</List>
+			{isSuccessCountProcess && countProcess && (
+				<PaginationList
+					count={countProcess}
+					selectedPage={selectedPage}
+					setSelectedPage={setSelectedPage}
+				/>
+			)}
+		</>
 	)
 }
 

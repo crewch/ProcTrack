@@ -3,16 +3,17 @@ import { URL } from '../configs/url'
 import { Stage } from '../shared/interfaces/stage'
 import { FilterStage } from '../shared/interfaces/filterStage'
 
-const URL_stageGetAll = `${URL}/api/track/process/`
-const URL_idStage = `${URL}/api/track/stage/`
-const URL_getStageAllByUserId = `${URL}/api/track/stage/get`
+const URL_StageGetAll = `${URL}/api/track/process/`
+const URL_IdStage = `${URL}/api/track/stage/`
+const URL_GetStageAllByUserId = `${URL}/api/track/stage/get`
+const URL_CountStage = `${URL}/api/track/stage/count`
 
 export const stageService = {
 	async getStageAllByProcessId(id: number | undefined) {
 		try {
 			if (typeof id === 'number') {
 				const data: Stage[] = await (
-					await axios.get(`${URL_stageGetAll}${id}/stage`)
+					await axios.get(`${URL_StageGetAll}${id}/stage`)
 				).data
 
 				return data
@@ -30,7 +31,7 @@ export const stageService = {
 			if (typeof openedStageID === 'undefined') return null
 
 			const data: Stage = await (
-				await axios.get(`${URL_idStage}${openedStageID}`)
+				await axios.get(`${URL_IdStage}${openedStageID}`)
 			).data
 
 			return data
@@ -44,7 +45,7 @@ export const stageService = {
 		try {
 			if (typeof id === 'number') {
 				const data: Stage[] = await (
-					await axios.post(URL_getStageAllByUserId, settings, {
+					await axios.post(URL_GetStageAllByUserId, settings, {
 						params: {
 							UserId: id,
 							limit: 10,
@@ -64,7 +65,7 @@ export const stageService = {
 	async successStage(stageId: number | undefined, userId: number) {
 		try {
 			if (stageId) {
-				await axios.get(`${URL_idStage}${stageId}/assign`, {
+				await axios.get(`${URL_IdStage}${stageId}/assign`, {
 					params: {
 						UserId: userId,
 					},
@@ -79,7 +80,7 @@ export const stageService = {
 	async cancelStage(stageId: number | undefined, userId: number) {
 		try {
 			if (stageId) {
-				await axios.get(`${URL_idStage}${stageId}/cancel`, {
+				await axios.get(`${URL_IdStage}${stageId}/cancel`, {
 					params: {
 						UserId: userId,
 					},
@@ -153,7 +154,7 @@ export const stageService = {
 					pass: stage.pass,
 				}
 
-				await axios.put(`${URL_idStage}${stage.id}/update`, data, {
+				await axios.put(`${URL_IdStage}${stage.id}/update`, data, {
 					params: {
 						UserId: userId,
 					},
@@ -162,6 +163,27 @@ export const stageService = {
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
+			}
+		}
+	},
+	async getCountStage({
+		userId,
+		settings,
+	}: {
+		userId: number
+		settings: FilterStage
+	}) {
+		try {
+			const countStage = await axios.post(URL_CountStage, settings, {
+				params: {
+					UserId: userId,
+				},
+			})
+
+			return countStage
+		} catch (error) {
+			if (error instanceof Error) {
+				console.log(error)
 			}
 		}
 	},

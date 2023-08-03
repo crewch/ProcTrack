@@ -12,6 +12,7 @@ const URL_Template = `${URL}/api/track/property/templates`
 const URL_Group = `${URL}/api/auth/user/groups`
 const URL_Priority = `${URL}/api/track/property/priorities`
 const URL_AddProcess = `${URL}/api/track/process/create`
+const URL_ProcessCount = `${URL}/api/track/process/count`
 
 interface Template {
 	id: number
@@ -28,14 +29,14 @@ interface Template {
 type Priority = string
 
 export const processService = {
-	async getProcessAll(userId: number, settings: FilterProcess) {
+	async getProcessAll(userId: number, filters: FilterProcess, offset: number) {
 		try {
 			const data: Process[] = await (
-				await axios.post(URL_AllProcess, settings, {
+				await axios.post(URL_AllProcess, filters, {
 					params: {
 						UserId: userId,
 						limit: 10,
-						offset: 0,
+						offset: offset - 1,
 					},
 				})
 			).data
@@ -143,6 +144,21 @@ export const processService = {
 					UserId: userId,
 				},
 			})
+		} catch (error) {
+			if (error instanceof Error) {
+				console.log(error)
+			}
+		}
+	},
+	async getCountProcess(userId: number, filters: FilterProcess) {
+		try {
+			const countProcess: number = await axios.post(URL_ProcessCount, filters, {
+				params: {
+					UserId: userId,
+				},
+			})
+
+			return countProcess
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error)
