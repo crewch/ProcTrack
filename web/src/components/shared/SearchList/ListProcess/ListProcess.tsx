@@ -84,7 +84,7 @@ const ListProcess = () => {
 			</List>
 			{isSuccessCountProcess && countProcess && (
 				<PaginationList
-					count={countProcess}
+					count={Math.ceil(countProcess / 10)}
 					selectedPage={selectedPage}
 					setSelectedPage={setSelectedPage}
 				/>
