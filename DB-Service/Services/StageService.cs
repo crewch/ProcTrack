@@ -576,16 +576,9 @@ namespace DB_Service.Services
             return await GetStageById(Id);
         }
 
-        public async Task<int> GetStageCount(int UserId)
+        public async Task<int> GetStageCount(int UserId, FilterStageDto filter)
         {
-            var filter = new FilterStageDto
-            {
-                Text = "",
-                Statuses = new List<string>()
-            };
-
             var res = await GetStagesByUserId(UserId, filter, int.MaxValue, 0);
-
             return res.Count;
         }
     }

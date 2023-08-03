@@ -116,9 +116,9 @@ namespace DB_Service.Controllers
 
         [Route("Count")]
         [HttpGet]
-        public async Task<ActionResult<int>> ProcessCount(int UserId)
+        public async Task<ActionResult<int>> ProcessCount(int UserId, FilterProcessDto filter)
         {
-            var res = await _service.GetProcessCount(UserId);
+            var res = await _service.GetProcessCount(UserId, filter);
             return Ok(res);
         }
     }
