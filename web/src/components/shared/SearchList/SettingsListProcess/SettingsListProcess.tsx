@@ -11,9 +11,9 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import styles from './SettingsListProcess.module.scss'
 import { useQuery } from '@tanstack/react-query'
-import { settingsService } from '../../../services/settings'
-import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks'
-import { toggleAllSettings } from '../../../store/settingProcessSlice/settingProcessSlice'
+import { settingsService } from '../../../../services/settings'
+import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
+import { toggleAllSettings } from '../../../../store/settingProcessSlice/settingProcessSlice'
 import SettingsCheckbox from './SettingsCheckbox/SettingsCheckbox'
 
 const SettingsListProcess = () => {
