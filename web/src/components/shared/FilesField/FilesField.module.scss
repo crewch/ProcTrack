@@ -2,6 +2,10 @@
 	@apply flex gap-1 items-center flex-wrap;
 
 	.typography {
-		@apply text-[13px] xl:text-[16px] 2xl:text-[14px] text-ap-black font-normal;
+		@apply text-sm xl:text-base 2xl:text-sm text-ap-black font-normal;
+	}
+
+	.grayButtonImg {
+		@apply h-5 w-5;
 	}
 }

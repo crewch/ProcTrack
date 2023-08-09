@@ -196,7 +196,7 @@ const DataGraph = () => {
 					<GrayButton
 						sx={{
 							fontSize: {
-								lg: '14px',
+								lg: '0,875rem',
 							},
 						}}
 						variant='contained'
@@ -207,7 +207,7 @@ const DataGraph = () => {
 					<GrayButton
 						sx={{
 							fontSize: {
-								lg: '14px',
+								lg: '0,875rem',
 							},
 						}}
 						variant='contained'

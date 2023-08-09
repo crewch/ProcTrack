@@ -26,14 +26,14 @@ const CommentFilesDialog: FC<CommentFilesDialogProps> = memo(({ message }) => {
 	return (
 		<>
 			<IconButton onClick={handleClickOpen}>
-				<img src='/comment.svg' height='20px' width='20px' />
+				<img src='/comment.svg' className={styles.iconImg} />
 			</IconButton>
 			<Dialog
 				PaperProps={{
 					sx: {
 						width: '40%',
 						height: '50%',
-						borderRadius: '16px',
+						borderRadius: '1rem',
 					},
 				}}
 				open={open}

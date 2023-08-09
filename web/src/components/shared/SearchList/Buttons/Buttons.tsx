@@ -4,6 +4,7 @@ import AddProcessButton from './AddProcessButton/AddProcessButton'
 import DataTable from '../../DataTable/DataTable'
 import FullScreenDialogButton from '../../FullScreenDialogButton/FullScreenDialogButton'
 import styles from './Buttons.module.scss'
+import classNames from 'classnames'
 
 interface ButtonsProps {
 	page: 'release' | 'approval'
@@ -12,7 +13,9 @@ interface ButtonsProps {
 const Buttons: FC<ButtonsProps> = memo(({ page }) => {
 	return (
 		<Box
-			className={`${styles.container} ${page === 'approval' ? 'self-end' : ''}`}
+			className={classNames(styles.container, {
+				'self-end': page === 'approval',
+			})}
 		>
 			{page === 'release' && <AddProcessButton />}
 			<FullScreenDialogButton title='Tабличное представление' icon='table'>

@@ -1,3 +1,7 @@
+.grayButtonImg {
+	@apply h-5 w-5;
+}
+
 .dialogTitle {
 	@apply text-center;
 }
@@ -9,7 +13,7 @@
 		@apply flex gap-2;
 
 		.InputProps {
-			@apply pl-[15px] rounded-[8px] bg-ap-light-gray h-[42px];
+			@apply pl-[0.9375rem] rounded-lg bg-ap-light-gray h-[2.625rem];
 		}
 
 		.textField {
@@ -19,5 +23,9 @@
 
 	.upload {
 		@apply self-end;
+	}
+
+	.uploadImg {
+		@apply h-[1.5625rem] w-[1.5625rem];
 	}
 }

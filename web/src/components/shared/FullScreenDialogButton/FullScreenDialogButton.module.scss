@@ -1,3 +1,7 @@
+.grayButtonImg {
+	@apply h-5 w-5;
+}
+
 .dialog {
 	.appBar {
 		@apply relative shadow-none;
@@ -5,11 +9,11 @@
 			@apply bg-ap-white;
 
 			.icon {
-				@apply text-ap-dark-gray h-[25px] w-[25px];
+				@apply text-ap-dark-gray h-[1.5625rem] w-[1.5625rem];
 			}
 
 			.title {
-				@apply ml-3 flex-1 text-irkut-dark font-[Montserrat] font-semibold text-[28px];
+				@apply ml-3 flex-1 text-irkut-dark font-[Montserrat] font-semibold text-[1.75rem];
 			}
 		}
 	}
@@ -18,7 +22,7 @@
 		@apply h-full;
 
 		.divider {
-			@apply border-[1px] border-ap-light-gray;
+			@apply border border-ap-light-gray;
 		}
 	}
 }

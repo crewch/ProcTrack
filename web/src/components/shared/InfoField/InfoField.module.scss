@@ -2,14 +2,18 @@
 	@apply flex flex-col;
 
 	.wrap {
-		@apply flex justify-between mb-[2px];
+		@apply flex justify-between mb-[0.125rem];
 
 		.typography {
-			@apply font-[Montserrat] font-semibold text-[20px] 2xl:text-[32px] text-irkut-dark flex items-center gap-2;
+			@apply font-[Montserrat] font-semibold text-[1.25rem] 2xl:text-[2rem] text-irkut-dark flex items-center gap-2;
 		}
 
 		.icon {
 			@apply flex justify-center items-center;
+
+			.iconImg {
+				@apply w-[1.5625rem] h-[1.5625rem];
+			}
 		}
 	}
 }

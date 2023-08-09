@@ -2,7 +2,7 @@
 	@apply flex items-center mb-2;
 
 	.InputProps {
-		@apply pl-[15px] rounded-[8px] bg-ap-light-gray h-[42px];
+		@apply pl-[0.9375rem] rounded-lg bg-ap-light-gray h-[2.625rem];
 	}
 
 	.TextField {
@@ -10,14 +10,14 @@
 	}
 
 	.IconButton {
-		@apply rounded-[8px] ml-[8px] bg-ap-light-gray;
+		@apply rounded-lg ml-2 bg-ap-light-gray;
 	}
 
 	.openSettings {
-		@apply bg-[#d8ecff] text-[#1a2d67] ml-[8px] rounded-[8px];
+		@apply bg-ap-lightblue text-ap-dark-blue ml-2 rounded-lg;
 	}
 
 	.closeSettings {
-		@apply ml-[8px] rounded-[8px] bg-ap-light-gray;
+		@apply ml-2 rounded-lg bg-ap-light-gray;
 	}
 }

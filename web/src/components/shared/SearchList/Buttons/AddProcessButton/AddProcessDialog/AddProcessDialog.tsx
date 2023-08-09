@@ -157,9 +157,9 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 				sx: {
 					width: '70%',
 					height: '80%',
-					borderRadius: '16px',
+					borderRadius: '1rem',
 					display: 'flex',
-					gap: 1,
+					gap: '0.5rem',
 				},
 			}}
 			open={open}
@@ -194,7 +194,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 									) => setSelectedTemplate(newValue)}
 									disablePortal
 									options={templates}
-									sx={{ width: 300 }}
+									sx={{ width: '18.75rem' }}
 									renderInput={params => (
 										<TextField {...params} label='Шаблон' />
 									)}
@@ -209,7 +209,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 									) => setSelectedGroup(newValue)}
 									disablePortal
 									options={groups}
-									sx={{ width: 300 }}
+									sx={{ width: '18.75rem' }}
 									renderInput={params => (
 										<TextField {...params} label='Подразделение' />
 									)}
@@ -224,7 +224,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 									) => setSelectedPriority(newValue)}
 									disablePortal
 									options={priorities}
-									sx={{ width: 300 }}
+									sx={{ width: '18.75rem' }}
 									renderInput={params => (
 										<TextField {...params} label='Важность' />
 									)}
@@ -251,7 +251,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 						className={styles.btn}
 						sx={{
 							fontSize: {
-								lg: '14px',
+								lg: '0.875rem',
 							},
 						}}
 						variant='contained'

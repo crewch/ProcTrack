@@ -67,13 +67,15 @@ const UploadButtonDialog: FC<UploadButtonDialogProps> = memo(
 				<GrayButton
 					sx={{
 						fontSize: {
-							xs: '12px',
-							lg: '14px',
+							xs: '0.75rem',
+							lg: '0.875rem',
 						},
 					}}
 					component='span'
 					variant='contained'
-					endIcon={<img src='/folderUpload.svg' height='20px' width='20px' />}
+					endIcon={
+						<img src='/folderUpload.svg' className={styles.grayButtonImg} />
+					}
 					onClick={handleClickOpen}
 				>
 					Прикрепить паспорт
@@ -83,8 +85,8 @@ const UploadButtonDialog: FC<UploadButtonDialogProps> = memo(
 						sx: {
 							width: '40%',
 							height: '30%',
-							borderRadius: '16px',
-							p: 1,
+							borderRadius: '1rem',
+							p: '0.5rem',
 						},
 					}}
 					open={open}
@@ -110,13 +112,13 @@ const UploadButtonDialog: FC<UploadButtonDialogProps> = memo(
 							<Box component='label' className={styles.upload}>
 								<GrayButton
 									sx={{
-										height: '42px',
+										height: '2.625rem',
 										backgroundColor: file ? '#54C16C' : '',
-										borderRadius: '8px',
+										borderRadius: '0.5rem',
 									}}
 									component='span'
 								>
-									<img src='/folderUpload.svg' height='25px' width='25px' />
+									<img src='/folderUpload.svg' className={styles.uploadImg} />
 								</GrayButton>
 								<input hidden type='file' onChange={saveFile} />
 							</Box>
@@ -126,8 +128,8 @@ const UploadButtonDialog: FC<UploadButtonDialogProps> = memo(
 						<GrayButton
 							sx={{
 								fontSize: {
-									xs: '12px',
-									lg: '14px',
+									xs: '0.75rem',
+									lg: '0.875rem',
 								},
 							}}
 							disabled={!file || !message}

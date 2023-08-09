@@ -23,6 +23,7 @@ import { useGetUserData } from '../../../../../hooks/userDataHook'
 import DateInfo from '../../../DateInfo/DateInfo'
 import { ReactComponent as User } from '/src/assets/user1.svg'
 import styles from './ListTask.module.scss'
+import classNames from 'classnames'
 
 export interface ListTaskProps {
 	startDate: string
@@ -259,13 +260,13 @@ const ListTask: FC<ListTaskProps> = memo(
 						/>
 						<Box component='label'>
 							<GrayButton
-								className={`${styles.uploadBtn} ${
-									fileRef ? styles.loadedBtn : ''
-								}`}
+								className={classNames(styles.uploadBtn, {
+									[styles.loadedBtn]: fileRef,
+								})}
 								component='span'
 								variant='contained'
 							>
-								<img src='/folderUpload.svg' height='20px' width='20px' />
+								<img src='/folderUpload.svg' className={styles.grayButtonImg} />
 							</GrayButton>
 							<input hidden type='file' onChange={handleFileChange} />
 						</Box>

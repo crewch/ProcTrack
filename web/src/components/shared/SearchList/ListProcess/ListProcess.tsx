@@ -15,6 +15,7 @@ import ListImg from '../../../ui/ListImg/ListImg'
 import styles from './ListProcess.module.scss'
 import { useState } from 'react'
 import PaginationList from '../../PaginationList/PaginationList'
+import classNames from 'classnames'
 
 const ListProcess = () => {
 	const dispatch = useAppDispatch()
@@ -63,9 +64,9 @@ const ListProcess = () => {
 						<ListItem
 							disablePadding
 							key={index}
-							className={
-								openedProcess === process.id ? styles.openedProcessWrap : ''
-							}
+							className={classNames({
+								[styles.openedProcessWrap]: openedProcess === process.id,
+							})}
 						>
 							<ListImg status={process.status} />
 							<ListItemButton
@@ -89,12 +90,14 @@ const ListProcess = () => {
 						</ListItem>
 					))}
 			</List>
-			{isSuccessCountProcess && countProcess && (
+			{isSuccessCountProcess && countProcess ? (
 				<PaginationList
 					count={Math.ceil(countProcess / limit)}
 					selectedPage={selectedPage}
 					setSelectedPage={setSelectedPage}
 				/>
+			) : (
+				<></>
 			)}
 		</>
 	)

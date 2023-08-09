@@ -1,7 +1,7 @@
 import { Button, styled } from '@mui/material'
 
 export const GrayButton = styled(Button)(() => ({
-	borderRadius: '5px',
+	borderRadius: '0.3125rem',
 	backgroundColor: '#ECECEC',
 	color: '#333333',
 	boxShadow: 'none',

@@ -17,6 +17,7 @@ import {
 import { Stage } from '../../../../shared/interfaces/stage'
 import { stageService } from '../../../../services/stage'
 import { useGetUserData } from '../../../../hooks/userDataHook'
+import styles from './Buttons.module.scss'
 
 interface ButtonsProps {
 	selectedStage: Stage
@@ -98,8 +99,8 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 			{isLoading && <LinearProgress />}
 			{isSuccess && isBoss && (
 				<>
-					<Divider sx={{ my: '8px', borderWidth: '1px' }} />
-					<Box sx={{ display: 'flex', gap: 2 }}>
+					<Divider sx={{ my: '0.5rem', borderWidth: '0.0625rem' }} />
+					<Box className={styles.container}>
 						{selectedStage.status === 'Согласовано' ||
 						selectedStage.status === 'Согласовано-Блокировано' ? (
 							<Button
@@ -138,8 +139,8 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 											sx: {
 												width: '30%',
 												height: '40%',
-												borderRadius: '16px',
-												p: 1,
+												borderRadius: '1rem',
+												p: '0.5rem',
 											},
 										}}
 										open={open}
@@ -147,7 +148,7 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 									>
 										<DialogTitle>Редактировать путь согласования</DialogTitle>
 										<DialogContent>
-											<List sx={{ height: '100%', overflow: 'auto' }}>
+											<List className={styles.list}>
 												{stages
 													.sort(
 														(a, b) =>

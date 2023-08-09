@@ -73,7 +73,7 @@ const Tags: FC<TagsProps> = memo(
 				{nameOfGroup && (
 					<Tag
 						text={nameOfGroup}
-						color='#black'
+						color='#333'
 						backgroundColor='#ECECEC'
 						borderColor='#ECECEC'
 					/>

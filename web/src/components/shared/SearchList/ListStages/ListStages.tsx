@@ -12,9 +12,9 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { stageService } from '../../../../services/stage'
 import { useGetUserData } from '../../../../hooks/userDataHook'
 import ListImg from '../../../ui/ListImg/ListImg'
-import styles from './ListStages.module.scss'
 import { useState } from 'react'
 import PaginationList from '../../PaginationList/PaginationList'
+import styles from './ListStages.module.scss'
 
 const ListStages = () => {
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
