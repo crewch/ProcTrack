@@ -13,8 +13,8 @@ import { useQuery } from '@tanstack/react-query'
 import { filtersService } from '../../../../services/filters'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
 import { toggleAllFilters } from '../../../../store/filterProcessSlice/filterProcessSlice'
-import FiltersCheckbox from './FiltersCheckbox/FiltersCheckbox'
-import styles from './FiltersListProcess.module.scss'
+import FiltersCheckboxStage from './FiltersCheckbox/FiltersCheckboxProcess'
+import styles from './FiltersList.module.scss'
 
 const FiltersListProcess = () => {
 	const {
@@ -63,7 +63,7 @@ const FiltersListProcess = () => {
 							/>
 						</AccordionSummary>
 						<AccordionDetails>
-							<FiltersCheckbox
+							<FiltersCheckboxStage
 								settings={filtersProcess.priorities}
 								type='priorities'
 							/>
@@ -96,7 +96,10 @@ const FiltersListProcess = () => {
 							/>
 						</AccordionSummary>
 						<AccordionDetails>
-							<FiltersCheckbox settings={filtersProcess.types} type='types' />
+							<FiltersCheckboxStage
+								settings={filtersProcess.types}
+								type='types'
+							/>
 						</AccordionDetails>
 					</Accordion>
 					<Accordion disableGutters className={styles.accordion}>
@@ -126,7 +129,7 @@ const FiltersListProcess = () => {
 							/>
 						</AccordionSummary>
 						<AccordionDetails>
-							<FiltersCheckbox
+							<FiltersCheckboxStage
 								settings={filtersProcess.statuses}
 								type='statuses'
 							/>

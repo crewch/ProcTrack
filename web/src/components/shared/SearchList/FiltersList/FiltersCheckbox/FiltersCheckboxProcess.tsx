@@ -5,12 +5,12 @@ import { useAppDispatch, useAppSelector } from '../../../../../hooks/reduxHooks'
 import { toggleFilter } from '../../../../../store/filterProcessSlice/filterProcessSlice'
 import styles from './FiltersCheckbox.module.scss'
 
-interface SettingsCheckboxProps {
+interface FiltersCheckboxProcessProps {
 	settings: string[]
 	type: 'priorities' | 'statuses' | 'types'
 }
 
-const FiltersCheckbox: FC<SettingsCheckboxProps> = memo(
+const FiltersCheckboxProcess: FC<FiltersCheckboxProcessProps> = memo(
 	({ settings, type }) => {
 		const selectedFilters = useAppSelector(state => state.filterProcess)
 		const dispatch = useAppDispatch()
@@ -37,4 +37,4 @@ const FiltersCheckbox: FC<SettingsCheckboxProps> = memo(
 	}
 )
 
-export default FiltersCheckbox
+export default FiltersCheckboxProcess

@@ -13,8 +13,8 @@ import { useQuery } from '@tanstack/react-query'
 import { filtersService } from '../../../../services/filters.ts'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks.ts'
 import { toggleAllFilters } from '../../../../store/filterStageSlice/filterStageSlice.ts'
-import FiltersCheckbox from './FiltersCheckbox/FiltersCheckbox.tsx'
-import styles from './FiltersListStage.module.scss'
+import FiltersCheckboxProcess from './FiltersCheckbox/FiltersCheckboxStage.tsx'
+import styles from './FiltersList.module.scss'
 
 const FiltersListStage = () => {
 	const {
@@ -60,7 +60,10 @@ const FiltersListStage = () => {
 						/>
 					</AccordionSummary>
 					<AccordionDetails>
-						<FiltersCheckbox settings={filtersStage.statuses} type='statuses' />
+						<FiltersCheckboxProcess
+							settings={filtersStage.statuses}
+							type='statuses'
+						/>
 					</AccordionDetails>
 				</Accordion>
 			)}

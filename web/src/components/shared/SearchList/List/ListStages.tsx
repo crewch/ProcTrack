@@ -14,7 +14,8 @@ import { useGetUserData } from '../../../../hooks/userDataHook'
 import ListImg from '../../../ui/ListImg/ListImg'
 import { useState } from 'react'
 import PaginationList from '../../PaginationList/PaginationList'
-import styles from './ListStages.module.scss'
+import styles from './List.module.scss'
+import classNames from 'classnames'
 
 const ListStages = () => {
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
@@ -61,24 +62,20 @@ const ListStages = () => {
 						<ListItem
 							disablePadding
 							key={index}
-							className={
-								openedStage === stage.id
-									? styles.openedProcessWrap
-									: styles.closedProcessWrap
-							}
+							className={classNames({
+								[styles.openedWrap]: openedStage === stage.id,
+							})}
 						>
 							<ListImg status={stage.status} />
 							<ListItemButton
-								className={styles.openedProcess}
+								className={styles.opened}
 								onClick={() => dispatch(changeOpenedStage({ id: stage.id }))}
 							>
 								<ListItemText>
 									<Typography
-										className={
-											openedStage === stage.id
-												? styles.openedProcessText
-												: styles.closedProcessText
-										}
+										className={classNames({
+											[styles.openedText]: openedStage === stage.id,
+										})}
 									>
 										{stage.title}
 									</Typography>
