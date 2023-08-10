@@ -27,6 +27,10 @@
 					@apply font-[Montserrat] font-medium 2xl:text-2xl text-ap-black rounded-xl;
 				}
 
+				.errorMessage {
+					@apply text-ap-red text-center font-semibold;
+				}
+
 				.btn {
 					@apply bg-ap-blue w-[18.75rem] 2xl:w-[35rem] h-12 2xl:h-[6.5rem] rounded-xl shadow-none;
 				}
