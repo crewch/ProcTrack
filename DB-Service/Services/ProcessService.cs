@@ -422,7 +422,8 @@ namespace DB_Service.Services
 
                 if (processDto != null && 
                     !res.Any(r => r.Id == processDto.Id) && 
-                    (filter.Statuses == null || filter.Statuses.Count == 0 || filter.Statuses.Contains(processDto.Status)))
+                    ((filter.Statuses == null || filter.Statuses.Count == 0) && processDto.Status.ToLower() != "завершен"
+                    || filter.Statuses.Contains(processDto.Status)))
                 {
                     res.Add(processDto);
                 }
@@ -517,6 +518,11 @@ namespace DB_Service.Services
                 var dto = await _stageService.GetStageById(stage.Id);
                 stages.Add(dto);
             }
+
+            stages.Sort((x, y) =>
+            {
+                return x.CreatedAtUnparsed > y.CreatedAtUnparsed ? 1 : -1;
+            });
 
             return stages;
         }

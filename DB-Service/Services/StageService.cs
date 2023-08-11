@@ -401,10 +401,16 @@ namespace DB_Service.Services
                 .Where(s => s.Id == stageModel.StatusId)
                 .FirstOrDefaultAsync();
 
+            var processName = await _context.Processes
+                .Where(p => p.Id ==  stageModel.ProcessId)
+                .Select(p => p.Title)
+                .FirstOrDefaultAsync();
+
             return new StageDto
             {
                 Id = stageModel.Id,
                 ProcessId = stageModel.ProcessId,
+                ProcessName = processName,
                 Title = stageModel.Title,
                 Status = status == null ? null : status.Title,
                 StatusValue = status == null ? null : status.Value,
@@ -447,15 +453,25 @@ namespace DB_Service.Services
 
                 used.Add(hold.DestId);
 
-                var stageModel = await _context.Stages
+                var stageModel = await _context.Stages          
                     .Include(s => s.Status)
+                    .Include(s => s.Process)
+                        .ThenInclude(p => p.Type)
+                    .Include(s => s.Process)
+                        .ThenInclude(p => p.Priority)
                     .Where(s => s.Id == hold.DestId &&
                                 s.Status != null && 
                                 s.Status.Title.ToLower() != "не начат" &&
                                 s.Status.Title.ToLower() != "остановлен" &&
-                                (filter.Statuses == null || filter.Statuses.Count == 0 || filter.Statuses.Contains(s.Status.Title)) &&
-                                (filter.Text == null || filter.Text.Length == 0 || s.Title.Contains(filter.Text)) &&
-                                !(s.Pass ?? false) 
+                                (filter.Types == null || filter.Types.Count == 0 ||
+                                 filter.Types.Contains(s.Process.Type.Title)) &&
+                                (filter.Priorities == null || filter.Priorities.Count == 0 ||
+                                 filter.Types.Contains(s.Process.Priority.Title)) &&
+                                (((filter.Statuses == null || filter.Statuses.Count == 0) && s.Status.Title != "Согласовано") || // TODO дописать кнопку "показывать только завершенные"
+                                 filter.Statuses.Contains(s.Status.Title)) &&
+                                (filter.Text == null || filter.Text.Length == 0 || 
+                                 (s.Title + " " + s.Process.Title + " " + s.Process.Description).Contains(filter.Text)) &&
+                                !(s.Pass ?? false)
                     )
                     .FirstOrDefaultAsync();
 
