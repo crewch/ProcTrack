@@ -519,11 +519,6 @@ namespace DB_Service.Services
                 stages.Add(dto);
             }
 
-            stages.Sort((x, y) =>
-            {
-                return x.CreatedAtUnparsed > y.CreatedAtUnparsed ? 1 : -1;
-            });
-
             return stages;
         }
 

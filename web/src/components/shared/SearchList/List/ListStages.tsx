@@ -77,19 +77,21 @@ const ListStages = () => {
 											[styles.openedText]: openedStage === stage.id,
 										})}
 									>
-										{stage.title}
+										{stage.processName} - {stage.title}
 									</Typography>
 								</ListItemText>
 							</ListItemButton>
 						</ListItem>
 					))}
 			</List>
-			{isSuccessCountStage && countStage && (
+			{isSuccessCountStage && countStage ? (
 				<PaginationList
 					count={Math.ceil(countStage / limit)}
 					selectedPage={selectedPage}
 					setSelectedPage={setSelectedPage}
 				/>
+			) : (
+				<></>
 			)}
 		</>
 	)

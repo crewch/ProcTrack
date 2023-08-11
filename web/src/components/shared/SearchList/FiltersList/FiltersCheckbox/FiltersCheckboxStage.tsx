@@ -7,7 +7,7 @@ import styles from './FiltersCheckbox.module.scss'
 
 interface FiltersCheckboxStageProps {
 	settings: string[]
-	type: 'statuses'
+	type: 'priorities' | 'statuses' | 'types'
 }
 
 const FiltersCheckboxStage: FC<FiltersCheckboxStageProps> = memo(

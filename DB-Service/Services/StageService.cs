@@ -466,7 +466,7 @@ namespace DB_Service.Services
                                 (filter.Types == null || filter.Types.Count == 0 ||
                                  filter.Types.Contains(s.Process.Type.Title)) &&
                                 (filter.Priorities == null || filter.Priorities.Count == 0 ||
-                                 filter.Types.Contains(s.Process.Priority.Title)) &&
+                                 filter.Priorities.Contains(s.Process.Priority.Title)) &&
                                 (((filter.Statuses == null || filter.Statuses.Count == 0) && s.Status.Title != "Согласовано") || // TODO дописать кнопку "показывать только завершенные"
                                  filter.Statuses.Contains(s.Status.Title)) &&
                                 (filter.Text == null || filter.Text.Length == 0 || 
