@@ -51,7 +51,7 @@ namespace DB_Service.Services
             stage.SignId = null;
 
             stage.Status = await _context.Statuses
-                .Where(s => s.Title.ToLower() == "отменен")
+                .Where(s => s.Title.ToLower() == "в доработке")
                 .FirstOrDefaultAsync();
 
             await _context.SaveChangesAsync();
@@ -66,7 +66,7 @@ namespace DB_Service.Services
                     Operation = "Update",
                     LogId = Id.ToString(),
                     Old = $"{oldStatus}, {oldSigned}, {oldSignedAt}, {oldSignId}",
-                    New = "Отменен, null, null, null",
+                    New = "В доработке, null, null, null",
                     Author = logUser.ShortName.ToString(),
                     CreatedAt = DateTime.Now.AddHours(3)
                 });
@@ -182,7 +182,7 @@ namespace DB_Service.Services
                 return await GetStageById(Id);
             }
 
-            bool blockStage = stage.Status.Title.ToLower() == "отменено";
+            bool blockStage = stage.Status.Title.ToLower() == "в доработке";
 
             stage.Signed = UserId.ToString();
             stage.SignedAt = DateTime.Now.AddHours(3);
@@ -191,7 +191,7 @@ namespace DB_Service.Services
                 .Include(s => s.Status)
                 .Where(s => s.ProcessId == stage.ProcessId && 
                         s.Id != stage.Id && (
-                        s.Status.Title.ToLower() == "отменено" ||
+                        s.Status.Title.ToLower() == "в доработке" ||
                         s.Status.Title.ToLower() == "остановлен"
                     ))
                 .Select(s => s.Status.Title)

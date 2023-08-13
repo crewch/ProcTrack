@@ -34,7 +34,7 @@ namespace DB_Service.Services
             var statuses = new Status[]
             {
                new Status { Title="Не начат", Value=2 },
-               new Status { Title="Отменен", Value=0 },
+               new Status { Title="В доработке", Value=0 },
                new Status { Title="Отправлен на проверку", Value=3 },
                new Status { Title="Принят на проверку", Value=3 },
                new Status { Title="Согласовано-Блокировано", Value=3 },

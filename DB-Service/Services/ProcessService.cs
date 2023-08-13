@@ -54,7 +54,7 @@ namespace DB_Service.Services
 
             foreach (var stage in stages)
             {
-                stage.Status = _context.Statuses.Where(s => s.Title.ToLower() == "отменен").FirstOrDefault();    
+                stage.Status = _context.Statuses.Where(s => s.Title.ToLower() == "в доработке").FirstOrDefault();    
             }
 
             await _context.SaveChangesAsync();
@@ -471,9 +471,9 @@ namespace DB_Service.Services
             {
                 status = "остановлен";
             } 
-            else if (stages.Any(s => s.ToLower() == "отменен"))
+            else if (stages.Any(s => s.ToLower() == "в доработке"))
             {
-                status = "отменен";
+                status = "в доработке";
             }
             else if (stages.All(s => s.ToLower() == "согласовано"))
             {

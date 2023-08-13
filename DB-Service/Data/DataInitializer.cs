@@ -24,7 +24,7 @@ namespace DB_Service.Data
             var statuses = new Status[]
             {
                 new Status{Id=1, Title="Не начат", Value=2},
-                new Status{Id=2, Title="Отменен", Value=0},
+                new Status{Id=2, Title="В доработке", Value=0},
                 new Status{Id=3, Title="Отправлен на проверку", Value=3},
                 new Status{Id=4, Title="Принят на проверку", Value=3},
                 new Status{Id=5, Title="Согласовано-Блокировано", Value=3},

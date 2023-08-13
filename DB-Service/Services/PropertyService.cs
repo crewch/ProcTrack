@@ -38,7 +38,7 @@ namespace DB_Service.Services
             var res = new List<string>()
             {
                 "остановлен",
-                "отменен",
+                "в доработке",
                 "завершен",
                 "в процессе"
             };
