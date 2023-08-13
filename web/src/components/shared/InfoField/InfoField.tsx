@@ -1,4 +1,4 @@
-import { Box, Tooltip, Typography } from '@mui/material'
+import { Box, Divider, Tooltip, Typography } from '@mui/material'
 import { FC, memo } from 'react'
 import InfoFieldImg from './InfoFieldImg/InfoFieldImg'
 import Tags from '../../ui/Tags/Tags'
@@ -11,10 +11,11 @@ interface InfoFieldProps {
 	type?: string
 	nameOfGroup?: string
 	page: 'release' | 'approval'
+	description?: string
 }
 
 const InfoField: FC<InfoFieldProps> = memo(
-	({ name, status, importance, type, nameOfGroup, page }) => {
+	({ name, status, importance, type, nameOfGroup, page, description }) => {
 		return (
 			<>
 				<Box className={styles.header}>
@@ -45,6 +46,22 @@ const InfoField: FC<InfoFieldProps> = memo(
 					type={type}
 					nameOfGroup={nameOfGroup}
 				/>
+				{description && (
+					<>
+						<Divider sx={{ borderWidth: '0.025rem', my: '0.225rem' }} />
+						{description.length > 60 ? (
+							<>
+								<Tooltip title={description} arrow>
+									<Typography>{description.slice(0, 59)}...</Typography>
+								</Tooltip>
+							</>
+						) : (
+							<>
+								<Typography>{description}</Typography>
+							</>
+						)}
+					</>
+				)}
 			</>
 		)
 	}

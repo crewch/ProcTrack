@@ -73,6 +73,7 @@ const InfoProcessApproval = () => {
 						importance={selectedProcess.priority}
 						type={selectedProcess.type}
 						page='approval'
+						description={selectedProcess.description}
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo
