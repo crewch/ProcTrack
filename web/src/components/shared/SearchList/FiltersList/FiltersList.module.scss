@@ -3,9 +3,13 @@
 
 	.accordion {
 		@apply shadow-none;
+	}
 
-		.typography {
-			@apply text-ap-black text-sm;
-		}
+	.typography {
+		@apply text-ap-black text-sm;
+	}
+
+	.showCompleted {
+		@apply px-4 py-3;
 	}
 }

@@ -6,6 +6,7 @@ const initialState: FilterProcess = {
 	priorities: [],
 	statuses: [],
 	types: [],
+	showCompleted: false,
 }
 
 export const filterProcessSlice = createSlice({
@@ -47,9 +48,16 @@ export const filterProcessSlice = createSlice({
 				state[actions.payload.type].push(actions.payload.setting)
 			}
 		},
+		toggleShowCompleted(state) {
+			state.showCompleted = !state.showCompleted
+		},
 	},
 })
 
-export const { changeTextProcess, toggleAllFilters, toggleFilter } =
-	filterProcessSlice.actions
+export const {
+	changeTextProcess,
+	toggleAllFilters,
+	toggleFilter,
+	toggleShowCompleted,
+} = filterProcessSlice.actions
 export default filterProcessSlice.reducer

@@ -3,6 +3,7 @@ import {
 	AccordionDetails,
 	AccordionSummary,
 	Checkbox,
+	Divider,
 	FormControlLabel,
 	LinearProgress,
 	List,
@@ -12,7 +13,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useQuery } from '@tanstack/react-query'
 import { filtersService } from '../../../../services/filters.ts'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks.ts'
-import { toggleAllFilters } from '../../../../store/filterStageSlice/filterStageSlice.ts'
+import {
+	toggleAllFilters,
+	toggleShowApproved,
+} from '../../../../store/filterStageSlice/filterStageSlice.ts'
 import FiltersCheckboxProcess from './FiltersCheckbox/FiltersCheckboxStage.tsx'
 import styles from './FiltersList.module.scss'
 import FiltersCheckboxStage from './FiltersCheckbox/FiltersCheckboxStage.tsx'
@@ -29,6 +33,7 @@ const FiltersListStage = () => {
 
 	const dispatch = useAppDispatch()
 	const selectedFilters = useAppSelector(state => state.filterStages)
+	const showCompleted = useAppSelector(state => state.filterStages.showApproved)
 
 	return (
 		<List component='nav' className={styles.list}>
@@ -138,6 +143,23 @@ const FiltersListStage = () => {
 					</Accordion>
 				</>
 			)}
+			<Divider />
+			<FormControlLabel
+				key={'showCompletedProcess2'}
+				label={
+					<Typography className={styles.typography}>
+						Показывать согласованные
+					</Typography>
+				}
+				className={styles.showCompleted}
+				control={
+					<Checkbox
+						checked={showCompleted}
+						onChange={() => dispatch(toggleShowApproved())}
+						name={'Показывать завершённые'}
+					/>
+				}
+			/>
 		</List>
 	)
 }
