@@ -72,7 +72,11 @@ const StagesList = () => {
 								</ListItem>
 							))}
 					</List>
-					<FullScreenDialogButton title='Графовое представление' icon='graph'>
+					<FullScreenDialogButton
+						title='Графовое представление'
+						icon='graph'
+						fullWidth
+					>
 						<DataGraph />
 					</FullScreenDialogButton>
 				</>

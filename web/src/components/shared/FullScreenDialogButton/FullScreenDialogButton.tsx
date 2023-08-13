@@ -24,10 +24,11 @@ interface FullScreenDialogButtonProps {
 	title: string
 	icon: string
 	children?: ReactNode
+	fullWidth?: boolean
 }
 
 const FullScreenDialogButton: FC<FullScreenDialogButtonProps> = memo(
-	({ children, title, icon }) => {
+	({ children, title, icon, fullWidth }) => {
 		const [open, setOpen] = useState(false)
 
 		const handleClickOpen = () => {
@@ -41,11 +42,13 @@ const FullScreenDialogButton: FC<FullScreenDialogButtonProps> = memo(
 		return (
 			<>
 				<GrayButton
+					fullWidth={fullWidth}
 					sx={{
 						fontSize: {
 							lg: '0.875rem',
 						},
 						alignSelf: 'start',
+						mt: '0.75rem',
 					}}
 					variant='contained'
 					endIcon={

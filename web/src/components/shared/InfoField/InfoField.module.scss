@@ -17,3 +17,11 @@
 		}
 	}
 }
+
+.wrapDescription {
+	@apply flex flex-col gap-1;
+
+	.description {
+		@apply text-xl;
+	}
+}

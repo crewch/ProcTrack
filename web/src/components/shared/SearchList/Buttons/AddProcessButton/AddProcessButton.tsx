@@ -21,6 +21,7 @@ const AddProcessButton = () => {
 					fontSize: {
 						lg: '0.875rem',
 					},
+					mt: '0.75rem',
 				}}
 				variant='contained'
 				endIcon={
