@@ -424,7 +424,7 @@ namespace DB_Service.Services
                     !res.Any(r => r.Id == processDto.Id) && 
                     ((filter.Statuses == null || filter.Statuses.Count == 0)
                     || filter.Statuses.Contains(processDto.Status)) && 
-                    !(processDto.Status.ToLower() != "завершен" && !filter.ShowCompleted))
+                    !(processDto.Status.ToLower() == "завершен" && !filter.ShowCompleted))
                 {
                     res.Add(processDto);
                 }
