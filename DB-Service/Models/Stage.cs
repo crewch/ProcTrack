@@ -3,6 +3,7 @@
     public class Stage: BaseEntity
     {
         public string Title { get; set; }
+        public int Number { get; set; }
         public int? ProcessId { get; set; }
         public Process? Process { get; set; }
         public bool Addenable { get; set; }

@@ -6,6 +6,7 @@
         public int? ProcessId { get; set; }
         public string? ProcessName { get; set; }
         public string Title { get; set; }
+        public int Number { get; set; }
         public string? CreatedAt { get; set; }
         public DateTime? CreatedAtUnparsed { get; set; }
         public string? SignedAt { get; set; }

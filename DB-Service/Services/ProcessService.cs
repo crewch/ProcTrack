@@ -149,6 +149,7 @@ namespace DB_Service.Services
                 var newStage = new Stage()
                 {
                     Title = stage.Title,
+                    Number = stage.Number,
                     Tasks = newTasks,
                     Addenable = stage.Addenable,
                     Status = new_status,
@@ -510,7 +511,7 @@ namespace DB_Service.Services
 
             var stageModels = await _context.Stages
                 .Where(s => s.ProcessId == process.Id && !(s.Pass ?? false))
-                .OrderBy(s => s.CreatedAt)
+                .OrderBy(s => s.Number)
                 .ToListAsync();
 
             var stages = new List<StageDto>();
@@ -720,11 +721,13 @@ namespace DB_Service.Services
             await _context.Processes.AddAsync(process);
 
             var stageDict = new Dictionary<int, Stage>();
+            int number = 0;
             foreach (var stage in data.Stages)
             {
                 var newStage = new Stage
                 {
                     Title = stage.Title,
+                    Number = number,
                     Process = process,
                     Addenable = false,
                     CreatedAt = DateTime.Now.AddHours(3),
@@ -732,6 +735,7 @@ namespace DB_Service.Services
                     Mark = stage.Mark,
                     Pass = stage.Pass,
                 };
+                number++;
                 stageDict[stage.Id] = newStage;
                 await _context.Stages.AddAsync(newStage);
             }
