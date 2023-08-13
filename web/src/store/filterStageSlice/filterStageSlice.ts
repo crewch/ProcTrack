@@ -6,6 +6,7 @@ const initialState: FilterStage = {
 	statuses: [],
 	priorities: [],
 	types: [],
+	showApproved: false,
 }
 
 export const filterStageSlice = createSlice({
@@ -47,9 +48,16 @@ export const filterStageSlice = createSlice({
 				state[actions.payload.type].push(actions.payload.setting)
 			}
 		},
+		toggleShowApproved(state) {
+			state.showApproved = !state.showApproved
+		},
 	},
 })
 
-export const { changeTextStage, toggleAllFilters, toggleFilter } =
-	filterStageSlice.actions
+export const {
+	changeTextStage,
+	toggleAllFilters,
+	toggleFilter,
+	toggleShowApproved,
+} = filterStageSlice.actions
 export default filterStageSlice.reducer

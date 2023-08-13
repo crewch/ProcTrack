@@ -3,4 +3,5 @@ export interface FilterStage {
 	types: string[]
 	statuses: string[]
 	priorities: string[]
+	showApproved: boolean
 }

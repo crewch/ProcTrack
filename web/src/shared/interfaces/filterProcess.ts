@@ -3,4 +3,5 @@ export interface FilterProcess {
 	types: string[]
 	statuses: string[]
 	priorities: string[]
+	showCompleted: boolean
 }
