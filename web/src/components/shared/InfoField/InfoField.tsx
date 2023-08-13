@@ -20,19 +20,10 @@ const InfoField: FC<InfoFieldProps> = memo(
 			<>
 				<Box className={styles.header}>
 					<Box className={styles.wrap}>
-						{name.length < 30 ? (
-							<Typography variant='h4' className={styles.typography}>
-								{name}
-								<InfoFieldImg status={status} />
-							</Typography>
-						) : (
-							<Tooltip title={name} arrow>
-								<Typography variant='h4' className={styles.typography}>
-									{name.slice(0, 31)}...
-									<InfoFieldImg status={status} />
-								</Typography>
-							</Tooltip>
-						)}
+						<Typography variant='h4' className={styles.typography}>
+							{name}
+							<InfoFieldImg status={status} />
+						</Typography>
 						{page === 'release' && (
 							<Box className={styles.icon}>
 								<img src='/pen.svg' className={styles.iconImg} />
@@ -46,20 +37,23 @@ const InfoField: FC<InfoFieldProps> = memo(
 					type={type}
 					nameOfGroup={nameOfGroup}
 				/>
-				{description && (
+				{description && description?.length && (
 					<>
 						<Divider sx={{ borderWidth: '0.025rem', my: '0.225rem' }} />
-						{description.length > 60 ? (
-							<>
+						<Box className={styles.wrapDescription}>
+							<Typography variant='h6' className={styles.description}>
+								Описание процесса:
+							</Typography>
+							{description.length > 120 ? (
 								<Tooltip title={description} arrow>
-									<Typography>{description.slice(0, 59)}...</Typography>
+									<Typography className={styles.description}>
+										{description.slice(0, 120)}...
+									</Typography>
 								</Tooltip>
-							</>
-						) : (
-							<>
+							) : (
 								<Typography>{description}</Typography>
-							</>
-						)}
+							)}
+						</Box>
 					</>
 				)}
 			</>
