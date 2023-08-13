@@ -6,7 +6,7 @@ import { FC } from 'react'
 import styles from './ToggleProcessButton.module.scss'
 
 interface ToggleProcessButtonProps {
-	status: 'в процессе' | 'завершен' | 'остановлен' | 'отменен'
+	status: 'в процессе' | 'завершен' | 'остановлен' | 'в доработке'
 }
 
 const ToggleProcessButton: FC<ToggleProcessButtonProps> = ({ status }) => {

@@ -17,7 +17,7 @@ const ListImg: FC<ListImgProps> = ({ status }) => {
 			{status === 'остановлен' && (
 				<img src='/pause-circle.svg' className={styles.img} loading='lazy' />
 			)}
-			{status === 'отменен' && (
+			{status === 'в доработке' && (
 				<img src='/rejected.svg' className={styles.img} loading='lazy' />
 			)}
 			{status === 'Согласовано' && (
@@ -43,7 +43,7 @@ const ListImg: FC<ListImgProps> = ({ status }) => {
 					className={styles.img}
 				/>
 			)}
-			{status === 'Отменен' && (
+			{status === 'В доработке' && (
 				<img src='/rejected.svg' loading='lazy' className={styles.img} />
 			)}
 			{status === 'Остановлен' && (
