@@ -31,7 +31,7 @@ const InfoFieldImg: FC<InfoFieldImgProps> = ({ status }) => {
 					className={styles.iconImg}
 				/>
 			)}
-			{status === 'Отменен' && (
+			{status === 'В доработке' && (
 				<img src='/rejected.svg' loading='lazy' className={styles.iconImg} />
 			)}
 			{status === 'Остановлен' && (
@@ -44,7 +44,7 @@ const InfoFieldImg: FC<InfoFieldImgProps> = ({ status }) => {
 			{status === 'в процессе' && (
 				<img src='/inprogress.svg' loading='lazy' className={styles.iconImg} />
 			)}
-			{status === 'отменен' && (
+			{status === 'в доработке' && (
 				<img src='/rejected.svg' loading='lazy' className={styles.iconImg} />
 			)}
 			{status === 'завершен' && (

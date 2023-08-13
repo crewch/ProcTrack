@@ -5,7 +5,7 @@ export interface Process {
 	title: string
 	priority: string
 	description: string
-	status: 'в процессе' | 'завершен' | 'остановлен' | 'отменен'
+	status: 'в процессе' | 'завершен' | 'остановлен' | 'в доработке'
 	type: string
 	approvedAt: string
 	createdAt: string

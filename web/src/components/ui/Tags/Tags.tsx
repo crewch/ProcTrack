@@ -54,7 +54,7 @@ const Tags: FC<TagsProps> = memo(
 						borderColor='#5DC7DE'
 					/>
 				)}
-				{status === 'Отменен' && (
+				{status === 'В доработке' && (
 					<Tag
 						text={status}
 						color='#981418'
@@ -86,7 +86,7 @@ const Tags: FC<TagsProps> = memo(
 						borderColor='#EBB855'
 					/>
 				)}
-				{status === 'отменен' && (
+				{status === 'в доработке' && (
 					<Tag
 						text={status}
 						color='#981418'
