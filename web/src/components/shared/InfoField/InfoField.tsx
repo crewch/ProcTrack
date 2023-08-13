@@ -16,14 +16,25 @@ interface InfoFieldProps {
 
 const InfoField: FC<InfoFieldProps> = memo(
 	({ name, status, importance, type, nameOfGroup, page, description }) => {
+		const maxLengthTitle = page === 'release' ? 20 : 40
+
 		return (
 			<>
 				<Box className={styles.header}>
 					<Box className={styles.wrap}>
-						<Typography variant='h4' className={styles.typography}>
-							{name}
-							<InfoFieldImg status={status} />
-						</Typography>
+						{name?.length > maxLengthTitle ? (
+							<Tooltip title={name} arrow>
+								<Typography variant='h4' className={styles.typography}>
+									{name.slice(0, maxLengthTitle)}...
+									<InfoFieldImg status={status} />
+								</Typography>
+							</Tooltip>
+						) : (
+							<Typography variant='h4' className={styles.typography}>
+								{name}
+								<InfoFieldImg status={status} />
+							</Typography>
+						)}
 						{page === 'release' && (
 							<Box className={styles.icon}>
 								<img src='/pen.svg' className={styles.iconImg} />
