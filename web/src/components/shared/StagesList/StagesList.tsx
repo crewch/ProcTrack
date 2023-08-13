@@ -39,7 +39,7 @@ const StagesList = () => {
 				<>
 					<List className={styles.list}>
 						{stagesList
-							.sort((a, b) => a.id - b.id)
+							// .sort((a, b) => a.id - b.id)
 							.map((stage, index) => (
 								<ListItem
 									disablePadding

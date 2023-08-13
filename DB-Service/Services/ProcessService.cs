@@ -441,7 +441,7 @@ namespace DB_Service.Services
                 {
                     return cmp;
                 }
-                return x.CompletedAtUnparsed > y.CompletedAtUnparsed ? 1 : -1;
+                return x.CompletedAtUnparsed > y.CompletedAtUnparsed ? -1 : 1;
             });
             
             return res.Skip(Math.Min(offset * limit, res.Count - 1))
@@ -510,6 +510,7 @@ namespace DB_Service.Services
 
             var stageModels = await _context.Stages
                 .Where(s => s.ProcessId == process.Id && !(s.Pass ?? false))
+                .OrderBy(s => s.CreatedAt)
                 .ToListAsync();
 
             var stages = new List<StageDto>();
