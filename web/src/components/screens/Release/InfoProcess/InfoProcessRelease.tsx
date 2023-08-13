@@ -64,6 +64,7 @@ const InfoProcessRelease = () => {
 						importance={process.priority}
 						type={process.type}
 						page='release'
+						description={process.description}
 					/>
 					<Divider className={styles.divider} />
 					<DateInfo

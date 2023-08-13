@@ -199,6 +199,9 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 									</Dialog>
 								</>
 							)}
+						<Button size='small' color='warning' variant='outlined'>
+							Отправить на перепроверку
+						</Button>
 					</Box>
 				</>
 			)}

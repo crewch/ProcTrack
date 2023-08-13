@@ -246,7 +246,11 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 							handleClose()
 						}}
 						disabled={
-							!(title && selectedGroup && selectedPriority && selectedTemplate)
+							!title ||
+							!selectedGroup ||
+							!selectedPriority ||
+							!selectedTemplate ||
+							!new RegExp('^[a-zA-Z0-9_-]+$').test(title)
 						}
 						className={styles.btn}
 						sx={{
