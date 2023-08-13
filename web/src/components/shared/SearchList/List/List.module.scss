@@ -5,19 +5,15 @@
 		@apply text-center font-[Montserrat];
 	}
 
-	.openedProcessWrap {
+	.openedWrap {
 		@apply bg-transparent;
 
-		.openedProcess {
-			@apply bg-[#d8ecff] rounded-[7px];
+		.opened {
+			@apply bg-ap-lightblue rounded-[0.4375rem];
 
-			.openedProcessText {
+			.openedText {
 				@apply text-irkut-dark;
 			}
 		}
-	}
-
-	.closedProcessText {
-		@apply text-ap-black;
 	}
 }

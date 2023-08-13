@@ -2,17 +2,17 @@ import { FormControlLabel, FormGroup, Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import { FC, memo } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/reduxHooks'
-import { toggleFilter } from '../../../../../store/filterProcessSlice/filterProcessSlice'
+import { toggleFilter } from '../../../../../store/filterStageSlice/filterStageSlice'
 import styles from './FiltersCheckbox.module.scss'
 
-interface SettingsCheckboxProps {
+interface FiltersCheckboxStageProps {
 	settings: string[]
 	type: 'priorities' | 'statuses' | 'types'
 }
 
-const FiltersCheckbox: FC<SettingsCheckboxProps> = memo(
+const FiltersCheckboxStage: FC<FiltersCheckboxStageProps> = memo(
 	({ settings, type }) => {
-		const selectedFilters = useAppSelector(state => state.filterProcess)
+		const selectedFilters = useAppSelector(state => state.filterStages)
 		const dispatch = useAppDispatch()
 
 		return (
@@ -37,4 +37,4 @@ const FiltersCheckbox: FC<SettingsCheckboxProps> = memo(
 	}
 )
 
-export default FiltersCheckbox
+export default FiltersCheckboxStage

@@ -34,7 +34,7 @@ const HistoryFilesDialog: FC<HistoryFilesDialogProps> = memo(
 		return (
 			<>
 				<IconButton onClick={handleClickOpen}>
-					<img src='/filesHistory.svg' height='20px' width='20px' />
+					<img src='/filesHistory.svg' className={styles.iconImg} />
 				</IconButton>
 				<Dialog
 					className={styles.dialog}
@@ -42,7 +42,7 @@ const HistoryFilesDialog: FC<HistoryFilesDialogProps> = memo(
 						sx: {
 							width: '40%',
 							height: '50%',
-							borderRadius: '16px',
+							borderRadius: '1rem',
 						},
 					}}
 					open={open}

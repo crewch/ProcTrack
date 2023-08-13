@@ -25,12 +25,14 @@ const FilesField: FC<FilesFieldProps> = memo(({ processId }) => {
 					<GrayButton
 						sx={{
 							fontSize: {
-								xs: '12px',
-								lg: '14px',
+								xs: '0.75rem',
+								lg: '0.875rem',
 							},
 						}}
 						variant='contained'
-						startIcon={<img src='pdf-file.svg' height='20px' width='20px' />}
+						startIcon={
+							<img src='pdf-file.svg' className={styles.grayButtonImg} />
+						}
 						onClick={() => fileService.getFile(passports[0].title)}
 					>
 						{passports[0].title.slice(0, 10)}...
@@ -40,13 +42,15 @@ const FilesField: FC<FilesFieldProps> = memo(({ processId }) => {
 				<GrayButton
 					sx={{
 						fontSize: {
-							xs: '12px',
-							lg: '14px',
+							xs: '0.75rem',
+							lg: '0.875rem',
 						},
 					}}
 					disabled
 					variant='contained'
-					startIcon={<img src='pdf-file.svg' height='20px' width='20px' />}
+					startIcon={
+						<img src='pdf-file.svg' className={styles.grayButtonImg} />
+					}
 				>
 					Нет файла
 				</GrayButton>

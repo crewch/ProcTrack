@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import AddProcessDialog from './AddProcessDialog/AddProcessDialog'
 import { GrayButton } from '../../../../ui/button/GrayButton'
+import styles from './AddProcessButton.module.scss'
 
 const AddProcessButton = () => {
 	const [open, setOpen] = useState(false)
@@ -18,11 +19,13 @@ const AddProcessButton = () => {
 			<GrayButton
 				sx={{
 					fontSize: {
-						lg: '14px',
+						lg: '0.875rem',
 					},
 				}}
 				variant='contained'
-				endIcon={<img src={`/addProcess.svg`} height='20px' width='20px' />}
+				endIcon={
+					<img src={`/addProcess.svg`} className={styles.grayButtonImg} />
+				}
 				onClick={handleClickOpen}
 			>
 				Добавить процесс

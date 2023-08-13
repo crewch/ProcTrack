@@ -12,9 +12,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { processService } from '../../../../services/process'
 import { useGetUserData } from '../../../../hooks/userDataHook'
 import ListImg from '../../../ui/ListImg/ListImg'
-import styles from './ListProcess.module.scss'
+import styles from './List.module.scss'
 import { useState } from 'react'
 import PaginationList from '../../PaginationList/PaginationList'
+import classNames from 'classnames'
 
 const ListProcess = () => {
 	const dispatch = useAppDispatch()
@@ -63,24 +64,22 @@ const ListProcess = () => {
 						<ListItem
 							disablePadding
 							key={index}
-							className={
-								openedProcess === process.id ? styles.openedProcessWrap : ''
-							}
+							className={classNames({
+								[styles.openedWrap]: openedProcess === process.id,
+							})}
 						>
 							<ListImg status={process.status} />
 							<ListItemButton
-								className={styles.openedProcess}
+								className={styles.opened}
 								onClick={() =>
 									dispatch(changeOpenedProcess({ id: process.id }))
 								}
 							>
 								<ListItemText>
 									<Typography
-										className={
-											openedProcess === process.id
-												? styles.openedProcessText
-												: styles.closedProcessText
-										}
+										className={classNames({
+											[styles.openedText]: openedProcess === process.id,
+										})}
 									>
 										{process.title}
 									</Typography>
@@ -89,12 +88,14 @@ const ListProcess = () => {
 						</ListItem>
 					))}
 			</List>
-			{isSuccessCountProcess && countProcess && (
+			{isSuccessCountProcess && countProcess ? (
 				<PaginationList
 					count={Math.ceil(countProcess / limit)}
 					selectedPage={selectedPage}
 					setSelectedPage={setSelectedPage}
 				/>
+			) : (
+				<></>
 			)}
 		</>
 	)

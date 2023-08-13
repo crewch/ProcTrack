@@ -9,11 +9,11 @@
 		@apply shadow-none;
 
 		.img {
-			@apply h-[20px] w-[20px] mr-[14px] ml-[6px];
+			@apply h-5 w-5 mr-[0.875rem] ml-[0.375rem];
 		}
 
 		.title {
-			@apply text-ap-black text-[20px];
+			@apply text-ap-black text-xl;
 		}
 	}
 }

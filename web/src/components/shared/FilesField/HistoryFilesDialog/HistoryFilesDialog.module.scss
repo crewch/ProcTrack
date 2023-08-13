@@ -1,3 +1,7 @@
+.iconImg {
+	@apply h-5 w-5;
+}
+
 .dialog {
 	.title {
 		@apply text-center;
@@ -7,7 +11,7 @@
 		@apply h-full;
 
 		.infoText {
-			@apply text-center text-[18px];
+			@apply text-center text-lg;
 		}
 
 		.listItem {

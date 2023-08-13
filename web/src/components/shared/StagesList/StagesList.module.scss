@@ -1,18 +1,18 @@
 .container {
-	@apply h-full w-full bg-ap-white rounded-[8px] p-1 xl:p-3 flex flex-col overflow-auto;
+	@apply h-full w-full bg-ap-white rounded-lg p-1 xl:p-3 flex flex-col overflow-auto;
 
 	.list {
 		@apply h-full overflow-auto pr-2;
 
 		.img {
-			@apply mr-[14px] ml-[6px] h-[20px] w-[20px];
+			@apply mr-[0.875rem] ml-[0.375rem] h-5 w-5;
 		}
 
 		.openedProcessWrap {
 			@apply bg-transparent;
 
 			.openedProcess {
-				@apply bg-[#d8ecff] rounded-[7px];
+				@apply bg-ap-lightblue rounded-[0.4375rem];
 			}
 
 			.openedProcessText {

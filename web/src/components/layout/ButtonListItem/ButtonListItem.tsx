@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { useAppDispatch } from '../../../hooks/reduxHooks'
 import { reset } from '../../../store/processStageSlice/processStageSlice'
 import styles from './ButtonListItem.module.scss'
+import classNames from 'classnames'
 
 interface ButtonListItemProps {
 	label: string
@@ -34,7 +35,10 @@ const ButtonListItem: FC<ButtonListItemProps> = ({
 							onClick={() => dispatch(reset())}
 						>
 							<ListItemIcon
-								className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
+								className={classNames(
+									styles.activeStyleButton,
+									styles.listItemIcon
+								)}
 							>
 								<Img className={styles.img} />
 							</ListItemIcon>
@@ -45,9 +49,7 @@ const ButtonListItem: FC<ButtonListItemProps> = ({
 				<NavLink
 					to={to}
 					className={({ isActive }) =>
-						isActive
-							? `${styles.activeStyle} ${styles.navLink}`
-							: `${styles.navLink}`
+						classNames({ [styles.activeStyle]: isActive }, styles.navLink)
 					}
 				>
 					{({ isActive }) => (
@@ -57,13 +59,16 @@ const ButtonListItem: FC<ButtonListItemProps> = ({
 								onClick={() => dispatch(reset())}
 							>
 								<ListItemIcon
-									className={`${styles.activeStyleButton} ${styles.listItemIcon}`}
-								>
-									{isActive ? (
-										<Img className={`${styles.img} ${styles.imgColor}`} />
-									) : (
-										<Img className={styles.img} />
+									className={classNames(
+										styles.activeStyleButton,
+										styles.listItemIcon
 									)}
+								>
+									<Img
+										className={classNames(styles.img, {
+											[styles.imgColor]: isActive,
+										})}
+									/>
 								</ListItemIcon>
 							</ListItemButton>
 						</Tooltip>

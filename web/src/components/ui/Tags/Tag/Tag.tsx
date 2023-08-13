@@ -16,11 +16,11 @@ const Tag: FC<TagProps> = memo(
 					color: color,
 					backgroundColor: backgroundColor,
 					borderColor: borderColor,
-					py: '1px',
-					px: { xs: '2px', lg: 1 },
-					borderWidth: '1px',
-					borderRadius: '3px',
-					fontSize: { xs: '12px', xl: '16px' },
+					py: '0,0625rem',
+					px: { xs: '0,125rem', lg: '0.5rem' },
+					borderWidth: '0.1rem',
+					borderRadius: '0.2rem',
+					fontSize: { xs: '0.75rem', xl: '1rem' },
 				}}
 				variant='body2'
 			>

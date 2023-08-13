@@ -10,7 +10,12 @@ import styles from './Login.module.scss'
 const LoginPage = () => {
 	const navigation = useNavigate()
 
-	const { control, handleSubmit, reset } = useForm({
+	const {
+		control,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm({
 		defaultValues: {
 			username: '',
 			password: '',
@@ -45,7 +50,7 @@ const LoginPage = () => {
 						<Controller
 							name='username'
 							control={control}
-							rules={{ required: true }}
+							rules={{ required: 'Логин обязательный' }}
 							render={({ field }) => (
 								<TextField
 									{...field}
@@ -57,13 +62,15 @@ const LoginPage = () => {
 									InputProps={{
 										className: styles.inputProps,
 									}}
+									error={!!errors.username?.message}
+									helperText={errors.username?.message}
 								/>
 							)}
 						/>
 						<Controller
 							name='password'
 							control={control}
-							rules={{ required: true }}
+							rules={{ required: 'Пароль обязательный' }}
 							render={({ field }) => (
 								<TextField
 									{...field}
@@ -76,9 +83,16 @@ const LoginPage = () => {
 									InputProps={{
 										className: styles.inputProps,
 									}}
+									error={!!errors.password?.message}
+									helperText={errors.password?.message}
 								/>
 							)}
 						/>
+						{mutation.isError && (
+							<Typography className={styles.errorMessage}>
+								Неверный логин или пароль
+							</Typography>
+						)}
 						<Button variant='contained' type='submit' className={styles.btn}>
 							продолжить
 						</Button>

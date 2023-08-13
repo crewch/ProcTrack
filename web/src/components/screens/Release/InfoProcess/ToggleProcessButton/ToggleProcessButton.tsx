@@ -3,6 +3,7 @@ import { useAppSelector } from '../../../../../hooks/reduxHooks'
 import { processService } from '../../../../../services/process'
 import { GrayButton } from '../../../../ui/button/GrayButton'
 import { FC } from 'react'
+import styles from './ToggleProcessButton.module.scss'
 
 interface ToggleProcessButtonProps {
 	status: 'в процессе' | 'завершен' | 'остановлен' | 'отменен'
@@ -42,12 +43,12 @@ const ToggleProcessButton: FC<ToggleProcessButtonProps> = ({ status }) => {
 					onClick={() => mutationStopProcess.mutate(openedProcessID)}
 					sx={{
 						fontSize: {
-							xs: '12px',
-							lg: '14px',
+							xs: '0.75rem',
+							lg: '0.875rem',
 						},
 					}}
 					variant='contained'
-					endIcon={<img src='/pause.svg' height='20px' width='20px' />}
+					endIcon={<img src='/pause.svg' className={styles.grayButtonImg} />}
 				>
 					Остановить процесс
 				</GrayButton>
@@ -57,12 +58,14 @@ const ToggleProcessButton: FC<ToggleProcessButtonProps> = ({ status }) => {
 					onClick={() => mutationStartProcess.mutate(openedProcessID)}
 					sx={{
 						fontSize: {
-							xs: '12px',
-							lg: '14px',
+							xs: '0.75rem',
+							lg: '0.875rem',
 						},
 					}}
 					variant='contained'
-					endIcon={<img src='/playProcess.svg' height='20px' width='20px' />}
+					endIcon={
+						<img src='/playProcess.svg' className={styles.grayButtonImg} />
+					}
 				>
 					Начать процесс
 				</GrayButton>

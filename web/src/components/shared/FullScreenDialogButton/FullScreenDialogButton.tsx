@@ -43,12 +43,14 @@ const FullScreenDialogButton: FC<FullScreenDialogButtonProps> = memo(
 				<GrayButton
 					sx={{
 						fontSize: {
-							lg: '14px',
+							lg: '0.875rem',
 						},
 						alignSelf: 'start',
 					}}
 					variant='contained'
-					endIcon={<img src={`/${icon}.svg`} height='20px' width='20px' />}
+					endIcon={
+						<img src={`/${icon}.svg`} className={styles.grayButtonImg} />
+					}
 					onClick={handleClickOpen}
 				>
 					{title}
@@ -70,7 +72,7 @@ const FullScreenDialogButton: FC<FullScreenDialogButtonProps> = memo(
 							>
 								<CloseIcon className={styles.icon} />
 							</IconButton>
-							<Typography className={styles.title} variant='h6' component='div'>
+							<Typography className={styles.title} variant='h6' component='h6'>
 								{title}
 							</Typography>
 						</Toolbar>

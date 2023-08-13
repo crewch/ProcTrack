@@ -33,8 +33,15 @@ export const filtersService = {
 		try {
 			const statuses: string[] = await (await axios.get(URL_stageStatuses)).data
 
+			const types: string[] = await (await axios.get(URL_processTypes)).data
+
+			const priorities: string[] | undefined =
+				await processService.getPriorities()
+
 			return {
 				statuses,
+				types,
+				priorities: priorities !== undefined ? priorities : [],
 			}
 		} catch (error) {
 			if (error instanceof Error) {

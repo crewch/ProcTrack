@@ -1,12 +1,12 @@
 import { Box, Divider } from '@mui/material'
 import { FC, memo, useState } from 'react'
-import ListProcess from './ListProcess/ListProcess'
-import ListStages from './ListStages/ListStages'
+import ListProcess from './List/ListProcess'
+import ListStages from './List/ListStages'
 import Buttons from './Buttons/Buttons'
-import SearchProcess from './SearchProcess/SearchProcess'
-import SearchStage from './SearchStage/SearchStage'
-import FiltersListProcess from './FiltersListProcess/FiltersListProcess'
-import FiltersListStage from './FiltersListStage/FiltersListStage'
+import SearchStage from './Search/SearchStage'
+import SearchProcess from './Search/SearchProcess'
+import FiltersListProcess from './FiltersList/FiltersListProcess'
+import FiltersListStage from './FiltersList/FiltersListStage'
 import styles from './SearchList.module.scss'
 
 interface SearchListProps {

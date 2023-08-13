@@ -14,4 +14,5 @@ export interface Stage {
 	statusValue: number
 	user: User
 	holds: Hold[]
+	processName: string
 }

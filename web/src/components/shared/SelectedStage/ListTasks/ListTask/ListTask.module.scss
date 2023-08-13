@@ -18,7 +18,7 @@
 	}
 
 	.typography {
-		@apply font-[Montserrat] text-ap-black text-[20px] font-semibold;
+		@apply font-[Montserrat] text-ap-black text-xl font-semibold;
 	}
 
 	.typographySmall {
@@ -26,10 +26,10 @@
 	}
 
 	.list {
-		@apply mt-1 w-full h-[200px] overflow-auto;
+		@apply mt-1 w-full h-[12.5rem] overflow-auto;
 
 		.img {
-			@apply h-[20px] w-[20px];
+			@apply h-5 w-5;
 		}
 
 		.reportText {
@@ -49,10 +49,10 @@
 		@apply flex flex-col gap-2;
 
 		.inputField {
-			@apply flex gap-2 h-[42px];
+			@apply flex gap-2 h-[2.625rem];
 
 			.InputProps {
-				@apply pl-[15px] rounded-[8px] bg-ap-light-gray h-[42px];
+				@apply pl-[0.9375rem] rounded-lg bg-ap-light-gray h-[2.625rem];
 			}
 
 			.TextField {
@@ -60,7 +60,7 @@
 			}
 
 			.uploadBtn {
-				@apply rounded-[8px] h-full;
+				@apply rounded-lg h-full;
 			}
 
 			.loadedBtn {
@@ -72,4 +72,8 @@
 			@apply flex gap-2 self-end;
 		}
 	}
+}
+
+.grayButtonImg {
+	@apply w-5 h-5;
 }

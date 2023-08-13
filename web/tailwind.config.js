@@ -11,6 +11,7 @@ export default {
 				'ap-light-gray': '#ECECEC',
 				'ap-white': '#FFFFFF',
 				'ap-blue': '#5C98D0',
+				'ap-lightblue': '#d8ecff',
 				'ap-dark-blue': '#134A7C',
 				'ap-green': '#54C16C',
 				'ap-dark-green': '#19712D',

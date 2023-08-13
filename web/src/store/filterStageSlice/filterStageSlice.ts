@@ -4,6 +4,8 @@ import { FilterStage } from '../../shared/interfaces/filterStage'
 const initialState: FilterStage = {
 	text: '',
 	statuses: [],
+	priorities: [],
+	types: [],
 }
 
 export const filterStageSlice = createSlice({
@@ -17,7 +19,7 @@ export const filterStageSlice = createSlice({
 			state,
 			actions: PayloadAction<{
 				settings: string[]
-				type: 'statuses'
+				type: 'priorities' | 'statuses' | 'types'
 			}>
 		) {
 			if (
@@ -34,7 +36,7 @@ export const filterStageSlice = createSlice({
 			state,
 			actions: PayloadAction<{
 				setting: string
-				type: 'statuses'
+				type: 'priorities' | 'statuses' | 'types'
 			}>
 		) {
 			if (state[actions.payload.type].includes(actions.payload.setting)) {

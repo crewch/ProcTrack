@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { ReactComponent as SearchSetting } from '/src/assets/searchSetting.svg'
 import styles from './SettingsImg.module.scss'
+import classNames from 'classnames'
 
 interface SettingsImgProps {
 	isOpen: boolean
@@ -8,13 +9,9 @@ interface SettingsImgProps {
 
 const SettingsImg: FC<SettingsImgProps> = ({ isOpen }) => {
 	return (
-		<>
-			{isOpen ? (
-				<SearchSetting className={`${styles.img} ${styles.imgColor}`} />
-			) : (
-				<SearchSetting className={styles.img} />
-			)}
-		</>
+		<SearchSetting
+			className={classNames(styles.img, { [styles.imgColor]: isOpen })}
+		/>
 	)
 }
 
