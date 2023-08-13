@@ -467,21 +467,19 @@ namespace DB_Service.Services
                                  filter.Types.Contains(s.Process.Type.Title)) &&
                                 (filter.Priorities == null || filter.Priorities.Count == 0 ||
                                  filter.Priorities.Contains(s.Process.Priority.Title)) &&
-                                (((filter.Statuses == null || filter.Statuses.Count == 0) || // TODO дописать кнопку "показывать только завершенные"
-                                 filter.Statuses.Contains(s.Status.Title)) && !(s.Status.Title.ToLower() == "завершен" && !filter.ShowApproved)) &&
+                                (((filter.Statuses == null || filter.Statuses.Count == 0)) || // TODO дописать кнопку "показывать только завершенные"
+                                 filter.Statuses.Contains(s.Status.Title)) &&
                                 (filter.Text == null || filter.Text.Length == 0 || 
                                  (s.Title + " " + s.Process.Title + " " + s.Process.Description).Contains(filter.Text)) &&
                                 !(s.Pass ?? false)
                     )
                     .FirstOrDefaultAsync();
 
-                Console.WriteLine("\n\n\n\n" + stageModel.Process.Priority.Title + "\n\n\n\n");
-
                 if (stageModel != null)
                 {
                     var stageDto = await GetStageById(stageModel.Id);
 
-                    if (stageDto != null)
+                    if (stageDto != null && !(stageDto.Status.ToLower() == "согласовано" && !filter.ShowApproved))
                     {
                         res.Add(stageDto);
                     }
