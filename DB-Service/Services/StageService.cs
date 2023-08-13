@@ -409,6 +409,7 @@ namespace DB_Service.Services
             return new StageDto
             {
                 Id = stageModel.Id,
+                Number = stageModel.Number,
                 ProcessId = stageModel.ProcessId,
                 ProcessName = processName,
                 Title = stageModel.Title,
