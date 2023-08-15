@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { URL } from '../configs/url'
+import { URL } from '@/configs/url'
 import { processService } from './process'
 
 const URL_processStatuses = `${URL}/api/track/property/processStatuses`

@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { LoginForm } from '../shared/interfaces/loginForm'
-import { URL } from '../configs/url'
-import { User } from '../shared/interfaces/user'
+import { LoginForm } from '@/shared/interfaces/loginForm'
+import { URL } from '@/configs/url'
+import { User } from '@/shared/interfaces/user'
 
 const URL_login = `${URL}/api/auth/login`
 

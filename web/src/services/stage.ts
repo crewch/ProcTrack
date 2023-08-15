@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { URL } from '../configs/url'
-import { Stage } from '../shared/interfaces/stage'
-import { FilterStage } from '../shared/interfaces/filterStage'
+import { URL } from '@/configs/url'
+import { Stage } from '@/shared/interfaces/stage'
+import { FilterStage } from '@/shared/interfaces/filterStage'
 
 const URL_StageGetAll = `${URL}/api/track/process/`
 const URL_IdStage = `${URL}/api/track/stage/`

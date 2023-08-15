@@ -1,5 +1,5 @@
+import { FilterStage } from '@/shared/interfaces/filterStage'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { FilterStage } from '../../shared/interfaces/filterStage'
 
 const initialState: FilterStage = {
 	text: '',

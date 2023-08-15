@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { useGetUserData } from '../../hooks/userDataHook'
+import { useGetUserData } from '@/hooks/userDataHook'
 import styles from './NotFound.module.scss'
 
 const NotFound = () => {

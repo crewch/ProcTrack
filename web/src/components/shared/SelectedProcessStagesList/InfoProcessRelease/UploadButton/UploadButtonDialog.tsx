@@ -6,12 +6,12 @@ import {
 	DialogTitle,
 	TextField,
 } from '@mui/material'
-import { GrayButton } from '../../../../ui/button/GrayButton'
 import { ChangeEvent, FC, memo, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import TelegramIcon from '@mui/icons-material/Telegram'
-import { passportService } from '../../../../../services/passport'
-import { useGetUserData } from '../../../../../hooks/userDataHook'
+import { GrayButton } from '@/components/ui/button/GrayButton'
+import { useGetUserData } from '@/hooks/userDataHook'
+import { passportService } from '@/services/passport'
 import styles from './UploadButtonDialog.module.scss'
 
 interface UploadButtonDialogProps {

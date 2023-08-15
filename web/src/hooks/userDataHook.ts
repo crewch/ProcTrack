@@ -1,5 +1,5 @@
+import { User } from '@/shared/interfaces/user'
 import { useMemo } from 'react'
-import { User } from '../shared/interfaces/user'
 
 export function useGetUserData() {
 	const userDataText = localStorage.getItem('UserData')

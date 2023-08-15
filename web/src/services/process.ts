@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { URL } from '../configs/url'
-import { Process } from '../shared/interfaces/process'
-import { Group } from '../shared/interfaces/group'
-import { NewProcessForm } from '../shared/interfaces/newProcessForm'
-import { FilterProcess } from '../shared/interfaces/filterProcess'
+import { URL } from '@/configs/url'
+import { Process } from '@/shared/interfaces/process'
+import { Group } from '@/shared/interfaces/group'
+import { NewProcessForm } from '@/shared/interfaces/newProcessForm'
+import { FilterProcess } from '@/shared/interfaces/filterProcess'
 
 const URL_AllProcess = `${URL}/api/track/process/get`
 const URL_IDProcess = `${URL}/api/track/process/`

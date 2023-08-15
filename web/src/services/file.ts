@@ -1,6 +1,6 @@
 import axios from 'axios'
 import fileDownload from 'js-file-download'
-import { HOST } from '../configs/url'
+import { HOST } from '@/configs/url'
 
 const URL_sendFile = `http://${HOST}:8002/upload`
 const URL_getFile = `http://${HOST}:8002/download`

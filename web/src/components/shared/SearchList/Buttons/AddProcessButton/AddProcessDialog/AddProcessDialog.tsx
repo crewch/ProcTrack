@@ -8,10 +8,10 @@ import {
 import { FC, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useGetUserData } from '../../../../../../hooks/userDataHook'
-import { processService } from '../../../../../../services/process'
-import { NewProcessForm } from '../../../../../../shared/interfaces/newProcessForm'
-import { GrayButton } from '../../../../../ui/button/GrayButton'
+import { GrayButton } from '@/components/ui/button/GrayButton'
+import { useGetUserData } from '@/hooks/userDataHook'
+import { processService } from '@/services/process'
+import { NewProcessForm } from '@/shared/interfaces/newProcessForm'
 import styles from './AddProcessDialog.module.scss'
 
 interface AddProcessDialogProps {

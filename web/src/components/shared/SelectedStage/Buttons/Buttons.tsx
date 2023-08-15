@@ -14,9 +14,9 @@ import {
 	LinearProgress,
 	Divider,
 } from '@mui/material'
-import { Stage } from '../../../../shared/interfaces/stage'
-import { stageService } from '../../../../services/stage'
-import { useGetUserData } from '../../../../hooks/userDataHook'
+import { useGetUserData } from '@/hooks/userDataHook'
+import { stageService } from '@/services/stage'
+import { Stage } from '@/shared/interfaces/stage'
 import styles from './Buttons.module.scss'
 
 interface ButtonsProps {

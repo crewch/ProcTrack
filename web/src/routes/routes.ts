@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import Release from '../pages/Release/Release'
-import Approval from '../pages/Approval/Approval'
+import Release from '@/pages/Release/Release'
+import Approval from '@/pages/Approval/Approval'
 
 interface Route {
 	path: string

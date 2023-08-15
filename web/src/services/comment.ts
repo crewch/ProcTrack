@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { URL } from '../configs/url'
-import { Comment } from '../shared/interfaces/comment'
+import { URL } from '@/configs/url'
+import { Comment } from '@/shared/interfaces/comment'
 
 const URL_sendComment = `${URL}/api/track/task/`
 

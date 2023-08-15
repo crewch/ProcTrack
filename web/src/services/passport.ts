@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { fileService } from './file'
-import { URL } from '../configs/url'
-import { Passport } from '../shared/interfaces/passport'
+import { URL } from '@/configs/url'
+import { Passport } from '@/shared/interfaces/passport'
 
 const URL_getPassport = `${URL}/api/track/process/`
 const URL_sendPassport = `${URL}/api/track/process/`

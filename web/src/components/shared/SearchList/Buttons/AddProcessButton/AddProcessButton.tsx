@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import AddProcessDialog from './AddProcessDialog/AddProcessDialog'
-import { GrayButton } from '../../../../ui/button/GrayButton'
+import { GrayButton } from '@/components/ui/button/GrayButton'
 import styles from './AddProcessButton.module.scss'
 
 const AddProcessButton = () => {

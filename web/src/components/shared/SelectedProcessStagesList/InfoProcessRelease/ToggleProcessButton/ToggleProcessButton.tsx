@@ -1,8 +1,8 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
-import { useAppSelector } from '../../../../../hooks/reduxHooks'
-import { processService } from '../../../../../services/process'
-import { GrayButton } from '../../../../ui/button/GrayButton'
 import { FC } from 'react'
+import { GrayButton } from '@/components/ui/button/GrayButton'
+import { useAppSelector } from '@/hooks/reduxHooks'
+import { processService } from '@/services/process'
 import styles from './ToggleProcessButton.module.scss'
 
 interface ToggleProcessButtonProps {

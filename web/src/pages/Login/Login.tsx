@@ -3,8 +3,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { loginService } from '../../services/login'
-import { LoginForm } from '../../shared/interfaces/loginForm'
+import { loginService } from '@/services/login'
+import { LoginForm } from '@/shared/interfaces/loginForm'
 import styles from './Login.module.scss'
 
 const LoginPage = () => {

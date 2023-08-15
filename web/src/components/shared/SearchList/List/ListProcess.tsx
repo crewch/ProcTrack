@@ -6,16 +6,16 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { changeOpenedProcess } from '../../../../store/processStageSlice/processStageSlice'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { processService } from '../../../../services/process'
-import { useGetUserData } from '../../../../hooks/userDataHook'
-import ListImg from '../../../ui/ListImg/ListImg'
-import styles from './List.module.scss'
 import { useState } from 'react'
-import PaginationList from '../../PaginationList/PaginationList'
 import classNames from 'classnames'
+import ListImg from '@/components/ui/ListImg/ListImg'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks'
+import { useGetUserData } from '@/hooks/userDataHook'
+import { processService } from '@/services/process'
+import { changeOpenedProcess } from '@/store/processStageSlice/processStageSlice'
+import PaginationList from '../../PaginationList/PaginationList'
+import styles from './List.module.scss'
 
 const ListProcess = () => {
 	const dispatch = useAppDispatch()

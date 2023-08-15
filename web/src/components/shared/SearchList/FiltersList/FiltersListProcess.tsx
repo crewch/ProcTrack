@@ -11,13 +11,13 @@ import {
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useQuery } from '@tanstack/react-query'
-import { filtersService } from '../../../../services/filters'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
+import FiltersCheckboxStage from './FiltersCheckbox/FiltersCheckboxProcess'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks'
+import { filtersService } from '@/services/filters'
 import {
 	toggleAllFilters,
 	toggleShowCompleted,
-} from '../../../../store/filterProcessSlice/filterProcessSlice'
-import FiltersCheckboxStage from './FiltersCheckbox/FiltersCheckboxProcess'
+} from '@/store/filterProcessSlice/filterProcessSlice'
 import styles from './FiltersList.module.scss'
 
 const FiltersListProcess = () => {

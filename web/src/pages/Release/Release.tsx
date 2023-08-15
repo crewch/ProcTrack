@@ -1,10 +1,10 @@
 import { Box } from '@mui/material'
 import { Navigate } from 'react-router-dom'
-import { useGetUserData } from '../../hooks/userDataHook'
-import SelectedStage from '../../components/shared/SelectedStage/SelectedStage'
-import SearchList from '../../components/shared/SearchList/SearchList'
-import SelectedProcessStagesList from '../../components/shared/SelectedProcessStagesList/SelectedProcessStagesList'
-import styles from '../../shared/styles/page.module.scss'
+import SearchList from '@/components/shared/SearchList/SearchList'
+import SelectedProcessStagesList from '@/components/shared/SelectedProcessStagesList/SelectedProcessStagesList'
+import SelectedStage from '@/components/shared/SelectedStage/SelectedStage'
+import { useGetUserData } from '@/hooks/userDataHook'
+import styles from '@/shared/styles/page.module.scss'
 
 const Release = () => {
 	if (!useGetUserData()) {
