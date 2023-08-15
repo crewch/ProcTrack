@@ -13,7 +13,9 @@ import { ReactComponent as User } from '@/assets/user1.svg'
 import styles from './Layout.module.scss'
 
 const Layout = () => {
-	if (!useGetUserData()) {
+	const user = useGetUserData()
+
+	if (!user) {
 		return <Navigate to='/login' />
 	}
 
@@ -23,11 +25,14 @@ const Layout = () => {
 				<List>
 					<LogoListItem pathImg='/logo.svg' />
 					<Divider variant='middle' className={styles.divider} />
-					<ButtonListItem
-						Img={Document}
-						to='release'
-						label='Выпускаемые процессы'
-					/>
+					{/* TODO: пример как работать с ролями */}
+					{user.roles.includes('releaser') && (
+						<ButtonListItem
+							Img={Document}
+							to='release'
+							label='Выпускаемые процессы'
+						/>
+					)}
 					<ButtonListItem
 						Img={Confirmation}
 						to='approval'
