@@ -20,9 +20,7 @@
 	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
 	  <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
 	  <PackageReference Include="Novell.Directory.Ldap.NETStandard2_0" Version="3.1.0" />
-	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
 	  <PackageReference Include="NuGet.Commands" Version="6.6.0" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	  <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.10" />

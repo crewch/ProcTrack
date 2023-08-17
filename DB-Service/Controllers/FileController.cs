@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DB_Service.Clients.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,8 @@ namespace DB_Service.Controllers
     [ApiController]
     // [EnableCors("cors")]
     [EnableCors]
+    [Authorize]
+
     public class FileController : ControllerBase
     {
         private readonly IFileDataClient _fileDataClient;

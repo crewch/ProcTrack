@@ -1,9 +1,12 @@
 using DB_Service.Clients.Http;
 using DB_Service.Data;
 using DB_Service.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace DB_Service
@@ -41,6 +44,20 @@ namespace DB_Service
             //     opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
             // })
             );
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
             
             services.AddScoped<IProcessService, ProcessService>();
             services.AddScoped<IPropertyService, PropertyService>();
@@ -60,6 +77,8 @@ namespace DB_Service
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProcTrack DB Service"));
             }
             app.UseRouting();
+
+            app.UseAuthentication();
             app.UseAuthorization();
             
             app.UseCors(x => x

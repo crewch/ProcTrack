@@ -45,6 +45,7 @@ namespace AuthService
             // })
             );
             services.AddDatabaseDeveloperPageExceptionFilter();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -58,7 +59,7 @@ namespace AuthService
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
-            services.AddMvc();
+
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IHoldService, HoldService>();
             services.AddScoped<IUserService, UserService>();

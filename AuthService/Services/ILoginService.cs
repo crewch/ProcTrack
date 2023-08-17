@@ -4,6 +4,8 @@ namespace AuthService.Services
 {
     public interface ILoginService
     {
-        Task<UserDto> Authorize(AuthDto data);
+        Task<TokenDto> Authorize(AuthDto data);
+
+        Task<TokenDto> RefreshToken(TokenDto data);
     }
 }
