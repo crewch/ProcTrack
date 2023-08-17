@@ -1,5 +1,6 @@
 using DB_Service.Clients.Http;
 using DB_Service.Data;
+using DB_Service.Hubs;
 using DB_Service.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -23,18 +24,25 @@ namespace DB_Service
             services.AddHttpClient<IFileDataClient, HttpFileDataClient>();
             services.AddHttpClient<IAuthDataClient, HttpAuthDataClient>();
             services.AddHttpClient<IMailDataClient, HttpMailDataClient>();
+            
+            services.AddSignalR();
+
             services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Db-Service", Version = "v1" });
             });
+
             var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? Configuration.GetConnectionString("DatabaseConnection");
+            
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(
                     connectionString
                 )
             );
+
             services.AddCors(
             //     c => c.AddPolicy("cors", opt =>
             // {
@@ -57,6 +65,21 @@ namespace DB_Service
                         ValidAudience = Configuration["Jwt:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
+                    //options.Events = new JwtBearerEvents
+                    //{
+                    //    OnMessageReceived = context =>
+                    //    {
+                    //        var accessToken = context.Request.Query["access_token"];
+ 
+                    //        var path = context.HttpContext.Request.Path;
+                    //        if (!string.IsNullOrEmpty(accessToken) &&
+                    //            (path.StartsWithSegments("/notifications")))
+                    //        {
+                    //            context.Token = accessToken;
+                    //        }
+                    //        return Task.CompletedTask;
+                    //    }
+                    //};
                 });
             
             services.AddScoped<IProcessService, ProcessService>();
@@ -68,6 +91,7 @@ namespace DB_Service
 
             services.AddDatabaseDeveloperPageExceptionFilter();
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -90,6 +114,7 @@ namespace DB_Service
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("/notifications");
             });
             using var serviceScope = app.ApplicationServices.CreateScope();
             var context = serviceScope.ServiceProvider.GetService<DataContext>();
