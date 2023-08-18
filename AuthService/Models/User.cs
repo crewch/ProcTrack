@@ -9,7 +9,7 @@ namespace AuthService.Models
         public string Email { get; set; }
 
         [JsonIgnore]
-        public string? Password { get; set; }
+        public string? RefreshToken { get; set; }
         
         public ICollection<Hold> Holds { get; set; } = new List<Hold>();
         public ICollection<UserHoldMapper> UserHolds{ get; set; } = new List<UserHoldMapper>();

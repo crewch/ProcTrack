@@ -1,6 +1,7 @@
 ﻿using DB_Service.Dtos;
 using DB_Service.Models;
 using DB_Service.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,8 @@ namespace DB_Service.Controllers
     [ApiController]
     // [EnableCors("cors")]
     [EnableCors]
+    [Authorize]
+
     public class PropertyController : ControllerBase
     {
         private readonly IPropertyService _propertyService;

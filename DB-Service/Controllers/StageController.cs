@@ -1,8 +1,11 @@
 ﻿using DB_Service.Dtos;
 using DB_Service.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace DB_Service.Controllers
 {
@@ -10,6 +13,8 @@ namespace DB_Service.Controllers
     [ApiController]
     // [EnableCors("cors")]
     [EnableCors]
+    [Authorize]
+
     public class StageController : ControllerBase
     {
         private readonly IStageService _service;
@@ -21,31 +26,95 @@ namespace DB_Service.Controllers
 
         [Route("Get")]
         [HttpPost]
-        public async Task<ActionResult<List<StageDto>>> GetStages(int UserId, FilterStageDto filter, int limit, int offset)
+        public async Task<ActionResult<List<StageDto>>> GetStages(FilterStageDto filter, int limit, int offset)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            var handler = new JwtSecurityTokenHandler();
+            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            bool validated = parsedToken.ValidTo > DateTime.Now;
+
+            if (!validated)
+            {
+                return Unauthorized();
+            }
+
+            int UserId = int.Parse(parsedToken.Claims
+                .Where(c => c.Type == ClaimTypes.Sid)
+                .FirstOrDefault()?.ToString().Split(" ")[1]);
+
             var res = await _service.GetStagesByUserId(UserId, filter, limit, offset);
             return Ok(res);
         }
 
         [Route("{Id}/Assign")]
         [HttpGet]
-        public async Task<ActionResult<StageDto>> AssignStage(int UserId, int Id)
+        public async Task<ActionResult<StageDto>> AssignStage(int Id)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            var handler = new JwtSecurityTokenHandler();
+            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            bool validated = parsedToken.ValidTo > DateTime.Now;
+
+            if (!validated)
+            {
+                return Unauthorized();
+            }
+
+            int UserId = int.Parse(parsedToken.Claims
+                .Where(c => c.Type == ClaimTypes.Sid)
+                .FirstOrDefault()?.ToString().Split(" ")[1]);
+
             var res = await _service.AssignStage(UserId, Id);
             return Ok(res);
         }
         [Route("{Id}/Cancel")]
         [HttpGet]
-        public async Task<ActionResult<StageDto>> CancleStage(int UserId, int Id)
+        public async Task<ActionResult<StageDto>> CancleStage(int Id)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            var handler = new JwtSecurityTokenHandler();
+            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            bool validated = parsedToken.ValidTo > DateTime.Now;
+
+            if (!validated)
+            {
+                return Unauthorized();
+            }
+
+            int UserId = int.Parse(parsedToken.Claims
+                .Where(c => c.Type == ClaimTypes.Sid)
+                .FirstOrDefault()?.ToString().Split(" ")[1]);
+
             var res = await _service.CancelStageById(Id, UserId);
             return Ok(res);
         }
 
         [Route("{Id}/Update")]
         [HttpPut]
-        public async Task<ActionResult<StageDto>> UpdateStage(int UserId, int Id, StageDto data)
+        public async Task<ActionResult<StageDto>> UpdateStage(int Id, StageDto data)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            var handler = new JwtSecurityTokenHandler();
+            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            bool validated = parsedToken.ValidTo > DateTime.Now;
+
+            if (!validated)
+            {
+                return Unauthorized();
+            }
+
+            int UserId = int.Parse(parsedToken.Claims
+                .Where(c => c.Type == ClaimTypes.Sid)
+                .FirstOrDefault()?.ToString().Split(" ")[1]);
+
             var res = await _service.UpdateStage(UserId, Id, data);
             return Ok(res);
         }
@@ -68,8 +137,24 @@ namespace DB_Service.Controllers
 
         [Route("Count")]
         [HttpPost]
-        public async Task<ActionResult<int>> StageCount(int UserId, FilterStageDto filter)
+        public async Task<ActionResult<int>> StageCount(FilterStageDto filter)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            var handler = new JwtSecurityTokenHandler();
+            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            bool validated = parsedToken.ValidTo > DateTime.Now;
+
+            if (!validated)
+            {
+                return Unauthorized();
+            }
+
+            int UserId = int.Parse(parsedToken.Claims
+                .Where(c => c.Type == ClaimTypes.Sid)
+                .FirstOrDefault()?.ToString().Split(" ")[1]);
+
             var res = await _service.GetStageCount(UserId, filter);
             return Ok(res);
         }

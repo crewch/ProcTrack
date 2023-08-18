@@ -9,6 +9,7 @@ using DB_Service.Services;
 using DB_Service.Clients.Http;
 using DB_Service.Dtos;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DB_Service.Controllers
 {
@@ -16,6 +17,7 @@ namespace DB_Service.Controllers
     [ApiController]
     // [EnableCors("cors")]
     [EnableCors]
+
     public class TestController : ControllerBase
     {
         private readonly IMailDataClient _client;
@@ -38,6 +40,8 @@ namespace DB_Service.Controllers
 
         [Route("SendMail")]
         [HttpPost]
+        [Authorize]
+
         public async Task<ActionResult<MailDto>> SendMail(MailDto data)
         {
             var res = await _client.SendMail(data);
