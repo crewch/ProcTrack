@@ -10,8 +10,8 @@ namespace DB_Service.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    // [EnableCors("cors")]
-    [EnableCors]
+    [EnableCors("cors")]
+    // [EnableCors]
     [Authorize]
 
     public class PropertyController : ControllerBase

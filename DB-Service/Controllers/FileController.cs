@@ -8,8 +8,8 @@ namespace DB_Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [EnableCors("cors")]
-    [EnableCors]
+    [EnableCors("cors")]
+    // [EnableCors]
     [Authorize]
 
     public class FileController : ControllerBase

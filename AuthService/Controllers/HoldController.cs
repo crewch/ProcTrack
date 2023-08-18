@@ -9,8 +9,8 @@ namespace AuthService.Controllers
 {
     [Route("[controller]/")]
     [ApiController]
-    // [EnableCors("cors")]
-    [EnableCors]
+    [EnableCors("cors")]
+    // [EnableCors]
     public class HoldController : ControllerBase
     {
         private readonly IHoldService _service;
