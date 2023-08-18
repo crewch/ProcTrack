@@ -138,10 +138,40 @@ namespace DB_Service.Controllers
 
         [Route("{Id}/Comments/Create")]
         [HttpPost]
-        public async Task<CommentDto> CreateComment(int Id, CommentDto data)
+        public async Task<ActionResult<CommentDto>> CreateComment(int Id, CreateCommentDto data)
         {
-            var res = await _service.CreateCommment(Id, data);
-            return res;
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            var handler = new JwtSecurityTokenHandler();
+            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            bool validated = parsedToken.ValidTo > DateTime.Now;
+
+            if (!validated)
+            {
+                return Unauthorized();
+            }
+
+            int UserId = int.Parse(parsedToken.Claims
+                .Where(c => c.Type == ClaimTypes.Sid)
+                .FirstOrDefault()?.ToString().Split(" ")[1]);
+
+            var user = new UserDto
+            {
+                Id = UserId
+            };
+
+            var resData = new CommentDto
+            {
+                Id = data.Id,
+                CreatedAt = data.CreatedAt,
+                FileRef = data.FileRef,
+                Text = data.Text,
+                User = user,
+            };
+
+            var res = await _service.CreateCommment(Id, resData);
+            return Ok(res);
         }
     }
 }
