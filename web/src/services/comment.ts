@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { URL } from '@/configs/url'
-import { Comment } from '@/shared/interfaces/comment'
+import { CommentCreate } from '@/shared/interfaces/comment'
 import { getToken } from '@/utils/getToken'
 
 const URL_sendComment = `${URL}/api/track/task/`
 
 export const commentService = {
-	async sendComment(openedTaskID: number, commentsData: Comment) {
+	async sendComment(openedTaskID: number, commentsData: CommentCreate) {
 		try {
 			if (!commentsData.text) return
 

@@ -17,9 +17,6 @@ import {
 import { stageService } from '@/services/stage'
 import { Stage } from '@/shared/interfaces/stage'
 import styles from './Buttons.module.scss'
-import { decodeToken } from 'react-jwt'
-import { getToken } from '@/utils/getToken'
-import { User } from '@/shared/interfaces/user'
 
 interface ButtonsProps {
 	selectedStage: Stage
@@ -70,8 +67,6 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 		setOpen(false)
 	}
 
-	const userData: User | null = decodeToken(getToken().accessToken)
-
 	const stages = useQueries({
 		queries: selectedStage.canCreate.map(item => {
 			return {
@@ -93,115 +88,111 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 	return (
 		<>
 			{isLoading && <LinearProgress />}
-			{isSuccess &&
-				(selectedStage?.holds[0]?.groups[0]?.boss?.id === userData?.id ||
-					selectedStage?.holds[1]?.groups[0]?.boss?.id === userData?.id) && (
-					<>
-						<Divider sx={{ my: '0.5rem', borderWidth: '0.0625rem' }} />
-						<Box className={styles.container}>
-							{selectedStage.status === 'Согласовано' ||
-							selectedStage.status === 'Согласовано-Блокировано' ? (
-								<Button
-									size='small'
-									color='error'
-									variant='outlined'
-									onClick={() => mutationCancelStage.mutate()}
-								>
-									Отменить Согласование
-								</Button>
-							) : (
-								<Button
-									color='success'
-									size='small'
-									variant='outlined'
-									onClick={() => mutationSuccessStage.mutate()}
-								>
-									Согласовать
-								</Button>
-							)}
-							{selectedStage.status !== 'Согласовано' &&
-								selectedStage.status !== 'Согласовано-Блокировано' &&
-								selectedStage.canCreate.length > 0 && (
-									<>
-										<Button
-											size='small'
-											variant='outlined'
-											onClick={() => {
-												handleClickOpen()
-											}}
-										>
-											Редактировать путь согласования
-										</Button>
-										<Dialog
-											PaperProps={{
-												sx: {
-													width: '30%',
-													height: '40%',
-													borderRadius: '1rem',
-													p: '0.5rem',
-												},
-											}}
-											open={open}
-											onClose={handleClose}
-										>
-											<DialogTitle>Редактировать путь согласования</DialogTitle>
-											<DialogContent>
-												<List className={styles.list}>
-													{stages
-														.sort(
-															(a, b) =>
-																Number(b.data?.mark) - Number(a.data?.mark)
-														)
-														.map((item, index) => (
-															<ListItem key={index}>
-																{item.isSuccess && (
-																	<>
-																		<Checkbox
-																			onClick={() => {
-																				//TODO:надо тестировать
-																				const newData = { ...item }
-																				if (newData.data?.pass !== undefined) {
-																					newData.data.pass = !item.data?.pass
-																				}
-
-																				queryClient.setQueryData(
-																					['stageHeader', item],
-																					{
-																						...item,
-																						data: newData,
-																					}
-																				)
-
-																				mutationGetStages.mutate(item.data)
-																			}}
-																			checked={!item.data?.pass}
-																		/>
-																		<ListItemText>
-																			<Typography
-																				sx={{
-																					fontWeight: item.data?.mark
-																						? 600
-																						: 300,
-																				}}
-																			>
-																				{item.data?.title}
-																			</Typography>
-																		</ListItemText>
-																	</>
-																)}
-															</ListItem>
-														))}
-												</List>
-											</DialogContent>
-										</Dialog>
-									</>
-								)}
-							<Button size='small' color='warning' variant='outlined'>
-								Отправить на перепроверку
+			{isSuccess && (
+				<>
+					<Divider sx={{ my: '0.5rem', borderWidth: '0.0625rem' }} />
+					<Box className={styles.container}>
+						{selectedStage.status === 'Согласовано' ||
+						selectedStage.status === 'Согласовано-Блокировано' ? (
+							<Button
+								size='small'
+								color='error'
+								variant='outlined'
+								onClick={() => mutationCancelStage.mutate()}
+							>
+								Отменить Согласование
 							</Button>
-						</Box>
-					</>
-				)}
+						) : (
+							<Button
+								color='success'
+								size='small'
+								variant='outlined'
+								onClick={() => mutationSuccessStage.mutate()}
+							>
+								Согласовать
+							</Button>
+						)}
+						{selectedStage.status !== 'Согласовано' &&
+							selectedStage.status !== 'Согласовано-Блокировано' &&
+							selectedStage.canCreate.length > 0 && (
+								<>
+									<Button
+										size='small'
+										variant='outlined'
+										onClick={() => {
+											handleClickOpen()
+										}}
+									>
+										Редактировать путь согласования
+									</Button>
+									<Dialog
+										PaperProps={{
+											sx: {
+												width: '30%',
+												height: '40%',
+												borderRadius: '1rem',
+												p: '0.5rem',
+											},
+										}}
+										open={open}
+										onClose={handleClose}
+									>
+										<DialogTitle>Редактировать путь согласования</DialogTitle>
+										<DialogContent>
+											<List className={styles.list}>
+												{stages
+													.sort(
+														(a, b) =>
+															Number(b.data?.mark) - Number(a.data?.mark)
+													)
+													.map((item, index) => (
+														<ListItem key={index}>
+															{item.isSuccess && (
+																<>
+																	<Checkbox
+																		onClick={() => {
+																			//TODO:надо тестировать
+																			const newData = { ...item }
+																			if (newData.data?.pass !== undefined) {
+																				newData.data.pass = !item.data?.pass
+																			}
+
+																			queryClient.setQueryData(
+																				['stageHeader', item],
+																				{
+																					...item,
+																					data: newData,
+																				}
+																			)
+
+																			mutationGetStages.mutate(item.data)
+																		}}
+																		checked={!item.data?.pass}
+																	/>
+																	<ListItemText>
+																		<Typography
+																			sx={{
+																				fontWeight: item.data?.mark ? 600 : 300,
+																			}}
+																		>
+																			{item.data?.title}
+																		</Typography>
+																	</ListItemText>
+																</>
+															)}
+														</ListItem>
+													))}
+											</List>
+										</DialogContent>
+									</Dialog>
+								</>
+							)}
+						<Button size='small' color='warning' variant='outlined'>
+							Отправить на перепроверку
+						</Button>
+					</Box>
+				</>
+			)}
 		</>
 	)
 }
