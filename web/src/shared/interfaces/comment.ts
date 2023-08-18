@@ -4,6 +4,6 @@ export interface Comment {
 	id: number
 	text: string
 	fileRef: string
-	user: User
+	user: User | null
 	createdAt: string
 }

@@ -1,4 +1,4 @@
-import { Comment } from '../../shared/interfaces/comment'
+import { Comment } from './comment'
 import { User } from './user'
 
 export interface Task {

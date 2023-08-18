@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { ReactComponent as SearchSetting } from '/src/assets/searchSetting.svg'
+import { ReactComponent as SearchSetting } from '@/assets/searchSetting.svg'
 import styles from './SettingsImg.module.scss'
 import classNames from 'classnames'
 

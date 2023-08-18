@@ -1,10 +1,10 @@
 import { Box } from '@mui/material'
 import { FC, memo } from 'react'
 import AddProcessButton from './AddProcessButton/AddProcessButton'
+import classNames from 'classnames'
 import DataTable from '../../DataTable/DataTable'
 import FullScreenDialogButton from '../../FullScreenDialogButton/FullScreenDialogButton'
 import styles from './Buttons.module.scss'
-import classNames from 'classnames'
 
 interface ButtonsProps {
 	page: 'release' | 'approval'

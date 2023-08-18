@@ -8,10 +8,9 @@ import {
 import { FC, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useGetUserData } from '../../../../../../hooks/userDataHook'
-import { processService } from '../../../../../../services/process'
-import { NewProcessForm } from '../../../../../../shared/interfaces/newProcessForm'
-import { GrayButton } from '../../../../../ui/button/GrayButton'
+import { GrayButton } from '@/components/ui/button/GrayButton'
+import { processService } from '@/services/process'
+import { NewProcessForm } from '@/shared/interfaces/newProcessForm'
 import styles from './AddProcessDialog.module.scss'
 
 interface AddProcessDialogProps {
@@ -25,8 +24,6 @@ interface Autocomplete {
 }
 
 const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
-	const userId = useGetUserData().id
-
 	const [templates, setTemplates] = useState<Autocomplete[]>()
 	const [groups, setGroups] = useState<Autocomplete[]>()
 	const [priorities, setPriorities] = useState<Autocomplete[]>()
@@ -242,7 +239,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 					</Box>
 					<GrayButton
 						onClick={() => {
-							mutationAddProcess.mutate({ data: dataForSend, userId })
+							mutationAddProcess.mutate(dataForSend)
 							handleClose()
 						}}
 						disabled={

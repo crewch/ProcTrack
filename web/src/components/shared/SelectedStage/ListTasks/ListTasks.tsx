@@ -8,10 +8,10 @@ import {
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ListTask from './ListTask/ListTask'
-import { useAppSelector } from '../../../../hooks/reduxHooks'
 import { useQuery } from '@tanstack/react-query'
 import { FC, memo } from 'react'
-import { taskService } from '../../../../services/task'
+import { useAppSelector } from '@/hooks/reduxHooks'
+import { taskService } from '@/services/task'
 import styles from './ListTasksStyles.module.scss'
 
 export interface ListTasksProps {

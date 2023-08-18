@@ -8,7 +8,7 @@ import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
 import { FC, ReactNode, forwardRef, memo, useState } from 'react'
 import { Box, Divider } from '@mui/material'
-import { GrayButton } from '../../ui/button/GrayButton'
+import { GrayButton } from '@/components/ui/button/GrayButton'
 import styles from './FullScreenDialogButton.module.scss'
 
 const Transition = forwardRef(function Transition(

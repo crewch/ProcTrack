@@ -1,10 +1,10 @@
 import { ListItem, ListItemButton, ListItemIcon, Tooltip } from '@mui/material'
 import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useAppDispatch } from '../../../hooks/reduxHooks'
-import { reset } from '../../../store/processStageSlice/processStageSlice'
-import styles from './ButtonListItem.module.scss'
+import { useAppDispatch } from '@/hooks/reduxHooks'
+import { reset } from '@/store/processStageSlice/processStageSlice'
 import classNames from 'classnames'
+import styles from './ButtonListItem.module.scss'
 
 interface ButtonListItemProps {
 	label: string

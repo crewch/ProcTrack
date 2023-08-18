@@ -11,8 +11,8 @@ import {
 	Typography,
 } from '@mui/material'
 import { FC, memo, useState } from 'react'
-import { fileService } from '../../../../services/file'
-import { Passport } from '../../../../shared/interfaces/passport'
+import { fileService } from '@/services/file'
+import { Passport } from '@/shared/interfaces/passport'
 import styles from './HistoryFilesDialog.module.scss'
 
 interface HistoryFilesDialogProps {

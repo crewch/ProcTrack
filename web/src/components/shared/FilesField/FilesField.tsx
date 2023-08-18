@@ -1,11 +1,11 @@
 import { Box, Tooltip, Typography } from '@mui/material'
-import { GrayButton } from '../../ui/button/GrayButton'
 import { FC, memo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import HistoryFilesDialog from './HistoryFilesDialog/HistoryFilesDialog'
 import CommentFilesDialog from './CommentFilesDialog/CommentFilesDialog'
-import { passportService } from '../../../services/passport'
-import { fileService } from '../../../services/file'
+import { GrayButton } from '@/components/ui/button/GrayButton'
+import { fileService } from '@/services/file'
+import { passportService } from '@/services/passport'
 import styles from './FilesField.module.scss'
 
 interface FilesFieldProps {
