@@ -32,8 +32,8 @@ const LoginPage = () => {
 	}
 
 	useEffect(() => {
-		if (mutation.isSuccess && mutation.data?.id) {
-			localStorage.setItem('UserData', JSON.stringify(mutation.data))
+		if (mutation.isSuccess && mutation.data) {
+			localStorage.setItem('TOKEN', JSON.stringify(mutation.data))
 			navigation('/')
 		}
 	}, [mutation.data, mutation.isSuccess, navigation])

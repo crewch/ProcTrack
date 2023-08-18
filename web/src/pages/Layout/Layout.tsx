@@ -2,7 +2,6 @@ import { Box, Divider, List } from '@mui/material'
 import { Navigate, Outlet } from 'react-router-dom'
 import ButtonListItem from '@/components/layout/ButtonListItem/ButtonListItem'
 import LogoListItem from '@/components/layout/LogoListItem/LogoListItem'
-import { useGetUserData } from '@/hooks/userDataHook'
 import { ReactComponent as Analysis } from '@/assets/analysis.svg'
 import { ReactComponent as Confirmation } from '@/assets/confirmation.svg'
 import { ReactComponent as Document } from '@/assets/document.svg'
@@ -10,12 +9,11 @@ import { ReactComponent as Key } from '@/assets/key.svg'
 import { ReactComponent as Notification } from '@/assets/notification.svg'
 import { ReactComponent as Settings } from '@/assets/settings.svg'
 import { ReactComponent as User } from '@/assets/user1.svg'
+import { getToken } from '@/utils/getToken'
 import styles from './Layout.module.scss'
 
 const Layout = () => {
-	const user = useGetUserData()
-
-	if (!user) {
+	if (!getToken()) {
 		return <Navigate to='/login' />
 	}
 
@@ -25,14 +23,11 @@ const Layout = () => {
 				<List>
 					<LogoListItem pathImg='/logo.svg' />
 					<Divider variant='middle' className={styles.divider} />
-					{/* TODO: пример как работать с ролями */}
-					{user.roles.includes('releaser') && (
-						<ButtonListItem
-							Img={Document}
-							to='release'
-							label='Выпускаемые процессы'
-						/>
-					)}
+					<ButtonListItem
+						Img={Document}
+						to='release'
+						label='Выпускаемые процессы'
+					/>
 					<ButtonListItem
 						Img={Confirmation}
 						to='approval'

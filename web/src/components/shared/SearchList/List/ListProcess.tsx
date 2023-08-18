@@ -11,7 +11,6 @@ import { useState } from 'react'
 import classNames from 'classnames'
 import ListImg from '@/components/ui/ListImg/ListImg'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks'
-import { useGetUserData } from '@/hooks/userDataHook'
 import { processService } from '@/services/process'
 import { changeOpenedProcess } from '@/store/processStageSlice/processStageSlice'
 import PaginationList from '../../PaginationList/PaginationList'
@@ -24,8 +23,6 @@ const ListProcess = () => {
 	)
 	const filters = useAppSelector(state => state.filterProcess)
 
-	const userId = useGetUserData().id
-
 	const [selectedPage, setSelectedPage] = useState(1)
 	const limit = 14
 
@@ -37,8 +34,7 @@ const ListProcess = () => {
 		isSuccess: isSuccessAllProcess,
 	} = useQuery({
 		queryKey: ['allProcess', filters, selectedPage],
-		queryFn: () =>
-			processService.getProcessAll(userId, filters, limit, selectedPage),
+		queryFn: () => processService.getProcessAll(filters, limit, selectedPage),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['countProcess'] })
 		},
@@ -46,7 +42,7 @@ const ListProcess = () => {
 
 	const { data: countProcess, isSuccess: isSuccessCountProcess } = useQuery({
 		queryKey: ['countProcess', filters],
-		queryFn: () => processService.getCountProcess(userId, filters),
+		queryFn: () => processService.getCountProcess(filters),
 	})
 
 	return (

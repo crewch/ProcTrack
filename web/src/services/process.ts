@@ -4,6 +4,7 @@ import { Process } from '@/shared/interfaces/process'
 import { Group } from '@/shared/interfaces/group'
 import { NewProcessForm } from '@/shared/interfaces/newProcessForm'
 import { FilterProcess } from '@/shared/interfaces/filterProcess'
+import { getToken } from '@/utils/getToken'
 
 const URL_AllProcess = `${URL}/api/track/process/get`
 const URL_IDProcess = `${URL}/api/track/process/`
@@ -29,17 +30,16 @@ interface Template {
 type Priority = string
 
 export const processService = {
-	async getProcessAll(
-		userId: number,
-		filters: FilterProcess,
-		limit: number,
-		offset: number
-	) {
+	async getProcessAll(filters: FilterProcess, limit: number, offset: number) {
 		try {
 			const data: Process[] = await (
 				await axios.post(URL_AllProcess, filters, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
 					params: {
-						UserId: userId,
 						limit: limit,
 						offset: offset - 1,
 					},
@@ -58,7 +58,13 @@ export const processService = {
 			if (typeof openedProcessID === 'undefined') return null
 
 			const data: Process = await (
-				await axios.get(`${URL_IDProcess}${openedProcessID}`)
+				await axios.get(`${URL_IDProcess}${openedProcessID}`, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
 			).data
 
 			return data
@@ -73,7 +79,13 @@ export const processService = {
 			if (typeof openedStageID === 'undefined') return null
 
 			const data: Process = await (
-				await axios.get(`${URL_IDProcessByIdStage}${openedStageID}/process`)
+				await axios.get(`${URL_IDProcessByIdStage}${openedStageID}/process`, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
 			).data
 
 			return data
@@ -88,7 +100,13 @@ export const processService = {
 			if (typeof openedProcessID === 'undefined') return
 
 			await (
-				await axios.get(`${URL_IDProcess}${openedProcessID}/start`)
+				await axios.get(`${URL_IDProcess}${openedProcessID}/start`, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
 			).data
 		} catch (error) {
 			if (error instanceof Error) {
@@ -101,7 +119,13 @@ export const processService = {
 			if (typeof openedProcessID === 'undefined') return
 
 			await (
-				await axios.get(`${URL_IDProcess}${openedProcessID}/stop`)
+				await axios.get(`${URL_IDProcess}${openedProcessID}/stop`, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
 			).data
 		} catch (error) {
 			if (error instanceof Error) {
@@ -111,7 +135,15 @@ export const processService = {
 	},
 	async getTemplates() {
 		try {
-			const data: Template[] = await (await axios.get(URL_Template)).data
+			const data: Template[] = await (
+				await axios.get(URL_Template, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
+			).data
 
 			return data
 		} catch (error) {
@@ -122,7 +154,15 @@ export const processService = {
 	},
 	async getGroupies() {
 		try {
-			const data: Group[] = await (await axios.get(URL_Group)).data
+			const data: Group[] = await (
+				await axios.get(URL_Group, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
+			).data
 
 			return data
 		} catch (error) {
@@ -133,7 +173,15 @@ export const processService = {
 	},
 	async getPriorities() {
 		try {
-			const data: Priority[] = await (await axios.get(URL_Priority)).data
+			const data: Priority[] = await (
+				await axios.get(URL_Priority, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
+			).data
 
 			return data
 		} catch (error) {
@@ -142,11 +190,13 @@ export const processService = {
 			}
 		}
 	},
-	async addProcess({ data, userId }: { data: NewProcessForm; userId: number }) {
+	async addProcess(data: NewProcessForm) {
 		try {
 			await axios.post(URL_AddProcess, data, {
-				params: {
-					UserId: userId,
+				headers: {
+					authorization: `Bearer ${getToken().accessToken}`,
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
 				},
 			})
 		} catch (error) {
@@ -155,12 +205,14 @@ export const processService = {
 			}
 		}
 	},
-	async getCountProcess(userId: number, filters: FilterProcess) {
+	async getCountProcess(filters: FilterProcess) {
 		try {
 			const countProcess: number = await (
 				await axios.post(URL_ProcessCount, filters, {
-					params: {
-						UserId: userId,
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
 					},
 				})
 			).data

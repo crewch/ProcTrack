@@ -11,7 +11,6 @@ import { useState } from 'react'
 import classNames from 'classnames'
 import ListImg from '@/components/ui/ListImg/ListImg'
 import { useAppSelector, useAppDispatch } from '@/hooks/reduxHooks'
-import { useGetUserData } from '@/hooks/userDataHook'
 import { stageService } from '@/services/stage'
 import { changeOpenedStage } from '@/store/processStageSlice/processStageSlice'
 import PaginationList from '../../PaginationList/PaginationList'
@@ -21,8 +20,6 @@ const ListStages = () => {
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
 	const dispatch = useAppDispatch()
 	const filters = useAppSelector(state => state.filterStages)
-
-	const userId = useGetUserData().id
 
 	const [selectedPage, setSelectedPage] = useState(1)
 	const limit = 14
@@ -36,7 +33,7 @@ const ListStages = () => {
 	} = useQuery({
 		queryKey: ['stagesAllByUserId', filters, selectedPage],
 		queryFn: () =>
-			stageService.getStageAllByUserId(userId, filters, limit, selectedPage),
+			stageService.getStageAllByUserId(filters, limit, selectedPage),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['countStage'] })
 		},
@@ -44,7 +41,7 @@ const ListStages = () => {
 
 	const { data: countStage, isSuccess: isSuccessCountStage } = useQuery({
 		queryKey: ['countStage', filters],
-		queryFn: () => stageService.getCountStage(userId, filters),
+		queryFn: () => stageService.getCountStage(filters),
 	})
 
 	return (

@@ -14,16 +14,18 @@ import {
 import { ChangeEvent, FC, memo, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Comment } from '@/shared/interfaces/comment'
-import { ReactComponent as User } from '@/assets/user1.svg'
+import { ReactComponent as UserImg } from '@/assets/user1.svg'
 import classNames from 'classnames'
 import DateInfo from '@/components/shared/DateInfo/DateInfo'
 import UserInfo from '@/components/shared/UserInfo/UserInfo'
 import { GrayButton } from '@/components/ui/button/GrayButton'
-import { useGetUserData } from '@/hooks/userDataHook'
 import { commentService } from '@/services/comment'
 import { fileService } from '@/services/file'
 import { taskService } from '@/services/task'
 import styles from './ListTask.module.scss'
+import { decodeToken } from 'react-jwt'
+import { getToken } from '@/utils/getToken'
+import { User } from '@/shared/interfaces/user'
 
 export interface ListTaskProps {
 	startDate: string
@@ -68,7 +70,7 @@ const ListTask: FC<ListTaskProps> = memo(
 			}
 		}
 
-		const userData = useGetUserData()
+		const userData: User | null = decodeToken(getToken().accessToken)
 
 		const comment: Comment = {
 			id: 0,
@@ -89,7 +91,7 @@ const ListTask: FC<ListTaskProps> = memo(
 		})
 
 		const mutationStartTask = useMutation({
-			mutationFn: () => taskService.startTaskId(taskId, userData.id),
+			mutationFn: () => taskService.startTaskId(taskId),
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
 				queryClient.invalidateQueries({
@@ -102,7 +104,7 @@ const ListTask: FC<ListTaskProps> = memo(
 		})
 
 		const mutationStopTask = useMutation({
-			mutationFn: () => taskService.stopTaskId(taskId, userData.id),
+			mutationFn: () => taskService.stopTaskId(taskId),
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
 				queryClient.invalidateQueries({
@@ -115,7 +117,7 @@ const ListTask: FC<ListTaskProps> = memo(
 		})
 
 		const mutationEndVerificationTask = useMutation({
-			mutationFn: () => taskService.endVerificationTaskId(taskId, userData.id),
+			mutationFn: () => taskService.endVerificationTaskId(taskId),
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
 				queryClient.invalidateQueries({
@@ -128,7 +130,7 @@ const ListTask: FC<ListTaskProps> = memo(
 		})
 
 		const mutationAssignsTask = useMutation({
-			mutationFn: () => taskService.assignTaskId(taskId, userData.id),
+			mutationFn: () => taskService.assignTaskId(taskId),
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
 				queryClient.invalidateQueries({
@@ -221,11 +223,11 @@ const ListTask: FC<ListTaskProps> = memo(
 						{remarks.map((remark, index) => (
 							<ListItem divider key={index}>
 								<ListItemIcon>
-									<User className={styles.img} />
+									<UserImg className={styles.img} />
 								</ListItemIcon>
 								<ListItemText className={styles.reportText}>
 									<Box className={styles.title}>
-										<Typography>{remark.user.longName}</Typography>
+										<Typography>{remark?.user?.longName}</Typography>
 										<Typography>{remark.createdAt}</Typography>
 									</Box>
 									<Box className={styles.text}>

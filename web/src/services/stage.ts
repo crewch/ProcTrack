@@ -2,6 +2,7 @@ import axios from 'axios'
 import { URL } from '@/configs/url'
 import { Stage } from '@/shared/interfaces/stage'
 import { FilterStage } from '@/shared/interfaces/filterStage'
+import { getToken } from '@/utils/getToken'
 
 const URL_StageGetAll = `${URL}/api/track/process/`
 const URL_IdStage = `${URL}/api/track/stage/`
@@ -13,7 +14,13 @@ export const stageService = {
 		try {
 			if (typeof id === 'number') {
 				const data: Stage[] = await (
-					await axios.get(`${URL_StageGetAll}${id}/stage`)
+					await axios.get(`${URL_StageGetAll}${id}/stage`, {
+						headers: {
+							authorization: `Bearer ${getToken().accessToken}`,
+							Accept: 'application/json',
+							'Content-Type': 'application/json',
+						},
+					})
 				).data
 
 				return data
@@ -31,7 +38,13 @@ export const stageService = {
 			if (typeof openedStageID === 'undefined') return null
 
 			const data: Stage = await (
-				await axios.get(`${URL_IdStage}${openedStageID}`)
+				await axios.get(`${URL_IdStage}${openedStageID}`, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
 			).data
 
 			return data
@@ -42,7 +55,6 @@ export const stageService = {
 		}
 	},
 	async getStageAllByUserId(
-		userId: number,
 		filters: FilterStage,
 		limit: number,
 		offset: number
@@ -50,8 +62,12 @@ export const stageService = {
 		try {
 			const data: Stage[] = await (
 				await axios.post(URL_GetStageAllByUserId, filters, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
 					params: {
-						UserId: userId,
 						limit: limit,
 						offset: offset - 1,
 					},
@@ -65,12 +81,14 @@ export const stageService = {
 			}
 		}
 	},
-	async successStage(stageId: number | undefined, userId: number) {
+	async successStage(stageId: number | undefined) {
 		try {
 			if (stageId) {
 				await axios.get(`${URL_IdStage}${stageId}/assign`, {
-					params: {
-						UserId: userId,
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
 					},
 				})
 			}
@@ -80,12 +98,14 @@ export const stageService = {
 			}
 		}
 	},
-	async cancelStage(stageId: number | undefined, userId: number) {
+	async cancelStage(stageId: number | undefined) {
 		try {
 			if (stageId) {
 				await axios.get(`${URL_IdStage}${stageId}/cancel`, {
-					params: {
-						UserId: userId,
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
 					},
 				})
 			}
@@ -95,13 +115,7 @@ export const stageService = {
 			}
 		}
 	},
-	async toggleStagePass({
-		stage,
-		userId,
-	}: {
-		stage: Stage | undefined | null
-		userId: number
-	}) {
+	async toggleStagePass(stage: Stage | undefined | null) {
 		try {
 			if (stage) {
 				//TODO: сделать нормально стукнуть бэкендера
@@ -158,8 +172,10 @@ export const stageService = {
 				}
 
 				await axios.put(`${URL_IdStage}${stage.id}/update`, data, {
-					params: {
-						UserId: userId,
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
 					},
 				})
 			}
@@ -169,12 +185,14 @@ export const stageService = {
 			}
 		}
 	},
-	async getCountStage(userId: number, filters: FilterStage) {
+	async getCountStage(filters: FilterStage) {
 		try {
 			const countStage = await (
 				await axios.post(URL_CountStage, filters, {
-					params: {
-						UserId: userId,
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
 					},
 				})
 			).data
