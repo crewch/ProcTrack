@@ -7,3 +7,5 @@ export interface Comment {
 	user: User | null
 	createdAt: string
 }
+
+export type CommentCreate = Omit<Comment, 'user'>

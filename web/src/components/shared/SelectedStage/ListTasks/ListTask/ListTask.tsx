@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { ChangeEvent, FC, memo, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Comment } from '@/shared/interfaces/comment'
+import { Comment, CommentCreate } from '@/shared/interfaces/comment'
 import { ReactComponent as UserImg } from '@/assets/user1.svg'
 import classNames from 'classnames'
 import DateInfo from '@/components/shared/DateInfo/DateInfo'
@@ -23,9 +23,6 @@ import { commentService } from '@/services/comment'
 import { fileService } from '@/services/file'
 import { taskService } from '@/services/task'
 import styles from './ListTask.module.scss'
-import { decodeToken } from 'react-jwt'
-import { getToken } from '@/utils/getToken'
-import { User } from '@/shared/interfaces/user'
 
 export interface ListTaskProps {
 	startDate: string
@@ -70,13 +67,10 @@ const ListTask: FC<ListTaskProps> = memo(
 			}
 		}
 
-		const userData: User | null = decodeToken(getToken().accessToken)
-
-		const comment: Comment = {
+		const comment: CommentCreate = {
 			id: 0,
 			text: textComment,
 			fileRef: fileRef,
-			user: userData,
 			createdAt: '',
 		}
 
