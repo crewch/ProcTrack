@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { URL } from '../configs/url'
-import { Task } from '../shared/interfaces/task'
+import { URL } from '@/configs/url'
+import { Task } from '@/shared/interfaces/task'
+import { getToken } from '@/utils/getToken'
 
 const URL_TaskAll = `${URL}/api/track/stage/`
 const URL_switchTaskId = `${URL}/api/track/task/`
@@ -10,7 +11,13 @@ export const taskService = {
 		try {
 			if (typeof id === 'number') {
 				const data: Task[] = await (
-					await axios.get(`${URL_TaskAll}${id}/tasks`)
+					await axios.get(`${URL_TaskAll}${id}/tasks`, {
+						headers: {
+							authorization: `Bearer ${getToken().accessToken}`,
+							Accept: 'application/json',
+							'Content-Type': 'application/json',
+						},
+					})
 				).data
 
 				return data
@@ -21,17 +28,16 @@ export const taskService = {
 			}
 		}
 	},
-	async startTaskId(
-		openedTaskID: number | undefined,
-		userId: number | undefined
-	) {
+	async startTaskId(openedTaskID: number | undefined) {
 		try {
 			if (typeof openedTaskID === 'undefined') return
 
 			await (
 				await axios.get(`${URL_switchTaskId}${openedTaskID}/start`, {
-					params: {
-						UserId: userId,
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
 					},
 				})
 			).data
@@ -41,17 +47,16 @@ export const taskService = {
 			}
 		}
 	},
-	async stopTaskId(
-		openedTaskID: number | undefined,
-		userId: number | undefined
-	) {
+	async stopTaskId(openedTaskID: number | undefined) {
 		try {
 			if (typeof openedTaskID === 'undefined') return
 
 			await (
 				await axios.get(`${URL_switchTaskId}${openedTaskID}/stop`, {
-					params: {
-						UserId: userId,
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
 					},
 				})
 			).data
@@ -61,17 +66,16 @@ export const taskService = {
 			}
 		}
 	},
-	async endVerificationTaskId(
-		openedTaskID: number | undefined,
-		userId: number | undefined
-	) {
+	async endVerificationTaskId(openedTaskID: number | undefined) {
 		try {
 			if (typeof openedTaskID === 'undefined') return
 
 			await (
 				await axios.get(`${URL_switchTaskId}${openedTaskID}/endverification`, {
-					params: {
-						UserId: userId,
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
 					},
 				})
 			).data
@@ -81,17 +85,16 @@ export const taskService = {
 			}
 		}
 	},
-	async assignTaskId(
-		openedTaskID: number | undefined,
-		userId: number | undefined
-	) {
+	async assignTaskId(openedTaskID: number | undefined) {
 		try {
 			if (typeof openedTaskID === 'undefined') return
 
 			await (
 				await axios.get(`${URL_switchTaskId}${openedTaskID}/assign`, {
-					params: {
-						UserId: userId,
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
 					},
 				})
 			).data

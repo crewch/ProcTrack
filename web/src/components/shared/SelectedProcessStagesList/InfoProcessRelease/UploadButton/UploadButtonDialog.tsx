@@ -6,12 +6,11 @@ import {
 	DialogTitle,
 	TextField,
 } from '@mui/material'
-import { GrayButton } from '../../../../ui/button/GrayButton'
 import { ChangeEvent, FC, memo, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import TelegramIcon from '@mui/icons-material/Telegram'
-import { passportService } from '../../../../../services/passport'
-import { useGetUserData } from '../../../../../hooks/userDataHook'
+import { GrayButton } from '@/components/ui/button/GrayButton'
+import { passportService } from '@/services/passport'
 import styles from './UploadButtonDialog.module.scss'
 
 interface UploadButtonDialogProps {
@@ -23,12 +22,9 @@ const UploadButtonDialog: FC<UploadButtonDialogProps> = memo(
 		const [message, setMessage] = useState('')
 		const [file, setFile] = useState<FormData>()
 
-		const userId = useGetUserData().id
-
 		const queryClient = useQueryClient()
 		const mutation = useMutation({
-			mutationFn: () =>
-				passportService.sendPassport(userId, processId, file, message),
+			mutationFn: () => passportService.sendPassport(processId, file, message),
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['passport'] })
 			},

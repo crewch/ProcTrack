@@ -6,23 +6,20 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks'
-import { changeOpenedStage } from '../../../../store/processStageSlice/processStageSlice'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { stageService } from '../../../../services/stage'
-import { useGetUserData } from '../../../../hooks/userDataHook'
-import ListImg from '../../../ui/ListImg/ListImg'
 import { useState } from 'react'
+import classNames from 'classnames'
+import ListImg from '@/components/ui/ListImg/ListImg'
+import { useAppSelector, useAppDispatch } from '@/hooks/reduxHooks'
+import { stageService } from '@/services/stage'
+import { changeOpenedStage } from '@/store/processStageSlice/processStageSlice'
 import PaginationList from '../../PaginationList/PaginationList'
 import styles from './List.module.scss'
-import classNames from 'classnames'
 
 const ListStages = () => {
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
 	const dispatch = useAppDispatch()
 	const filters = useAppSelector(state => state.filterStages)
-
-	const userId = useGetUserData().id
 
 	const [selectedPage, setSelectedPage] = useState(1)
 	const limit = 14
@@ -36,7 +33,7 @@ const ListStages = () => {
 	} = useQuery({
 		queryKey: ['stagesAllByUserId', filters, selectedPage],
 		queryFn: () =>
-			stageService.getStageAllByUserId(userId, filters, limit, selectedPage),
+			stageService.getStageAllByUserId(filters, limit, selectedPage),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['countStage'] })
 		},
@@ -44,7 +41,7 @@ const ListStages = () => {
 
 	const { data: countStage, isSuccess: isSuccessCountStage } = useQuery({
 		queryKey: ['countStage', filters],
-		queryFn: () => stageService.getCountStage(userId, filters),
+		queryFn: () => stageService.getCountStage(filters),
 	})
 
 	return (

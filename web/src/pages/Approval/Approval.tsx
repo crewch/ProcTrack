@@ -1,13 +1,13 @@
 import { Box } from '@mui/material'
 import { Navigate } from 'react-router-dom'
-import SelectedProcessStagesList from '../../components/shared/SelectedProcessStagesList/SelectedProcessStagesList'
-import SelectedStage from '../../components/shared/SelectedStage/SelectedStage'
-import { useGetUserData } from '../../hooks/userDataHook'
-import SearchList from '../../components/shared/SearchList/SearchList'
-import styles from '../../shared/styles/page.module.scss'
+import SearchList from '@/components/shared/SearchList/SearchList'
+import SelectedProcessStagesList from '@/components/shared/SelectedProcessStagesList/SelectedProcessStagesList'
+import SelectedStage from '@/components/shared/SelectedStage/SelectedStage'
+import { getToken } from '@/utils/getToken'
+import styles from '@/shared/styles/page.module.scss'
 
 const Approval = () => {
-	if (!useGetUserData()) {
+	if (!getToken()) {
 		return <Navigate to='/login' />
 	}
 

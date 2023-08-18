@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { URL } from '../configs/url'
+import { URL } from '@/configs/url'
 import { processService } from './process'
+import { getToken } from '@/utils/getToken'
 
 const URL_processStatuses = `${URL}/api/track/property/processStatuses`
 const URL_processTypes = `${URL}/api/track/property/types`
@@ -10,10 +11,24 @@ export const filtersService = {
 	async getFiltersProcess() {
 		try {
 			const statuses: string[] = await (
-				await axios.get(URL_processStatuses)
+				await axios.get(URL_processStatuses, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
 			).data
 
-			const types: string[] = await (await axios.get(URL_processTypes)).data
+			const types: string[] = await (
+				await axios.get(URL_processTypes, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
+			).data
 
 			const priorities: string[] | undefined =
 				await processService.getPriorities()
@@ -31,9 +46,25 @@ export const filtersService = {
 	},
 	async getFiltersStage() {
 		try {
-			const statuses: string[] = await (await axios.get(URL_stageStatuses)).data
+			const statuses: string[] = await (
+				await axios.get(URL_stageStatuses, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
+			).data
 
-			const types: string[] = await (await axios.get(URL_processTypes)).data
+			const types: string[] = await (
+				await axios.get(URL_processTypes, {
+					headers: {
+						authorization: `Bearer ${getToken().accessToken}`,
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
+			).data
 
 			const priorities: string[] | undefined =
 				await processService.getPriorities()

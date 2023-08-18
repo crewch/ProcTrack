@@ -11,15 +11,13 @@ import {
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useQuery } from '@tanstack/react-query'
-import { filtersService } from '../../../../services/filters.ts'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/reduxHooks.ts'
-import {
-	toggleAllFilters,
-	toggleShowApproved,
-} from '../../../../store/filterStageSlice/filterStageSlice.ts'
 import FiltersCheckboxProcess from './FiltersCheckbox/FiltersCheckboxStage.tsx'
-import styles from './FiltersList.module.scss'
 import FiltersCheckboxStage from './FiltersCheckbox/FiltersCheckboxStage.tsx'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks.ts'
+import { filtersService } from '@/services/filters.ts'
+import { toggleAllFilters } from '@/store/filterProcessSlice/filterProcessSlice.ts'
+import { toggleShowApproved } from '@/store/filterStageSlice/filterStageSlice.ts'
+import styles from './FiltersList.module.scss'
 
 const FiltersListStage = () => {
 	const {

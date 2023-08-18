@@ -1,10 +1,10 @@
 import { Box, Button } from '@mui/material'
 import StagesList from '../StagesList/StagesList'
 import { FC, useState } from 'react'
-import InfoProcessApproval from '../../screens/Approval/InfoProcess/InfoProcessApproval'
-import InfoProcessRelease from '../../screens/Release/InfoProcess/InfoProcessRelease'
+import { useAppSelector } from '@/hooks/reduxHooks'
+import InfoProcessApproval from './InfoProcessApproval/InfoProcessApproval'
+import InfoProcessRelease from './InfoProcessRelease/InfoProcessRelease'
 import styles from './SelectedProcessStagesList.module.scss'
-import { useAppSelector } from '../../../hooks/reduxHooks'
 
 interface SelectedProcessStagesListProps {
 	page: 'release' | 'approval'

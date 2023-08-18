@@ -3,8 +3,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { loginService } from '../../services/login'
-import { LoginForm } from '../../shared/interfaces/loginForm'
+import { loginService } from '@/services/login'
+import { LoginForm } from '@/shared/interfaces/loginForm'
 import styles from './Login.module.scss'
 
 const LoginPage = () => {
@@ -32,8 +32,8 @@ const LoginPage = () => {
 	}
 
 	useEffect(() => {
-		if (mutation.isSuccess && mutation.data?.id) {
-			localStorage.setItem('UserData', JSON.stringify(mutation.data))
+		if (mutation.isSuccess && mutation.data) {
+			localStorage.setItem('TOKEN', JSON.stringify(mutation.data))
 			navigation('/')
 		}
 	}, [mutation.data, mutation.isSuccess, navigation])

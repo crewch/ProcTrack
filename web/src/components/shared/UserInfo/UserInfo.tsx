@@ -1,6 +1,6 @@
 import { Box, Tooltip, Typography } from '@mui/material'
 import { FC, memo } from 'react'
-import { ReactComponent as User } from '/src/assets/user1.svg'
+import { ReactComponent as User } from '@/assets/user1.svg'
 import styles from './UserInfo.module.scss'
 
 interface UserInfoProps {

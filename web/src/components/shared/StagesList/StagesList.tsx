@@ -7,13 +7,13 @@ import {
 	Skeleton,
 	Typography,
 } from '@mui/material'
-import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks'
-import { changeOpenedStage } from '../../../store/processStageSlice/processStageSlice'
-import DataGraph from '../DataGraph/DataGraph'
 import { useQuery } from '@tanstack/react-query'
-import { stageService } from '../../../services/stage'
+import ListImg from '@/components/ui/ListImg/ListImg'
+import { useAppSelector, useAppDispatch } from '@/hooks/reduxHooks'
+import { stageService } from '@/services/stage'
+import { changeOpenedStage } from '@/store/processStageSlice/processStageSlice'
+import DataGraph from '../DataGraph/DataGraph'
 import FullScreenDialogButton from '../FullScreenDialogButton/FullScreenDialogButton'
-import ListImg from '../../ui/ListImg/ListImg'
 import styles from './StagesList.module.scss'
 
 const StagesList = () => {

@@ -1,13 +1,13 @@
 import { Box, Divider, Skeleton } from '@mui/material'
-import UserInfo from '../UserInfo/UserInfo'
 import ListTasks from './ListTasks/ListTasks'
 import { useQuery } from '@tanstack/react-query'
-import { useAppSelector } from '../../../hooks/reduxHooks'
 import { FC } from 'react'
 import Buttons from './Buttons/Buttons'
-import { stageService } from '../../../services/stage'
-import InfoField from '../InfoField/InfoField'
+import { useAppSelector } from '@/hooks/reduxHooks'
+import { stageService } from '@/services/stage'
 import DateInfo from '../DateInfo/DateInfo'
+import InfoField from '../InfoField/InfoField'
+import UserInfo from '../UserInfo/UserInfo'
 import styles from './SelectedStage.module.scss'
 
 interface SelectedStageProps {

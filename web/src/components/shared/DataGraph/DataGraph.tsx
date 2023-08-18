@@ -11,8 +11,8 @@ import ReactFlow, {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import dagre from 'dagre'
-import { GrayButton } from '../../ui/button/GrayButton'
 import { Box } from '@mui/material'
+import { GrayButton } from '@/components/ui/button/GrayButton'
 import styles from './DataGraph.module.scss'
 
 const acceptanceColor = '#54C16C'
