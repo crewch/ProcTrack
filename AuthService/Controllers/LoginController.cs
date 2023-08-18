@@ -37,5 +37,25 @@ namespace AuthService.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Route("refresh")]
+        [HttpPost]
+        public async Task<ActionResult<TokenDto>> RefreshToken(TokenDto data)
+        {
+            try
+            {
+                var res = await _service.RefreshToken(data);
+                return Ok(res);
+            } catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } catch (UnauthorizedException ex)
+            {
+                return Unauthorized(ex.Message);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
