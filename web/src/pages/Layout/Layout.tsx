@@ -10,9 +10,14 @@ import { ReactComponent as Notification } from '@/assets/notification.svg'
 import { ReactComponent as Settings } from '@/assets/settings.svg'
 import { ReactComponent as User } from '@/assets/user1.svg'
 import { getToken } from '@/utils/getToken'
+import { FC } from 'react'
 import styles from './Layout.module.scss'
 
-const Layout = () => {
+interface ApprovalProps {
+	socket: signalR.HubConnection
+}
+
+const Layout: FC<ApprovalProps> = ({ socket }) => {
 	if (!getToken()) {
 		return <Navigate to='/login' />
 	}
