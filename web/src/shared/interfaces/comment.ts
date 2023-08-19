@@ -4,7 +4,7 @@ export interface Comment {
 	id: number
 	text: string
 	fileRef: string
-	user: User | null
+	user: User
 	createdAt: string
 }
 

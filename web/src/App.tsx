@@ -27,7 +27,7 @@ const App = () => {
 		.build()
 
 	useEffect(() => {
-		socket.start().then(() => console.log('socket connected'))
+		socket.start()
 	}, [socket])
 
 	return (
@@ -35,13 +35,9 @@ const App = () => {
 			<Provider store={store}>
 				<BrowserRouter>
 					<Routes>
-						<Route path='/' element={<Layout socket={socket} />}>
+						<Route path='/' element={<Layout />}>
 							{routes.map(({ path, Element }, index) => (
-								<Route
-									path={path}
-									element={<Element socket={socket} />}
-									key={index}
-								/>
+								<Route path={path} element={<Element />} key={index} />
 							))}
 						</Route>
 						<Route path='login' element={<LoginPage />} />

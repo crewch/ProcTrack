@@ -47,7 +47,7 @@ const ListTasks: FC<ListTasksProps> = memo(({ group, page }) => {
 								endDate={task.endVerificationDate}
 								successDate={task.approvedAt}
 								roleAuthor={'Согласующий'}
-								author={task.user.longName || 'Согласующий ещё не принял'}
+								author={task?.user?.longName || 'Согласующий ещё не принял'}
 								group={group}
 								remarks={task.comments}
 								taskId={task.id}

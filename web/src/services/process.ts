@@ -67,9 +67,9 @@ export const processService = {
 	async getProcessId(
 		openedProcessID: number | undefined,
 		countRepeat = 0
-	): Promise<Process | null | undefined> {
+	): Promise<Process | undefined> {
 		try {
-			if (typeof openedProcessID === 'undefined') return null
+			if (typeof openedProcessID === 'undefined') return undefined
 
 			const data: Process = await (
 				await axios.get(`${URL_IDProcess}${openedProcessID}`, {
@@ -96,9 +96,9 @@ export const processService = {
 	async getProcessByStageId(
 		openedStageID: number | undefined,
 		countRepeat = 0
-	): Promise<Process | null | undefined> {
+	): Promise<Process | undefined> {
 		try {
-			if (typeof openedStageID === 'undefined') return null
+			if (typeof openedStageID === 'undefined') return undefined
 
 			const data: Process = await (
 				await axios.get(`${URL_IDProcessByIdStage}${openedStageID}/process`, {

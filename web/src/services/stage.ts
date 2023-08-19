@@ -14,7 +14,7 @@ export const stageService = {
 	async getStageAllByProcessId(
 		id: number | undefined,
 		countRepeat = 0
-	): Promise<Stage[] | null | undefined> {
+	): Promise<Stage[] | undefined> {
 		try {
 			if (typeof id === 'number') {
 				const data: Stage[] = await (
@@ -29,8 +29,6 @@ export const stageService = {
 
 				return data
 			}
-
-			return null
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
@@ -45,9 +43,9 @@ export const stageService = {
 	async getStageId(
 		openedStageID: number | undefined,
 		countRepeat = 0
-	): Promise<Stage | null | undefined> {
+	): Promise<Stage | undefined> {
 		try {
-			if (typeof openedStageID === 'undefined') return null
+			if (typeof openedStageID === 'undefined') return undefined
 
 			const data: Stage = await (
 				await axios.get(`${URL_IdStage}${openedStageID}`, {
@@ -148,7 +146,7 @@ export const stageService = {
 			}
 		}
 	},
-	async toggleStagePass(stage: Stage | undefined | null, countRepeat = 0) {
+	async toggleStagePass(stage: Stage | undefined, countRepeat = 0) {
 		try {
 			if (stage) {
 				//TODO: сделать нормально стукнуть бэкендера

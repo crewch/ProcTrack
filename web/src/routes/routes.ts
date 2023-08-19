@@ -2,13 +2,9 @@ import { FC } from 'react'
 import Release from '@/pages/Release/Release'
 import Approval from '@/pages/Approval/Approval'
 
-interface ElementProps {
-	socket: signalR.HubConnection
-}
-
 interface Route {
 	path: string
-	Element: FC<ElementProps>
+	Element: FC
 }
 
 export const routes: Route[] = [
