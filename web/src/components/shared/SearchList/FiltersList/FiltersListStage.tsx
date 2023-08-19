@@ -26,7 +26,7 @@ const FiltersListStage = () => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['filtersStage'],
-		queryFn: filtersService.getFiltersStage,
+		queryFn: () => filtersService.getFiltersStage(),
 	})
 
 	const dispatch = useAppDispatch()
