@@ -64,7 +64,10 @@ export const processService = {
 			}
 		}
 	},
-	async getProcessId(openedProcessID: number | undefined, countRepeat = 0) {
+	async getProcessId(
+		openedProcessID: number | undefined,
+		countRepeat = 0
+	): Promise<Process | null | undefined> {
 		try {
 			if (typeof openedProcessID === 'undefined') return null
 
@@ -82,7 +85,7 @@ export const processService = {
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
-				await this.getProcessId(openedProcessID, countRepeat + 1)
+				return this.getProcessId(openedProcessID, countRepeat + 1)
 			}
 
 			if (error instanceof Error) {
