@@ -7,7 +7,6 @@ import Layout from './pages/Layout/Layout.tsx'
 import NotFound from './pages/NotFound/NotFound.tsx'
 import LoginPage from './pages/Login/Login.tsx'
 import * as signalR from '@microsoft/signalr'
-import { HOST } from './configs/url.ts'
 import './index.scss'
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -24,7 +23,7 @@ const queryClient = new QueryClient()
 
 const App = () => {
 	const socket = new signalR.HubConnectionBuilder()
-		.withUrl(`http://${HOST}:8001/notifications`)
+		.withUrl(`http://localhost:8001/notifications`)
 		.build()
 
 	useEffect(() => {
