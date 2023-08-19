@@ -1,5 +1,6 @@
 ﻿using DB_Service.Dtos;
 using DB_Service.Services;
+using DB_Service.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -30,19 +31,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.GetProcesesByUserId(UserId, filter, limit, offset);
             return Ok(res);
@@ -54,19 +48,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.CreateProcess(data, UserId);
             return Ok(res);
@@ -78,19 +65,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.UpdateProcess(data, UserId, Id);
             return Ok(res);
@@ -100,6 +80,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<ProcessDto>> GetProcessById(int Id)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _service.GetProcessById(Id);
             return Ok(res);
         }
@@ -108,6 +97,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<StageDto>>> GetStagesByProcessId(int Id)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _service.GetStagesByProcessId(Id);
             return Ok(res);
         }
@@ -116,6 +114,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<LinkDto>>> GetLinksByProcessId(int Id)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _service.GetLinksByProcessId(Id);
             return Ok(res);
         }
@@ -126,19 +133,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.StartProcess(UserId, Id);
             return Ok(res);
@@ -150,19 +150,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.StopProcess(UserId, Id);
             return Ok(res);
@@ -174,19 +167,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.CreatePassport(data, UserId, Id);
             return Ok(res);
@@ -196,6 +182,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<PassportDto>>> GetPassports(int Id)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _service.GetPassports(Id);
             return Ok(res);
         }
@@ -203,6 +198,15 @@ namespace DB_Service.Controllers
         [HttpPost]
         public async Task<ActionResult<ProcessDto>> CreateTemplate(TemplateDto data)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _service.CreateTemplate(data);
             return Ok(res);
         }
@@ -211,6 +215,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<ProcessDto>> GetProcessByStageId(int StageId)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _service.GetProcessByStageId(StageId);
             return Ok(res);
         }
@@ -221,19 +234,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.GetProcessCount(UserId, filter);
             return Ok(res);

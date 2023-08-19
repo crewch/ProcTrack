@@ -30,19 +30,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.GetStagesByUserId(UserId, filter, limit, offset);
             return Ok(res);
@@ -54,19 +47,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.AssignStage(UserId, Id);
             return Ok(res);
@@ -77,19 +63,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.CancelStageById(Id, UserId);
             return Ok(res);
@@ -101,19 +80,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.UpdateStage(UserId, Id, data);
             return Ok(res);
@@ -123,6 +95,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<StageDto>> GetStageById(int Id)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _service.GetStageById(Id);
             return Ok(res);
         }
@@ -131,6 +112,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<TaskDto>>> GetTasksByStageId(int Id)
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _service.GetTasksByStageId(Id);
             return Ok(res);
         }
@@ -141,19 +131,12 @@ namespace DB_Service.Controllers
         {
             var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var handler = new JwtSecurityTokenHandler();
-            var parsedToken = handler.ReadToken(token) as JwtSecurityToken;
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
 
-            bool validated = parsedToken.ValidTo > DateTime.Now;
-
-            if (!validated)
+            if (UserId < 0)
             {
                 return Unauthorized();
             }
-
-            int UserId = int.Parse(parsedToken.Claims
-                .Where(c => c.Type == ClaimTypes.Sid)
-                .FirstOrDefault()?.ToString().Split(" ")[1]);
 
             var res = await _service.GetStageCount(UserId, filter);
             return Ok(res);

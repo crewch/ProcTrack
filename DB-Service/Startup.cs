@@ -95,6 +95,7 @@ namespace DB_Service
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ITestDataService, TestDataService>();
             services.AddScoped<ILogService, LogService>();
+            services.AddScoped<IMailService, MailService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
         }
