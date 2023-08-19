@@ -11,7 +11,7 @@ interface ApprovalProps {
 	socket: signalR.HubConnection
 }
 
-const Approval: FC<ApprovalProps> = ({ socket }) => {
+const Approval: FC<ApprovalProps> = () => {
 	if (!getToken()) {
 		return <Navigate to='/login' />
 	}
