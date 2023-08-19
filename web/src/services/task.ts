@@ -8,7 +8,10 @@ const URL_TaskAll = `${URL}/api/track/stage/`
 const URL_switchTaskId = `${URL}/api/track/task/`
 
 export const taskService = {
-	async getTaskAll(id: number | undefined, countRepeat = 0) {
+	async getTaskAll(
+		id: number | undefined,
+		countRepeat = 0
+	): Promise<Task[] | undefined> {
 		try {
 			if (typeof id === 'number') {
 				const data: Task[] = await (
@@ -26,7 +29,7 @@ export const taskService = {
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
-				await this.getTaskAll(id, countRepeat + 1)
+				return this.getTaskAll(id, countRepeat + 1)
 			}
 
 			if (error instanceof Error) {

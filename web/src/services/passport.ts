@@ -9,7 +9,10 @@ const URL_getPassport = `${URL}/api/track/process/`
 const URL_sendPassport = `${URL}/api/track/process/`
 
 export const passportService = {
-	async getPassport(processId: number, countRepeat = 0) {
+	async getPassport(
+		processId: number,
+		countRepeat = 0
+	): Promise<Passport[] | undefined> {
 		try {
 			const fileRef: Passport[] = await (
 				await axios.get(`${URL_getPassport}${processId}/passport`, {
@@ -27,7 +30,7 @@ export const passportService = {
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
-				await this.getPassport(processId, countRepeat + 1)
+				return this.getPassport(processId, countRepeat + 1)
 			}
 
 			if (error instanceof Error) {

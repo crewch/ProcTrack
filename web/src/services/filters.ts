@@ -9,7 +9,11 @@ const URL_processTypes = `${URL}/api/track/property/types`
 const URL_stageStatuses = `${URL}/api/track/property/stageStatuses`
 
 export const filtersService = {
-	async getFiltersProcess(countRepeat = 0) {
+	async getFiltersProcess(
+		countRepeat = 0
+	): Promise<
+		{ statuses: string[]; types: string[]; priorities: string[] } | undefined
+	> {
 		try {
 			const statuses: string[] = await (
 				await axios.get(URL_processStatuses, {
@@ -42,7 +46,7 @@ export const filtersService = {
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
-				await this.getFiltersProcess(countRepeat + 1)
+				return this.getFiltersProcess(countRepeat + 1)
 			}
 
 			if (error instanceof Error) {
@@ -50,7 +54,11 @@ export const filtersService = {
 			}
 		}
 	},
-	async getFiltersStage(countRepeat = 0) {
+	async getFiltersStage(
+		countRepeat = 0
+	): Promise<
+		{ statuses: string[]; types: string[]; priorities: string[] } | undefined
+	> {
 		try {
 			const statuses: string[] = await (
 				await axios.get(URL_stageStatuses, {
@@ -83,7 +91,7 @@ export const filtersService = {
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
-				await this.getFiltersStage(countRepeat + 1)
+				return this.getFiltersStage(countRepeat + 1)
 			}
 
 			if (error instanceof Error) {

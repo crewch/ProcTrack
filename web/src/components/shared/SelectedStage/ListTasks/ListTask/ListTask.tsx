@@ -59,7 +59,9 @@ const ListTask: FC<ListTaskProps> = memo(
 				const getData = async () => {
 					const data = await fileService.sendFile(formData)
 
-					setFileRef(data)
+					if (data) {
+						setFileRef(data)
+					}
 				}
 				getData()
 

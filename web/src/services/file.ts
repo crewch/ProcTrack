@@ -6,7 +6,7 @@ const URL_sendFile = `http://${HOST}:8002/upload`
 const URL_getFile = `http://${HOST}:8002/download`
 
 export const fileService = {
-	async sendFile(file: FormData) {
+	async sendFile(file: FormData): Promise<string | undefined> {
 		try {
 			const data = await (await axios.post(URL_sendFile, file)).data
 

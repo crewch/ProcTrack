@@ -11,7 +11,10 @@ const URL_GetStageAllByUserId = `${URL}/api/track/stage/get`
 const URL_CountStage = `${URL}/api/track/stage/count`
 
 export const stageService = {
-	async getStageAllByProcessId(id: number | undefined, countRepeat = 0) {
+	async getStageAllByProcessId(
+		id: number | undefined,
+		countRepeat = 0
+	): Promise<Stage[] | null | undefined> {
 		try {
 			if (typeof id === 'number') {
 				const data: Stage[] = await (
@@ -31,7 +34,7 @@ export const stageService = {
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
-				await this.getStageAllByProcessId(id, countRepeat + 1)
+				return this.getStageAllByProcessId(id, countRepeat + 1)
 			}
 
 			if (error instanceof Error) {
@@ -39,7 +42,10 @@ export const stageService = {
 			}
 		}
 	},
-	async getStageId(openedStageID: number | undefined, countRepeat = 0) {
+	async getStageId(
+		openedStageID: number | undefined,
+		countRepeat = 0
+	): Promise<Stage | null | undefined> {
 		try {
 			if (typeof openedStageID === 'undefined') return null
 
@@ -57,7 +63,7 @@ export const stageService = {
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
-				await this.getStageId(openedStageID, countRepeat + 1)
+				return this.getStageId(openedStageID, countRepeat + 1)
 			}
 
 			if (error instanceof Error) {
@@ -70,7 +76,7 @@ export const stageService = {
 		limit: number,
 		offset: number,
 		countRepeat = 0
-	) {
+	): Promise<Stage[] | undefined> {
 		try {
 			const data: Stage[] = await (
 				await axios.post(URL_GetStageAllByUserId, filters, {
@@ -90,7 +96,7 @@ export const stageService = {
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
-				await this.getStageAllByUserId(filters, limit, offset, countRepeat + 1)
+				return this.getStageAllByUserId(filters, limit, offset, countRepeat + 1)
 			}
 
 			if (error instanceof Error) {
@@ -217,9 +223,12 @@ export const stageService = {
 			}
 		}
 	},
-	async getCountStage(filters: FilterStage, countRepeat = 0) {
+	async getCountStage(
+		filters: FilterStage,
+		countRepeat = 0
+	): Promise<number | undefined> {
 		try {
-			const countStage = await (
+			const countStage: number = await (
 				await axios.post(URL_CountStage, filters, {
 					headers: {
 						authorization: `Bearer ${getToken().accessToken}`,
@@ -233,7 +242,7 @@ export const stageService = {
 		} catch (error) {
 			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
 				await loginService.refreshToken()
-				await this.getCountStage(filters, countRepeat + 1)
+				return this.getCountStage(filters, countRepeat + 1)
 			}
 
 			if (error instanceof Error) {
