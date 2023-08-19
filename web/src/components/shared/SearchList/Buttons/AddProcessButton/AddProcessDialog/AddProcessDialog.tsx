@@ -89,7 +89,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 
 	const { data: dataTemplates, isSuccess: isSuccessTemplates } = useQuery({
 		queryKey: ['templatesAddProcess'],
-		queryFn: processService.getTemplates,
+		queryFn: () => processService.getTemplates(),
 	})
 
 	useEffect(() => {
@@ -104,7 +104,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 
 	const { data: dataGroups, isSuccess: isSuccessGroups } = useQuery({
 		queryKey: ['groupsAddProcess'],
-		queryFn: processService.getGroupies,
+		queryFn: () => processService.getGroupies(),
 	})
 
 	useEffect(() => {
@@ -119,7 +119,7 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 
 	const { data: dataPriorities, isSuccess: isSuccessPriorities } = useQuery({
 		queryKey: ['prioritiesAddProcess'],
-		queryFn: processService.getPriorities,
+		queryFn: () => processService.getPriorities(),
 	})
 
 	useEffect(() => {
