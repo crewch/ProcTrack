@@ -11,7 +11,7 @@ interface ReleaseProps {
 	socket: signalR.HubConnection
 }
 
-const Release: FC<ReleaseProps> = ({ socket }) => {
+const Release: FC<ReleaseProps> = () => {
 	if (!getToken()) {
 		return <Navigate to='login' />
 	}
