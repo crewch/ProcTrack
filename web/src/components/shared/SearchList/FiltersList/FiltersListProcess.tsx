@@ -27,7 +27,7 @@ const FiltersListProcess = () => {
 		isSuccess,
 	} = useQuery({
 		queryKey: ['filtersProcess'],
-		queryFn: filtersService.getFiltersProcess,
+		queryFn: () => filtersService.getFiltersProcess(),
 	})
 
 	const dispatch = useAppDispatch()
