@@ -1,14 +1,15 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { URL } from '@/configs/url'
 import { processService } from './process'
 import { getToken } from '@/utils/getToken'
+import { loginService } from './login'
 
 const URL_processStatuses = `${URL}/api/track/property/processStatuses`
 const URL_processTypes = `${URL}/api/track/property/types`
 const URL_stageStatuses = `${URL}/api/track/property/stageStatuses`
 
 export const filtersService = {
-	async getFiltersProcess() {
+	async getFiltersProcess(countRepeat = 0) {
 		try {
 			const statuses: string[] = await (
 				await axios.get(URL_processStatuses, {
@@ -39,12 +40,17 @@ export const filtersService = {
 				priorities: priorities !== undefined ? priorities : [],
 			}
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getFiltersProcess(countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}
 		}
 	},
-	async getFiltersStage() {
+	async getFiltersStage(countRepeat = 0) {
 		try {
 			const statuses: string[] = await (
 				await axios.get(URL_stageStatuses, {
@@ -75,6 +81,11 @@ export const filtersService = {
 				priorities: priorities !== undefined ? priorities : [],
 			}
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getFiltersStage(countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}

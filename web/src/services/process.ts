@@ -1,10 +1,11 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { URL } from '@/configs/url'
 import { Process } from '@/shared/interfaces/process'
 import { Group } from '@/shared/interfaces/group'
 import { NewProcessForm } from '@/shared/interfaces/newProcessForm'
 import { FilterProcess } from '@/shared/interfaces/filterProcess'
 import { getToken } from '@/utils/getToken'
+import { loginService } from './login'
 
 const URL_AllProcess = `${URL}/api/track/process/get`
 const URL_IDProcess = `${URL}/api/track/process/`
@@ -30,7 +31,12 @@ interface Template {
 type Priority = string
 
 export const processService = {
-	async getProcessAll(filters: FilterProcess, limit: number, offset: number) {
+	async getProcessAll(
+		filters: FilterProcess,
+		limit: number,
+		offset: number,
+		countRepeat = 0
+	) {
 		try {
 			const data: Process[] = await (
 				await axios.post(URL_AllProcess, filters, {
@@ -48,12 +54,17 @@ export const processService = {
 
 			return data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getProcessAll(filters, limit, offset, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
 		}
 	},
-	async getProcessId(openedProcessID: number | undefined) {
+	async getProcessId(openedProcessID: number | undefined, countRepeat = 0) {
 		try {
 			if (typeof openedProcessID === 'undefined') return null
 
@@ -69,12 +80,20 @@ export const processService = {
 
 			return data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getProcessId(openedProcessID, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
 		}
 	},
-	async getProcessByStageId(openedStageID: number | undefined) {
+	async getProcessByStageId(
+		openedStageID: number | undefined,
+		countRepeat = 0
+	) {
 		try {
 			if (typeof openedStageID === 'undefined') return null
 
@@ -90,12 +109,17 @@ export const processService = {
 
 			return data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getProcessByStageId(openedStageID, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
 		}
 	},
-	async startProcessId(openedProcessID: number | undefined) {
+	async startProcessId(openedProcessID: number | undefined, countRepeat = 0) {
 		try {
 			if (typeof openedProcessID === 'undefined') return
 
@@ -109,12 +133,17 @@ export const processService = {
 				})
 			).data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.startProcessId(openedProcessID, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
 		}
 	},
-	async stopProcessId(openedProcessID: number | undefined) {
+	async stopProcessId(openedProcessID: number | undefined, countRepeat = 0) {
 		try {
 			if (typeof openedProcessID === 'undefined') return
 
@@ -128,12 +157,17 @@ export const processService = {
 				})
 			).data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.stopProcessId(openedProcessID, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
 		}
 	},
-	async getTemplates() {
+	async getTemplates(countRepeat = 0) {
 		try {
 			const data: Template[] = await (
 				await axios.get(URL_Template, {
@@ -147,12 +181,17 @@ export const processService = {
 
 			return data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getTemplates(countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}
 		}
 	},
-	async getGroupies() {
+	async getGroupies(countRepeat = 0) {
 		try {
 			const data: Group[] = await (
 				await axios.get(URL_Group, {
@@ -166,12 +205,17 @@ export const processService = {
 
 			return data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getGroupies(countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}
 		}
 	},
-	async getPriorities() {
+	async getPriorities(countRepeat = 0) {
 		try {
 			const data: Priority[] = await (
 				await axios.get(URL_Priority, {
@@ -185,12 +229,17 @@ export const processService = {
 
 			return data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getPriorities(countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}
 		}
 	},
-	async addProcess(data: NewProcessForm) {
+	async addProcess(data: NewProcessForm, countRepeat = 0) {
 		try {
 			await axios.post(URL_AddProcess, data, {
 				headers: {
@@ -200,12 +249,17 @@ export const processService = {
 				},
 			})
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.addProcess(data, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}
 		}
 	},
-	async getCountProcess(filters: FilterProcess) {
+	async getCountProcess(filters: FilterProcess, countRepeat = 0) {
 		try {
 			const countProcess: number = await (
 				await axios.post(URL_ProcessCount, filters, {
@@ -219,6 +273,11 @@ export const processService = {
 
 			return countProcess
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getCountProcess(filters, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}

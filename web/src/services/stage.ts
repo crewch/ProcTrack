@@ -1,8 +1,9 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { URL } from '@/configs/url'
 import { Stage } from '@/shared/interfaces/stage'
 import { FilterStage } from '@/shared/interfaces/filterStage'
 import { getToken } from '@/utils/getToken'
+import { loginService } from './login'
 
 const URL_StageGetAll = `${URL}/api/track/process/`
 const URL_IdStage = `${URL}/api/track/stage/`
@@ -10,7 +11,7 @@ const URL_GetStageAllByUserId = `${URL}/api/track/stage/get`
 const URL_CountStage = `${URL}/api/track/stage/count`
 
 export const stageService = {
-	async getStageAllByProcessId(id: number | undefined) {
+	async getStageAllByProcessId(id: number | undefined, countRepeat = 0) {
 		try {
 			if (typeof id === 'number') {
 				const data: Stage[] = await (
@@ -28,12 +29,17 @@ export const stageService = {
 
 			return null
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getStageAllByProcessId(id, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}
 		}
 	},
-	async getStageId(openedStageID: number | undefined) {
+	async getStageId(openedStageID: number | undefined, countRepeat = 0) {
 		try {
 			if (typeof openedStageID === 'undefined') return null
 
@@ -49,6 +55,11 @@ export const stageService = {
 
 			return data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getStageId(openedStageID, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
@@ -57,7 +68,8 @@ export const stageService = {
 	async getStageAllByUserId(
 		filters: FilterStage,
 		limit: number,
-		offset: number
+		offset: number,
+		countRepeat = 0
 	) {
 		try {
 			const data: Stage[] = await (
@@ -76,12 +88,17 @@ export const stageService = {
 
 			return data
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getStageAllByUserId(filters, limit, offset, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}
 		}
 	},
-	async successStage(stageId: number | undefined) {
+	async successStage(stageId: number | undefined, countRepeat = 0) {
 		try {
 			if (stageId) {
 				await axios.get(`${URL_IdStage}${stageId}/assign`, {
@@ -93,12 +110,17 @@ export const stageService = {
 				})
 			}
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.successStage(stageId, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
 		}
 	},
-	async cancelStage(stageId: number | undefined) {
+	async cancelStage(stageId: number | undefined, countRepeat = 0) {
 		try {
 			if (stageId) {
 				await axios.get(`${URL_IdStage}${stageId}/cancel`, {
@@ -110,12 +132,17 @@ export const stageService = {
 				})
 			}
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.cancelStage(stageId, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
 		}
 	},
-	async toggleStagePass(stage: Stage | undefined | null) {
+	async toggleStagePass(stage: Stage | undefined | null, countRepeat = 0) {
 		try {
 			if (stage) {
 				//TODO: сделать нормально стукнуть бэкендера
@@ -180,12 +207,17 @@ export const stageService = {
 				})
 			}
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.toggleStagePass(stage, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error.message)
 			}
 		}
 	},
-	async getCountStage(filters: FilterStage) {
+	async getCountStage(filters: FilterStage, countRepeat = 0) {
 		try {
 			const countStage = await (
 				await axios.post(URL_CountStage, filters, {
@@ -199,6 +231,11 @@ export const stageService = {
 
 			return countStage
 		} catch (error) {
+			if (countRepeat < 2 && (error as AxiosError).response?.status === 401) {
+				await loginService.refreshToken()
+				await this.getCountStage(filters, countRepeat + 1)
+			}
+
 			if (error instanceof Error) {
 				console.log(error)
 			}
