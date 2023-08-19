@@ -10,8 +10,8 @@ namespace DB_Service.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    // [EnableCors("cors")]
-    [EnableCors]
+    [EnableCors("cors")]
+    // [EnableCors]
     [Authorize]
 
     public class PropertyController : ControllerBase
@@ -30,6 +30,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ProcessDto>>> GetTemplates()
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _propertyService.GetTemplates();
             return Ok(res);
         }
@@ -38,6 +47,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<string>>> GetPriorities()
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _propertyService.GetPriorities();
             return Ok(res);
         }
@@ -46,6 +64,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Log>>> GetLogs()
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _logService.GetLogs();
             return Ok(res);
         }
@@ -54,6 +81,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<string>>> GetProcessStatuses()
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _propertyService.GetProcessStatuses();
             return Ok(res);
         }
@@ -62,6 +98,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<string>>> GetStageStatuses()
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _propertyService.GetStageStatuses();
             return Ok(res);
         }
@@ -70,6 +115,15 @@ namespace DB_Service.Controllers
         [HttpGet]
         public async Task<ActionResult<List<string>>> GetTypes()
         {
+            var token = Request.Headers["Authorization"].ToString().Split(' ')[1];
+
+            int UserId = Tools.TokenHandler.GetIdFromToken(token);
+
+            if (UserId < 0)
+            {
+                return Unauthorized();
+            }
+
             var res = await _propertyService.GetTypes();
             return Ok(res);
         }

@@ -36,14 +36,22 @@ namespace AuthService
                 )
             );
             services.AddCors(
-            //     c => c.AddPolicy("cors", opt =>
-            // {
-            //     opt.AllowAnyHeader();
-            //     opt.AllowCredentials();
-            //     opt.AllowAnyMethod();
-            //     opt.WithOrigins(Configuration.GetSection("Cors:Urls").Get<string[]>()!);
-            // })
+                 c => c.AddPolicy("cors", opt =>
+                 {
+                     opt.AllowAnyHeader();
+                     opt.AllowCredentials();
+                     opt.AllowAnyMethod();
+                     opt.WithOrigins("http://0.0.0.0:5173",
+                                    "http://0.0.0.0:5174",
+                                    "http://0.0.0.0:8000",
+                                    "http://localhost:8000",
+                                    "http://localhost:5174",
+                                    "http://localhost:5173",
+                                    "http://frontend:5173",
+                                    "http://proxy:8000");
+                 })
             );
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -87,11 +95,13 @@ namespace AuthService
             app.UseAuthentication();
             app.UseAuthorization();
             
-            app.UseCors(x => x
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetIsOriginAllowed(origin => true)
-                .AllowCredentials());
+            // app.UseCors(x => x
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader()
+            //    .SetIsOriginAllowed(origin => true)
+            //    .AllowCredentials());
+
+            app.UseCors("cors");
 
             app.UseEndpoints(endpoints =>
             {

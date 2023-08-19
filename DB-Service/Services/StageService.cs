@@ -12,19 +12,19 @@ namespace DB_Service.Services
     {
         private readonly DataContext _context;
         private readonly IAuthDataClient _authClient;
-        private readonly IMailDataClient _mailClient;
+        private readonly IMailService _mailService;
         private readonly ITaskService _taskService;
         private readonly ILogService _logService;
 
         public StageService(DataContext context, 
                             IAuthDataClient authClient,
-                            IMailDataClient mailClient,
+                            IMailService mailService,
                             ITaskService taskService,
                             ILogService logService)
         {
             _context = context;
             _authClient = authClient;
-            _mailClient = mailClient;
+            _mailService = mailService;
             _taskService = taskService;
             _logService = logService;
         }
@@ -80,17 +80,7 @@ namespace DB_Service.Services
             var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
             var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
 
-            System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
-            {
-                To = notificatedReleaser.Email,
-                Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
-                       $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
-                       $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
-                       $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
-                       $"ProcTrack, Система отслеживания процессов согласования, <br>" +
-                       $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
-                Subject = $"Процесс согласования КД {processForNotification.Title}"
-            }));
+            _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
 
             return await GetStageById(Id);
         }
@@ -148,33 +138,14 @@ namespace DB_Service.Services
                         var NotificatedUsers = await _authClient.GetUsersByGroupId(group.Id);
                         foreach (var user in NotificatedUsers)
                         {
-                            System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
-                            {
-                                To = user.Email,
-                                Body = $"Уважаемый(ая) {user.LongName.Split(' ').ToList()[1]} {user.LongName.Split(' ').ToList()[2]},<br><br>" +
-                                       $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
-                                       $"\"{stage.Title}\" <br> отправлен на проверку в Ваше подразделение \"{group.Title}\" <br><br>" +
-                                       $"ProcTrack, Система отслеживания процессов согласования, <br>" +
-                                       $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
-                                Subject = $"Процесс согласования КД {processForNotification.Title}"
-                            }));
+                            _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
                         }
                     }
 
                     var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
                     var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
 
-                    System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
-                    {
-                        To = notificatedReleaser.Email,
-                        Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
-                               $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
-                               $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
-                               $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
-                               $"ProcTrack, Система отслеживания процессов согласования, <br>" +
-                               $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
-                        Subject = $"Процесс согласования КД {processForNotification.Title}"
-                    }));
+                    _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
                 }
 
                 await _context.SaveChangesAsync();
@@ -309,32 +280,13 @@ namespace DB_Service.Services
                     var NotificatedUsers = await _authClient.GetUsersByGroupId(group.Id);
                     foreach (var user in NotificatedUsers)
                     {
-                        System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
-                        {
-                            To = user.Email,
-                            Body = $"Уважаемый(ая) {user.LongName.Split(' ').ToList()[1]} {user.LongName.Split(' ').ToList()[2]},<br><br>" +
-                                   $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
-                                   $"\"{stage.Title}\" <br> отправлен на проверку в Ваше подразделение \"{group.Title}\" <br><br>" +
-                                   $"ProcTrack, Система отслеживания процессов согласования, <br>" +
-                                   $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
-                            Subject = $"Процесс согласования КД {processForNotification.Title}"
-                        }));
+                        _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
                     }
                 }
                 var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
                 var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
 
-                System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
-                {
-                    To = notificatedReleaser.Email,
-                    Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
-                           $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
-                           $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
-                           $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
-                           $"ProcTrack, Система отслеживания процессов согласования, <br>" +
-                           $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
-                    Subject = $"Процесс согласования КД {processForNotification.Title}"
-                }));
+                _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
             }
 
             await _context.SaveChangesAsync();
@@ -559,17 +511,7 @@ namespace DB_Service.Services
                 var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
                 var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
 
-                System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
-                {
-                    To = notificatedReleaser.Email,
-                    Body = $"Уважаемый(ая) {notificatedReleaser.LongName.Split(' ').ToList()[1]} " +
-                           $"{notificatedReleaser.LongName.Split(' ').ToList()[2]},<br><br>" +
-                           $"Процесс согласования КД \"{processForNotification.Title}\", находящийся на этапе согласования " +
-                           $"\"{stage.Title}\" {stage.Status.Title} <br><br>" +
-                           $"ProcTrack, Система отслеживания процессов согласования, <br>" +
-                           $"{DateParser.Parse(DateTime.Now.AddHours(3))}",
-                    Subject = $"Процесс согласования КД {processForNotification.Title}"
-                }));
+                _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
             }
             
             _context.SaveChanges();
