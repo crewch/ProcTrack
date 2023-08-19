@@ -6,6 +6,8 @@ import { store } from './store/store.ts'
 import Layout from './pages/Layout/Layout.tsx'
 import NotFound from './pages/NotFound/NotFound.tsx'
 import LoginPage from './pages/Login/Login.tsx'
+import signalR from '@microsoft/signalr'
+import { HOST } from './configs/url.ts'
 import './index.scss'
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -19,14 +21,24 @@ import '@fontsource/montserrat/700.css'
 
 const queryClient = new QueryClient()
 
+const socket = new signalR.HubConnectionBuilder()
+	.withUrl(`http://${HOST}:8001/notifications`)
+	.build()
+
+socket.start().then(() => console.log('socket connected'))
+
 const App = () => (
 	<QueryClientProvider client={queryClient}>
 		<Provider store={store}>
 			<BrowserRouter>
 				<Routes>
-					<Route path='/' element={<Layout />}>
+					<Route path='/' element={<Layout socket={socket} />}>
 						{routes.map(({ path, Element }, index) => (
-							<Route path={path} element={<Element />} key={index} />
+							<Route
+								path={path}
+								element={<Element socket={socket} />}
+								key={index}
+							/>
 						))}
 					</Route>
 					<Route path='login' element={<LoginPage />} />
