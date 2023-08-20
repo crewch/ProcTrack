@@ -18,6 +18,8 @@ import '@fontsource/montserrat/500.css'
 import '@fontsource/montserrat/600.css'
 import '@fontsource/montserrat/700.css'
 import { useEffect } from 'react'
+import { Token } from './shared/interfaces/token.ts'
+import { getToken } from './utils/getToken.ts'
 
 const queryClient = new QueryClient()
 
@@ -29,6 +31,11 @@ const App = () => {
 	useEffect(() => {
 		socket.start()
 	}, [socket])
+
+	const token: Token = getToken()
+	useEffect(() => {
+		socket.invoke('SetUserConnection', token)
+	}, [token])
 
 	return (
 		<QueryClientProvider client={queryClient}>

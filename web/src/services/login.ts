@@ -9,16 +9,16 @@ const URL_REFRESH = `${URL}/api/auth/login/refresh`
 
 export const loginService = {
 	async login(data: LoginForm) {
-		const Token: Token = await (await axios.post(URL_LOGIN, data)).data
-		return Token
+		const token: Token = await (await axios.post(URL_LOGIN, data)).data
+		return token
 	},
 	async refreshToken() {
 		try {
-			const Token: Token = await (
+			const token: Token = await (
 				await axios.post(URL_REFRESH, getToken())
 			).data
 
-			localStorage.setItem('TOKEN', JSON.stringify(Token))
+			localStorage.setItem('TOKEN', JSON.stringify(token))
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log(error.message)
