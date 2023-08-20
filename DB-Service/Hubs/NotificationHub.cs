@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using NuGet.Protocol.Plugins;
+using System.Net.Sockets;
 using System.Security.Claims;
 
 namespace DB_Service.Hubs
@@ -19,29 +21,28 @@ namespace DB_Service.Hubs
 
         public void SetUserConnection(string data)
         {
-            Console.WriteLine("\n\n\n\n\n\n\n\n\n\n" + data + "\n\n\n\n\n\n\n\n\n\n\n\n\n");
-            //var route = JsonConvert.DeserializeObject<dynamic>(data);
-            //string userIdUnparsed = route.UserId;
-            //int userId = int.Parse(userIdUnparsed);
-            //_connections.Add(userId, Context.ConnectionId);
-            //Console.WriteLine($"{userId} connected as {Context.ConnectionId}; {_connections.Count}");
+            var route = JsonConvert.DeserializeObject<dynamic>(data);
+            string userIdUnparsed = route.UserId;
+            int userId = int.Parse(userIdUnparsed);
+            _connections.Add(userId, Context.ConnectionId);
+            Console.WriteLine($"{userId} connected as {Context.ConnectionId}; {_connections.Count}");
         }
 
-        public async Task SendMessageAsync(string message)
-        {
-            var route = JsonConvert.DeserializeObject<dynamic>(message);
-            string toClient = route.To;
-            Console.WriteLine("Message received on " + Context.ConnectionId);
+        //public async Task SendMessageAsync(string message)
+        //{
+        //    var route = JsonConvert.DeserializeObject<dynamic>(message);
+        //    string toClient = route.To;
+        //    Console.WriteLine("Message received on " + Context.ConnectionId);
 
-            if (toClient == string.Empty)
-            {
-                await Clients.All.SendAsync("ReceiveMessage", message);
-            }
-            else
-            {
-                await Clients.Client(toClient).SendAsync("ReceiveMessage", message);
-            }
-        }
+        //    if (toClient == string.Empty)
+        //    {
+        //        await Clients.All.SendAsync("ReceiveMessage", message);
+        //    }
+        //    else
+        //    {
+        //        await Clients.Client(toClient).SendAsync("ReceiveMessage", message);
+        //    }
+        //}
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
