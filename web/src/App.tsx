@@ -35,6 +35,7 @@ const App = () => {
 	const token: Token = getToken()
 	useEffect(() => {
 		socket.invoke('SetUserConnection', token)
+		console.log('SetUserConnection')
 	}, [token])
 
 	return (
