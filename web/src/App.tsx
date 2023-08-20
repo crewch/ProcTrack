@@ -17,8 +17,7 @@ import '@fontsource/montserrat/400.css'
 import '@fontsource/montserrat/500.css'
 import '@fontsource/montserrat/600.css'
 import '@fontsource/montserrat/700.css'
-import { useEffect } from 'react'
-import { Token } from './shared/interfaces/token.ts'
+import { useEffect, useState } from 'react'
 import { getToken } from './utils/getToken.ts'
 
 const queryClient = new QueryClient()
@@ -32,7 +31,11 @@ const App = () => {
 		socket.start()
 	}, [socket])
 
-	const token: Token = getToken()
+	const [token, setToken] = useState(getToken())
+	window.addEventListener('visibilitychange', () => {
+		setToken(getToken())
+	})
+
 	useEffect(() => {
 		socket.invoke('SetUserConnection', token)
 		console.log('SetUserConnection')
