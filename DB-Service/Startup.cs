@@ -1,5 +1,6 @@
 using DB_Service.Clients.Http;
 using DB_Service.Data;
+using DB_Service.Hubs;
 using DB_Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,18 +21,23 @@ namespace DB_Service
             services.AddHttpClient<IFileDataClient, HttpFileDataClient>();
             services.AddHttpClient<IAuthDataClient, HttpAuthDataClient>();
             services.AddHttpClient<IMailDataClient, HttpMailDataClient>();
+
+            services.AddSignalR();
+
             services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Db-Service", Version = "v1" });
             });
+
             var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? Configuration.GetConnectionString("DatabaseConnection");
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(
                     connectionString
                 )
             );
+
             services.AddCors(
             //     c => c.AddPolicy("cors", opt =>
             // {
@@ -48,9 +54,11 @@ namespace DB_Service
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ITestDataService, TestDataService>();
             services.AddScoped<ILogService, LogService>();
+            services.AddScoped<IMailService, MailService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -59,7 +67,9 @@ namespace DB_Service
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProcTrack DB Service"));
             }
+            
             app.UseRouting();
+            
             app.UseAuthorization();
             
             app.UseCors(x => x
@@ -71,8 +81,11 @@ namespace DB_Service
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("/notifications");
             });
+
             using var serviceScope = app.ApplicationServices.CreateScope();
+            
             var context = serviceScope.ServiceProvider.GetService<DataContext>();
             ApplyMigrations(context);
         }

@@ -19,7 +19,9 @@ namespace DataLoader
 
         static async Task RunAsync()
         {
-            string host = "192.168.237.128";
+            //string host = "192.168.237.128";
+
+            string host = "localhost";
 
             var client = new HttpClient();
 
