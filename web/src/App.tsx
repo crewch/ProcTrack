@@ -25,6 +25,7 @@ const queryClient = new QueryClient()
 const App = () => {
 	const socket = new signalR.HubConnectionBuilder()
 		.withUrl(`http://localhost:8001/notifications`)
+		.configureLogging(signalR.LogLevel.Information)
 		.build()
 
 	const [isStart, setIsStart] = useState(false)
