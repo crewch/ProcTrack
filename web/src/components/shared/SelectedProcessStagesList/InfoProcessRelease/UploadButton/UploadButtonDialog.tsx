@@ -10,9 +10,9 @@ import { ChangeEvent, FC, memo, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import TelegramIcon from '@mui/icons-material/Telegram'
 import { GrayButton } from '@/components/ui/button/GrayButton'
-import { useGetUserData } from '@/hooks/userDataHook'
 import { passportService } from '@/services/passport'
 import styles from './UploadButtonDialog.module.scss'
+import { getUserData } from '@/utils/getUserData'
 
 interface UploadButtonDialogProps {
 	processId: number
@@ -23,7 +23,7 @@ const UploadButtonDialog: FC<UploadButtonDialogProps> = memo(
 		const [message, setMessage] = useState('')
 		const [file, setFile] = useState<FormData>()
 
-		const userId = useGetUserData().id
+		const userId = getUserData().id
 
 		const queryClient = useQueryClient()
 		const mutation = useMutation({

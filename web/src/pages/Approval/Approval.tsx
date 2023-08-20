@@ -3,11 +3,11 @@ import { Navigate } from 'react-router-dom'
 import SearchList from '@/components/shared/SearchList/SearchList'
 import SelectedProcessStagesList from '@/components/shared/SelectedProcessStagesList/SelectedProcessStagesList'
 import SelectedStage from '@/components/shared/SelectedStage/SelectedStage'
-import { useGetUserData } from '@/hooks/userDataHook'
 import styles from '@/shared/styles/page.module.scss'
+import { getUserData } from '@/utils/getUserData'
 
 const Approval = () => {
-	if (!useGetUserData()) {
+	if (!getUserData()) {
 		return <Navigate to='/login' />
 	}
 

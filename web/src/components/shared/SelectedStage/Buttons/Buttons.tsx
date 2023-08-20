@@ -14,10 +14,10 @@ import {
 	LinearProgress,
 	Divider,
 } from '@mui/material'
-import { useGetUserData } from '@/hooks/userDataHook'
 import { stageService } from '@/services/stage'
 import { Stage } from '@/shared/interfaces/stage'
 import styles from './Buttons.module.scss'
+import { getUserData } from '@/utils/getUserData'
 
 interface ButtonsProps {
 	selectedStage: Stage
@@ -28,7 +28,7 @@ interface ButtonsProps {
 const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 	const queryClient = useQueryClient()
 
-	const userId = useGetUserData().id
+	const userId = getUserData().id
 
 	const mutationSuccessStage = useMutation({
 		mutationFn: () => stageService.successStage(selectedStage?.id, userId),
@@ -60,7 +60,7 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 		},
 	})
 
-	const userData = useGetUserData()
+	const userData = getUserData()
 
 	const [open, setOpen] = useState(false)
 

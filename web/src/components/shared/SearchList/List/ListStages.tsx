@@ -11,18 +11,18 @@ import { useState } from 'react'
 import classNames from 'classnames'
 import ListImg from '@/components/ui/ListImg/ListImg'
 import { useAppSelector, useAppDispatch } from '@/hooks/reduxHooks'
-import { useGetUserData } from '@/hooks/userDataHook'
 import { stageService } from '@/services/stage'
 import { changeOpenedStage } from '@/store/processStageSlice/processStageSlice'
 import PaginationList from '../../PaginationList/PaginationList'
 import styles from './List.module.scss'
+import { getUserData } from '@/utils/getUserData'
 
 const ListStages = () => {
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
 	const dispatch = useAppDispatch()
 	const filters = useAppSelector(state => state.filterStages)
 
-	const userId = useGetUserData().id
+	const userId = getUserData().id
 
 	const [selectedPage, setSelectedPage] = useState(1)
 	const limit = 14

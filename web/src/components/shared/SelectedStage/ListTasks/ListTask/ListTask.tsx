@@ -19,11 +19,11 @@ import classNames from 'classnames'
 import DateInfo from '@/components/shared/DateInfo/DateInfo'
 import UserInfo from '@/components/shared/UserInfo/UserInfo'
 import { GrayButton } from '@/components/ui/button/GrayButton'
-import { useGetUserData } from '@/hooks/userDataHook'
 import { commentService } from '@/services/comment'
 import { fileService } from '@/services/file'
 import { taskService } from '@/services/task'
 import styles from './ListTask.module.scss'
+import { getUserData } from '@/utils/getUserData'
 
 export interface ListTaskProps {
 	startDate: string
@@ -68,7 +68,7 @@ const ListTask: FC<ListTaskProps> = memo(
 			}
 		}
 
-		const userData = useGetUserData()
+		const userData = getUserData()
 
 		const comment: Comment = {
 			id: 0,

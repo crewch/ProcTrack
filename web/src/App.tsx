@@ -16,26 +16,44 @@ import '@fontsource/montserrat/400.css'
 import '@fontsource/montserrat/500.css'
 import '@fontsource/montserrat/600.css'
 import '@fontsource/montserrat/700.css'
+import * as signalR from '@microsoft/signalr'
+import { getUserData } from './utils/getUserData.ts'
 
 const queryClient = new QueryClient()
 
-const App = () => (
-	<QueryClientProvider client={queryClient}>
-		<Provider store={store}>
-			<BrowserRouter>
-				<Routes>
-					<Route path='/' element={<Layout />}>
-						{routes.map(({ path, Element }, index) => (
-							<Route path={path} element={<Element />} key={index} />
-						))}
-					</Route>
-					<Route path='login' element={<LoginPage />} />
-					<Route path='404' element={<NotFound />} />
-					<Route path='*' element={<Navigate to='404' />} />
-				</Routes>
-			</BrowserRouter>
-		</Provider>
-	</QueryClientProvider>
-)
+let socket = new signalR.HubConnectionBuilder()
+	.withUrl('http://localhost:8001/notifications')
+	.build()
+
+socket.start().then(() => {
+	socket.invoke('SetUserConnection', { id: getUserData().id })
+})
+
+const App = () => {
+	addEventListener('localStorageChange', () => {
+		console.log('CHANGE!!!')
+
+		socket.invoke('SetUserConnection', { id: getUserData().id })
+	})
+
+	return (
+		<QueryClientProvider client={queryClient}>
+			<Provider store={store}>
+				<BrowserRouter>
+					<Routes>
+						<Route path='/' element={<Layout />}>
+							{routes.map(({ path, Element }, index) => (
+								<Route path={path} element={<Element />} key={index} />
+							))}
+						</Route>
+						<Route path='login' element={<LoginPage />} />
+						<Route path='404' element={<NotFound />} />
+						<Route path='*' element={<Navigate to='404' />} />
+					</Routes>
+				</BrowserRouter>
+			</Provider>
+		</QueryClientProvider>
+	)
+}
 
 export default App

@@ -1,11 +1,11 @@
 import { Box, Button, Typography } from '@mui/material'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { useGetUserData } from '@/hooks/userDataHook'
 import styles from './NotFound.module.scss'
+import { getUserData } from '@/utils/getUserData'
 
 const NotFound = () => {
 	const navigation = useNavigate()
-	if (!useGetUserData()) {
+	if (!getUserData()) {
 		return <Navigate to='/login' />
 	}
 

@@ -9,10 +9,10 @@ import { FC, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { GrayButton } from '@/components/ui/button/GrayButton'
-import { useGetUserData } from '@/hooks/userDataHook'
 import { processService } from '@/services/process'
 import { NewProcessForm } from '@/shared/interfaces/newProcessForm'
 import styles from './AddProcessDialog.module.scss'
+import { getUserData } from '@/utils/getUserData'
 
 interface AddProcessDialogProps {
 	open: boolean
@@ -25,7 +25,7 @@ interface Autocomplete {
 }
 
 const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
-	const userId = useGetUserData().id
+	const userId = getUserData().id
 
 	const [templates, setTemplates] = useState<Autocomplete[]>()
 	const [groups, setGroups] = useState<Autocomplete[]>()
