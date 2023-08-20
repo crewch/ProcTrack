@@ -27,8 +27,11 @@ const App = () => {
 		.withUrl(`http://localhost:8001/notifications`)
 		.build()
 
+	const [isStart, setIsStart] = useState(false)
+
 	useEffect(() => {
 		socket.start()
+		setIsStart(true)
 	}, [socket])
 
 	const [token, setToken] = useState(getToken())
@@ -37,8 +40,10 @@ const App = () => {
 	})
 
 	useEffect(() => {
-		socket.invoke('SetUserConnection', token)
-		console.log('SetUserConnection')
+		if (isStart) {
+			socket.invoke('SetUserConnection', token)
+			console.log('SetUserConnection')
+		}
 	}, [token])
 
 	return (
