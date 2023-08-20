@@ -149,7 +149,7 @@ export const stageService = {
 	async toggleStagePass(stage: Stage | undefined, countRepeat = 0) {
 		try {
 			if (stage) {
-				//TODO: сделать нормально стукнуть бэкендера
+				//FIXME: сделать нормально стукнуть бэкендера
 				const data = {
 					id: 0,
 					processId: 0,

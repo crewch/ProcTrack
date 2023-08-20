@@ -37,7 +37,7 @@ const SelectedStage: FC<SelectedStageProps> = ({ page }) => {
 						nameOfGroup={
 							selectedStage?.holds[0]?.groups[0]?.title ||
 							selectedStage?.holds[1]?.groups[0]?.title
-						} //TODO: тут проблема при статусе ещё не начат
+						} //BUG: тут проблема при статусе ещё не начат
 						page={page}
 					/>
 					<Divider className={styles.divider} />
