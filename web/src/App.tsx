@@ -26,14 +26,23 @@ let socket = new signalR.HubConnectionBuilder()
 	.build()
 
 socket.start().then(() => {
-	socket.invoke('SetUserConnection', JSON.stringify({ UserId: getUserData().id }))
+	if (getUserData()) {
+		socket.invoke(
+			'SetUserConnection',
+			JSON.stringify({ UserId: getUserData().id })
+		)
+		console.log('invoke1')
+	}
 })
 
 const App = () => {
 	addEventListener('localStorageChange', () => {
-		console.log('CHANGE!!!')
+		socket.invoke(
+			'SetUserConnection',
+			JSON.stringify({ UserId: getUserData().id })
+		)
 
-		socket.invoke('SetUserConnection', JSON.stringify({ UserId: getUserData().id }))
+		console.log('invoke2')
 	})
 
 	return (
