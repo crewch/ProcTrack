@@ -7,7 +7,7 @@ import {
 	TextField,
 } from '@mui/material'
 import { ChangeEvent, FC, memo, useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import TelegramIcon from '@mui/icons-material/Telegram'
 import { GrayButton } from '@/components/ui/button/GrayButton'
 import { passportService } from '@/services/passport'
@@ -25,13 +25,9 @@ const UploadButtonDialog: FC<UploadButtonDialogProps> = memo(
 
 		const userId = getUserData().id
 
-		const queryClient = useQueryClient()
 		const mutation = useMutation({
 			mutationFn: () =>
 				passportService.sendPassport(userId, processId, file, message),
-			onSuccess: () => {
-				queryClient.invalidateQueries({ queryKey: ['passport'] })
-			},
 		})
 
 		const saveFile = (e: ChangeEvent<HTMLInputElement>) => {
