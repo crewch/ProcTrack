@@ -27,15 +27,14 @@ const queryClient = new QueryClient({
 
 const socket = new signalR.HubConnectionBuilder()
 	.withUrl(`http://${HOST}:8001/notifications`)
-	.configureLogging(signalR.LogLevel.Information)
 	.build()
 
 const App = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<SocketContext.Provider value={{ socket }}>
-				<SocketHub>
-					<Provider store={store}>
+				<Provider store={store}>
+					<SocketHub>
 						<BrowserRouter>
 							<Routes>
 								<Route path='/' element={<Layout />}>
@@ -48,8 +47,8 @@ const App = () => {
 								<Route path='*' element={<Navigate to='404' />} />
 							</Routes>
 						</BrowserRouter>
-					</Provider>
-				</SocketHub>
+					</SocketHub>
+				</Provider>
 			</SocketContext.Provider>
 		</QueryClientProvider>
 	)
