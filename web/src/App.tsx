@@ -27,6 +27,7 @@ const queryClient = new QueryClient({
 
 const socket = new signalR.HubConnectionBuilder()
 	.withUrl(`http://${HOST}:8001/notifications`)
+	.configureLogging(signalR.LogLevel.Information)
 	.build()
 
 const App = () => {
