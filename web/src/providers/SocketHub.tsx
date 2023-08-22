@@ -61,7 +61,7 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					}
 
 					if (openedStage === stageId) {
-						queryClient.invalidateQueries({ queryKey: ['stageId'] })
+						queryClient.invalidateQueries({ queryKey: ['stageId', stageId] })
 					}
 
 					console.log('StartProcessNotification')
@@ -83,7 +83,7 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					}
 
 					if (openedStage === stageId) {
-						queryClient.invalidateQueries({ queryKey: ['stageId'] })
+						queryClient.invalidateQueries({ queryKey: ['stageId', stageId] })
 					}
 
 					console.log('StopProcessNotification')
