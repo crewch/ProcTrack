@@ -175,6 +175,12 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 		socket?.on(
 			'UpdateStageNotification',
 			({ processId }: { processId: number }) => {
+				if (getUrl() === 'approval') {
+					queryClient.invalidateQueries({
+						queryKey: ['stagesAllByUserId'],
+					})
+				}
+
 				if (openedProcess === processId) {
 					queryClient.invalidateQueries({ queryKey: ['stages', processId] })
 				}
