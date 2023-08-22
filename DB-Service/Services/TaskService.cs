@@ -13,14 +13,17 @@ namespace DB_Service.Services
 		private readonly DataContext _context;
 		private readonly IAuthDataClient _authClient;
 		private readonly ILogService _logService;
+		private readonly INotificationService _notificationService;
 
 		public TaskService(DataContext context, 
 						   IAuthDataClient authClient,
-						   ILogService logService)
+						   ILogService logService,
+						   INotificationService notificationService)
 		{
 			_context = context;
 			_authClient = authClient;
 			_logService = logService;
+			_notificationService = notificationService;
 		}
 
 		public async Task<TaskDto> AssignTask(int UserId, int Id)
@@ -70,9 +73,31 @@ namespace DB_Service.Services
 					stage.Status = newStatus;
 				}
 
-				var processForNotification = await _context.Processes
+				var processForNotification = await _context.Processes		//NOTE:notification
+					.Include(p => p.Stages)
 					.Where(p => p.Id == stage.ProcessId)
 					.FirstOrDefaultAsync();
+
+				if (processForNotification.Stages != null)
+				{
+					foreach (var iStage in processForNotification.Stages)
+					{
+						var groupHolds = await _authClient.FindHold(iStage.Id, "Stage");
+                
+						foreach (var hold in groupHolds)
+						{
+							if (hold.Groups == null) continue;
+							foreach (var group in hold.Groups)
+							{
+								var users = await _authClient.GetUsersByGroupId(group.Id);
+								foreach (var iUser in users)
+								{
+									_notificationService.SendNotification(processForNotification.Id, iUser.Id, "AssignTask");
+								}
+							}
+						}
+					}
+				}
 			}
 
 			await _context.SaveChangesAsync();
@@ -121,6 +146,37 @@ namespace DB_Service.Services
 			taskModel.Comments.Add(commentModel);
 			
 			await _context.SaveChangesAsync();
+
+			var stage = await _context.Stages			//NOTE:notification
+				.Include(s => s.Status)
+				.Where(s => s.Id == taskModel.StageId)
+				.FirstOrDefaultAsync();
+
+			var processForNotification = await _context.Processes
+				.Include(p => p.Stages)
+				.Where(p => p.Id == stage.ProcessId)
+				.FirstOrDefaultAsync();
+
+			if (processForNotification.Stages != null)
+			{
+				foreach (var iStage in processForNotification.Stages)
+				{
+					var groupHolds = await _authClient.FindHold(iStage.Id, "Stage");
+               
+					foreach (var hold in groupHolds)
+					{
+						if (hold.Groups == null) continue;
+						foreach (var group in hold.Groups)
+						{
+							var users = await _authClient.GetUsersByGroupId(group.Id);
+							foreach (var iUser in users)
+							{
+								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "CreateComment");
+							}
+						}
+					}
+				}
+			}
 
 			return new CommentDto
 			{
@@ -235,6 +291,37 @@ namespace DB_Service.Services
 
 			await _context.SaveChangesAsync();
 
+			var stage = await _context.Stages			//NOTE:notification
+				.Include(s => s.Status)
+				.Where(s => s.Id == taskModel.StageId)
+				.FirstOrDefaultAsync();
+
+			var processForNotification = await _context.Processes
+				.Include(p => p.Stages)
+				.Where(p => p.Id == stage.ProcessId)
+				.FirstOrDefaultAsync();
+
+			if (processForNotification.Stages != null)
+			{
+				foreach (var iStage in processForNotification.Stages)
+				{
+					var groupHolds = await _authClient.FindHold(iStage.Id, "Stage");
+               
+					foreach (var hold in groupHolds)
+					{
+						if (hold.Groups == null) continue;
+						foreach (var group in hold.Groups)
+						{
+							var users = await _authClient.GetUsersByGroupId(group.Id);
+							foreach (var iUser in users)
+							{
+								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "StartTask");
+							}
+						}
+					}
+				}
+			}
+
 			if (logUser != null)
             {
                 await _logService.AddLog(new Log
@@ -297,6 +384,37 @@ namespace DB_Service.Services
 
 			await _context.SaveChangesAsync();
 
+			var stage = await _context.Stages		//NOTE:notification
+				.Include(s => s.Status)
+				.Where(s => s.Id == taskModel.StageId)
+				.FirstOrDefaultAsync();
+
+			var processForNotification = await _context.Processes
+				.Include(p => p.Stages)
+				.Where(p => p.Id == stage.ProcessId)
+				.FirstOrDefaultAsync();
+
+			if (processForNotification.Stages != null)
+			{
+				foreach (var iStage in processForNotification.Stages)
+				{
+					var groupHolds = await _authClient.FindHold(iStage.Id, "Stage");
+               
+					foreach (var hold in groupHolds)
+					{
+						if (hold.Groups == null) continue;
+						foreach (var group in hold.Groups)
+						{
+							var users = await _authClient.GetUsersByGroupId(group.Id);
+							foreach (var iUser in users)
+							{
+								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "StopTask");
+							}
+						}
+					}
+				}
+			}
+
 			return await GetTaskById(Id);
 		}
 
@@ -336,6 +454,37 @@ namespace DB_Service.Services
                 });
                 await _context.SaveChangesAsync();
             }
+
+			var stage = await _context.Stages		//NOTE:notification
+				.Include(s => s.Status)
+				.Where(s => s.Id == taskModel.StageId)
+				.FirstOrDefaultAsync();
+
+			var processForNotification = await _context.Processes
+				.Include(p => p.Stages)
+				.Where(p => p.Id == stage.ProcessId)
+				.FirstOrDefaultAsync();
+
+			if (processForNotification.Stages != null)
+			{
+				foreach (var iStage in processForNotification.Stages)
+				{
+					var groupHolds = await _authClient.FindHold(iStage.Id, "Stage");
+               
+					foreach (var hold in groupHolds)
+					{
+						if (hold.Groups == null) continue;
+						foreach (var group in hold.Groups)
+						{
+							var users = await _authClient.GetUsersByGroupId(group.Id);
+							foreach (var iUser in users)
+							{
+								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "StopTask");
+							}
+						}
+					}
+				}
+			}
 
 			return await GetTaskById(Id);
 		}
