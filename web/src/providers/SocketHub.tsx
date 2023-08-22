@@ -15,7 +15,6 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 		state => state.processStage.openedProcess
 	)
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
-	console.log(openedProcess, '<<<<')
 
 	if (socket) {
 		useEffect(() => {
