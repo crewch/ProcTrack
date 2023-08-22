@@ -1,4 +1,4 @@
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { FC } from 'react'
 import { GrayButton } from '@/components/ui/button/GrayButton'
 import { useAppSelector } from '@/hooks/reduxHooks'
@@ -14,24 +14,12 @@ const ToggleProcessButton: FC<ToggleProcessButtonProps> = ({ status }) => {
 		state => state.processStage.openedProcess
 	)
 
-	const queryClient = useQueryClient()
-
 	const mutationStartProcess = useMutation({
 		mutationFn: processService.startProcessId,
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['processId'] })
-			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-			queryClient.invalidateQueries({ queryKey: ['stageId'] })
-		},
 	})
 
 	const mutationStopProcess = useMutation({
 		mutationFn: processService.stopProcessId,
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['processId'] })
-			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-			queryClient.invalidateQueries({ queryKey: ['stageId'] })
-		},
 	})
 
 	return (

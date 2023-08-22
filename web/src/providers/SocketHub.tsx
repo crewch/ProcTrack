@@ -1,4 +1,5 @@
 import { SocketContext } from '@/context/SocketContext'
+import { useAppSelector } from '@/hooks/reduxHooks'
 import { getUserData } from '@/utils/getUserData'
 import { useQueryClient } from '@tanstack/react-query'
 import { FC, ReactNode, useContext, useEffect } from 'react'
@@ -10,6 +11,10 @@ interface SocketHubProps {
 const SocketHub: FC<SocketHubProps> = ({ children }) => {
 	const queryClient = useQueryClient()
 	const { socket } = useContext(SocketContext)
+	const openedProcess = useAppSelector(
+		state => state.processStage.openedProcess
+	)
+	const openedStage = useAppSelector(state => state.processStage.openedStage)
 
 	if (socket) {
 		useEffect(() => {
@@ -32,22 +37,48 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 
 			socket.on('UpdateProcessNotification', message => {
 				console.log(message)
-				//TODO
+				//TODO доделать
 			})
 
-			socket.on('StartProcessNotification', () => {
-				queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-				queryClient.invalidateQueries({ queryKey: ['processId'] })
-				queryClient.invalidateQueries({ queryKey: ['stageId'] })
-				console.log('StartProcessNotification')
-			})
+			socket.on(
+				'StartProcessNotification',
+				({ processId, stageId }: { processId: number; stageId: number }) => {
+					queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 
-			socket.on('StopProcessNotification', () => {
-				queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-				queryClient.invalidateQueries({ queryKey: ['processId'] })
-				queryClient.invalidateQueries({ queryKey: ['stageId'] })
-				console.log('StopProcessNotification')
-			})
+					if (openedProcess === processId) {
+						queryClient.invalidateQueries({
+							queryKey: ['processId', processId],
+						})
+						queryClient.invalidateQueries({ queryKey: ['stages', processId] })
+					}
+
+					if (openedStage === stageId) {
+						queryClient.invalidateQueries({ queryKey: ['stageId'] })
+					}
+
+					console.log('StartProcessNotification')
+				}
+			)
+
+			socket.on(
+				'StopProcessNotification',
+				({ processId, stageId }: { processId: number; stageId: number }) => {
+					queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+
+					if (openedProcess === processId) {
+						queryClient.invalidateQueries({
+							queryKey: ['processId', processId],
+						})
+						queryClient.invalidateQueries({ queryKey: ['stages', processId] })
+					}
+
+					if (openedStage === stageId) {
+						queryClient.invalidateQueries({ queryKey: ['stageId'] })
+					}
+
+					console.log('StopProcessNotification')
+				}
+			)
 
 			socket.on('CreatePassportNotification', message => {
 				console.log(message)
@@ -84,7 +115,7 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 			socket.on('CreateCommentNotification', message => {
 				console.log(message)
 			})
-		}, [])
+		}, [socket])
 
 		addEventListener('localStorageChange', () => {
 			socket.invoke(
