@@ -37,19 +37,31 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 
 		socket.on('CreateProcessNotification', () => {
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-			console.log('allProcess')
+			console.log('CreateProcessNotification')
 		})
 
 		socket.on('UpdateProcessNotification', message => {
 			console.log(message)
+			//TODO
 		})
 
-		socket.on('StartProcessNotification', message => {
-			console.log(message)
+		socket.on('StartProcessNotification', (processId: number) => {
+			queryClient.invalidateQueries({
+				queryKey: ['allProcess', 'processId', 'stageId'],
+			})
+			// queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+			// queryClient.invalidateQueries({ queryKey: ['processId'] })
+			// queryClient.invalidateQueries({ queryKey: ['stageId'] })
+			console.log('StartProcessNotification')
 		})
 
-		socket.on('StopProcessNotification', message => {
-			console.log(message)
+		socket.on('StopProcessNotification', (processId: number) => {
+			queryClient.invalidateQueries({
+				queryKey: ['allProcess', 'processId', 'stageId'],
+			})
+			// queryClient.invalidateQueries({ queryKey: ['processId'] })
+			// queryClient.invalidateQueries({ queryKey: ['stageId'] })
+			console.log('StopProcessNotification')
 		})
 
 		socket.on('CreatePassportNotification', message => {
