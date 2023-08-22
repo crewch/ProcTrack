@@ -96,7 +96,7 @@ namespace DB_Service.Services
                         var users = await _authClient.GetUsersByGroupId(group.Id);
                         foreach (var user in users)
                         {
-                            _notificationService.SendNotification(processForNotification.Id, user.Id, "CancelStage");
+                            _notificationService.SendNotification(processForNotification.Id, stage.Id, user.Id, "CancelStage");
                         }
                     }
                 }
@@ -554,7 +554,7 @@ namespace DB_Service.Services
                         var users = await _authClient.GetUsersByGroupId(group.Id);
                         foreach (var user in users)
                         {
-                            _notificationService.SendNotification(processForNotification.Id, user.Id, "UpdateStage");
+                            _notificationService.SendNotification(processForNotification.Id, stage.Id, user.Id, "UpdateStage");
                         }
                     }
                 }

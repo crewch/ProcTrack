@@ -94,7 +94,7 @@ namespace DB_Service.Services
 								var users = await _authClient.GetUsersByGroupId(group.Id);
 								foreach (var iUser in users)
 								{
-									_notificationService.SendNotification(processForNotification.Id, iUser.Id, "AssignTask");
+									_notificationService.SendNotification(processForNotification.Id, iStage.Id, iUser.Id, "AssignTask");
 								}
 							}
 						}
@@ -175,7 +175,7 @@ namespace DB_Service.Services
 							var users = await _authClient.GetUsersByGroupId(group.Id);
 							foreach (var iUser in users)
 							{
-								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "CreateComment");
+								_notificationService.SendNotification(processForNotification.Id, iStage.Id, iUser.Id, "CreateComment");
 							}
 						}
 					}
@@ -321,7 +321,7 @@ namespace DB_Service.Services
 							var users = await _authClient.GetUsersByGroupId(group.Id);
 							foreach (var iUser in users)
 							{
-								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "StartTask");
+								_notificationService.SendNotification(processForNotification.Id, iStage.Id, iUser.Id, "StartTask");
 							}
 						}
 					}
@@ -416,7 +416,7 @@ namespace DB_Service.Services
 							var users = await _authClient.GetUsersByGroupId(group.Id);
 							foreach (var iUser in users)
 							{
-								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "StopTask");
+								_notificationService.SendNotification(processForNotification.Id, iStage.Id, iUser.Id, "StopTask");
 							}
 						}
 					}
@@ -489,7 +489,7 @@ namespace DB_Service.Services
 							var users = await _authClient.GetUsersByGroupId(group.Id);
 							foreach (var iUser in users)
 							{
-								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "UpdateEndVerification");
+								_notificationService.SendNotification(processForNotification.Id, iStage.Id, iUser.Id, "UpdateEndVerification");
 							}
 						}
 					}

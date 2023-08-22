@@ -75,7 +75,7 @@ namespace DB_Service.Services
                         var users = await _authClient.GetUsersByGroupId(group.Id);
                         foreach (var iUser in users)
                         {
-                            _notificationService.SendNotification(Id, iUser.Id, "CreatePassport");
+                            _notificationService.SendNotification(Id, stage.Id, iUser.Id, "CreatePassport");
                         }
                     }
                 }
@@ -305,7 +305,7 @@ namespace DB_Service.Services
                             var users = await _authClient.GetUsersByGroupId(group.Id);
                             foreach (var user in users)
                             {
-                                _notificationService.SendNotification(newProcess.Id, user.Id, "CreateProcess");
+                                _notificationService.SendNotification(newProcess.Id, stageTuple.Item2.Id, user.Id, "CreateProcess");
                             }
                         }
                     }
@@ -606,7 +606,7 @@ namespace DB_Service.Services
                                 _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
                                 //TODO:notification class add
                             }
-                            _notificationService.SendNotification(processForNotification.Id, user.Id, "StartProcess");
+                            _notificationService.SendNotification(processForNotification.Id, stage.Id, user.Id, "StartProcess");
                         }
                     }
                 }
@@ -682,7 +682,7 @@ namespace DB_Service.Services
                                 _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
                                 //TODO:notification class add
                             }
-                            _notificationService.SendNotification(processForNotification.Id, user.Id, "StopProcess");
+                            _notificationService.SendNotification(processForNotification.Id, stage.Id, user.Id, "StopProcess");
                         }
                     }
                 }
@@ -743,7 +743,7 @@ namespace DB_Service.Services
                         var users = await _authClient.GetUsersByGroupId(group.Id);
                         foreach (var user in users)
                         {
-                            _notificationService.SendNotification(Id, user.Id, "UpdateProcess");
+                            _notificationService.SendNotification(Id, stage.Id, user.Id, "UpdateProcess");
                         }
                     }
                 }

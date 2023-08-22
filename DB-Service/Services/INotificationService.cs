@@ -2,6 +2,6 @@
 {
     public interface INotificationService
     {
-        void SendNotification(int Id, int UserId, string type);
+        void SendNotification(int ProcessId, int StageId, int UserId, string type);
     }
 }
