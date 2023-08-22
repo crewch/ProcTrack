@@ -43,11 +43,6 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 				queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 				console.log('CreateProcessNotification')
 			})
-
-			socket.on('UpdateProcessNotification', message => {
-				console.log(message)
-				//TODO доделать
-			})
 		}, [socket])
 
 		useEffect(() => {
@@ -66,8 +61,6 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					}
 
 					if (openedStage === stageId) {
-						console.log(openedStage, stageId)
-
 						queryClient.invalidateQueries({ queryKey: ['stageId'] })
 					}
 
@@ -81,6 +74,8 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 
 					if (openedProcess === processId) {
+						console.log(openedProcess, processId)
+
 						queryClient.invalidateQueries({
 							queryKey: ['processId', processId],
 						})
@@ -94,9 +89,26 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					console.log('StopProcessNotification')
 				}
 			)
+
+			socket.on(
+				'CreatePassportNotification',
+				({ processId }: { processId: number }) => {
+					if (openedProcess === processId) {
+						console.log(openedProcess, processId)
+
+						queryClient.invalidateQueries({
+							queryKey: ['passport', processId],
+						})
+					}
+
+					console.log('CreatePassportNotification')
+				}
+			)
 		}, [socket, openedProcess, openedStage])
 
-		socket.on('CreatePassportNotification', message => {
+		//TODO доделать
+
+		socket.on('UpdateProcessNotification', message => {
 			console.log(message)
 		})
 
