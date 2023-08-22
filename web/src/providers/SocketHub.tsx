@@ -24,6 +24,13 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					}
 				})
 			}
+
+			// return () => {
+			// 	if (socket) {
+			// 		socket.stop()
+			// 		console.log('SignalR disconnected')
+			// 	}
+			// }
 		}, [socket])
 
 		addEventListener('localStorageChange', () => {
@@ -45,17 +52,17 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 			//TODO
 		})
 
-		socket.on('StartProcessNotification', (processId: number) => {
-			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+		socket.on('StartProcessNotification', () => {
+			// queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 			queryClient.invalidateQueries({ queryKey: ['processId'] })
-			queryClient.invalidateQueries({ queryKey: ['stageId'] })
+			// queryClient.invalidateQueries({ queryKey: ['stageId'] })
 			console.log('StartProcessNotification')
 		})
 
-		socket.on('StopProcessNotification', (processId: number) => {
-			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+		socket.on('StopProcessNotification', () => {
+			// queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 			queryClient.invalidateQueries({ queryKey: ['processId'] })
-			queryClient.invalidateQueries({ queryKey: ['stageId'] })
+			// queryClient.invalidateQueries({ queryKey: ['stageId'] })
 			console.log('StopProcessNotification')
 		})
 
