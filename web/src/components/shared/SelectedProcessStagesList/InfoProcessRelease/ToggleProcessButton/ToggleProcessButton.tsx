@@ -21,7 +21,6 @@ const ToggleProcessButton: FC<ToggleProcessButtonProps> = ({ status }) => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['processId'] })
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-			queryClient.invalidateQueries({ queryKey: ['stages'] })
 			queryClient.invalidateQueries({ queryKey: ['stageId'] })
 		},
 	})
@@ -31,7 +30,6 @@ const ToggleProcessButton: FC<ToggleProcessButtonProps> = ({ status }) => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['processId'] })
 			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-			queryClient.invalidateQueries({ queryKey: ['stages'] })
 			queryClient.invalidateQueries({ queryKey: ['stageId'] })
 		},
 	})
