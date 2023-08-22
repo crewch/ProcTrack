@@ -582,7 +582,12 @@ namespace DB_Service.Services
                 {
                     stage.Status = newStatus;
                 }
+            }
 
+            await _context.SaveChangesAsync();
+
+            foreach (var stage in stages)
+            {
                 var groupHolds = await _authClient.FindHold(stage.Id, "Stage"); // TODO: проверить в остальных методах
                 
                 foreach (var hold in groupHolds)
@@ -609,8 +614,6 @@ namespace DB_Service.Services
                     _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
                 }
             }
-
-            await _context.SaveChangesAsync();
 
             var logUser = await _authClient.GetUserById(UserId);
             if (logUser != null)
@@ -654,7 +657,12 @@ namespace DB_Service.Services
                 {
                     stage.Status = newStatus;
                 }
+            }
 
+            await _context.SaveChangesAsync();
+
+            foreach (var stage in stages)
+            {
                 var groupHolds = await _authClient.FindHold(stage.Id, "Stage"); // TODO: проверить в остальных методах
                 
                 foreach (var hold in groupHolds)
@@ -682,10 +690,7 @@ namespace DB_Service.Services
                     var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
                     _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
                 }
-
             }
-
-            await _context.SaveChangesAsync();
 
             var logUser = await _authClient.GetUserById(UserId);
             if (logUser != null)
