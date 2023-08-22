@@ -1,6 +1,6 @@
 import { SocketContext } from '@/context/SocketContext'
 import { getUserData } from '@/utils/getUserData'
-import { QueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { FC, ReactNode, useContext, useEffect } from 'react'
 
 interface SocketHubProps {
@@ -8,8 +8,8 @@ interface SocketHubProps {
 }
 
 const SocketHub: FC<SocketHubProps> = ({ children }) => {
+	const queryClient = useQueryClient()
 	const { socket } = useContext(SocketContext)
-	const queryClient = new QueryClient()
 
 	if (socket) {
 		useEffect(() => {

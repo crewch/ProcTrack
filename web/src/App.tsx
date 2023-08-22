@@ -21,7 +21,9 @@ import { SocketContext } from './context/SocketContext.tsx'
 import SocketHub from './providers/SocketHub.tsx'
 import { HOST } from './configs/url.ts'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: { queries: { refetchOnWindowFocus: false } },
+})
 
 const socket = new signalR.HubConnectionBuilder()
 	.withUrl(`http://${HOST}:8001/notifications`)
