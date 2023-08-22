@@ -63,8 +63,6 @@ namespace DB_Service.Services
 				var status = await _context.Statuses
 					.Where(s => s.Id == stage.StatusId)
 					.FirstOrDefaultAsync();
-
-				Console.WriteLine("stage = " + status.Title);
 				
 				if (status.Title.ToLower() == "отправлен на проверку")
 				{
@@ -396,6 +394,20 @@ namespace DB_Service.Services
                        s.Status.Title.ToLower() != "не начат" &&
                        s.Status.Title.ToLower() != "остановлен")
 				.FirstOrDefaultAsync();
+
+			var status = await _context.Statuses
+				.Where(s => s.Id == stage.StatusId)
+				.FirstOrDefaultAsync();
+	
+			if (status.Title.ToLower() == "принят на проверку")
+			{
+				var newStatus = await _context.Statuses
+					.Where(s => s.Title.ToLower() == "отправлен на проверку")
+					.FirstOrDefaultAsync();
+				stage.Status = newStatus;
+			}
+
+			await _context.SaveChangesAsync();
 
 			var processForNotification = await _context.Processes
 				.Include(p => p.Stages)
