@@ -15,9 +15,11 @@ import FiltersCheckboxProcess from './FiltersCheckbox/FiltersCheckboxStage.tsx'
 import FiltersCheckboxStage from './FiltersCheckbox/FiltersCheckboxStage.tsx'
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks.ts'
 import { filtersService } from '@/services/filters.ts'
-import { toggleAllFilters } from '@/store/filterProcessSlice/filterProcessSlice.ts'
-import { toggleShowApproved } from '@/store/filterStageSlice/filterStageSlice.ts'
 import styles from './FiltersList.module.scss'
+import {
+	toggleAllFilters,
+	toggleShowApproved,
+} from '@/store/filterStageSlice/filterStageSlice.ts'
 
 const FiltersListStage = () => {
 	const {

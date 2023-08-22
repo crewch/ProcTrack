@@ -1,11 +1,3 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { routes } from './routes/routes'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Provider } from 'react-redux'
-import { store } from './store/store.ts'
-import Layout from './pages/Layout/Layout.tsx'
-import NotFound from './pages/NotFound/NotFound.tsx'
-import LoginPage from './pages/Login/Login.tsx'
 import './index.scss'
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -16,51 +8,46 @@ import '@fontsource/montserrat/400.css'
 import '@fontsource/montserrat/500.css'
 import '@fontsource/montserrat/600.css'
 import '@fontsource/montserrat/700.css'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { routes } from './routes/routes'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Provider } from 'react-redux'
+import { store } from './store/store.ts'
+import Layout from './pages/Layout/Layout.tsx'
+import NotFound from './pages/NotFound/NotFound.tsx'
+import LoginPage from './pages/Login/Login.tsx'
 import * as signalR from '@microsoft/signalr'
-import { getUserData } from './utils/getUserData.ts'
+import { SocketContext } from './context/SocketContext.tsx'
+import SocketHub from './providers/SocketHub.tsx'
+import { HOST } from './configs/url.ts'
 
 const queryClient = new QueryClient()
 
-let socket = new signalR.HubConnectionBuilder()
-	.withUrl('http://localhost:8001/notifications')
+const socket = new signalR.HubConnectionBuilder()
+	.withUrl(`http://${HOST}:8001/notifications`)
 	.build()
 
-socket.start().then(() => {
-	if (getUserData()) {
-		socket.invoke(
-			'SetUserConnection',
-			JSON.stringify({ UserId: getUserData().id })
-		)
-		console.log('invoke1')
-	}
-})
-
 const App = () => {
-	addEventListener('localStorageChange', () => {
-		socket.invoke(
-			'SetUserConnection',
-			JSON.stringify({ UserId: getUserData().id })
-		)
-
-		console.log('invoke2')
-	})
-
 	return (
 		<QueryClientProvider client={queryClient}>
-			<Provider store={store}>
-				<BrowserRouter>
-					<Routes>
-						<Route path='/' element={<Layout />}>
-							{routes.map(({ path, Element }, index) => (
-								<Route path={path} element={<Element />} key={index} />
-							))}
-						</Route>
-						<Route path='login' element={<LoginPage />} />
-						<Route path='404' element={<NotFound />} />
-						<Route path='*' element={<Navigate to='404' />} />
-					</Routes>
-				</BrowserRouter>
-			</Provider>
+			<SocketContext.Provider value={{ socket }}>
+				<SocketHub>
+					<Provider store={store}>
+						<BrowserRouter>
+							<Routes>
+								<Route path='/' element={<Layout />}>
+									{routes.map(({ path, Element }, index) => (
+										<Route path={path} element={<Element />} key={index} />
+									))}
+								</Route>
+								<Route path='login' element={<LoginPage />} />
+								<Route path='404' element={<NotFound />} />
+								<Route path='*' element={<Navigate to='404' />} />
+							</Routes>
+						</BrowserRouter>
+					</Provider>
+				</SocketHub>
+			</SocketContext.Provider>
 		</QueryClientProvider>
 	)
 }
