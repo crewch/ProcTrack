@@ -17,6 +17,15 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
 
 	if (socket) {
+		addEventListener('localStorageChange', () => {
+			socket.invoke(
+				'SetUserConnection',
+				JSON.stringify({ UserId: getUserData().id })
+			)
+
+			console.log('invoke2')
+		})
+
 		useEffect(() => {
 			if (socket.state === 'Disconnected') {
 				socket.start().then(() => {
@@ -121,15 +130,6 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 
 		socket.on('CreateCommentNotification', message => {
 			console.log(message)
-		})
-
-		addEventListener('localStorageChange', () => {
-			socket.invoke(
-				'SetUserConnection',
-				JSON.stringify({ UserId: getUserData().id })
-			)
-
-			console.log('invoke2')
 		})
 	}
 
