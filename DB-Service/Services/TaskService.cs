@@ -489,7 +489,7 @@ namespace DB_Service.Services
 							var users = await _authClient.GetUsersByGroupId(group.Id);
 							foreach (var iUser in users)
 							{
-								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "StopTask");
+								_notificationService.SendNotification(processForNotification.Id, iUser.Id, "UpdateEndVerification");
 							}
 						}
 					}
