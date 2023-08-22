@@ -25,13 +25,9 @@ const UploadButtonDialog: FC<UploadButtonDialogProps> = memo(
 
 		const userId = getUserData().id
 
-		const queryClient = useQueryClient()
 		const mutation = useMutation({
 			mutationFn: () =>
 				passportService.sendPassport(userId, processId, file, message),
-			onSuccess: () => {
-				queryClient.invalidateQueries({ queryKey: ['passport'] })
-			},
 		})
 
 		const saveFile = (e: ChangeEvent<HTMLInputElement>) => {
