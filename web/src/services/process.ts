@@ -87,7 +87,7 @@ export const processService = {
 		try {
 			if (typeof openedProcessID === 'undefined') return
 
-			await (
+			await ( 
 				await axios.get(`${URL_IDProcess}${openedProcessID}/start`)
 			).data
 		} catch (error) {
