@@ -16,7 +16,6 @@ namespace DB_Service.Services
 
         public void SendProcessMailToChecker(Process process, UserDto user, GroupDto group, Stage stage)
         {
-            Console.WriteLine($"\n\n\n\n\n\n\n\n\n{process.Title} {user.LongName} {group.Title} {stage.Title} \n\n\n\n\n\n\n\n");
             System.Threading.Tasks.Task.Run(async () => await _mailClient.SendMail(new MailDto
                         {
                             To = user.Email,

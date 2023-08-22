@@ -51,13 +51,16 @@ namespace DB_Service.Services
 			if (taskModel.StageId != null)
 			{
 				var stage = await _context.Stages
-				.Where(s => s.Id == taskModel.StageId)
-				.FirstOrDefaultAsync();
+					.Include(s => s.Status)
+					.Where(s => s.Id == taskModel.StageId)
+					.FirstOrDefaultAsync();
 
 				var status = await _context.Statuses
 					.Where(s => s.Id == stage.StatusId)
 					.FirstOrDefaultAsync();
 
+				Console.WriteLine("stage = " + status.Title);
+				
 				if (status.Title.ToLower() == "отправлен на проверку")
 				{
 					var newStatus = await _context.Statuses
@@ -66,6 +69,10 @@ namespace DB_Service.Services
 
 					stage.Status = newStatus;
 				}
+
+				var processForNotification = await _context.Processes
+					.Where(p => p.Id == stage.ProcessId)
+					.FirstOrDefaultAsync();
 			}
 
 			await _context.SaveChangesAsync();

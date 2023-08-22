@@ -14,18 +14,21 @@ namespace DB_Service.Services
         private readonly IMailService _mailService;
         private readonly IStageService _stageService;
         private readonly ILogService _logService;
+        private readonly INotificationService _notificationService;
 
         public ProcessService(DataContext context, 
                               IAuthDataClient authClient,
                               IMailService mailService,
                               IStageService stageService,
-                              ILogService logService)
+                              ILogService logService,
+                              INotificationService notificationService)
         {
             _context = context;
             _authClient = authClient;
             _mailService = mailService;
             _stageService = stageService;
             _logService = logService;
+            _notificationService = notificationService;
         }
 
         public async Task<PassportDto> CreatePassport(CreatePassportDto data, int UserId, int Id)
@@ -42,14 +45,32 @@ namespace DB_Service.Services
             
             var stages = _context.Stages
                 .Include(s => s.Status)
-                .Where(s => s.ProcessId == Id && 
-                            (s.Status.Title.ToLower() == "согласовано" || 
-                             s.Status.Title.ToLower() == "согласовано-блокировано"))
+                .Where(s => s.ProcessId == Id)
                 .ToList();
 
             foreach (var stage in stages)
             {
-                stage.Status = _context.Statuses.Where(s => s.Title.ToLower() == "в доработке").FirstOrDefault();    
+                if (stage.Status.Title.ToLower() == "согласовано" || 
+                    stage.Status.Title.ToLower() == "согласовано-блокировано") {
+                    stage.Status = _context.Statuses
+                        .Where(s => s.Title.ToLower() == "в доработке")
+                        .FirstOrDefault();    
+                }
+
+                var groupHolds = await _authClient.FindHold(stage.Id, "Stage");
+                
+                foreach (var hold in groupHolds)
+                {
+                    if (hold.Groups == null) continue;
+                    foreach (var group in hold.Groups)
+                    {
+                        var users = await _authClient.GetUsersByGroupId(group.Id);
+                        foreach (var iUser in users)
+                        {
+                            _notificationService.SendNotification(Id, iUser.Id, "CreatePassport");
+                        }
+                    }
+                }
             }
 
             await _context.SaveChangesAsync();
@@ -260,13 +281,29 @@ namespace DB_Service.Services
             {
                 if (stageTuple.Item2.Id == newProcess.HeadStage.Id)
                 {
-                    var newHold = await _authClient.CreateHold(new CreateHoldRequestDto
+                    await _authClient.CreateHold(new CreateHoldRequestDto
                     {
                         DestId = stageTuple.Item2.Id,
                         DestType = "Stage",
                         HolderId = (int) data.GroupId,
                         HolderType = "Group"
                     });
+
+                    var releaserGroupHolds = await _authClient.FindHold(stageTuple.Item2.Id, "Stage");
+                    foreach (var hold in releaserGroupHolds)    //NOTE:send notifications to releaser group
+                    {
+                        if (hold.Groups == null) continue;
+
+                        foreach (var group in hold.Groups)
+                        {
+                            var users = await _authClient.GetUsersByGroupId(group.Id);
+                            foreach (var user in users)
+                            {
+                                _notificationService.SendNotification(newProcess.Id, user.Id, "CreateProcess");
+                            }
+                        }
+                    }
+
                     continue;
                 }
 
@@ -276,7 +313,7 @@ namespace DB_Service.Services
                 {
                     foreach (var group in hold.Groups)
                     {
-                        var newHold = await _authClient.CreateHold(new CreateHoldRequestDto
+                        await _authClient.CreateHold(new CreateHoldRequestDto
                         {
                             DestId = stageTuple.Item2.Id,
                             DestType = "Stage",
@@ -287,7 +324,7 @@ namespace DB_Service.Services
 
                     foreach (var user in hold.Users)
                     {
-                        var newHold = await _authClient.CreateHold(new CreateHoldRequestDto
+                        await _authClient.CreateHold(new CreateHoldRequestDto
                         {
                             DestId = stageTuple.Item2.Id,
                             DestType = "Stage",
@@ -522,43 +559,52 @@ namespace DB_Service.Services
 
         public async Task<ProcessDto> StartProcess(int UserId, int Id)
         {
+
             var processForNotification = await _context.Processes
                 .Where(p => p.Id == Id)
                 .FirstOrDefaultAsync();
 
             var stages = await _context.Stages
                 .Include(s => s.Status)
-                .Where(s => s.Status.Title.ToLower() == "остановлен" && s.ProcessId == Id)
+                .Where(s => s.ProcessId == Id)
                 .ToListAsync();
             
-            var new_status = await _context.Statuses
+            var newStatus = await _context.Statuses
                     .Where(s => s.Title.ToLower() == "отправлен на проверку")
                     .FirstOrDefaultAsync();
 
             foreach (var stage in stages)
             {
-                stage.Status = new_status;
-
-                var holdsForNotificate = await _authClient.FindHold(Id, "Stage");
-                
-                if (holdsForNotificate.Count < 1)
+                if (stage.Status.Title.ToLower() == "остановлен")
                 {
-                    continue;
+                    stage.Status = newStatus;
                 }
 
-                foreach (var group in holdsForNotificate[0]?.Groups)
+                var groupHolds = await _authClient.FindHold(stage.Id, "Stage"); // TODO: проверить в остальных методах
+                
+                foreach (var hold in groupHolds)
                 {
-                    var NotificatedUsers = await _authClient.GetUsersByGroupId(group.Id);
-                    foreach (var user in NotificatedUsers)
+                    if (hold.Groups == null) continue;
+                    foreach (var group in hold.Groups)
                     {
-                        _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
+                        var users = await _authClient.GetUsersByGroupId(group.Id);
+                        foreach (var user in users)
+                        {
+                            if (stage.Status.Title.ToLower() == "остановлен")
+                            {
+                                _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
+                                //TODO:notification class add
+                            }
+                            _notificationService.SendNotification(processForNotification.Id, user.Id, "StartProcess");
+                        }
                     }
                 }
-
-                var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
-                var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
-
-                _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
+                if (stage.Status.Title.ToLower() == "остановлен")
+                {
+                    var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+                    var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+                    _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
+                }
             }
 
             await _context.SaveChangesAsync();
@@ -591,27 +637,49 @@ namespace DB_Service.Services
 
             var stages = await _context.Stages
                 .Include(s => s.Status)
-                .Where(s => 
-                    (s.Status.Title.ToLower() == "отправлен на проверку" ||
-                    s.Status.Title.ToLower() == "принят на проверку") &&
-                    s.ProcessId == Id
-                )
+                .Where(s => s.ProcessId == Id)
                 .ToListAsync();
-
-            string oldStatus = stages[0].Title;
 
             var newStatus = await _context.Statuses
                     .Where(s => s.Title.ToLower() == "остановлен")
                     .FirstOrDefaultAsync();
-            
+
             foreach (var stage in stages)
             {
-                stage.Status = newStatus;
+                if (stage.Status.Title.ToLower() == "отправлен на проверку" ||
+                    stage.Status.Title.ToLower() == "принят на проверку")
+                {
+                    stage.Status = newStatus;
+                }
 
-                var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
-                var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+                var groupHolds = await _authClient.FindHold(stage.Id, "Stage"); // TODO: проверить в остальных методах
+                
+                foreach (var hold in groupHolds)
+                {
+                    if (hold.Groups == null) continue;
+                    foreach (var group in hold.Groups)
+                    {
+                        var users = await _authClient.GetUsersByGroupId(group.Id);
+                        foreach (var user in users)
+                        {
+                            if (stage.Status.Title.ToLower() == "отправлен на проверку" ||
+                                stage.Status.Title.ToLower() == "принят на проверку")
+                            {
+                                _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
+                                //TODO:notification class add
+                            }
+                            _notificationService.SendNotification(processForNotification.Id, user.Id, "StopProcess");
+                        }
+                    }
+                }
+                if (stage.Status.Title.ToLower() == "отправлен на проверку" ||
+                                stage.Status.Title.ToLower() == "принят на проверку")
+                {
+                    var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+                    var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+                    _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
+                }
 
-                _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
             }
 
             await _context.SaveChangesAsync();
@@ -625,7 +693,7 @@ namespace DB_Service.Services
                     Field = "Status",
                     Operation = "Update",
                     LogId = Id.ToString(),
-                    Old = oldStatus,
+                    Old = "отправлен на проверку",
                     New = "Остановлен",
                     Author = logUser.ShortName.ToString(),
                     CreatedAt = DateTime.Now.AddHours(3)
@@ -652,6 +720,24 @@ namespace DB_Service.Services
 
             await _context.SaveChangesAsync();
             
+            var stages = await GetStagesByProcessId(Id);    //NOTE:notificate groups
+            foreach (var stage in stages)
+            {
+                var groupHolds = await _authClient.FindHold(stage.Id, "Stage");
+                foreach (var hold in groupHolds)
+                {
+                    if (hold.Groups == null) continue;
+                    foreach (var group in hold.Groups)
+                    {
+                        var users = await _authClient.GetUsersByGroupId(group.Id);
+                        foreach (var user in users)
+                        {
+                            _notificationService.SendNotification(Id, user.Id, "UpdateProcess");
+                        }
+                    }
+                }
+            }
+
             var logUser = await _authClient.GetUserById(UserId);
             if (logUser != null)
             {
