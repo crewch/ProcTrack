@@ -132,44 +132,40 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 		)
 	}, [openedProcess])
 
-	socket?.on('UpdateProcessNotification', message => {
-		//TODO доделать
-		console.log(message)
-	})
-
-	socket?.on('AssignStageNotification', message => {
-		//TODO доделать
-		console.log(message)
-	})
-
 	useEffect(() => {
-		socket?.on('CancelStageNotification', () => {
-			queryClient.invalidateQueries({
-				queryKey: ['stageId'],
-			})
+		socket?.on(
+			'CancelStageNotification',
+			({ processId, stageId }: { processId: number; stageId: number }) => {
+				if (stageId === openedStage) {
+					queryClient.invalidateQueries({
+						queryKey: ['stageId', stageId],
+					})
+				}
 
-			if (getUrl() === 'release') {
-				queryClient.invalidateQueries({
-					queryKey: ['processId'],
-				})
+				if (getUrl() === 'release' && openedProcess === processId) {
+					queryClient.invalidateQueries({
+						queryKey: ['processId', processId],
+					})
 
-				queryClient.invalidateQueries({
-					queryKey: ['allProcess'],
-				})
+					queryClient.invalidateQueries({
+						queryKey: ['allProcess'],
+					})
+				}
+
+				if (getUrl() === 'approval') {
+					queryClient.invalidateQueries({
+						queryKey: ['stagesAllByUserId'],
+					})
+
+					queryClient.invalidateQueries({
+						queryKey: ['processByStageId', stageId],
+					})
+				}
+
+				queryClient.invalidateQueries({ queryKey: ['stages', processId] })
 			}
-			if (getUrl() === 'approval') {
-				queryClient.invalidateQueries({
-					queryKey: ['stagesAllByUserId'],
-				})
-
-				queryClient.invalidateQueries({
-					queryKey: ['processByStageId'],
-				})
-			}
-
-			queryClient.invalidateQueries({ queryKey: ['stages'] })
-		})
-	}, [])
+		)
+	}, [openedStage, openedProcess])
 
 	useEffect(() => {
 		socket?.on(
@@ -188,30 +184,105 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 		)
 	}, [openedProcess])
 
-	socket?.on('AssignTaskNotification', message => {
-		//TODO доделать
-		console.log(message)
-	})
+	useEffect(() => {
+		socket?.on('AssignTaskNotification', ({ stageId }: { stageId: number }) => {
+			if (getUrl() === 'approval') {
+				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
+			}
 
-	socket?.on('StartTaskNotification', message => {
-		//TODO доделать
-		console.log(message)
-	})
+			if (openedStage === stageId) {
+				queryClient.invalidateQueries({
+					queryKey: ['stageId', stageId],
+				})
 
-	socket?.on('StopTaskNotification', message => {
-		//TODO доделать
-		console.log(message)
-	})
+				queryClient.invalidateQueries({
+					queryKey: ['tasks', stageId],
+				})
+			}
+		})
+	}, [openedStage])
 
-	socket?.on('UpdateEndVerificationNotification', message => {
-		//TODO доделать
-		console.log(message)
-	})
+	useEffect(() => {
+		socket?.on('StartTaskNotification', ({ stageId }: { stageId: number }) => {
+			if (getUrl() === 'approval') {
+				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
+			}
 
-	socket?.on('CreateCommentNotification', message => {
-		//TODO доделать
-		console.log(message)
-	})
+			if (openedStage === stageId) {
+				queryClient.invalidateQueries({
+					queryKey: ['stageId', stageId],
+				})
+
+				queryClient.invalidateQueries({
+					queryKey: ['tasks', stageId],
+				})
+			}
+		})
+	}, [openedStage])
+
+	useEffect(() => {
+		socket?.on('StopTaskNotification', ({ stageId }: { stageId: number }) => {
+			if (getUrl() === 'approval') {
+				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
+			}
+
+			if (openedStage === stageId) {
+				queryClient.invalidateQueries({
+					queryKey: ['stageId', stageId],
+				})
+
+				queryClient.invalidateQueries({
+					queryKey: ['tasks', stageId],
+				})
+			}
+		})
+	}, [openedStage])
+
+	useEffect(() => {
+		socket?.on(
+			'UpdateEndVerificationNotification',
+			({ stageId }: { stageId: number }) => {
+				if (getUrl() === 'approval') {
+					queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
+				}
+
+				if (openedStage === stageId) {
+					queryClient.invalidateQueries({
+						queryKey: ['stageId', stageId],
+					})
+
+					queryClient.invalidateQueries({
+						queryKey: ['tasks', stageId],
+					})
+				}
+			}
+		)
+	}, [openedStage])
+
+	useEffect(() => {
+		socket?.on(
+			'CreateCommentNotification',
+			({ stageId }: { stageId: number }) => {
+				if (openedStage === stageId) {
+					queryClient.invalidateQueries({ queryKey: ['tasks'] })
+				}
+			}
+		)
+	}, [openedStage])
+
+	useEffect(() => {
+		socket?.on('UpdateProcessNotification', message => {
+			//TODO доделать
+			console.log(message)
+		})
+	}, [])
+
+	useEffect(() => {
+		socket?.on('AssignStageNotification', message => {
+			//TODO доделать
+			console.log(message)
+		})
+	}, [])
 
 	return <>{children}</>
 }

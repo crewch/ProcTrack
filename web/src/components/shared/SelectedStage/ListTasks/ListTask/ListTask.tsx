@@ -84,47 +84,19 @@ const ListTask: FC<ListTaskProps> = memo(
 			onSuccess: () => {
 				setTextComment('')
 				setFileRef('')
-				queryClient.invalidateQueries({ queryKey: ['tasks'] })
 			},
 		})
 
 		const mutationStartTask = useMutation({
 			mutationFn: () => taskService.startTaskId(taskId, userData.id),
-			onSuccess: () => {
-				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
-				queryClient.invalidateQueries({
-					queryKey: ['stageId'],
-				})
-				queryClient.invalidateQueries({
-					queryKey: ['tasks'],
-				})
-			},
 		})
 
 		const mutationStopTask = useMutation({
 			mutationFn: () => taskService.stopTaskId(taskId, userData.id),
-			onSuccess: () => {
-				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
-				queryClient.invalidateQueries({
-					queryKey: ['stageId'],
-				})
-				queryClient.invalidateQueries({
-					queryKey: ['tasks'],
-				})
-			},
 		})
 
 		const mutationEndVerificationTask = useMutation({
 			mutationFn: () => taskService.endVerificationTaskId(taskId, userData.id),
-			onSuccess: () => {
-				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
-				queryClient.invalidateQueries({
-					queryKey: ['stageId'],
-				})
-				queryClient.invalidateQueries({
-					queryKey: ['tasks'],
-				})
-			},
 		})
 
 		const mutationAssignsTask = useMutation({
