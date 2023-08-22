@@ -33,8 +33,8 @@ const App = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<Provider store={store}>
-				<SocketContext.Provider value={{ socket }}>
-					<BrowserRouter>
+				<BrowserRouter>
+					<SocketContext.Provider value={{ socket }}>
 						<SocketHub>
 							<Routes>
 								<Route path='/' element={<Layout />}>
@@ -47,8 +47,8 @@ const App = () => {
 								<Route path='*' element={<Navigate to='404' />} />
 							</Routes>
 						</SocketHub>
-					</BrowserRouter>
-				</SocketContext.Provider>
+					</SocketContext.Provider>
+				</BrowserRouter>
 			</Provider>
 		</QueryClientProvider>
 	)

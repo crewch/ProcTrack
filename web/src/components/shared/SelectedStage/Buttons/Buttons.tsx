@@ -48,18 +48,6 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 
 	const mutationCancelStage = useMutation({
 		mutationFn: () => stageService.cancelStage(selectedStage?.id, userId),
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: ['stageId'],
-			})
-			queryClient.invalidateQueries({
-				queryKey: ['stagesAllByUserId'],
-			})
-			queryClient.invalidateQueries({
-				queryKey: ['processByStageId'],
-			})
-			queryClient.invalidateQueries({ queryKey: ['stages'] })
-		},
 	})
 
 	const userData = getUserData()
@@ -130,9 +118,7 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 									<Button
 										size='small'
 										variant='outlined'
-										onClick={() => {
-											handleClickOpen()
-										}}
+										onClick={handleClickOpen}
 									>
 										Редактировать путь согласования
 									</Button>
