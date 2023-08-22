@@ -55,7 +55,9 @@ namespace DB_Service.Services
 			{
 				var stage = await _context.Stages
 					.Include(s => s.Status)
-					.Where(s => s.Id == taskModel.StageId)
+					.Where(s => s.Id == taskModel.StageId && 
+                       s.Status.Title.ToLower() != "не начат" &&
+                       s.Status.Title.ToLower() != "остановлен")
 					.FirstOrDefaultAsync();
 
 				var status = await _context.Statuses
@@ -149,7 +151,9 @@ namespace DB_Service.Services
 
 			var stage = await _context.Stages			//NOTE:notification
 				.Include(s => s.Status)
-				.Where(s => s.Id == taskModel.StageId)
+				.Where(s => s.Id == taskModel.StageId && 
+                       s.Status.Title.ToLower() != "не начат" &&
+                       s.Status.Title.ToLower() != "остановлен")
 				.FirstOrDefaultAsync();
 
 			var processForNotification = await _context.Processes
@@ -293,7 +297,9 @@ namespace DB_Service.Services
 
 			var stage = await _context.Stages			//NOTE:notification
 				.Include(s => s.Status)
-				.Where(s => s.Id == taskModel.StageId)
+				.Where(s => s.Id == taskModel.StageId && 
+                       s.Status.Title.ToLower() != "не начат" &&
+                       s.Status.Title.ToLower() != "остановлен")
 				.FirstOrDefaultAsync();
 
 			var processForNotification = await _context.Processes
@@ -386,7 +392,9 @@ namespace DB_Service.Services
 
 			var stage = await _context.Stages		//NOTE:notification
 				.Include(s => s.Status)
-				.Where(s => s.Id == taskModel.StageId)
+				.Where(s => s.Id == taskModel.StageId && 
+                       s.Status.Title.ToLower() != "не начат" &&
+                       s.Status.Title.ToLower() != "остановлен")
 				.FirstOrDefaultAsync();
 
 			var processForNotification = await _context.Processes
@@ -457,7 +465,9 @@ namespace DB_Service.Services
 
 			var stage = await _context.Stages		//NOTE:notification
 				.Include(s => s.Status)
-				.Where(s => s.Id == taskModel.StageId)
+				.Where(s => s.Id == taskModel.StageId && 
+                       s.Status.Title.ToLower() != "не начат" &&
+                       s.Status.Title.ToLower() != "остановлен")
 				.FirstOrDefaultAsync();
 
 			var processForNotification = await _context.Processes

@@ -4,6 +4,7 @@ using DB_Service.Dtos;
 using DB_Service.Models;
 using Microsoft.EntityFrameworkCore;
 using DB_Service.Tools;
+using NuGet.Packaging.Signing;
 
 namespace DB_Service.Services
 {
@@ -45,7 +46,9 @@ namespace DB_Service.Services
             
             var stages = _context.Stages
                 .Include(s => s.Status)
-                .Where(s => s.ProcessId == Id)
+                .Where(s => s.ProcessId == Id && 
+                       s.Status.Title.ToLower() != "не начат" &&
+                       s.Status.Title.ToLower() != "остановлен")
                 .ToList();
 
             foreach (var stage in stages)

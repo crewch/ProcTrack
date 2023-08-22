@@ -37,7 +37,9 @@ namespace DB_Service.Services
         {
             var stage = await _context.Stages
                 .Include(s => s.Status)
-                .Where(s => s.Id == Id)
+                .Where(s => s.Id == Id && 
+                       s.Status.Title.ToLower() != "не начат" &&
+                       s.Status.Title.ToLower() != "остановлен")
                 .FirstOrDefaultAsync();
 
             if (stage == null)
@@ -494,7 +496,9 @@ namespace DB_Service.Services
             var logUser = await _authClient.GetUserById(UserId);
 
             var stage = await _context.Stages
-                .Where(s => s.Id == Id)
+                .Where(s => s.Id == Id && 
+                       s.Status.Title.ToLower() != "не начат" &&
+                       s.Status.Title.ToLower() != "остановлен")
                 .FirstOrDefaultAsync();
 
             if (stage == null)
