@@ -151,24 +151,24 @@ namespace DB_Service.Services
                     }
                     next.Status = newStatusPass;
 
-                    var groupHolds = await _authClient.FindHold(next.Id, "Stage");
+                    // var groupHolds = await _authClient.FindHold(next.Id, "Stage");
                 
-                    foreach (var hold in groupHolds)
-                    {
-                        if (hold.Groups == null) continue;
-                        foreach (var group in hold.Groups)
-                        {
-                            var users = await _authClient.GetUsersByGroupId(group.Id);
-                            foreach (var user in users)
-                            {
-                                _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
-                                //_notificationService.SendNotification(processForNotification.Id, user.Id, "AssignStage");
-                            }
-                        }
-                    }
-                    var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
-                    var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
-                    _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
+                    // foreach (var hold in groupHolds)
+                    // {
+                    //     if (hold.Groups == null) continue;
+                    //     foreach (var group in hold.Groups)
+                    //     {
+                    //         var users = await _authClient.GetUsersByGroupId(group.Id);
+                    //         foreach (var user in users)
+                    //         {
+                    //             _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
+                    //             //_notificationService.SendNotification(processForNotification.Id, user.Id, "AssignStage");
+                    //         }
+                    //     }
+                    // }
+                    // var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+                    // var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+                    // _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
                 }
 
                 await _context.SaveChangesAsync();
@@ -291,24 +291,24 @@ namespace DB_Service.Services
                 }
                 next.Status = newStatus;
 
-                var groupHolds = await _authClient.FindHold(next.Id, "Stage");  //NOTE:notificate checker group
+                // var groupHolds = await _authClient.FindHold(next.Id, "Stage");  //NOTE:notificate checker group
                 
-                foreach (var hold in groupHolds)
-                {
-                    if (hold.Groups == null) continue;
-                    foreach (var group in hold.Groups)
-                    {
-                        var users = await _authClient.GetUsersByGroupId(group.Id);
-                        foreach (var user in users)
-                        {
-                            _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
-                            //_notificationService.SendNotification(processForNotification.Id, user.Id, "AssignStage");
-                        }
-                    }
-                }
-                var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
-                var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
-                _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
+                // foreach (var hold in groupHolds)
+                // {
+                //     if (hold.Groups == null) continue;
+                //     foreach (var group in hold.Groups)
+                //     {
+                //         var users = await _authClient.GetUsersByGroupId(group.Id);
+                //         foreach (var user in users)
+                //         {
+                //             _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
+                //             //_notificationService.SendNotification(processForNotification.Id, user.Id, "AssignStage");
+                //         }
+                //     }
+                // }
+                // var notificatedReleaserHolds = await _authClient.FindHold(processForNotification.Id, "Process");
+                // var notificatedReleaser = notificatedReleaserHolds[0]?.Users[0];
+                // _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
             }
 
             await _context.SaveChangesAsync();
