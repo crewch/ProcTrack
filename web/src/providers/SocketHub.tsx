@@ -93,6 +93,7 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 			socket.on(
 				'CreatePassportNotification',
 				({ processId }: { processId: number }) => {
+					console.log(openedProcess, processId)
 					if (openedProcess === processId) {
 						console.log(openedProcess, processId)
 

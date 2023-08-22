@@ -30,6 +30,8 @@ namespace DB_Service.Data
 
         public DbSet<Models.Type> Types { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+
         public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

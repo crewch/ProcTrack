@@ -46,9 +46,7 @@ namespace DB_Service.Services
             
             var stages = _context.Stages
                 .Include(s => s.Status)
-                .Where(s => s.ProcessId == Id && 
-                       s.Status.Title.ToLower() != "не начат" &&
-                       s.Status.Title.ToLower() != "остановлен")
+                .Where(s => s.ProcessId == Id)
                 .ToList();
 
             foreach (var stage in stages)

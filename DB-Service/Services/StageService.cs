@@ -172,7 +172,7 @@ namespace DB_Service.Services
                 }
 
                 await _context.SaveChangesAsync();
-
+                // NOTE: return идет на рекурсию
                 return await GetStageById(Id);
             }
 
@@ -214,7 +214,7 @@ namespace DB_Service.Services
                     });
                     await _context.SaveChangesAsync();
                 }
-
+                // NOTE: согласовано-блокировано - какой-то из этапов на доработке или остановлен
                 return await GetStageById(Id);
             }
 
@@ -256,7 +256,7 @@ namespace DB_Service.Services
                     });
                     await _context.SaveChangesAsync();
                 }
-
+                // NOTE: согласовано-блокировано - не все зависимости
                 return await GetStageById(Id);
             }
             
@@ -346,7 +346,7 @@ namespace DB_Service.Services
                 });
                 await _context.SaveChangesAsync();
             }
-
+            // NOTE: основной return 
             return await GetStageById(Id);
         }
 
@@ -496,9 +496,7 @@ namespace DB_Service.Services
             var logUser = await _authClient.GetUserById(UserId);
 
             var stage = await _context.Stages
-                .Where(s => s.Id == Id && 
-                       s.Status.Title.ToLower() != "не начат" &&
-                       s.Status.Title.ToLower() != "остановлен")
+                .Where(s => s.Id == Id)
                 .FirstOrDefaultAsync();
 
             if (stage == null)
