@@ -32,8 +32,8 @@ const socket = new signalR.HubConnectionBuilder()
 const App = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<SocketContext.Provider value={{ socket }}>
-				<Provider store={store}>
+			<Provider store={store}>
+				<SocketContext.Provider value={{ socket }}>
 					<SocketHub>
 						<BrowserRouter>
 							<Routes>
@@ -48,8 +48,8 @@ const App = () => {
 							</Routes>
 						</BrowserRouter>
 					</SocketHub>
-				</Provider>
-			</SocketContext.Provider>
+				</SocketContext.Provider>
+			</Provider>
 		</QueryClientProvider>
 	)
 }

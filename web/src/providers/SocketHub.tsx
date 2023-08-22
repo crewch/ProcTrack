@@ -15,6 +15,7 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 		state => state.processStage.openedProcess
 	)
 	const openedStage = useAppSelector(state => state.processStage.openedStage)
+	console.log(openedProcess, '<<<<')
 
 	if (socket) {
 		useEffect(() => {
@@ -39,13 +40,17 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 				console.log(message)
 				//TODO доделать
 			})
+		}, [socket])
 
+		useEffect(() => {
 			socket.on(
 				'StartProcessNotification',
 				({ processId, stageId }: { processId: number; stageId: number }) => {
 					queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 
 					if (openedProcess === processId) {
+						console.log(openedProcess, processId)
+
 						queryClient.invalidateQueries({
 							queryKey: ['processId', processId],
 						})
@@ -53,6 +58,8 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					}
 
 					if (openedStage === stageId) {
+						console.log(openedStage, stageId)
+
 						queryClient.invalidateQueries({ queryKey: ['stageId'] })
 					}
 
@@ -79,43 +86,43 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					console.log('StopProcessNotification')
 				}
 			)
+		}, [socket, openedProcess, openedStage])
 
-			socket.on('CreatePassportNotification', message => {
-				console.log(message)
-			})
+		socket.on('CreatePassportNotification', message => {
+			console.log(message)
+		})
 
-			socket.on('AssignStageNotification', message => {
-				console.log(message)
-			})
+		socket.on('AssignStageNotification', message => {
+			console.log(message)
+		})
 
-			socket.on('CancelStageNotification', message => {
-				console.log(message)
-			})
+		socket.on('CancelStageNotification', message => {
+			console.log(message)
+		})
 
-			socket.on('UpdateStageNotification', message => {
-				console.log(message)
-			})
+		socket.on('UpdateStageNotification', message => {
+			console.log(message)
+		})
 
-			socket.on('AssignTaskNotification', message => {
-				console.log(message)
-			})
+		socket.on('AssignTaskNotification', message => {
+			console.log(message)
+		})
 
-			socket.on('StartTaskNotification', message => {
-				console.log(message)
-			})
+		socket.on('StartTaskNotification', message => {
+			console.log(message)
+		})
 
-			socket.on('StopTaskNotification', message => {
-				console.log(message)
-			})
+		socket.on('StopTaskNotification', message => {
+			console.log(message)
+		})
 
-			socket.on('UpdateEndVerificationNotification', message => {
-				console.log(message)
-			})
+		socket.on('UpdateEndVerificationNotification', message => {
+			console.log(message)
+		})
 
-			socket.on('CreateCommentNotification', message => {
-				console.log(message)
-			})
-		}, [socket])
+		socket.on('CreateCommentNotification', message => {
+			console.log(message)
+		})
 
 		addEventListener('localStorageChange', () => {
 			socket.invoke(
