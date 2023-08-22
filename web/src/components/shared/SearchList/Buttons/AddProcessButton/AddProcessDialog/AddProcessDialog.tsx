@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { GrayButton } from '@/components/ui/button/GrayButton'
 import { processService } from '@/services/process'
 import { NewProcessForm } from '@/shared/interfaces/newProcessForm'
@@ -135,12 +135,9 @@ const AddProcessDialog: FC<AddProcessDialogProps> = ({ open, handleClose }) => {
 		}
 	}, [dataPriorities, isSuccessPriorities])
 
-	const queryClient = useQueryClient()
-
 	const mutationAddProcess = useMutation({
 		mutationFn: processService.addProcess,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 			setTitle('')
 			setDescription('')
 			setSelectedTemplate(undefined)
