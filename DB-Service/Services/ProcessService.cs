@@ -59,7 +59,12 @@ namespace DB_Service.Services
                         .Where(s => s.Title.ToLower() == "в доработке")
                         .FirstOrDefault();    
                 }
+            }
 
+            await _context.SaveChangesAsync();
+
+            foreach (var stage in stages)
+            {
                 var groupHolds = await _authClient.FindHold(stage.Id, "Stage");
                 
                 foreach (var hold in groupHolds)
@@ -75,8 +80,6 @@ namespace DB_Service.Services
                     }
                 }
             }
-
-            await _context.SaveChangesAsync();
 
             var user = await _authClient.GetUserById(UserId);
             if (user != null)

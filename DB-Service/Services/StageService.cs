@@ -162,7 +162,7 @@ namespace DB_Service.Services
                             foreach (var user in users)
                             {
                                 _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
-                                _notificationService.SendNotification(processForNotification.Id, user.Id, "AssignStage");
+                                //_notificationService.SendNotification(processForNotification.Id, user.Id, "AssignStage");
                             }
                         }
                     }
@@ -302,7 +302,7 @@ namespace DB_Service.Services
                         foreach (var user in users)
                         {
                             _mailService.SendProcessMailToChecker(processForNotification, user, group, stage);
-                            _notificationService.SendNotification(processForNotification.Id, user.Id, "AssignStage");
+                            //_notificationService.SendNotification(processForNotification.Id, user.Id, "AssignStage");
                         }
                     }
                 }
@@ -540,7 +540,7 @@ namespace DB_Service.Services
                 _mailService.SendProcessMailToReleaser(processForNotification, stage, notificatedReleaser);
             }
             
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             foreach (var iStage in processForNotification.Stages)
             {
