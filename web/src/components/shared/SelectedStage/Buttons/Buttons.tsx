@@ -42,6 +42,7 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 			queryClient.invalidateQueries({
 				queryKey: ['processByStageId'],
 			})
+			queryClient.invalidateQueries({ queryKey: ['stages'] })
 		},
 	})
 
@@ -57,6 +58,7 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 			queryClient.invalidateQueries({
 				queryKey: ['processByStageId'],
 			})
+			queryClient.invalidateQueries({ queryKey: ['stages'] })
 		},
 	})
 
