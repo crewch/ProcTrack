@@ -25,13 +25,66 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 				})
 			}
 
-			// return () => {
-			// 	if (socket) {
-			// 		socket.stop()
-			// 		console.log('SignalR disconnected')
-			// 	}
-			// }
-		}, [socket])
+			socket.on('CreateProcessNotification', () => {
+				queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+				console.log('CreateProcessNotification')
+			})
+
+			socket.on('UpdateProcessNotification', message => {
+				console.log(message)
+				//TODO
+			})
+
+			socket.on('StartProcessNotification', () => {
+				queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+				queryClient.invalidateQueries({ queryKey: ['processId'] })
+				queryClient.invalidateQueries({ queryKey: ['stageId'] })
+				console.log('StartProcessNotification')
+			})
+
+			socket.on('StopProcessNotification', () => {
+				queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+				queryClient.invalidateQueries({ queryKey: ['processId'] })
+				queryClient.invalidateQueries({ queryKey: ['stageId'] })
+				console.log('StopProcessNotification')
+			})
+
+			socket.on('CreatePassportNotification', message => {
+				console.log(message)
+			})
+
+			socket.on('AssignStageNotification', message => {
+				console.log(message)
+			})
+
+			socket.on('CancelStageNotification', message => {
+				console.log(message)
+			})
+
+			socket.on('UpdateStageNotification', message => {
+				console.log(message)
+			})
+
+			socket.on('AssignTaskNotification', message => {
+				console.log(message)
+			})
+
+			socket.on('StartTaskNotification', message => {
+				console.log(message)
+			})
+
+			socket.on('StopTaskNotification', message => {
+				console.log(message)
+			})
+
+			socket.on('UpdateEndVerificationNotification', message => {
+				console.log(message)
+			})
+
+			socket.on('CreateCommentNotification', message => {
+				console.log(message)
+			})
+		}, [])
 
 		addEventListener('localStorageChange', () => {
 			socket.invoke(
@@ -40,66 +93,6 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 			)
 
 			console.log('invoke2')
-		})
-
-		socket.on('CreateProcessNotification', () => {
-			queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-			console.log('CreateProcessNotification')
-		})
-
-		socket.on('UpdateProcessNotification', message => {
-			console.log(message)
-			//TODO
-		})
-
-		socket.on('StartProcessNotification', () => {
-			// queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-			queryClient.invalidateQueries({ queryKey: ['processId'] })
-			// queryClient.invalidateQueries({ queryKey: ['stageId'] })
-			console.log('StartProcessNotification')
-		})
-
-		socket.on('StopProcessNotification', () => {
-			// queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-			queryClient.invalidateQueries({ queryKey: ['processId'] })
-			// queryClient.invalidateQueries({ queryKey: ['stageId'] })
-			console.log('StopProcessNotification')
-		})
-
-		socket.on('CreatePassportNotification', message => {
-			console.log(message)
-		})
-
-		socket.on('AssignStageNotification', message => {
-			console.log(message)
-		})
-
-		socket.on('CancelStageNotification', message => {
-			console.log(message)
-		})
-
-		socket.on('UpdateStageNotification', message => {
-			console.log(message)
-		})
-
-		socket.on('AssignTaskNotification', message => {
-			console.log(message)
-		})
-
-		socket.on('StartTaskNotification', message => {
-			console.log(message)
-		})
-
-		socket.on('StopTaskNotification', message => {
-			console.log(message)
-		})
-
-		socket.on('UpdateEndVerificationNotification', message => {
-			console.log(message)
-		})
-
-		socket.on('CreateCommentNotification', message => {
-			console.log(message)
 		})
 	}
 
