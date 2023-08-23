@@ -245,7 +245,7 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 			}
 
 			if (openedStage === stageId) {
-				console.log('AssignTaskNotification') //BUG не приходят данные
+				// BUG не приходят данные
 
 				queryClient.invalidateQueries({
 					queryKey: ['stageId', stageId],
@@ -367,7 +367,7 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 		socket?.on('UpdateProcessNotification', () => {
 			//TODO доделать
 		})
-	}, [])
+	}, [socket])
 
 	useEffect(() => {
 		const handleAssignStageNotification = ({
