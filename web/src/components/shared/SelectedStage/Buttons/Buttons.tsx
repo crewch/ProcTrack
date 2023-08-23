@@ -32,18 +32,6 @@ const Buttons: FC<ButtonsProps> = ({ selectedStage, isSuccess, isLoading }) => {
 
 	const mutationSuccessStage = useMutation({
 		mutationFn: () => stageService.successStage(selectedStage?.id, userId),
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: ['stageId'],
-			})
-			queryClient.invalidateQueries({
-				queryKey: ['stagesAllByUserId'],
-			})
-			queryClient.invalidateQueries({
-				queryKey: ['processByStageId'],
-			})
-			queryClient.invalidateQueries({ queryKey: ['stages'] })
-		},
 	})
 
 	const mutationCancelStage = useMutation({
