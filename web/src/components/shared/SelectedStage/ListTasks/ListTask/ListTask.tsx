@@ -12,7 +12,7 @@ import {
 	Typography,
 } from '@mui/material'
 import { ChangeEvent, FC, memo, useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Comment } from '@/shared/interfaces/comment'
 import { ReactComponent as User } from '@/assets/user1.svg'
 import classNames from 'classnames'
@@ -78,7 +78,6 @@ const ListTask: FC<ListTaskProps> = memo(
 			createdAt: '',
 		}
 
-		const queryClient = useQueryClient()
 		const mutationSendComment = useMutation({
 			mutationFn: () => commentService.sendComment(taskId, comment),
 			onSuccess: () => {
@@ -101,15 +100,6 @@ const ListTask: FC<ListTaskProps> = memo(
 
 		const mutationAssignsTask = useMutation({
 			mutationFn: () => taskService.assignTaskId(taskId, userData.id),
-			onSuccess: () => {
-				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
-				queryClient.invalidateQueries({
-					queryKey: ['stageId'],
-				})
-				queryClient.invalidateQueries({
-					queryKey: ['tasks'],
-				})
-			},
 		})
 
 		return (

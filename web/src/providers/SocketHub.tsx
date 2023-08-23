@@ -31,159 +31,241 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 				}
 			})
 		}
-	}, [])
-
-	addEventListener('localStorageChange', () => {
-		socket?.invoke(
-			'SetUserConnection',
-			JSON.stringify({ UserId: getUserData().id })
-		)
-
-		console.log('invoke2')
-	})
+	}, [socket])
 
 	useEffect(() => {
-		socket?.on('CreateProcessNotification', () => {
+		const handleLocalStorageChange = () => {
+			socket?.invoke(
+				'SetUserConnection',
+				JSON.stringify({ UserId: getUserData().id })
+			)
+
+			console.log('invoke2')
+		}
+
+		addEventListener('localStorageChange', handleLocalStorageChange)
+
+		return () => {
+			removeEventListener('localStorageChange', handleLocalStorageChange)
+		}
+	}, [socket])
+
+	useEffect(() => {
+		const handleCreateProcessNotification = () => {
 			if (getPage() === 'release') {
 				queryClient.invalidateQueries({ queryKey: ['allProcess'] })
 			}
-		})
-	}, [])
+		}
+
+		socket?.on('CreateProcessNotification', handleCreateProcessNotification)
+
+		return () => {
+			socket?.off('CreateProcessNotification', handleCreateProcessNotification)
+		}
+	}, [queryClient, socket])
 
 	useEffect(() => {
-		socket?.on(
-			'StartProcessNotification',
-			({ processId, stageId }: { processId: number; stageId: number }) => {
-				console.log('StartProcessNotification')
+		const handleStartProcessNotification = ({
+			processId,
+			stageId,
+		}: {
+			processId: number
+			stageId: number
+		}) => {
+			if (getPage() === 'release') {
+				queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+			}
 
+			if (getPage() === 'approval') {
+				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
+			}
+
+			if (openedProcess === processId) {
 				if (getPage() === 'release') {
-					queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-				}
-
-				if (getPage() === 'approval') {
-					queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
-				}
-
-				if (openedProcess === processId) {
-					if (getPage() === 'release') {
-						queryClient.invalidateQueries({
-							queryKey: ['processId', processId],
-						})
-						queryClient.invalidateQueries({ queryKey: ['stages', processId] })
-					}
-				}
-
-				if (openedStage === stageId) {
-					if (getPage() === 'release') {
-						queryClient.invalidateQueries({ queryKey: ['stageId', stageId] })
-					}
-				}
-			}
-		)
-	}, [openedProcess, openedStage])
-
-	useEffect(() => {
-		socket?.on(
-			'StopProcessNotification',
-			({ processId, stageId }: { processId: number; stageId: number }) => {
-				if (getPage() === 'release') {
-					queryClient.invalidateQueries({ queryKey: ['allProcess'] })
-				}
-
-				if (getPage() === 'approval') {
-					queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
-				}
-
-				if (openedProcess === processId) {
-					if (getPage() === 'release') {
-						queryClient.invalidateQueries({
-							queryKey: ['processId', processId],
-						})
-					}
-
-					queryClient.invalidateQueries({ queryKey: ['stages', processId] })
-				}
-
-				if (openedStage === stageId) {
-					if (getPage() === 'release') {
-						queryClient.invalidateQueries({ queryKey: ['stageId', stageId] })
-					}
-
-					if (getPage() === 'approval') {
-						dispatch(reset())
-					}
-				}
-			}
-		)
-	}, [openedProcess, openedStage])
-
-	useEffect(() => {
-		socket?.on(
-			'CreatePassportNotification',
-			({ processId }: { processId: number }) => {
-				if (openedProcess === processId) {
-					queryClient.invalidateQueries({
-						queryKey: ['passport', processId],
-					})
-				}
-			}
-		)
-	}, [openedProcess])
-
-	useEffect(() => {
-		socket?.on(
-			'CancelStageNotification',
-			({ processId, stageId }: { processId: number; stageId: number }) => {
-				if (stageId === openedStage) {
-					queryClient.invalidateQueries({
-						queryKey: ['stageId', stageId],
-					})
-				}
-
-				if (getPage() === 'release' && openedProcess === processId) {
 					queryClient.invalidateQueries({
 						queryKey: ['processId', processId],
 					})
-
-					queryClient.invalidateQueries({
-						queryKey: ['allProcess'],
-					})
+					queryClient.invalidateQueries({ queryKey: ['stages', processId] })
 				}
+			}
 
-				if (getPage() === 'approval') {
-					queryClient.invalidateQueries({
-						queryKey: ['stagesAllByUserId'],
-					})
+			if (openedStage === stageId) {
+				if (getPage() === 'release') {
+					queryClient.invalidateQueries({ queryKey: ['stageId', stageId] })
+				}
+			}
+		}
 
+		socket?.on('StartProcessNotification', handleStartProcessNotification)
+
+		return () => {
+			socket?.off('StartProcessNotification', handleStartProcessNotification)
+		}
+	}, [openedProcess, openedStage, queryClient, socket])
+
+	useEffect(() => {
+		const handleStopProcessNotification = ({
+			processId,
+			stageId,
+		}: {
+			processId: number
+			stageId: number
+		}) => {
+			if (getPage() === 'release') {
+				queryClient.invalidateQueries({ queryKey: ['allProcess'] })
+			}
+
+			if (getPage() === 'approval') {
+				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
+			}
+
+			if (openedProcess === processId) {
+				if (getPage() === 'release') {
 					queryClient.invalidateQueries({
-						queryKey: ['processByStageId', stageId],
+						queryKey: ['processId', processId],
 					})
 				}
 
 				queryClient.invalidateQueries({ queryKey: ['stages', processId] })
 			}
-		)
-	}, [openedStage, openedProcess])
 
-	useEffect(() => {
-		socket?.on(
-			'UpdateStageNotification',
-			({ processId }: { processId: number }) => {
+			if (openedStage === stageId) {
+				if (getPage() === 'release') {
+					queryClient.invalidateQueries({ queryKey: ['stageId', stageId] })
+				}
+
 				if (getPage() === 'approval') {
-					queryClient.invalidateQueries({
-						queryKey: ['stagesAllByUserId'],
-					})
-				}
-
-				if (openedProcess === processId) {
-					queryClient.invalidateQueries({ queryKey: ['stages', processId] })
+					dispatch(reset())
 				}
 			}
-		)
-	}, [openedProcess])
+		}
+
+		socket?.on('StopProcessNotification', handleStopProcessNotification)
+
+		return () => {
+			socket?.off('StopProcessNotification', handleStopProcessNotification)
+		}
+	}, [openedProcess, openedStage, queryClient, socket, dispatch])
 
 	useEffect(() => {
-		socket?.on('AssignTaskNotification', ({ stageId }: { stageId: number }) => {
+		const handleCreatePassportNotification = ({
+			processId,
+		}: {
+			processId: number
+		}) => {
+			if (openedProcess === processId) {
+				queryClient.invalidateQueries({
+					queryKey: ['passport', processId],
+				})
+			}
+		}
+
+		socket?.on('CreatePassportNotification', handleCreatePassportNotification)
+
+		return () => {
+			socket?.off(
+				'CreatePassportNotification',
+				handleCreatePassportNotification
+			)
+		}
+	}, [openedProcess, queryClient, socket])
+
+	useEffect(() => {
+		const handleCancelStageNotification = ({
+			processId,
+			stageId,
+		}: {
+			processId: number
+			stageId: number
+		}) => {
+			if (stageId === openedStage) {
+				queryClient.invalidateQueries({
+					queryKey: ['stageId', stageId],
+				})
+			}
+
+			if (getPage() === 'release' && openedProcess === processId) {
+				queryClient.invalidateQueries({
+					queryKey: ['processId', processId],
+				})
+
+				queryClient.invalidateQueries({
+					queryKey: ['allProcess'],
+				})
+			}
+
+			if (getPage() === 'approval') {
+				queryClient.invalidateQueries({
+					queryKey: ['stagesAllByUserId'],
+				})
+
+				queryClient.invalidateQueries({
+					queryKey: ['processByStageId', stageId],
+				})
+			}
+
+			queryClient.invalidateQueries({ queryKey: ['stages', processId] })
+		}
+
+		socket?.on('CancelStageNotification', handleCancelStageNotification)
+
+		return () => {
+			socket?.off('CancelStageNotification', handleCancelStageNotification)
+		}
+	}, [openedStage, openedProcess, queryClient, socket])
+
+	useEffect(() => {
+		const handleUpdateStageNotification = ({
+			processId,
+		}: {
+			processId: number
+		}) => {
+			if (getPage() === 'approval') {
+				queryClient.invalidateQueries({
+					queryKey: ['stagesAllByUserId'],
+				})
+			}
+
+			if (openedProcess === processId) {
+				queryClient.invalidateQueries({ queryKey: ['stages', processId] })
+			}
+		}
+
+		socket?.on('UpdateStageNotification', handleUpdateStageNotification)
+
+		return () => {
+			socket?.off('UpdateStageNotification', handleUpdateStageNotification)
+		}
+	}, [openedProcess, queryClient, socket])
+
+	useEffect(() => {
+		const handleAssignTaskNotification = ({ stageId }: { stageId: number }) => {
+			if (getPage() === 'approval') {
+				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
+			}
+
+			if (openedStage === stageId) {
+				console.log('AssignTaskNotification') //BUG не приходят данные
+
+				queryClient.invalidateQueries({
+					queryKey: ['stageId', stageId],
+				})
+
+				queryClient.invalidateQueries({
+					queryKey: ['tasks', stageId],
+				})
+			}
+		}
+
+		socket?.on('AssignTaskNotification', handleAssignTaskNotification)
+
+		return () => {
+			socket?.off('AssignTaskNotification', handleAssignTaskNotification)
+		}
+	}, [openedStage, queryClient, socket])
+
+	useEffect(() => {
+		const handleStartTaskNotification = ({ stageId }: { stageId: number }) => {
 			if (getPage() === 'approval') {
 				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
 			}
@@ -197,11 +279,17 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					queryKey: ['tasks', stageId],
 				})
 			}
-		})
-	}, [openedStage])
+		}
+
+		socket?.on('StartTaskNotification', handleStartTaskNotification)
+
+		return () => {
+			socket?.off('StartTaskNotification', handleStartTaskNotification)
+		}
+	}, [openedStage, queryClient, socket])
 
 	useEffect(() => {
-		socket?.on('StartTaskNotification', ({ stageId }: { stageId: number }) => {
+		const handleStopTaskNotification = ({ stageId }: { stageId: number }) => {
 			if (getPage() === 'approval') {
 				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
 			}
@@ -215,11 +303,21 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					queryKey: ['tasks', stageId],
 				})
 			}
-		})
-	}, [openedStage])
+		}
+
+		socket?.on('StopTaskNotification', handleStopTaskNotification)
+
+		return () => {
+			socket?.off('StopTaskNotification', handleStopTaskNotification)
+		}
+	}, [openedStage, queryClient, socket])
 
 	useEffect(() => {
-		socket?.on('StopTaskNotification', ({ stageId }: { stageId: number }) => {
+		const handleUpdateEndVerificationNotification = ({
+			stageId,
+		}: {
+			stageId: number
+		}) => {
 			if (getPage() === 'approval') {
 				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
 			}
@@ -233,82 +331,86 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 					queryKey: ['tasks', stageId],
 				})
 			}
-		})
-	}, [openedStage])
+		}
 
-	useEffect(() => {
 		socket?.on(
 			'UpdateEndVerificationNotification',
-			({ stageId }: { stageId: number }) => {
-				if (getPage() === 'approval') {
-					queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
-				}
-
-				if (openedStage === stageId) {
-					queryClient.invalidateQueries({
-						queryKey: ['stageId', stageId],
-					})
-
-					queryClient.invalidateQueries({
-						queryKey: ['tasks', stageId],
-					})
-				}
-			}
+			handleUpdateEndVerificationNotification
 		)
-	}, [openedStage])
+
+		return () => {
+			socket?.off(
+				'UpdateEndVerificationNotification',
+				handleUpdateEndVerificationNotification
+			)
+		}
+	}, [openedStage, queryClient, socket])
 
 	useEffect(() => {
-		socket?.on(
-			'CreateCommentNotification',
-			({ stageId }: { stageId: number }) => {
-				if (openedStage === stageId) {
-					queryClient.invalidateQueries({ queryKey: ['tasks'] })
-				}
+		const handleCreateCommentNotification = ({
+			stageId,
+		}: {
+			stageId: number
+		}) => {
+			if (openedStage === stageId) {
+				queryClient.invalidateQueries({ queryKey: ['tasks'] })
 			}
-		)
-	}, [openedStage])
+		}
+
+		socket?.on('CreateCommentNotification', handleCreateCommentNotification)
+
+		return () =>
+			socket?.off('CreateCommentNotification', handleCreateCommentNotification)
+	}, [openedStage, queryClient, socket])
 
 	useEffect(() => {
-		socket?.on('UpdateProcessNotification', message => {
+		socket?.on('UpdateProcessNotification', () => {
 			//TODO доделать
-			console.log(message)
 		})
 	}, [])
 
 	useEffect(() => {
-		socket?.on(
-			'AssignStageNotification',
-			({ processId, stageId }: { processId: number; stageId: number }) => {
-				if (stageId === openedStage) {
-					queryClient.invalidateQueries({
-						queryKey: ['stageId', stageId],
-					})
-				}
-
-				if (getPage() === 'release' && openedProcess === processId) {
-					queryClient.invalidateQueries({
-						queryKey: ['processId', processId],
-					})
-
-					queryClient.invalidateQueries({
-						queryKey: ['allProcess'],
-					})
-				}
-
-				if (getPage() === 'approval') {
-					queryClient.invalidateQueries({
-						queryKey: ['stagesAllByUserId'],
-					})
-
-					queryClient.invalidateQueries({
-						queryKey: ['processByStageId', stageId],
-					})
-				}
-
-				queryClient.invalidateQueries({ queryKey: ['stages', processId] })
+		const handleAssignStageNotification = ({
+			processId,
+			stageId,
+		}: {
+			processId: number
+			stageId: number
+		}) => {
+			if (stageId === openedStage) {
+				queryClient.invalidateQueries({
+					queryKey: ['stageId', stageId],
+				})
 			}
-		)
-	}, [openedProcess, openedStage])
+
+			if (getPage() === 'release' && openedProcess === processId) {
+				queryClient.invalidateQueries({
+					queryKey: ['processId', processId],
+				})
+
+				queryClient.invalidateQueries({
+					queryKey: ['allProcess'],
+				})
+			}
+
+			if (getPage() === 'approval') {
+				queryClient.invalidateQueries({
+					queryKey: ['stagesAllByUserId'],
+				})
+
+				queryClient.invalidateQueries({
+					queryKey: ['processByStageId', stageId],
+				})
+			}
+
+			queryClient.invalidateQueries({ queryKey: ['stages', processId] })
+		}
+
+		socket?.on('AssignStageNotification', handleAssignStageNotification)
+
+		return () =>
+			socket?.off('AssignStageNotification', handleAssignStageNotification)
+	}, [openedProcess, openedStage, socket, queryClient])
 
 	return <>{children}</>
 }
