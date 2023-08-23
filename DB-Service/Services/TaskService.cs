@@ -72,6 +72,8 @@ namespace DB_Service.Services
 
 					stage.Status = newStatus;
 				}
+				
+				await _context.SaveChangesAsync();
 
 				var processForNotification = await _context.Processes		//NOTE:notification
 					.Include(p => p.Stages)
