@@ -102,8 +102,6 @@ namespace DB_Service.Services
 				}
 			}
 
-			await _context.SaveChangesAsync();
-
 			if (user != null)
             {
                 await _logService.AddLog(new Log
