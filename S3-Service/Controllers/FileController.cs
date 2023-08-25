@@ -80,7 +80,7 @@ namespace S3_Service.Controllers
             return Ok(new {FileName = fileName});
         }
 
-        [HttpGet("/download")]
+        [HttpPost("/download")]
         public async Task<IActionResult> DownloadFile(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
