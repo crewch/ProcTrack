@@ -239,14 +239,22 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 	}, [openedProcess, queryClient, socket])
 
 	useEffect(() => {
-		const handleAssignTaskNotification = ({ stageId }: { stageId: number }) => {
+		const handleAssignTaskNotification = ({
+			processId,
+			stageId,
+		}: {
+			processId: number
+			stageId: number
+		}) => {
 			if (getPage() === 'approval') {
 				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
 			}
 
-			if (openedStage === stageId) {
-				// BUG не приходят данные
+			if (openedProcess === processId) {
+				queryClient.invalidateQueries({ queryKey: ['stages', processId] })
+			}
 
+			if (openedStage === stageId) {
 				queryClient.invalidateQueries({
 					queryKey: ['stageId', stageId],
 				})
@@ -262,7 +270,7 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 		return () => {
 			socket?.off('AssignTaskNotification', handleAssignTaskNotification)
 		}
-	}, [openedStage, queryClient, socket])
+	}, [openedStage, openedProcess, queryClient, socket])
 
 	useEffect(() => {
 		const handleStartTaskNotification = ({ stageId }: { stageId: number }) => {
@@ -289,9 +297,19 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 	}, [openedStage, queryClient, socket])
 
 	useEffect(() => {
-		const handleStopTaskNotification = ({ stageId }: { stageId: number }) => {
+		const handleStopTaskNotification = ({
+			stageId,
+			processId,
+		}: {
+			stageId: number
+			processId: number
+		}) => {
 			if (getPage() === 'approval') {
 				queryClient.invalidateQueries({ queryKey: ['stagesAllByUserId'] })
+			}
+
+			if (openedProcess === processId) {
+				queryClient.invalidateQueries({ queryKey: ['stages', processId] })
 			}
 
 			if (openedStage === stageId) {
@@ -310,7 +328,7 @@ const SocketHub: FC<SocketHubProps> = ({ children }) => {
 		return () => {
 			socket?.off('StopTaskNotification', handleStopTaskNotification)
 		}
-	}, [openedStage, queryClient, socket])
+	}, [openedStage, openedProcess, queryClient, socket])
 
 	useEffect(() => {
 		const handleUpdateEndVerificationNotification = ({
