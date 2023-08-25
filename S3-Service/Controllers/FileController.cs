@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
 using Minio;
-using System.Diagnostics;
 using Minio.Exceptions;
 using System.Text.RegularExpressions;
+using Minio.DataModel;
+using System.Security.Cryptography;
+using Google.Protobuf.WellKnownTypes;
 
 namespace S3_Service.Controllers
 {
@@ -36,6 +38,13 @@ namespace S3_Service.Controllers
         [HttpPost("/upload")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
+            var bea = new BucketExistsArgs()
+                .WithBucket(BucketName);
+
+            bool found = await _minioClient.BucketExistsAsync(bea);
+
+            _logger.LogInformation($"{found}");
+
             if (file is null)
                 return BadRequest("Must upload a valid file!");
 
@@ -59,17 +68,26 @@ namespace S3_Service.Controllers
             {
                 await using var stream = System.IO.File.Create(filePath);
                 await file.CopyToAsync(stream);
-
-                _logger.LogInformation("File copied to stream.");
-
-                if (!await _minioClient.BucketExistsAsync(BucketName))
-                    await _minioClient.MakeBucketAsync(BucketName);
-
-                _logger.LogInformation("Bucket exists/created, uploading file...");
-
                 stream.Seek(0, SeekOrigin.Begin);
 
-                await _minioClient.PutObjectAsync(BucketName, fileName, stream, stream.Length, file.ContentType);
+                _logger.LogInformation($"File copied to stream {stream.Name} {stream.Length}.");
+
+                //if (!await _minioClient.BucketExistsAsync(BucketName))
+                //    await _minioClient.MakeBucketAsync(BucketName);
+
+                //_logger.LogInformation("Bucket exists/created, uploading file...");
+
+                //stream.Seek(0, SeekOrigin.Begin);
+
+                //await _minioClient.PutObjectAsync(BucketName, fileName, stream, stream.Length, file.ContentType);
+                PutObjectArgs putObjectArgs = new PutObjectArgs()
+                                      .WithBucket(BucketName)
+                                      .WithObject(fileName)
+                                      .WithObjectSize(stream.Length)
+                                      .WithStreamData(stream)
+                                      .WithContentType(file.ContentType);
+                
+                await _minioClient.PutObjectAsync(putObjectArgs);
             }
             catch (Exception exception)
             {
@@ -86,36 +104,76 @@ namespace S3_Service.Controllers
             if (string.IsNullOrEmpty(fileName))
                 return BadRequest($"'{nameof(fileName)} cannot be null or empty!'");
 
-            //if (!Guid.TryParse(fileName.Split('.').FirstOrDefault(), out _))
-            //    return BadRequest($"Invalid '{fileName}'!");
-
             var filePath = Path.GetTempFileName();
             _logger.LogInformation($"Temp file name: '{filePath}'.");
-
+            
             var stream = System.IO.File.Create(filePath);
+            stream.Seek(0, SeekOrigin.Begin);
+            //{
+            //    await _minioClient.GetObjectAsync(BucketName, fileName, async callbackStream => await callbackStream.CopyToAsync(stream));
             
-            try
-            {
-                await _minioClient.GetObjectAsync(
-                    BucketName,
-                    fileName,
-                    async callbackStream => await callbackStream.CopyToAsync(stream));
-            }
-            catch (ObjectNotFoundException exception)
-            {
-                _logger.LogWarning(exception.Message);
-                
-                stream.Close();
-                
-                return NotFound(exception.Message);
-            }
-            
+            StatObjectArgs statObjectArgs = new StatObjectArgs()
+                                       .WithBucket(BucketName)
+                                       .WithObject(fileName);
+
+            await _minioClient.StatObjectAsync(statObjectArgs);
+
+            GetObjectArgs getObjectArgs = new GetObjectArgs()
+                                     .WithBucket(BucketName)
+                                     .WithObject(fileName)
+                                     .WithCallbackStream((s) =>
+                                          {
+                                              s.CopyTo(stream);
+                                          });
+
+            await _minioClient.GetObjectAsync(getObjectArgs);
+
             stream.Seek(0, SeekOrigin.Begin);
 
             if (!new FileExtensionContentTypeProvider().TryGetContentType(fileName, out var contentType))
                 contentType = "application/octet-stream";
 
+            
             return File(stream, contentType, fileName);
         }
+
+        //[HttpPost("/download")]
+        //public async Task<IActionResult> DownloadFile(string fileName)
+        //{
+        //    if (string.IsNullOrEmpty(fileName))
+        //        return BadRequest($"'{nameof(fileName)} cannot be null or empty!'");
+
+        //    //if (!Guid.TryParse(fileName.Split('.').FirstOrDefault(), out _))
+        //    //    return BadRequest($"Invalid '{fileName}'!");
+
+        //    var filePath = Path.GetTempFileName();
+        //    _logger.LogInformation($"Temp file name: '{filePath}'.");
+
+
+
+        //    var stat = await _minioClient.StatObjectAsync(BucketName, fileName);
+            
+        //    _logger.LogInformation($"{stat.ObjectName} {stat.Size} {stat.ContentType}");
+
+        //    return null;
+
+        //    //StatObjectArgs statObjectArgs = new StatObjectArgs()
+        //    //                            .WithBucket("mybucket")
+        //    //                            .WithObject("myobject");
+
+        //    //await _minioClient.StatObjectAsync(statObjectArgs);
+
+        //    //using (var stream = System.IO.File.Create(filePath))
+        //    //{
+        //    //    await _minioClient.GetObjectAsync(BucketName, fileName, async callbackStream => await callbackStream.CopyToAsync(stream));
+            
+        //    //    //stream.Seek(0, SeekOrigin.Begin);
+
+        //    //    if (!new FileExtensionContentTypeProvider().TryGetContentType(fileName, out var contentType))
+        //    //        contentType = "application/octet-stream";
+
+        //    //    return File(stream, contentType, fileName);
+        //    //}
+        //}
     }
 }

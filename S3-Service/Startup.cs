@@ -26,8 +26,13 @@ namespace S3_Service
             {
                 var options = sp.GetRequiredService<IOptionsMonitor<MinioOptions>>().CurrentValue;
                 
-                return new MinioClient(options.Endpoint, options.AccessKey, options.SecretKey);
+                return new MinioClient()
+                    .WithEndpoint(options.Endpoint)
+                    .WithCredentials(options.AccessKey, options.SecretKey)
+                    .WithSSL(false)
+                    .Build();
             });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "S3 Service", Version = "v1"});
@@ -51,7 +56,7 @@ namespace S3_Service
             }
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "S3-service"));
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors(x => x
