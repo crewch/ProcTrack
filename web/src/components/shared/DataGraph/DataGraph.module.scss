@@ -1,0 +1,7 @@
+.dataGraph {
+	@apply h-full w-full flex;
+
+	.panel {
+		@apply flex gap-2;
+	}
+}

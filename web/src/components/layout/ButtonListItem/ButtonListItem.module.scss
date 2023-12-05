@@ -1,0 +1,27 @@
+.listItem {
+	@apply my-1;
+
+	.navLink {
+		@apply w-full;
+
+		.listItemButton {
+			@apply flex justify-center;
+
+			.listItemIcon {
+				@apply p-1 flex justify-center;
+
+				.img {
+					@apply h-10 xl:h-[3.125rem] w-10 xl:w-[3.125rem];
+				}
+
+				.imgColor * {
+					@apply fill-ap-dark-blue;
+				}
+			}
+		}
+	}
+
+	.activeStyle .activeStyleButton {
+		@apply rounded-lg bg-ap-lightblue;
+	}
+}
