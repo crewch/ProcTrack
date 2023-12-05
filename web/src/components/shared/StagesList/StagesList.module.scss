@@ -1,0 +1,27 @@
+.container {
+	@apply h-full w-full bg-ap-white rounded-lg p-1 xl:p-3 flex flex-col overflow-auto;
+
+	.list {
+		@apply h-full overflow-auto pr-2;
+
+		.img {
+			@apply mr-[0.875rem] ml-[0.375rem] h-5 w-5;
+		}
+
+		.openedProcessWrap {
+			@apply bg-transparent;
+
+			.openedProcess {
+				@apply bg-ap-lightblue rounded-[0.4375rem];
+			}
+
+			.openedProcessText {
+				@apply text-irkut-dark;
+			}
+		}
+
+		.closedProcessText {
+			@apply text-ap-black;
+		}
+	}
+}

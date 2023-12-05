@@ -1,0 +1,11 @@
+.container {
+	@apply h-full w-full bg-ap-white rounded-lg p-2 xl:p-3 flex flex-col gap-2;
+
+	.divider {
+		@apply my-2 border;
+	}
+
+	.btns {
+		@apply flex gap-2;
+	}
+}

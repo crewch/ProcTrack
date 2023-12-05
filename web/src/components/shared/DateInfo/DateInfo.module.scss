@@ -1,0 +1,11 @@
+.container {
+	@apply flex gap-5;
+
+	.typography1 {
+		@apply w-[60%] text-sm xl:text-base 2xl:text-xl font-[Montserrat] font-semibold text-ap-black;
+	}
+
+	.typography2 {
+		@apply text-xs xl:text-sm text-ap-black flex items-center;
+	}
+}

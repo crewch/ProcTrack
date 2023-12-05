@@ -1,0 +1,19 @@
+.list {
+	@apply mt-1 h-full overflow-auto;
+
+	.typography {
+		@apply text-center font-[Montserrat];
+	}
+
+	.openedWrap {
+		@apply bg-transparent;
+
+		.opened {
+			@apply bg-ap-lightblue rounded-[0.4375rem];
+
+			.openedText {
+				@apply text-irkut-dark;
+			}
+		}
+	}
+}

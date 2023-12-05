@@ -1,0 +1,11 @@
+.listItem {
+	@apply flex-col py-2;
+
+	.listItemIcon {
+		@apply flex justify-center items-center;
+
+		.logo {
+			@apply h-10 xl:h-[3.125rem] w-10 xl:w-[3.125rem];
+		}
+	}
+}

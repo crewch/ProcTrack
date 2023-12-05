@@ -1,0 +1,11 @@
+.container {
+	@apply h-full flex;
+
+	.nav {
+		@apply h-full w-[4rem] xl:w-[4.4rem] bg-ap-white flex flex-col justify-between;
+
+		.divider {
+			@apply border;
+		}
+	}
+}

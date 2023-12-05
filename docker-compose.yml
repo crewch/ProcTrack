@@ -1,0 +1,200 @@
+version: '3.7'
+
+services:
+
+  proxy:
+    image: proctrack/proxy
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    expose:
+      - "80"
+    ports:
+      - "8000:80"
+    networks:
+      - api_network
+    depends_on:
+      - db-service
+      - frontend
+      - auth-service
+      - s3-service
+
+  frontend:
+    image: proctrack/frontend
+    build:
+      context: web
+    environment:
+      VITE_API_HOST: ${VITE_API_HOST}
+      VITE_API_PORT: ${VITE_API_PORT}
+    ports:
+      - "5173:5173"
+    networks:
+      - api_network
+    depends_on:
+      - db-service
+      - auth-service
+      - s3-service
+
+  db-service:
+    image: proctrack/dbservice
+    build:
+      context: .
+      dockerfile: DB-Service/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DB_CONNECTION_STRING: "host=postgres;port=5432;database=dbservice;username=postgres;password=postgres"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '8001:80'
+      - '443:443'
+    networks:
+      - api_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: apidemon@proctrack.irkut
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - api_network
+
+  postgres:
+    image: postgres
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "dbservice"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d dbservice" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    networks:
+      - api_network
+
+  s3-service:
+    image: proctrack/s3service
+    build:
+      context: .
+      dockerfile: S3-Service/Dockerfile
+    depends_on:
+      - minio
+    environment:
+      ASPNETCORE_URLS: "http://0.0.0.0:8002"
+      ASPNETCORE_ENVIRONMENT: Docker
+    ports:
+      - "8002:8002"
+    networks:
+      - api_network
+    restart: on-failure
+
+  minio:
+    container_name: minio
+    image: minio/minio
+    volumes:
+      - minio_volume:/data
+    ports:
+      - "9000:9000"
+    command: server /data
+    networks:
+      - api_network
+    restart: on-failure
+
+  auth-service:
+    image: proctrack/authservice
+    build:
+      context: .
+      dockerfile: AuthService/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DB_CONNECTION_STRING: "host=postgres-auth;port=5432;database=authservice;username=postgres;password=postgres"
+      LDAP_HOST: "${LDAP_HOST}"
+      LDAP_PORT: "${LDAP_PORT}"
+      LDAP_LOGIN: "${LDAP_LOGIN}"
+      LDAP_PASSWORD: "${LDAP_PASSWORD}"
+    depends_on:
+      postgres-auth:
+        condition: service_healthy
+    ports:
+      - '8003:80'
+      - '444:443'
+    networks:
+      - api_network
+
+  mail-service:
+    image: proctrack/mailservice
+    build:
+      context: .
+      dockerfile: mail-Service/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      SMTP_NAME: "${SMTP_NAME}"
+      SMTP_EMAIL: "${SMTP_EMAIL}"
+      SMTP_HOST: "${SMTP_HOST}"
+      SMTP_PORT: "${SMTP_PORT}"
+      SMTP_PASSWORD: "${SMTP_PASSWORD}"
+    ports:
+      - "8004:80"
+    networks:
+      - api_network
+
+  postgres-auth:
+    image: postgres
+    volumes:
+      - db_auth_volume:/var/lib/postgresql/data
+    ports:
+      - "5434:5433"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "authservice"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d authservice" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    networks:
+      - api_network
+  
+  # metabase:
+  #   image: metabase/metabase:latest
+  #   volumes:
+  #     - metabase-data:/metabase-data
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     MB_DB_TYPE: postgres
+  #     MB_DB_DBNAME: dbservice
+  #     MB_DB_PORT: 5432
+  #     MB_DB_USER: postgres
+  #     MB_DB_PASS: postgres
+  #     MB_DB_HOST: postgres
+  #   depends_on:
+  #     - postgres
+  #   links:
+  #     - postgres
+  #   networks:
+  #     - api_network
+
+volumes:
+  db_volume:
+  db_auth_volume:
+  minio_volume:
+  pgadmin-data: 
+  metabase-data:
+
+
+networks:
+  api_network:
+    driver: bridge

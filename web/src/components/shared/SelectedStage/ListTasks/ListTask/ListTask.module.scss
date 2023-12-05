@@ -1,0 +1,79 @@
+.container {
+	@apply flex flex-col gap-1;
+
+	.startBtn {
+		@apply flex;
+	}
+
+	.dateField {
+		@apply flex flex-col gap-2;
+
+		.btns {
+			@apply flex flex-wrap justify-end gap-2;
+		}
+	}
+
+	.divider {
+		@apply my-1 border;
+	}
+
+	.typography {
+		@apply font-[Montserrat] text-ap-black text-xl font-semibold;
+	}
+
+	.typographySmall {
+		@apply font-[Montserrat] text-ap-black;
+	}
+
+	.list {
+		@apply mt-1 w-full h-[12.5rem] overflow-auto;
+
+		.img {
+			@apply h-5 w-5;
+		}
+
+		.reportText {
+			@apply flex flex-col;
+
+			.title {
+				@apply flex gap-5;
+			}
+
+			.text {
+				@apply flex gap-3;
+			}
+		}
+	}
+
+	.addCommentContainer {
+		@apply flex flex-col gap-2;
+
+		.inputField {
+			@apply flex gap-2 h-[2.625rem];
+
+			.InputProps {
+				@apply pl-[0.9375rem] rounded-lg bg-ap-light-gray h-[2.625rem];
+			}
+
+			.TextField {
+				@apply w-[100%];
+			}
+
+			.uploadBtn {
+				@apply rounded-lg h-full;
+			}
+
+			.loadedBtn {
+				@apply bg-ap-green;
+			}
+		}
+
+		.btns {
+			@apply flex gap-2 self-end;
+		}
+	}
+}
+
+.grayButtonImg {
+	@apply w-5 h-5;
+}

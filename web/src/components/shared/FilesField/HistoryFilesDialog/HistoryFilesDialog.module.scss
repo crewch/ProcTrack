@@ -1,0 +1,21 @@
+.iconImg {
+	@apply h-5 w-5;
+}
+
+.dialog {
+	.title {
+		@apply text-center;
+	}
+
+	.list {
+		@apply h-full;
+
+		.infoText {
+			@apply text-center text-lg;
+		}
+
+		.listItem {
+			@apply flex gap-4;
+		}
+	}
+}

@@ -1,0 +1,18 @@
+.divider {
+	@apply my-2 border;
+}
+
+.container {
+	@apply flex gap-4;
+}
+
+.list {
+	@apply h-full overflow-auto;
+}
+
+.typographyBold {
+	@apply font-semibold;
+}
+.typographyThin {
+	@apply font-light;
+}
